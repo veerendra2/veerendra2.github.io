@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Install jekyll in Ubuntu 14.04 – Veerendra's Blog – #networking #python #linux</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
+
+root@veeru:/home/veeru# gem install jekyll bundler
+Fetching: public_suffix-3.0.1.gem (100%)
+ERROR:  Error installing jekyll:
+	public_suffix requires Ruby version &gt;= 2.1.
+Fetching: bundler-1.16.1.gem (100%)
+Successfully installed bundler-1.16.1
+1 gem installed
+Installing ri documentation for bundler-1.16.1...
+Installing RDoc documentation for bundler-1.16.1...
+
+" />
+    <meta property="og:description" content="I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
+
+root@veeru:/home/veeru# gem install jekyll bundler
+Fetching: public_suffix-3.0.1.gem (100%)
+ERROR:  Error installing jekyll:
+	public_suffix requires Ruby version &gt;= 2.1.
+Fetching: bundler-1.16.1.gem (100%)
+Successfully installed bundler-1.16.1
+1 gem installed
+Installing ri documentation for bundler-1.16.1...
+Installing RDoc documentation for bundler-1.16.1...
+
+" />
+    
+    <meta name="author" content="Veerendra's Blog" />
+
+    
+    <meta property="og:title" content="Install jekyll in Ubuntu 14.04" />
+    <meta property="twitter:title" content="Install jekyll in Ubuntu 14.04" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #networking #python #linux" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="/images/profile.jpeg" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
+            <p class="site-description">#networking #python #linux</p>
+          </div>
+
+          <nav>
+            <a href="/bookmarks">My Bookmarks</a>
+            <a href="/archive">Archives</a>
+            <a href="/tags">Tags</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Install jekyll in Ubuntu 14.04</h1>
+
+  <div class="entry">
+    <p>I was very excited to try <a href="https://jekyllrb.com/"><code class="highlighter-rouge">Jekyll</code></a> and <a href="https://pages.github.com/">Github Pages</a> when I heard about it. When I try to install <code class="highlighter-rouge">jekyll</code>, I got below error</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">root@veeru:/home/veeru# gem <span class="nb">install </span>jekyll bundler
+Fetching: public_suffix-3.0.1.gem <span class="o">(</span>100%<span class="o">)</span>
+ERROR:  Error installing jekyll:
+	public_suffix requires Ruby version <span class="o">&gt;=</span> 2.1.
+Fetching: bundler-1.16.1.gem <span class="o">(</span>100%<span class="o">)</span>
+Successfully installed bundler-1.16.1
+1 gem installed
+Installing ri documentation <span class="k">for </span>bundler-1.16.1...
+Installing RDoc documentation <span class="k">for </span>bundler-1.16.1...</code></pre></figure>
+
+<p>I din’t even know what that means(I’m not a Ruby guy, so..). Clearly <code class="highlighter-rouge">jekyll</code> needs more then Ruby version 2.1, but in Ubuntu 14.04 if you type <code class="highlighter-rouge">apt-get install ruby -y</code> you will end up having Ruby 1.9. So lets install Ruby2.4 like below</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>apt-add-repository ppa:brightbox/ruby-ng
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>ruby2.4 ruby2.4-dev make g++ <span class="nt">-y</span></code></pre></figure>
+
+<p>Then install <code class="highlighter-rouge">jekyll</code></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">gem <span class="nb">install </span>jekyll bundler</code></pre></figure>
+
+<h3 id="whats-next">What’s next?</h3>
+<p>I found a blog which exactly I was look for to deploy website on Github Pages. As Drew Silcock said in the blog, it better to maintain website source code and compiled website on same repository. Just head over to his <a href="https://drewsilcock.co.uk/custom-jekyll-plugins">blog</a> and check the stuff</p>
+
+  </div>
+
+  <div class="date">
+    Written on January  7, 2018
+  </div>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'veerendra';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/veerendra2"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/veerendrav2"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/2200798/veerendra"><i class="svg-icon stackoverflow"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  </body>
+</html>

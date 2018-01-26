@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GNU screen commands(Cheat Sheet) – Veerendra's Blog – #networking #python #linux</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="
+  GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. more
+
+  -Wikipedia
+
+
+" />
+    <meta property="og:description" content="
+  GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. more
+
+  -Wikipedia
+
+
+" />
+    
+    <meta name="author" content="Veerendra's Blog" />
+
+    
+    <meta property="og:title" content="GNU screen commands(Cheat Sheet)" />
+    <meta property="twitter:title" content="GNU screen commands(Cheat Sheet)" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #networking #python #linux" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="/images/profile.jpeg" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
+            <p class="site-description">#networking #python #linux</p>
+          </div>
+
+          <nav>
+            <a href="/bookmarks">My Bookmarks</a>
+            <a href="/archive">Archives</a>
+            <a href="/tags">Tags</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>GNU screen commands(Cheat Sheet)</h1>
+
+  <div class="entry">
+    <blockquote>
+  <p>GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. <a href="https://en.wikipedia.org/wiki/GNU_Screen">more</a></p>
+
+  <p>-Wikipedia</p>
+</blockquote>
+
+<ul>
+  <li>Install <code class="highlighter-rouge">screen</code></li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>screen</code></pre></figure>
+
+<style>
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        }
+</style>
+
+<table class="tablelines">
+<tr>
+ <th>Keys/Commands</th><th>Description</th>
+</tr>
+<tr>
+ <td>screen</td><td>Enables Screen</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then c</td><td>Create new screen</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then n</td><td>Go to next screen</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then p</td><td>Go to previous screen</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then Shift+s</td><td>Split screen horizontally</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then Shift+\</td><td>Split screen vertically</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then Tab</td><td>Traverse between splited screens</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then Shift+x</td><td>Unsplit screens</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then Esc (Hit Esc, once you are done)    </td><td>Scroll screen</td>
+</tr>
+<tr>
+ <td>Ctrl+a and then d</td><td>Detach screens</td>
+</tr>
+<tr>
+ <td>screen -r PID</td><td>Reattach screen</td>
+</tr>
+<tr>
+ <td>screen -ls</td><td>List screens</td>
+</tr>
+</table>
+
+  </div>
+
+  <div class="date">
+    Written on January  8, 2018
+  </div>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'veerendra';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/veerendra2"><i class="svg-icon github"></i></a>
+
+
+
+
+<a href="https://www.twitter.com/veerendrav2"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/2200798/veerendra"><i class="svg-icon stackoverflow"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  </body>
+</html>
