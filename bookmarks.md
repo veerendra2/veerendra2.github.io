@@ -23,6 +23,7 @@ permalink: /bookmarks/
     * [Tutorials for Network Simulator "ns"](https://www.isi.edu/nsnam/ns/tutorial/)
     * [The First Few Milliseconds of an HTTPS Connection](http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html)
     * [HTTPS explained with carrier pigeons](https://medium.freecodecamp.org/https-explained-with-carrier-pigeons-7029d2193351)
+    * [How To Run Your Own Mail Server](https://www.c0ffee.net/blog/mail-server-guide)
   * ### Github Projects
     * ##### Wireless
       * [MITM WPA attacks](https://github.com/wi-fi-analyzer/fluxion)
