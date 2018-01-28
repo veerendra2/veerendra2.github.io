@@ -154,6 +154,7 @@ permalink: /bookmarks/
     * [Details of the implementation of Spectre,](https://blog.fortinet.com/2018/01/17/into-the-implementation-of-spectre)
     * [Attacking secure USB keys, behind the scene](https://www.j-michel.org/blog/2018/01/16/attacking-secure-usb-keys-behind-the-scene)
     * [How to Install Tripwire IDS (Intrusion Detection System) on Linux](https://www.tecmint.com/install-tripwire-ids-intrusion-detection-system-on-linux/)
+    * [Hacker101!](https://www.hacker101.com/)
    
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
