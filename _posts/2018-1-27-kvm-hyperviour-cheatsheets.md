@@ -1,7 +1,7 @@
 ---
 layout: post
 title: KVM Hypervior Cheatsheets
-categories: linux security
+categories: linux
 ---
 ### 1. Install Packages
    * Check system  is  capable of running KVM: [`kvm-ok`](http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html)
