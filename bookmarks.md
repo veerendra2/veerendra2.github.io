@@ -74,6 +74,7 @@ permalink: /bookmarks/
       * [Writing a Bootloader ](http://3zanders.co.uk/2017/10/13/writing-a-bootloader/)
       * [init script template](https://github.com/fhd/init-script-template)
       * [systemd, Beyond init-Youtube Talk](https://www.youtube.com/watch?v=TyMLi8QF6sw)
+      * [Analyzing the Linux boot process](https://opensource.com/article/18/1/analyzing-linux-boot-process)
     * ##### OS Development
       * [The little book about OS development](https://littleosbook.github.io/#introduction)
       * [How to Make a Computer Operating System](https://samypesse.gitbooks.io/how-to-create-an-operating-system/)
@@ -87,6 +88,7 @@ permalink: /bookmarks/
       * [30 interesting commands for the Linux shell](https://www.lopezferrando.com/30-interesting-shell-commands/)
       * [An Introduction to Linux Permissions](https://www.digitalocean.com/community/tutorials/an-introduction-to-linux-permissions)
       * [3 Ways to Permanently and Securely Delete ](https://www.tecmint.com/permanently-and-securely-delete-files-directories-linux/)
+      * [Two great uses for the cp command: Bash shortcuts ](https://opensource.com/article/18/1/two-great-uses-cp-command-update)
     * ##### Files
       * [Understanding and generating the hash stored in /etc/shadow](https://www.aychedee.com/2012/03/14/etc_shadow-password-hash-formats/)
       * [What is setiud, setgid and sticky bit in Linux?](https://docs.oracle.com/cd/E19683-01/806-4078/secfiles-69/index.html)
@@ -155,6 +157,7 @@ permalink: /bookmarks/
     * [Attacking secure USB keys, behind the scene](https://www.j-michel.org/blog/2018/01/16/attacking-secure-usb-keys-behind-the-scene)
     * [How to Install Tripwire IDS (Intrusion Detection System) on Linux](https://www.tecmint.com/install-tripwire-ids-intrusion-detection-system-on-linux/)
     * [Hacker101!](https://www.hacker101.com/)
+    * [Four Ways to Bypass Android SSL Verification and Certificate Pinning](https://blog.netspi.com/four-ways-bypass-android-ssl-verification-certificate-pinning/)
    
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
