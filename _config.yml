@@ -14,8 +14,8 @@ avatar: /images/profile.jpeg
 #
 # Flags below are optional
 #
-paginate: 5
-paginate_path: "/blog/page:num/"
+#paginate: 5
+#paginate_path: "/blog/page:num/"
 
 # Includes an icon in the footer for each username you enter
 footer-links:

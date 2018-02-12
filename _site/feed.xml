@@ -1,4 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-01-27T01:06:43+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">Encrypt your DNS queries, stay anonymous</title><link href="https://veerendra2.github.io/dns-encrypt/" rel="alternate" type="text/html" title="Encrypt your DNS queries, stay anonymous" /><published>2018-01-22T00:00:00+05:30</published><updated>2018-01-22T00:00:00+05:30</updated><id>https://veerendra2.github.io/dns-encrypt</id><content type="html" xml:base="https://veerendra2.github.io/dns-encrypt/">&lt;p&gt;We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-02-12T21:12:20+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">KVM Hypervior Cheatsheets</title><link href="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/" rel="alternate" type="text/html" title="KVM Hypervior Cheatsheets" /><published>2018-01-27T00:00:00+05:30</published><updated>2018-01-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/kvm-hyperviour-cheatsheets</id><content type="html" xml:base="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/">&lt;h3 id=&quot;1-install-packages&quot;&gt;1. Install Packages&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Check system  is  capable of running KVM: &lt;a href=&quot;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm libvirt-bin bridge-utils virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;2-create-kvmqemu-hard-disk-file&quot;&gt;2. Create KVM/Qemu Hard Disk File&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    qemu-img create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt;
+    Example:
+        qemu-img create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw ubuntu14-HD.img 10G&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Then copy the HD file to &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/lib/libvirt/images/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;3-launch-vm-with-virt-install&quot;&gt;3. Launch VM with &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-install&lt;/code&gt;&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    virt-install &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; spinnaker &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--ram&lt;/span&gt; 11096 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--vcpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;4 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--os-type&lt;/span&gt; linux &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--os-variant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ubuntutrusty &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--accelerate&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--nographics&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;  &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--disk&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/lib/libvirt/images/ubuntu14-HD.img,size&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--extra-args&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;console=ttyS0&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--location&lt;/span&gt; /opt/ubuntu14.iso &lt;span class=&quot;nt&quot;&gt;--force&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--network&lt;/span&gt; bridge:virbr0&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create bridge &lt;code class=&quot;highlighter-rouge&quot;&gt;virbr0&lt;/code&gt; if it is necessary&lt;/li&gt;
+  &lt;li&gt;To know what are &lt;code class=&quot;highlighter-rouge&quot;&gt;--os-variant&lt;/code&gt; available, run &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-install --os-variant list&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Specify &lt;code class=&quot;highlighter-rouge&quot;&gt;--location&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;--disk&lt;/code&gt; locations&lt;/li&gt;
+  &lt;li&gt;Specify &lt;code class=&quot;highlighter-rouge&quot;&gt;--ram&lt;/code&gt; (By default in MBs)&lt;/li&gt;
+  &lt;li&gt;Other Options
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--boot hd&lt;/code&gt; Boot from HD file&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--force&lt;/code&gt; Force to use existing HD that is used by another VM&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--debug&lt;/code&gt; verbose&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--description&lt;/code&gt; Description of VM&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;4-connect-to-console&quot;&gt;4. Connect to console&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh list --all&lt;/code&gt; - : List VMs&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh console &amp;lt;name&amp;gt;&lt;/code&gt; - : Connect to tty of the VM
+    &lt;ul&gt;
+      &lt;li&gt;Note down the IP of the VM once you connect to &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt;. we can &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt;
+        &lt;h4 id=&quot;note-once-the-consoletty-is-active-you-can-not-reconnect-to-that-tty&quot;&gt;NOTE: Once the console/tty is active, you can not reconnect to that tty&lt;/h4&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;5-export-vm-as-qcow2&quot;&gt;5. Export VM as &lt;code class=&quot;highlighter-rouge&quot;&gt;.qcow2&lt;/code&gt;&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;qemu-img convert &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; qcow2 &amp;lt;souruce .img file&amp;gt; &amp;lt;destination .qcow2 file&amp;gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#Example:&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;qemu-img convert &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; qcow2 /var/lib/libvirt/images/ubuntu14-HD.img /home/opsmx/spinnaker.qcow2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;commands-cheatsheet&quot;&gt;Commands CheatSheet&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh list --all&lt;/code&gt; - Shows all VMs&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh console &amp;lt;VM name&amp;gt;&lt;/code&gt; - Connect to &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt; of the VM (If &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt; is enables)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh shutdown &amp;lt;VM name&amp;gt;&lt;/code&gt; - Shutdown the VM&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vish destroy &amp;lt;VM name&amp;gt;&lt;/code&gt; - Destroys VM (Won’t deletes the VM/ Similar to shutdown)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vish undefine &amp;lt;VM name&amp;gt;&lt;/code&gt; - Deletes the VM (Run after &lt;code class=&quot;highlighter-rouge&quot;&gt;destroy&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh dumpxml &amp;lt;VM name&amp;gt;&lt;/code&gt; - Dumps configuration of VM in &lt;code class=&quot;highlighter-rouge&quot;&gt;xml&lt;/code&gt; format&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh net-list&lt;/code&gt; - List the available networks&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh net-edit &amp;lt;net name&amp;gt;&lt;/code&gt; - Edit the network&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virt-install --os-variant list&lt;/code&gt; - Lists OS variants&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;resource-links&quot;&gt;Resource Links&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.wavether.com/2016/11/import-qcow2-images-into-aws&quot;&gt;https://www.wavether.com/2016/11/import-qcow2-images-into-aws&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.openstack.org/image-guide/convert-images.html&quot;&gt;https://docs.openstack.org/image-guide/convert-images.html&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.openstack.org/image-guide/convert-images.html&quot;&gt;https://serverfault.com/questions/604862/any-way-to-convert-qcow2-to-ovf&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.openstack.org/image-guide/convert-images.html&quot;&gt;https://docs.openstack.org/image-guide/convert-images.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">1. Install Packages Check system is capable of running KVM: kvm-ok</summary></entry><entry><title type="html">Encrypt your DNS queries, stay anonymous</title><link href="https://veerendra2.github.io/dns-encrypt/" rel="alternate" type="text/html" title="Encrypt your DNS queries, stay anonymous" /><published>2018-01-22T00:00:00+05:30</published><updated>2018-01-22T00:00:00+05:30</updated><id>https://veerendra2.github.io/dns-encrypt</id><content type="html" xml:base="https://veerendra2.github.io/dns-encrypt/">&lt;p&gt;We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/https_example.jpg&quot; alt=&quot;HTTPS Example&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 

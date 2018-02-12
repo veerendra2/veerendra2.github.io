@@ -24,7 +24,9 @@ permalink: /bookmarks/
     * [The First Few Milliseconds of an HTTPS Connection](http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html)
     * [HTTPS explained with carrier pigeons](https://medium.freecodecamp.org/https-explained-with-carrier-pigeons-7029d2193351)
     * [How To Run Your Own Mail Server](https://www.c0ffee.net/blog/mail-server-guide)
-    * [BLEAH-A BLE scanner for "smart" devices hacking](https://www.evilsocket.net/2017/09/23/This-is-not-a-post-about-BLE-introducing-BLEAH/)
+    * #### Bluetooth
+      * [BLEAH-A BLE scanner for "smart" devices hacking](https://www.evilsocket.net/2017/09/23/This-is-not-a-post-about-BLE-introducing-BLEAH/)
+      * [Proxying Bluetooth devices for security analysis using btproxy](https://conorpp.com/proxying-bluetooth-devices-for-security-analysis-using-btproxy)
   * ### Github Projects
     * ##### Wireless
       * [MITM WPA attacks](https://github.com/wi-fi-analyzer/fluxion)
@@ -36,6 +38,7 @@ permalink: /bookmarks/
       * [Kick devices off your network by performing an ARP Spoof attack](https://github.com/k4m4/kickthemout)
       * [A framework for wireless pentesting. ](https://github.com/Tylous/SniffAir)
       * [Crack WPA/WPA2 Wi-Fi Routers with Airodump-ng and Aircrack-ng/Hashcat](https://github.com/brannondorsey/wifi-cracking)
+      * [Bluetooth Proxy tool](https://github.com/conorpp/btproxy)
     * ##### DNS
       * [DNS over HTTPS](https://github.com/curl/curl/wiki/DNS-over-HTTPS)
       * [Analyze the security of any domain by finding all the information possible. Made in python](https://github.com/eldraco/domain_analyzer)
@@ -76,6 +79,7 @@ permalink: /bookmarks/
       * [init script template](https://github.com/fhd/init-script-template)
       * [systemd, Beyond init-Youtube Talk](https://www.youtube.com/watch?v=TyMLi8QF6sw)
       * [Analyzing the Linux boot process](https://opensource.com/article/18/1/analyzing-linux-boot-process)
+      * [Write Simple OS from scratch [PDF]]({{ site.url }}/assets/os-dev.pdf)
     * ##### OS Development
       * [The little book about OS development](https://littleosbook.github.io/#introduction)
       * [How to Make a Computer Operating System](https://samypesse.gitbooks.io/how-to-create-an-operating-system/)
@@ -101,7 +105,7 @@ permalink: /bookmarks/
       * [/dev/urandom](http://man7.org/linux/man-pages/man4/random.4.html)
       * [/dev/zero](http://unix.stackexchange.com/questions/254384/difference-between-dev-null-and-dev-zero)
     * [Warden.NET is an easy to use process management library for keeping track of processes on Windows. ](https://github.com/RainwayApp/warden)
-    * [Android Internals[PDF]](http://newandroidbook.com/AIvI-M-RL1.pdf)
+    * [Android Internals[PDF]]({{ "/assets/android_internals.pdf " | absolute_url }})
     * [A list of reading materials for BPF](https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/)
     * [How Linux CPU Usage Time and Percentage is calculated](https://github.com/Leo-G/DevopsWiki/wiki/How-Linux-CPU-Usage-Time-and-Percentage-is-calculated)
     * [Removing Your PDF Metadata & Protecting PDF Files](https://blog.joshlemon.com.au/protecting-your-pdf-files-and-metadata/)
@@ -130,7 +134,8 @@ permalink: /bookmarks/
     * [You Should Learn Regx](https://blog.patricktriest.com/you-should-learn-regex/)
     * [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
     * [Python Excel Tutorial: The Definitive Guide](https://www.datacamp.com/community/tutorials/python-excel-tutorial)
-    * [C++ Data Structures](https://datastructures.js.org/#/home)    
+    * [C++ Data Structures](https://datastructures.js.org/#/home)  
+    * [Scapy Docs [PDF]]({{ "/assets/scapydoc.pdf" | absolute_url }})
   * ### Github Projects
     * [Android Package Inspector - dynamic analysis with api hooks, start unexported activities and more. (Xposed Module) ](https://github.com/ac-pm/Inspeckage)
     * [A public list of APIs from round the web. ](https://github.com/abhishekbanthia/Public-APIs)
@@ -151,7 +156,7 @@ permalink: /bookmarks/
       * [The Truth About Online Privacy: How Your Data is Collected, Shared, and Sold](https://clearcode.cc/blog/online-privacy-user-data/)
       * [What is Cookie Syncing and How Does it Work?](https://clearcode.cc/blog/cookie-syncing/)
       * [Webpage tracking only using CSS (and no JS) ](https://github.com/jbtronics/CrookedStyleSheets)
-      * [How to Monitor Mobile App Traffic With Sniffers](https://stanfy.com/blog/monitor-mobile-app-traffic-with-sniffers/)
+    * [How to Monitor Mobile App Traffic With Sniffers](https://stanfy.com/blog/monitor-mobile-app-traffic-with-sniffers/)
     * [Python for PenTesters](https://vulnerablelife.wordpress.com/2017/05/13/python-for-penetration-testers/)
     * [Python for Pentesters-pentesteracademy](http://www.pentesteracademy.com/course?id=1)
     * [Start Your Own ISP](https://startyourownisp.com/)
@@ -161,6 +166,9 @@ permalink: /bookmarks/
     * [Hacker101!](https://www.hacker101.com/)
     * [Four Ways to Bypass Android SSL Verification and Certificate Pinning](https://blog.netspi.com/four-ways-bypass-android-ssl-verification-certificate-pinning/)
     * [Tracing API calls in Burp with Frida](https://cedricvb.be/post/tracing-api-calls-in-burp-with-frida/)
+    * [Open Source CyberSecurity - n0where.net](https://n0where.net/)
+    * [Command Injection [PDF]]({{ "/assets/Command_Injection_Shell_Injection.pdf" | absolute_url }})
+    * [Recon-ng Guid [PDF]]({{ "/assets/recon-ng-guide.pdf" | absolute_url }})
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
      * [Mobile App Pentest cheat sheet](https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet)
