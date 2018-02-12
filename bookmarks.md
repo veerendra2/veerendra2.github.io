@@ -24,6 +24,7 @@ permalink: /bookmarks/
     * [The First Few Milliseconds of an HTTPS Connection](http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html)
     * [HTTPS explained with carrier pigeons](https://medium.freecodecamp.org/https-explained-with-carrier-pigeons-7029d2193351)
     * [How To Run Your Own Mail Server](https://www.c0ffee.net/blog/mail-server-guide)
+    * [BLEAH-A BLE scanner for "smart" devices hacking](https://www.evilsocket.net/2017/09/23/This-is-not-a-post-about-BLE-introducing-BLEAH/)
   * ### Github Projects
     * ##### Wireless
       * [MITM WPA attacks](https://github.com/wi-fi-analyzer/fluxion)
@@ -129,6 +130,7 @@ permalink: /bookmarks/
     * [You Should Learn Regx](https://blog.patricktriest.com/you-should-learn-regex/)
     * [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
     * [Python Excel Tutorial: The Definitive Guide](https://www.datacamp.com/community/tutorials/python-excel-tutorial)
+    * [C++ Data Structures](https://datastructures.js.org/#/home)    
   * ### Github Projects
     * [Android Package Inspector - dynamic analysis with api hooks, start unexported activities and more. (Xposed Module) ](https://github.com/ac-pm/Inspeckage)
     * [A public list of APIs from round the web. ](https://github.com/abhishekbanthia/Public-APIs)
@@ -158,14 +160,8 @@ permalink: /bookmarks/
     * [How to Install Tripwire IDS (Intrusion Detection System) on Linux](https://www.tecmint.com/install-tripwire-ids-intrusion-detection-system-on-linux/)
     * [Hacker101!](https://www.hacker101.com/)
     * [Four Ways to Bypass Android SSL Verification and Certificate Pinning](https://blog.netspi.com/four-ways-bypass-android-ssl-verification-certificate-pinning/)
-   
+    * [Tracing API calls in Burp with Frida](https://cedricvb.be/post/tracing-api-calls-in-burp-with-frida/)
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
      * [Mobile App Pentest cheat sheet](https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet)
      
-    
-    
-     
-    
-    
-    
