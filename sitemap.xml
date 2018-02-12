@@ -40,7 +40,8 @@
 <loc>https://veerendra2.github.io/tags/</loc>
 </url>
 <url>
-<loc>https://veerendra2.github.io/blog/page2/</loc>
+<loc>https://veerendra2.github.io/assets/Command_Injection_Shell_Injection.pdf</loc>
+<lastmod>2017-09-01T01:03:18+05:30</lastmod>
 </url>
 <url>
 <loc>https://veerendra2.github.io/assets/android_internals.pdf</loc>
@@ -49,5 +50,13 @@
 <url>
 <loc>https://veerendra2.github.io/assets/os-dev.pdf</loc>
 <lastmod>2018-01-27T01:02:09+05:30</lastmod>
+</url>
+<url>
+<loc>https://veerendra2.github.io/assets/recon-ng-guide.pdf</loc>
+<lastmod>2017-07-20T16:49:50+05:30</lastmod>
+</url>
+<url>
+<loc>https://veerendra2.github.io/assets/scapydoc.pdf</loc>
+<lastmod>2016-08-31T14:08:51+05:30</lastmod>
 </url>
 </urlset>
