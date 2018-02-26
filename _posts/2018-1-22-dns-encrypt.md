@@ -13,7 +13,9 @@ I got this question back in a while, so after a quick Internet search, I found [
 
 First of all what the heck is [DNS](https://en.wikipedia.org/wiki/Domain_Name_System)? in simple, DNS or Domain Name System is a service that resolves/translates domain "name" to "IP" or vice versa. So once you hit google.com in your browser, a [DNS query](https://serverfault.com/questions/173187/what-does-a-dns-request-look-like) fired to DNS host(for example 8.8.8.8) like asking "what is the IP of google.com" and gets DNS responses which contains IP of google.com. Now we got the IP of google.com, browser initiates connection and establish HTTPS.
 
-You see these DNS queries are not part of "HTTPS". So let's encrypt DNS queries with DNCrypt.
+Why should we care about "DNS queries encryption"? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.  
+
+So, you see these DNS queries are not part of "HTTPS". So let's encrypt DNS queries with DNCrypt.
 
 ## What is [DNSCrypt](https://dnscrypt.org/)?
 
@@ -82,3 +84,12 @@ sudo service encryptdns start
 > Github Repository Link
 > 
 > https://github.com/veerendra2/useless-scripts
+
+## DNSCrypt in Windows
+* [Simple DNSCrypt](* https://simplednscrypt.org/)
+
+
+![Simple DNSCrypt]({{ "/assets/DNSCrypt-Windows.JPG" | absolute_url }}){: .center-image }
+
+Other resources you can try
+* [https://github.com/jedisct1/dnscrypt-proxy](https://github.com/jedisct1/dnscrypt-proxy)

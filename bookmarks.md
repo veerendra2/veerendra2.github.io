@@ -24,9 +24,13 @@ permalink: /bookmarks/
     * [The First Few Milliseconds of an HTTPS Connection](http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html)
     * [HTTPS explained with carrier pigeons](https://medium.freecodecamp.org/https-explained-with-carrier-pigeons-7029d2193351)
     * [How To Run Your Own Mail Server](https://www.c0ffee.net/blog/mail-server-guide)
+    * [Bettercap -  MITM attack tool](https://www.bettercap.org/)
     * #### Bluetooth
       * [BLEAH-A BLE scanner for "smart" devices hacking](https://www.evilsocket.net/2017/09/23/This-is-not-a-post-about-BLE-introducing-BLEAH/)
       * [Proxying Bluetooth devices for security analysis using btproxy](https://conorpp.com/proxying-bluetooth-devices-for-security-analysis-using-btproxy)
+      * [Nike+ FuelBand SE BLE Protocol Reversed](https://www.evilsocket.net/2015/01/29/nike-fuelband-se-ble-protocol-reversed/)
+      * [Ubertooth - Can sniff some data from Basic Rate (BR) Bluetooth Classic connections.](http://ubertooth.sourceforge.net/)
+      * [A Bluetooth LE interface for Python](https://ianharvey.github.io/bluepy-doc/)
   * ### Github Projects
     * ##### Wireless
       * [MITM WPA attacks](https://github.com/wi-fi-analyzer/fluxion)
@@ -136,6 +140,7 @@ permalink: /bookmarks/
     * [Python Excel Tutorial: The Definitive Guide](https://www.datacamp.com/community/tutorials/python-excel-tutorial)
     * [C++ Data Structures](https://datastructures.js.org/#/home)  
     * [Scapy Docs [PDF]]({{ "/assets/scapydoc.pdf" | absolute_url }})
+    * [python-course.eu](https://www.python-course.eu)
   * ### Github Projects
     * [Android Package Inspector - dynamic analysis with api hooks, start unexported activities and more. (Xposed Module) ](https://github.com/ac-pm/Inspeckage)
     * [A public list of APIs from round the web. ](https://github.com/abhishekbanthia/Public-APIs)
@@ -169,6 +174,8 @@ permalink: /bookmarks/
     * [Open Source CyberSecurity - n0where.net](https://n0where.net/)
     * [Command Injection [PDF]]({{ "/assets/Command_Injection_Shell_Injection.pdf" | absolute_url }})
     * [Recon-ng Guid [PDF]]({{ "/assets/recon-ng-guide.pdf" | absolute_url }})
+    * [Android Applications Reversing 101](https://www.evilsocket.net/2017/04/27/Android-Applications-Reversing-101/)
+    * [moveax.me](https://moveax.me/)
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
      * [Mobile App Pentest cheat sheet](https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet)

@@ -7,7 +7,7 @@ categories: linux
    * Check system  is  capable of running KVM: [`kvm-ok`](http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html)
 
 {% highlight shell %}    
-sudo apt-get install qemu-kvm libvirt-bin bridge-utils virt-manager -y
+sudo apt-get install qemu-kvm quem-system libvirt-bin bridge-utils virt-manager -y
 {% endhighlight %}
 
 ### 2. Create KVM/Qemu Hard Disk File
