@@ -69,7 +69,9 @@
 
 <p>First of all what the heck is <a href="https://en.wikipedia.org/wiki/Domain_Name_System">DNS</a>? in simple, DNS or Domain Name System is a service that resolves/translates domain “name” to “IP” or vice versa. So once you hit google.com in your browser, a <a href="https://serverfault.com/questions/173187/what-does-a-dns-request-look-like">DNS query</a> fired to DNS host(for example 8.8.8.8) like asking “what is the IP of google.com” and gets DNS responses which contains IP of google.com. Now we got the IP of google.com, browser initiates connection and establish HTTPS.</p>
 
-<p>You see these DNS queries are not part of “HTTPS”. So let’s encrypt DNS queries with DNCrypt.</p>
+<p>Why should we care about “DNS queries encryption”? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.</p>
+
+<p>So, you see these DNS queries are not part of “HTTPS”. So let’s encrypt DNS queries with DNCrypt.</p>
 
 <h2 id="what-is-dnscrypt">What is <a href="https://dnscrypt.org/">DNSCrypt</a>?</h2>
 
@@ -140,6 +142,18 @@
 
   <p>https://github.com/veerendra2/useless-scripts</p>
 </blockquote>
+
+<h2 id="dnscrypt-in-windows">DNSCrypt in Windows</h2>
+<ul>
+  <li><a href="* https://simplednscrypt.org/">Simple DNSCrypt</a></li>
+</ul>
+
+<p><img src="https://veerendra2.github.io/assets/DNSCrypt-Windows.JPG" alt="Simple DNSCrypt" class="center-image" /></p>
+
+<p>Other resources you can try</p>
+<ul>
+  <li><a href="https://github.com/jedisct1/dnscrypt-proxy">https://github.com/jedisct1/dnscrypt-proxy</a></li>
+</ul>
 
   </div>
 

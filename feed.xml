@@ -1,10 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-02-12T21:12:20+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">KVM Hypervior Cheatsheets</title><link href="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/" rel="alternate" type="text/html" title="KVM Hypervior Cheatsheets" /><published>2018-01-27T00:00:00+05:30</published><updated>2018-01-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/kvm-hyperviour-cheatsheets</id><content type="html" xml:base="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/">&lt;h3 id=&quot;1-install-packages&quot;&gt;1. Install Packages&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-02-27T03:22:14+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">Windows OS metrics collection with Telegraf</title><link href="https://veerendra2.github.io/windows-metrics-collection/" rel="alternate" type="text/html" title="Windows OS metrics collection with Telegraf" /><published>2018-02-27T00:00:00+05:30</published><updated>2018-02-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/windows-metrics-collection</id><content type="html" xml:base="https://veerendra2.github.io/windows-metrics-collection/">&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&quot;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&quot;&gt;/proc&lt;/a&gt; pesudo files. In fact there are so many open source tools to do this in Linux, like &lt;a href=&quot;https://github.com/OpenTSDB/tcollector&quot;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
+
+&lt;p&gt;Ok, enough talking about Linux, lets look at this &lt;a href=&quot;https://www.influxdata.com/time-series-platform/telegraf/&quot;&gt;Telegraf tool&lt;/a&gt; and what it does. I found Telegraf tool is really simple and elegant way to collect Windows OS metrics and light weight also, unlike others which some are paid and crappy. This tools doesn’t provide any wizard installation to setup but one has to run a command in Windows powershell to install Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;
+
+&lt;p&gt;As they said in &lt;a href=&quot;https://github.com/influxdata/telegraf&quot;&gt;Github repo&lt;/a&gt; and I quote&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Telegraf is an agent written in Go for collecting, processing, aggregating, and writing metrics.&lt;/p&gt;
+
+  &lt;p&gt;Design goals are to have a minimal memory footprint with a plugin system so that developers in the community can easily add support for collecting metrics from local or remote services.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Goto influxdata download portal and &lt;a href=&quot;https://portal.influxdata.com/downloads&quot;&gt;download &lt;code class=&quot;highlighter-rouge&quot;&gt;Telegraf&lt;/code&gt; zip file&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create a folder and name it as “Telegraf” in “C:\Program Files” and extract the .zip content to “Telegraf” folder (C:\Program Files\Telegraf)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Download telegraf configuration from &lt;a href=&quot;https://veerendra2.github.io/assets/telegraf.conf&quot;&gt;here (telegraf.conf)&lt;/a&gt; and place it in “C:\Program Files\Telegraf”&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Specify OpenTSDB server IP in &lt;code class=&quot;highlighter-rouge&quot;&gt;outputs.opentsdb&lt;/code&gt; section in the configuration&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/app-location.JPG&quot; alt=&quot;Application Location&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Open “Windows PowerShell” with administrator rights(Run as administrator) and paste below command to create “windows service”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;  C:&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;Program Files&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;elegraf&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;elegraf.exe --config C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Program Files&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;elegraf&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;elegraf.conf –-service &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt;
+  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/cmd-run.JPG&quot; alt=&quot;Command Run&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In Windows &lt;code class=&quot;highlighter-rouge&quot;&gt;Services&lt;/code&gt;, you should see &lt;code class=&quot;highlighter-rouge&quot;&gt;Telegraf&lt;/code&gt; service. Right-click on the Telegraf service, open &lt;code class=&quot;highlighter-rouge&quot;&gt;“Properties”-&amp;gt; Select “Automatic”&lt;/code&gt; for “Startup Type” and click “Start” button to start the Telegraf service.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/service.JPG&quot; alt=&quot;Windows Service&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You should able to see &lt;a href=&quot;https://veerendra2.github.io/assets/telegraf_metrics.txt&quot;&gt;these metrics&lt;/a&gt; in your OpenTSDB&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docs - &lt;a href=&quot;https://docs.influxdata.com/telegraf/v1.5/introduction/getting_started/&quot;&gt;https://docs.influxdata.com/telegraf/v1.5/introduction/getting_started/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.</summary></entry><entry><title type="html">KVM Hypervior Cheatsheets</title><link href="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/" rel="alternate" type="text/html" title="KVM Hypervior Cheatsheets" /><published>2018-01-27T00:00:00+05:30</published><updated>2018-01-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/kvm-hyperviour-cheatsheets</id><content type="html" xml:base="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/">&lt;h3 id=&quot;1-install-packages&quot;&gt;1. Install Packages&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;Check system  is  capable of running KVM: &lt;a href=&quot;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm libvirt-bin bridge-utils virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm quem-system libvirt-bin bridge-utils virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h3 id=&quot;2-create-kvmqemu-hard-disk-file&quot;&gt;2. Create KVM/Qemu Hard Disk File&lt;/h3&gt;
 
@@ -92,7 +141,9 @@
 
 &lt;p&gt;First of all what the heck is &lt;a href=&quot;https://en.wikipedia.org/wiki/Domain_Name_System&quot;&gt;DNS&lt;/a&gt;? in simple, DNS or Domain Name System is a service that resolves/translates domain “name” to “IP” or vice versa. So once you hit google.com in your browser, a &lt;a href=&quot;https://serverfault.com/questions/173187/what-does-a-dns-request-look-like&quot;&gt;DNS query&lt;/a&gt; fired to DNS host(for example 8.8.8.8) like asking “what is the IP of google.com” and gets DNS responses which contains IP of google.com. Now we got the IP of google.com, browser initiates connection and establish HTTPS.&lt;/p&gt;
 
-&lt;p&gt;You see these DNS queries are not part of “HTTPS”. So let’s encrypt DNS queries with DNCrypt.&lt;/p&gt;
+&lt;p&gt;Why should we care about “DNS queries encryption”? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.&lt;/p&gt;
+
+&lt;p&gt;So, you see these DNS queries are not part of “HTTPS”. So let’s encrypt DNS queries with DNCrypt.&lt;/p&gt;
 
 &lt;h2 id=&quot;what-is-dnscrypt&quot;&gt;What is &lt;a href=&quot;https://dnscrypt.org/&quot;&gt;DNSCrypt&lt;/a&gt;?&lt;/h2&gt;
 
@@ -162,7 +213,19 @@
   &lt;p&gt;Github Repository Link&lt;/p&gt;
 
   &lt;p&gt;https://github.com/veerendra2/useless-scripts&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name></name></author><summary type="html">We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?</summary></entry><entry><title type="html">Wifi De-authentication attack</title><link href="https://veerendra2.github.io/wifi-deathentication-attack/" rel="alternate" type="text/html" title="Wifi De-authentication attack" /><published>2018-01-11T00:00:00+05:30</published><updated>2018-01-11T00:00:00+05:30</updated><id>https://veerendra2.github.io/wifi-deathentication-attack</id><content type="html" xml:base="https://veerendra2.github.io/wifi-deathentication-attack/">&lt;blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;dnscrypt-in-windows&quot;&gt;DNSCrypt in Windows&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;* https://simplednscrypt.org/&quot;&gt;Simple DNSCrypt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/DNSCrypt-Windows.JPG&quot; alt=&quot;Simple DNSCrypt&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Other resources you can try&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jedisct1/dnscrypt-proxy&quot;&gt;https://github.com/jedisct1/dnscrypt-proxy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?</summary></entry><entry><title type="html">Wifi De-authentication attack</title><link href="https://veerendra2.github.io/wifi-deathentication-attack/" rel="alternate" type="text/html" title="Wifi De-authentication attack" /><published>2018-01-11T00:00:00+05:30</published><updated>2018-01-11T00:00:00+05:30</updated><id>https://veerendra2.github.io/wifi-deathentication-attack</id><content type="html" xml:base="https://veerendra2.github.io/wifi-deathentication-attack/">&lt;blockquote&gt;
   &lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
 
   &lt;p&gt;-Wikipedia&lt;/p&gt;
