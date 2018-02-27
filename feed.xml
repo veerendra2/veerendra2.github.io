@@ -1,4 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-02-27T03:22:14+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">Windows OS metrics collection with Telegraf</title><link href="https://veerendra2.github.io/windows-metrics-collection/" rel="alternate" type="text/html" title="Windows OS metrics collection with Telegraf" /><published>2018-02-27T00:00:00+05:30</published><updated>2018-02-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/windows-metrics-collection</id><content type="html" xml:base="https://veerendra2.github.io/windows-metrics-collection/">&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&quot;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&quot;&gt;/proc&lt;/a&gt; pesudo files. In fact there are so many open source tools to do this in Linux, like &lt;a href=&quot;https://github.com/OpenTSDB/tcollector&quot;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-02-28T02:12:13+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">Open vSwitch installation in RedHat7</title><link href="https://veerendra2.github.io/openvswitch-redhat/" rel="alternate" type="text/html" title="Open vSwitch installation in RedHat7" /><published>2018-02-28T00:00:00+05:30</published><updated>2018-02-28T00:00:00+05:30</updated><id>https://veerendra2.github.io/openvswitch-redhat</id><content type="html" xml:base="https://veerendra2.github.io/openvswitch-redhat/">&lt;p&gt;In this blog we will see how to install Open vSwitch v2.6.1 in RedHat7.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install dependencies&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;gcc make python-devel openssl-devel &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+       kernel-devel graphviz kernel-debug-devel &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+       autoconf automake rpm-build redhat-rpm-config &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+       libtool&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Grab Open vSwitch source from &lt;a href=&quot;http://www.openvswitch.org/download/&quot;&gt;http://www.openvswitch.org/download/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget http://openvswitch.org/releases/openvswitch-2.6.1.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xf&lt;/span&gt; openvswitch-2.6.1.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;openvswitch-2.6.1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create a distribution tarball&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./boot.sh
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./configure
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make dist&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now you have distribution tarball(openvswitch-2.6.1.tar.gz) in current directory. Copy this file into the RPM sources directory, e.g.:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;openvswitch-2.6.1.tar.gz &lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;/rpmbuild/SOURCES&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Extract distribution tarball openvswitch-2.6.1.tar.gz&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xf&lt;/span&gt; openvswitch-2.6.1.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;openvswitch-2.6.1
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+/home/ec2-user/openvswitch-2.6.1/openvswitch-2.6.1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Build Open vSwitch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rpmbuild &lt;span class=&quot;nt&quot;&gt;-bb&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--without&lt;/span&gt; check rhel/openvswitch.spec
+...
+Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;unpackaged file&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;s&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: /usr/lib/rpm/check-files /root/rpmbuild/BUILDROOT/openvswitch-2.6.1-1.x86_64
+Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-2.6.1-1.x86_64.rpm
+Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-devel-2.6.1-1.x86_64.rpm
+Wrote: /home/ec2-user/rpmbuild/RPMS/noarch/openvswitch-selinux-policy-2.6.1-1.noarch.rpm
+Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.rpm
+...&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;At the end of building, it will generate openvswitch RPM files.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install the openvswitch RPM files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-2.6.1-1.x86_64.rpm
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-devel-2.6.1-1.x86_64.rpm
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/noarch/openvswitch-selinux-policy-2.6.1-1.noarch.rpm
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.rpm&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Start the &lt;code class=&quot;highlighter-rouge&quot;&gt;openvswitch&lt;/code&gt; daemon&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service openvswitch start
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service openvswitch status&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then you should able to run &lt;code class=&quot;highlighter-rouge&quot;&gt;ovs-appctl --help&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;source&quot;&gt;Source&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.openvswitch.org//support/dist-docs-2.5/INSTALL.RHEL.md.html&quot;&gt;http://www.openvswitch.org//support/dist-docs-2.5/INSTALL.RHEL.md.html&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">In this blog we will see how to install Open vSwitch v2.6.1 in RedHat7.</summary></entry><entry><title type="html">Windows OS metrics collection with Telegraf</title><link href="https://veerendra2.github.io/windows-metrics-collection/" rel="alternate" type="text/html" title="Windows OS metrics collection with Telegraf" /><published>2018-02-27T00:00:00+05:30</published><updated>2018-02-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/windows-metrics-collection</id><content type="html" xml:base="https://veerendra2.github.io/windows-metrics-collection/">&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&quot;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&quot;&gt;/proc&lt;/a&gt; pesudo files. In fact there are so many open source tools to do this in Linux, like &lt;a href=&quot;https://github.com/OpenTSDB/tcollector&quot;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
 
 &lt;p&gt;Ok, enough talking about Linux, lets look at this &lt;a href=&quot;https://www.influxdata.com/time-series-platform/telegraf/&quot;&gt;Telegraf tool&lt;/a&gt; and what it does. I found Telegraf tool is really simple and elegant way to collect Windows OS metrics and light weight also, unlike others which some are paid and crappy. This tools doesn’t provide any wizard installation to setup but one has to run a command in Windows powershell to install Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;
 
