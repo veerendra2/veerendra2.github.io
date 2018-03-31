@@ -115,6 +115,7 @@ permalink: /bookmarks/
     * [Removing Your PDF Metadata & Protecting PDF Files](https://blog.joshlemon.com.au/protecting-your-pdf-files-and-metadata/)
     * [Linux Process Hunter](https://gitlab.com/nowayout/prochunter)
     * [Linux Memory Managment Frequently Asked Questions](https://landley.net/writing/memory-faq.txt)
+    * [Attack Infrastructure Logging](https://thevivi.net/2018/03/23/attack-infrastructure-logging-part-1-logging-server-setup/)
   * ### Github Projects
     * [A toolkit for creating efficient kernel tracing and manipulation programs](https://github.com/iovisor/bcc)
     * [Tool for in-depth analysis of USB HID devices communication](https://github.com/ondrejbudai/hidviz/)
@@ -163,6 +164,7 @@ permalink: /bookmarks/
       * [Webpage tracking only using CSS (and no JS) ](https://github.com/jbtronics/CrookedStyleSheets)
     * [How to Monitor Mobile App Traffic With Sniffers](https://stanfy.com/blog/monitor-mobile-app-traffic-with-sniffers/)
     * [Python for PenTesters](https://vulnerablelife.wordpress.com/2017/05/13/python-for-penetration-testers/)
+    * [Intro to basic Disassembly & Reverse Engineering](https://www.perspectiverisk.com/intro-to-basic-disassembly-reverse-engineering/)
     * [Python for Pentesters-pentesteracademy](http://www.pentesteracademy.com/course?id=1)
     * [Start Your Own ISP](https://startyourownisp.com/)
     * [Details of the implementation of Spectre,](https://blog.fortinet.com/2018/01/17/into-the-implementation-of-spectre)

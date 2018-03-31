@@ -5,7 +5,7 @@ categories: linux wireshark
 ---
 Instead of installing this software from a repository which sometimes we end up installing older version, let's install latest and stable version of wireshark to get all the benefits/features/bug fixes.
 
-As we all know in Linux, if we need latest version of any software, most of the times we need to build from "source" tar ball which is pain full. Well that's why people prefer to use fancy package managers like `apt-get`, `apt`, `yum`, etc. for these kind of softwares. The main issue is, we have to hunt down the dependencies and install, that's I did for this software.
+As we all know in Linux, if we need latest version of any software, most of the times we need to build from "source" tar ball which is pain full. Well that's why people prefer to use fancy package managers like `apt-get`, `apt`, `yum`, etc. for these kind of software. The main issue is, we have to hunt down the dependencies and install, that's what I did for this software.
 
 And again depends on your OS and package availability, you may need to install other dependencies. I'm using Ubuntu Mate 16 and I found below are sufficient for me.
 
@@ -30,9 +30,10 @@ cd wireshark-2.4.5
 ./configure
 sudo make install -j2
 sudo ldconfig
+sudo wireshark
 {% endhighlight %}
 
-`./configure` checks dependencies for wireshark in your machines. That's why while running `./configure` you may get the dependency missing errors(that dependens!). If that is the case, it will shows the missing dependency packages name, you can google and install it. 
+`./configure` checks dependencies for wireshark in your machines. That's why while running `./configure` you may get dependency missing errors. If that is the case, it will show missing dependency packages name i.e. you can google it and install it. 
 
-`make install -j2` will take some, you can have coffee. Specify jobs that equals to your number of CPU cores (`-j4` for quad core)
+`make install -j2` will take some time, you can have coffee.(Specify jobs that equals to your number of CPU cores. Ex.`-j4` for quad core)
  
