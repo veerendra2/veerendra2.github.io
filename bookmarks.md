@@ -25,6 +25,7 @@ permalink: /bookmarks/
     * [HTTPS explained with carrier pigeons](https://medium.freecodecamp.org/https-explained-with-carrier-pigeons-7029d2193351)
     * [How To Run Your Own Mail Server](https://www.c0ffee.net/blog/mail-server-guide)
     * [Bettercap -  MITM attack tool](https://www.bettercap.org/)
+    * [Tcpdump Examples](https://hackertarget.com/tcpdump-examples/)
     * #### Bluetooth
       * [BLEAH-A BLE scanner for "smart" devices hacking](https://www.evilsocket.net/2017/09/23/This-is-not-a-post-about-BLE-introducing-BLEAH/)
       * [Proxying Bluetooth devices for security analysis using btproxy](https://conorpp.com/proxying-bluetooth-devices-for-security-analysis-using-btproxy)
@@ -116,6 +117,7 @@ permalink: /bookmarks/
     * [Linux Process Hunter](https://gitlab.com/nowayout/prochunter)
     * [Linux Memory Managment Frequently Asked Questions](https://landley.net/writing/memory-faq.txt)
     * [Attack Infrastructure Logging](https://thevivi.net/2018/03/23/attack-infrastructure-logging-part-1-logging-server-setup/)
+    * [Virtualization Internals](https://saferwall.com/blog/virtualization-internals-part-1-intro-to-virtualization)
   * ### Github Projects
     * [A toolkit for creating efficient kernel tracing and manipulation programs](https://github.com/iovisor/bcc)
     * [Tool for in-depth analysis of USB HID devices communication](https://github.com/ondrejbudai/hidviz/)
@@ -178,6 +180,10 @@ permalink: /bookmarks/
     * [Recon-ng Guid [PDF]]({{ "/assets/recon-ng-guide.pdf" | absolute_url }})
     * [Android Applications Reversing 101](https://www.evilsocket.net/2017/04/27/Android-Applications-Reversing-101/)
     * [moveax.me](https://moveax.me/)
+    * [The New zANTI: Mobile Penetration & Security Analysis Toolkit](https://blog.zimperium.com/zanti-cyber-threat-detection/)
+    * ###### Reverse Engineering
+      * [Reverse Engineering Basics](https://scriptdotsh.com/index.php/2018/04/09/ground-zero-part-1-reverse-engineering-basics/)
+      * [A Primer Guide to Reverse Engineering ](https://puri.sm/posts/primer-to-reverse-engineering/)
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
      * [Mobile App Pentest cheat sheet](https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet)
