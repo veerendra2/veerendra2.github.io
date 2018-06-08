@@ -13,9 +13,9 @@ I got this question back in a while, so after a quick Internet search, I found [
 
 First of all what the heck is [DNS](https://en.wikipedia.org/wiki/Domain_Name_System)? in simple, DNS or Domain Name System is a service that resolves/translates domain "name" to "IP" or vice versa. So once you hit google.com in your browser, a [DNS query](https://serverfault.com/questions/173187/what-does-a-dns-request-look-like) fired to DNS host(for example 8.8.8.8) like asking "what is the IP of google.com" and gets DNS responses which contains IP of google.com. Now we got the IP of google.com, browser initiates connection and establish HTTPS.
 
-Why should we care about "DNS queries encryption"? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.  
-
 So, you see these DNS queries are not part of "HTTPS". So let's encrypt DNS queries with DNCrypt.
+
+>Why should we care about "DNS queries encryption"? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.
 
 ## What is [DNSCrypt](https://dnscrypt.org/)?
 
@@ -35,7 +35,7 @@ From Ubuntu 16/ Linux Mint 18.x, dnscrypt-proxy is available in the offical repo
 {% highlight shell %}
 sudo apt-get install dnscrypt-proxy
 {% endhighlight %}
-For Ubuntu 14.04 and Linux Mint 17.x, we have add PPA which I found one below
+I found a PPA for Ubuntu 14.04 and Linux Mint 17.x
 {% highlight shell %}
 sudo add-apt-repository ppa:anton+/dnscrypt
 sudo apt-get update

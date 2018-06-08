@@ -20,7 +20,7 @@ I automated these steps with Python. I used “scapy” module to send “deauth
 Want to try this script? run bellow commands.
 
 ##### Dependencies
-
+wireless
 Install `aircrack-ng` and `scapy`
 {% highlight shell %}
 sudo apt-get install aircrack-ng -y
@@ -36,7 +36,9 @@ sudo python deauth.py
 
 When you run the command, you should see like bellow.
 
-![Command Run]({{ "/assets/cmd_run.jpg" | absolute_url }}){: .center-image }
+![Help]({{ "/assets/blog-image1.jpg" | absolute_url }}){: .center-image }
+
+![Command Run]({{ "/assets/blog-image2.jpg" | absolute_url }}){: .center-image }
 
 When you start the script, it will create “mon0” interface(A monitoring virtual interface used to send our deauth frames) and observes wifi signals. After few seconds, it will display near APs and its MAC addresses. Choose one to broadcasts the “deauth” frames to that network which results network outage for connected clients to that AP.
 

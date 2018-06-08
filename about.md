@@ -20,4 +20,3 @@ My interests and areas of work
 {% highlight shell %}
 $ echo "Check out my profiles at footer"
 {% endhighlight %}
-* My steamID `76561198107674681`
