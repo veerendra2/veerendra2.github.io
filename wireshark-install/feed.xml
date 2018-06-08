@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-06-09T00:48:58+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#linux #python #networking</subtitle><entry><title type="html">SSL Configuration for Kubernetes Service - AWS ELB</title><link href="https://veerendra2.github.io/ssl-config-k8s-service-aws/" rel="alternate" type="text/html" title="SSL Configuration for Kubernetes Service - AWS ELB" /><published>2018-05-29T00:00:00+05:30</published><updated>2018-05-29T00:00:00+05:30</updated><id>https://veerendra2.github.io/ssl-config-k8s-service-aws</id><content type="html" xml:base="https://veerendra2.github.io/ssl-config-k8s-service-aws/">&lt;p&gt;Namaste, in this blog post will look into how to enable SSL for ingress service in K8s with self-signed certificate.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note that the K8s cluster is deployed on AWS and enable “&lt;code class=&quot;highlighter-rouge&quot;&gt;type: LoadBalancer&lt;/code&gt;” for service which application can accessible from outside of cluster.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Get &lt;code class=&quot;highlighter-rouge&quot;&gt;cfssl&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;cfssljson&lt;/code&gt; binary files from &lt;a href=&quot;https://pkg.cfssl.org/&quot;&gt;https://pkg.cfssl.org/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Get &lt;code class=&quot;highlighter-rouge&quot;&gt;aws-cli&lt;/code&gt;. Check &lt;a href=&quot;https://docs.aws.amazon.com/cli/latest/userguide/installing.html&quot;&gt;installation docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Configure &lt;code class=&quot;highlighter-rouge&quot;&gt;aws-cli&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;aws configure&lt;/code&gt;. It should create files like below&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;veeru@ultron:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ~/.aws/credentials 
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;default]
+aws_access_key_id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ATIA2HTxxxV5Cqwe
+aws_secret_access_key &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ATIA2HTxxxV5Cqwexxxxxx
+
+veeru@ultron:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ~/.aws/config 
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;default]
+region &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; us-east-2
+output &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; text&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;create-certificate&quot;&gt;Create certificate&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt;csr_ca.json
+{
+&quot;CN&quot;: &quot;My Awesome CA&quot;,
+&quot;key&quot;: {
+  &quot;algo&quot;: &quot;rsa&quot;,
+  &quot;size&quot;: 2048
+},
+  &quot;names&quot;: [
+     {
+       &quot;C&quot;: &quot;Westeros&quot;,
+       &quot;L&quot;: &quot;Winterfell&quot;,
+       &quot;O&quot;: &quot;House Stark&quot;,
+       &quot;OU&quot;: &quot;CA Secsr_ca.jsonrvices&quot;,
+       &quot;ST&quot;: &quot;The North&quot;
+     }
+  ]
+}
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Generate the CA certificate and private key:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;nt&quot;&gt;-initca&lt;/span&gt; csr_ca.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; ca
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls
+&lt;/span&gt;ca-key.pem
+ca.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;upload-your-self-signed-certificate-to-aws&quot;&gt;Upload your self signed certificate to aws&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;aws iam upload-server-certificate &lt;span class=&quot;nt&quot;&gt;--server-certificate-name&lt;/span&gt; your-name &lt;span class=&quot;nt&quot;&gt;--certificate-body&lt;/span&gt; file://ca.pem &lt;span class=&quot;nt&quot;&gt;--private-key&lt;/span&gt; file://ca-key.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;List certificates&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;aws iam list-server-certificates
+SERVERCERTIFICATEMETADATALIST	arn:aws:iam::xxxxx:server-certificate/your-name	2023-04-30T07:52:00Z	/	ASCAIxxxxxCHES3FxxIQO	cf	2018-05-01T08:17:30Z&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;specify-annotation-in-kuberenetes-service&quot;&gt;Specify annotation in Kuberenetes service&lt;/h2&gt;
+
+&lt;p&gt;Edit service with “&lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl edit svc {svc-name}&lt;/code&gt;” or you can also edit with the help of K8s dashboard like me.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;service.beta.kubernetes.io/aws-load-balancer-ssl-cert&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;arn:aws:iam::xxxxx:server-certificate/your-name&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/k8s-service.jpg&quot; alt=&quot;_config.yml&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you should able to access endpoint on &lt;code class=&quot;highlighter-rouge&quot;&gt;https&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;For example: &lt;code class=&quot;highlighter-rouge&quot;&gt;https://xxxx-xxxx.us-east-2.elb.amazonaws.com:9090/graph&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://gist.github.com/mgoodness/1a2926f3b02d8e8149c224d25cc57dc1&quot;&gt;Check out other AWS service annotations&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Namaste, in this blog post will look into how to enable SSL for ingress service in K8s with self-signed certificate.</summary></entry><entry><title type="html">Linux pseudo files &amp;amp; cheat sheet</title><link href="https://veerendra2.github.io/linux-cheatseets/" rel="alternate" type="text/html" title="Linux pseudo files &amp; cheat sheet" /><published>2018-04-14T00:00:00+05:30</published><updated>2018-04-14T00:00:00+05:30</updated><id>https://veerendra2.github.io/linux-cheatseets</id><content type="html" xml:base="https://veerendra2.github.io/linux-cheatseets/">&lt;p&gt;*&lt;em&gt;A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;tips--tricks&quot;&gt;Tips &amp;amp; Tricks&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;How to force a command to return exit code 0 even the command exited non-zero?&lt;/li&gt;
+  &lt;li&gt;How to install dependecies of .deb automatically which was failed to install previsouly?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Example Solution:&lt;/em&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;dpkg &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; r-base-core_3.3.3-1trusty0_amd64.deb &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; : &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get &lt;span class=&quot;nt&quot;&gt;--yes&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--force-yes&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; Dpkg::Options::&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;--force-confdef&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; Dpkg::Options::&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;--force-confold&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;How traverse directories in shell script?&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; command should not use to traverse directories. Remember that each commands in shell script will spawn as individual process unlink other programming language script entire script as single process i.e. The scope of &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; command is only for child process not parent. By using &lt;code class=&quot;highlighter-rouge&quot;&gt;pushd&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;popd&lt;/code&gt; we can achieve traversing directories.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Example Solution:&lt;/em&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;pushd &lt;/span&gt;Downloads
+&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;download.txt
+&lt;span class=&quot;nb&quot;&gt;popd
+pushd &lt;/span&gt;Downloads/movies
+&lt;span class=&quot;nb&quot;&gt;ls
+popd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;files&quot;&gt;Files:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq&lt;/code&gt; - Real time speed of the CPU(ability to adjust their speed to help in saving on battery/power usage)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc&lt;/code&gt; Directory
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/cpuinfo | grep MHz&lt;/code&gt; - The absolute (max) CPU speed&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/sys/net/ipv4/*&lt;/code&gt; - Get more info under this directory from &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt&quot;&gt;kernel.org docs&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/net/tcp and /proc/net/tcp6&lt;/code&gt; - Get complete info of variables for these files from &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/proc_net_tcp.txt&quot;&gt;kernel.org.docs&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Network related in Linux - Refer &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/&quot;&gt;kernel.org.doc&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;special-device-files&quot;&gt;Special Device Files&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/null&lt;/code&gt; - Discards all data written to it but reports that the write operation succeeded &lt;a href=&quot;http://man7.org/linux/man-pages/man4/null.4.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/full&lt;/code&gt; - Returns the error code ENOSPC (meaning “No space left on device”) on writing &lt;a href=&quot;http://man7.org/linux/man-pages/man4/full.4.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/random&lt;/code&gt; - Special file that serves as a blocking pseudorandom number generator. It allows access to environmental noise collected from device drivers and other sources.(Block until additional environmental noise is gathered)&lt;a href=&quot;http://man7.org/linux/man-pages/man4/random.4.html&quot;&gt;Read man&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/urandom&lt;/code&gt; - Without block &lt;a href=&quot;http://man7.org/linux/man-pages/man4/random.4.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/zero&lt;/code&gt; - Provides as many null characters as are read from it &lt;a href=&quot;http://unix.stackexchange.com/questions/254384/difference-between-dev-null-and-dev-zero&quot;&gt;Read More&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;udev&lt;/code&gt; - Linux dynamic device management &lt;a href=&quot;https://mirrors.edge.kernel.org/pub/linux/utils/kernel/hotplug/udev/udev.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;udevadm&lt;/code&gt; -  command to query the udev database and &lt;code class=&quot;highlighter-rouge&quot;&gt;sysfs&lt;/code&gt; &lt;a href=&quot;https://docs.oracle.com/cd/E37670_01/E41138/html/ch07s04.html&quot;&gt;Read More&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;commandstools&quot;&gt;Commands/Tools&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lscpu&lt;/code&gt; - Display CPU architecture information&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1&lt;/code&gt; - Generates 40 characters long random string&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mtr&lt;/code&gt; - mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lsblk&lt;/code&gt; - Lists block devices&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;directories&quot;&gt;Directories&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/var/lock/&lt;/code&gt; - Store lock files, which are simply files used to indicate that a certain resource (a database, a file, a device) is in use and should not be accessed by another process. Aptitude, for example, locks its database when a package manager is running.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/var/run&lt;/code&gt; - Used to store .pid files, which contain the process id of a running program. This is commonly used in services or other programs that need to make their process id’s available to other processes.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”</summary></entry><entry><title type="html">Build and install Wireshark</title><link href="https://veerendra2.github.io/wireshark-install/" rel="alternate" type="text/html" title="Build and install Wireshark" /><published>2018-03-30T00:00:00+05:30</published><updated>2018-03-30T00:00:00+05:30</updated><id>https://veerendra2.github.io/wireshark-install</id><content type="html" xml:base="https://veerendra2.github.io/wireshark-install/">&lt;p&gt;Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.&lt;/p&gt;
+
+&lt;p&gt;As we all know in Linux, if we need latest version of any software, most of the times we need to build from “source” tar ball which is pain full. Well that’s why people prefer to use fancy package managers like &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;apt&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;yum&lt;/code&gt;, etc. for these kind of software. The main issue is, we have to hunt down the dependencies and install, that’s what I did for this software.&lt;/p&gt;
+
+&lt;p&gt;And again depends on your OS and package availability, you may need to install other dependencies. I’m using Ubuntu Mate 16 and I found below are sufficient for me.&lt;/p&gt;
+
+&lt;h4 id=&quot;1-install-dependencies&quot;&gt;1. Install Dependencies&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools qtmultimedia5-dev libqt5svg5-dev
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libpcap-dev libgcrypt11-dev libglib2.0-dev ibglib2.0-dev&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;2-get-the-latest-tar-ball-from-wireshark&quot;&gt;2. Get the latest tar ball from &lt;a href=&quot;https://www.wireshark.org/#download&quot;&gt;wireshark&lt;/a&gt;&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;wget https://2.na.dl.wireshark.org/src/wireshark-2.4.5.tar.xz
+&lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xf&lt;/span&gt; wireshark-2.4.5.tar.xz
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;wireshark-2.4.5&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;3-start-building&quot;&gt;3. Start building&lt;/h4&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;./configure
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-j2&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ldconfig
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;wireshark&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;./configure&lt;/code&gt; checks dependencies for wireshark in your machines. That’s why while running &lt;code class=&quot;highlighter-rouge&quot;&gt;./configure&lt;/code&gt; you may get dependency missing errors. If that is the case, it will show missing dependency packages name i.e. you can google it and install it.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;make install -j2&lt;/code&gt; will take some time, you can have coffee.(Specify jobs that equals to your number of CPU cores. Ex.&lt;code class=&quot;highlighter-rouge&quot;&gt;-j4&lt;/code&gt; for quad core)&lt;/p&gt;</content><author><name></name></author><summary type="html">Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.</summary></entry><entry><title type="html">Open vSwitch installation in RedHat7</title><link href="https://veerendra2.github.io/openvswitch-redhat/" rel="alternate" type="text/html" title="Open vSwitch installation in RedHat7" /><published>2018-02-28T00:00:00+05:30</published><updated>2018-02-28T00:00:00+05:30</updated><id>https://veerendra2.github.io/openvswitch-redhat</id><content type="html" xml:base="https://veerendra2.github.io/openvswitch-redhat/">&lt;p&gt;In this blog we will see how to install Open vSwitch v2.6.1 in RedHat7.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install dependencies&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;yum &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;gcc make python-devel openssl-devel &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+       kernel-devel graphviz kernel-debug-devel &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+       autoconf automake rpm-build redhat-rpm-config &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+       libtool&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Grab Open vSwitch source from &lt;a href=&quot;http://www.openvswitch.org/download/&quot;&gt;http://www.openvswitch.org/download/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget http://openvswitch.org/releases/openvswitch-2.6.1.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xf&lt;/span&gt; openvswitch-2.6.1.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;openvswitch-2.6.1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create a distribution tarball&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./boot.sh
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./configure
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make dist&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Now you have distribution tarball(openvswitch-2.6.1.tar.gz) in current directory. Copy this file into the RPM sources directory, e.g.:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;openvswitch-2.6.1.tar.gz &lt;span class=&quot;nv&quot;&gt;$HOME&lt;/span&gt;/rpmbuild/SOURCES&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Extract distribution tarball openvswitch-2.6.1.tar.gz&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xf&lt;/span&gt; openvswitch-2.6.1.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;openvswitch-2.6.1
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;
+/home/ec2-user/openvswitch-2.6.1/openvswitch-2.6.1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Build Open vSwitch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rpmbuild &lt;span class=&quot;nt&quot;&gt;-bb&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--without&lt;/span&gt; check rhel/openvswitch.spec
+...
+Checking &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;unpackaged file&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;s&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: /usr/lib/rpm/check-files /root/rpmbuild/BUILDROOT/openvswitch-2.6.1-1.x86_64
+Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-2.6.1-1.x86_64.rpm
+Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-devel-2.6.1-1.x86_64.rpm
+Wrote: /home/ec2-user/rpmbuild/RPMS/noarch/openvswitch-selinux-policy-2.6.1-1.noarch.rpm
+Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.rpm
+...&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;At the end of building, it will generate openvswitch RPM files.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install the openvswitch RPM files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-2.6.1-1.x86_64.rpm
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-devel-2.6.1-1.x86_64.rpm
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/noarch/openvswitch-selinux-policy-2.6.1-1.noarch.rpm
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;rpm &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.rpm&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Start the &lt;code class=&quot;highlighter-rouge&quot;&gt;openvswitch&lt;/code&gt; daemon&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service openvswitch start
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service openvswitch status&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then you should able to run &lt;code class=&quot;highlighter-rouge&quot;&gt;ovs-appctl --help&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;source&quot;&gt;Source&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.openvswitch.org//support/dist-docs-2.5/INSTALL.RHEL.md.html&quot;&gt;http://www.openvswitch.org//support/dist-docs-2.5/INSTALL.RHEL.md.html&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">In this blog we will see how to install Open vSwitch v2.6.1 in RedHat7.</summary></entry><entry><title type="html">Windows OS metrics collection with Telegraf</title><link href="https://veerendra2.github.io/windows-metrics-collection/" rel="alternate" type="text/html" title="Windows OS metrics collection with Telegraf" /><published>2018-02-27T00:00:00+05:30</published><updated>2018-02-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/windows-metrics-collection</id><content type="html" xml:base="https://veerendra2.github.io/windows-metrics-collection/">&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&quot;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&quot;&gt;/proc&lt;/a&gt; pesudo files. In fact there are so many open source tools to do this in Linux, like &lt;a href=&quot;https://github.com/OpenTSDB/tcollector&quot;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
+
+&lt;p&gt;Ok, enough talking about Linux, lets look at this &lt;a href=&quot;https://www.influxdata.com/time-series-platform/telegraf/&quot;&gt;Telegraf tool&lt;/a&gt; and what it does. I found Telegraf tool is really simple and elegant way to collect Windows OS metrics and light weight also, unlike others which some are paid and crappy. This tools doesn’t provide any wizard installation to setup but one has to run a command in Windows powershell to install Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;
+
+&lt;p&gt;As they said in &lt;a href=&quot;https://github.com/influxdata/telegraf&quot;&gt;Github repo&lt;/a&gt; and I quote&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Telegraf is an agent written in Go for collecting, processing, aggregating, and writing metrics.&lt;/p&gt;
+
+  &lt;p&gt;Design goals are to have a minimal memory footprint with a plugin system so that developers in the community can easily add support for collecting metrics from local or remote services.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Goto influxdata download portal and &lt;a href=&quot;https://portal.influxdata.com/downloads&quot;&gt;download &lt;code class=&quot;highlighter-rouge&quot;&gt;Telegraf&lt;/code&gt; zip file&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create a folder and name it as “Telegraf” in “C:\Program Files” and extract the .zip content to “Telegraf” folder (C:\Program Files\Telegraf)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Download telegraf configuration from &lt;a href=&quot;https://veerendra2.github.io/assets/telegraf.conf&quot;&gt;here (telegraf.conf)&lt;/a&gt; and place it in “C:\Program Files\Telegraf”&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Specify OpenTSDB server IP in &lt;code class=&quot;highlighter-rouge&quot;&gt;outputs.opentsdb&lt;/code&gt; section in the configuration&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/app-location.JPG&quot; alt=&quot;Application Location&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Open “Windows PowerShell” with administrator rights(Run as administrator) and paste below command to create “windows service”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;  C:&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;Program Files&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;elegraf&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;elegraf.exe --config C:&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Program Files&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\T&lt;/span&gt;elegraf&lt;span class=&quot;se&quot;&gt;\t&lt;/span&gt;elegraf.conf –-service &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt;
+  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/cmd-run.JPG&quot; alt=&quot;Command Run&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In Windows &lt;code class=&quot;highlighter-rouge&quot;&gt;Services&lt;/code&gt;, you should see &lt;code class=&quot;highlighter-rouge&quot;&gt;Telegraf&lt;/code&gt; service. Right-click on the Telegraf service, open &lt;code class=&quot;highlighter-rouge&quot;&gt;“Properties”-&amp;gt; Select “Automatic”&lt;/code&gt; for “Startup Type” and click “Start” button to start the Telegraf service.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/service.JPG&quot; alt=&quot;Windows Service&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You should able to see &lt;a href=&quot;https://veerendra2.github.io/assets/telegraf_metrics.txt&quot;&gt;these metrics&lt;/a&gt; in your OpenTSDB&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docs - &lt;a href=&quot;https://docs.influxdata.com/telegraf/v1.5/introduction/getting_started/&quot;&gt;https://docs.influxdata.com/telegraf/v1.5/introduction/getting_started/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.</summary></entry><entry><title type="html">KVM Hypervior Cheatsheets</title><link href="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/" rel="alternate" type="text/html" title="KVM Hypervior Cheatsheets" /><published>2018-01-27T00:00:00+05:30</published><updated>2018-01-27T00:00:00+05:30</updated><id>https://veerendra2.github.io/kvm-hyperviour-cheatsheets</id><content type="html" xml:base="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/">&lt;h3 id=&quot;1-install-packages&quot;&gt;1. Install Packages&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Check system  is  capable of running KVM: &lt;a href=&quot;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm quem-system libvirt-bin bridge-utils virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;2-create-kvmqemu-hard-disk-file&quot;&gt;2. Create KVM/Qemu Hard Disk File&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    qemu-img create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt;
+    Example:
+        qemu-img create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw ubuntu14-HD.img 10G&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Then copy the HD file to &lt;code class=&quot;highlighter-rouge&quot;&gt;/var/lib/libvirt/images/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;3-launch-vm-with-virt-install&quot;&gt;3. Launch VM with &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-install&lt;/code&gt;&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    virt-install &lt;span class=&quot;nt&quot;&gt;--name&lt;/span&gt; spinnaker &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--ram&lt;/span&gt; 11096 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--vcpus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;4 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--os-type&lt;/span&gt; linux &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--os-variant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ubuntutrusty &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--accelerate&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--nographics&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;  &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--disk&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/lib/libvirt/images/ubuntu14-HD.img,size&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;8 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--extra-args&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;console=ttyS0&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--location&lt;/span&gt; /opt/ubuntu14.iso &lt;span class=&quot;nt&quot;&gt;--force&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--network&lt;/span&gt; bridge:virbr0&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create bridge &lt;code class=&quot;highlighter-rouge&quot;&gt;virbr0&lt;/code&gt; if it is necessary&lt;/li&gt;
+  &lt;li&gt;To know what are &lt;code class=&quot;highlighter-rouge&quot;&gt;--os-variant&lt;/code&gt; available, run &lt;code class=&quot;highlighter-rouge&quot;&gt;virt-install --os-variant list&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Specify &lt;code class=&quot;highlighter-rouge&quot;&gt;--location&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;--disk&lt;/code&gt; locations&lt;/li&gt;
+  &lt;li&gt;Specify &lt;code class=&quot;highlighter-rouge&quot;&gt;--ram&lt;/code&gt; (By default in MBs)&lt;/li&gt;
+  &lt;li&gt;Other Options
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--boot hd&lt;/code&gt; Boot from HD file&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--force&lt;/code&gt; Force to use existing HD that is used by another VM&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--debug&lt;/code&gt; verbose&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--description&lt;/code&gt; Description of VM&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;4-connect-to-console&quot;&gt;4. Connect to console&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh list --all&lt;/code&gt; - : List VMs&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh console &amp;lt;name&amp;gt;&lt;/code&gt; - : Connect to tty of the VM
+    &lt;ul&gt;
+      &lt;li&gt;Note down the IP of the VM once you connect to &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt;. we can &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt;
+        &lt;h4 id=&quot;note-once-the-consoletty-is-active-you-can-not-reconnect-to-that-tty&quot;&gt;NOTE: Once the console/tty is active, you can not reconnect to that tty&lt;/h4&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;5-export-vm-as-qcow2&quot;&gt;5. Export VM as &lt;code class=&quot;highlighter-rouge&quot;&gt;.qcow2&lt;/code&gt;&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;qemu-img convert &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; qcow2 &amp;lt;souruce .img file&amp;gt; &amp;lt;destination .qcow2 file&amp;gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#Example:&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;qemu-img convert &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; raw &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; qcow2 /var/lib/libvirt/images/ubuntu14-HD.img /home/opsmx/spinnaker.qcow2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;commands-cheatsheet&quot;&gt;Commands CheatSheet&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh list --all&lt;/code&gt; - Shows all VMs&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh console &amp;lt;VM name&amp;gt;&lt;/code&gt; - Connect to &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt; of the VM (If &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt; is enables)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh shutdown &amp;lt;VM name&amp;gt;&lt;/code&gt; - Shutdown the VM&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vish destroy &amp;lt;VM name&amp;gt;&lt;/code&gt; - Destroys VM (Won’t deletes the VM/ Similar to shutdown)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;vish undefine &amp;lt;VM name&amp;gt;&lt;/code&gt; - Deletes the VM (Run after &lt;code class=&quot;highlighter-rouge&quot;&gt;destroy&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh dumpxml &amp;lt;VM name&amp;gt;&lt;/code&gt; - Dumps configuration of VM in &lt;code class=&quot;highlighter-rouge&quot;&gt;xml&lt;/code&gt; format&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh net-list&lt;/code&gt; - List the available networks&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh net-edit &amp;lt;net name&amp;gt;&lt;/code&gt; - Edit the network&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virt-install --os-variant list&lt;/code&gt; - Lists OS variants&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;resource-links&quot;&gt;Resource Links&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.wavether.com/2016/11/import-qcow2-images-into-aws&quot;&gt;https://www.wavether.com/2016/11/import-qcow2-images-into-aws&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.openstack.org/image-guide/convert-images.html&quot;&gt;https://docs.openstack.org/image-guide/convert-images.html&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.openstack.org/image-guide/convert-images.html&quot;&gt;https://serverfault.com/questions/604862/any-way-to-convert-qcow2-to-ovf&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.openstack.org/image-guide/convert-images.html&quot;&gt;https://docs.openstack.org/image-guide/convert-images.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">1. Install Packages Check system is capable of running KVM: kvm-ok</summary></entry><entry><title type="html">Encrypt your DNS queries, stay anonymous</title><link href="https://veerendra2.github.io/dns-encrypt/" rel="alternate" type="text/html" title="Encrypt your DNS queries, stay anonymous" /><published>2018-01-22T00:00:00+05:30</published><updated>2018-01-22T00:00:00+05:30</updated><id>https://veerendra2.github.io/dns-encrypt</id><content type="html" xml:base="https://veerendra2.github.io/dns-encrypt/">&lt;p&gt;We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/https_example.jpg&quot; alt=&quot;HTTPS Example&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Sure if we use HTTPS all your (&lt;a href=&quot;https://en.wikipedia.org/wiki/POST_(HTTP)&quot;&gt;POST&lt;/a&gt; or GET) data is encrypted end-to-end which prevents eavesdropping, &lt;a href=&quot;https://en.wikipedia.org/wiki/Man-in-the-middle_attack&quot;&gt;MITM attack&lt;/a&gt; and have &lt;a href=&quot;https://en.wikipedia.org/wiki/Confidentiality&quot;&gt;Confidentiality&lt;/a&gt;, but again what about DNS queries?&lt;/p&gt;
+
+&lt;p&gt;I got this question back in a while, so after a quick Internet search, I found &lt;a href=&quot;https://en.wikipedia.org/wiki/DNSCrypt&quot;&gt;DNSCrypt&lt;/a&gt; protocol which is really cool that I can encrypt DNS queries.&lt;/p&gt;
+
+&lt;p&gt;First of all what the heck is &lt;a href=&quot;https://en.wikipedia.org/wiki/Domain_Name_System&quot;&gt;DNS&lt;/a&gt;? in simple, DNS or Domain Name System is a service that resolves/translates domain “name” to “IP” or vice versa. So once you hit google.com in your browser, a &lt;a href=&quot;https://serverfault.com/questions/173187/what-does-a-dns-request-look-like&quot;&gt;DNS query&lt;/a&gt; fired to DNS host(for example 8.8.8.8) like asking “what is the IP of google.com” and gets DNS responses which contains IP of google.com. Now we got the IP of google.com, browser initiates connection and establish HTTPS.&lt;/p&gt;
+
+&lt;p&gt;So, you see these DNS queries are not part of “HTTPS”. So let’s encrypt DNS queries with DNCrypt.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Why should we care about “DNS queries encryption”? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;what-is-dnscrypt&quot;&gt;What is &lt;a href=&quot;https://dnscrypt.org/&quot;&gt;DNSCrypt&lt;/a&gt;?&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;DNSCrypt is a protocol that authenticates communications between a DNS client and a DNS resolver. It prevents DNS spoofing. It uses cryptographic signatures to verify that responses originate from the chosen DNS resolver and haven’t been tampered with.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;It is an open specification, with free and opensource reference implementations, and it is not affiliated with any company nor organization.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;There are some points to be noted&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In order to use this protocol, we should install a package called &lt;a href=&quot;https://github.com/jedisct1/dnscrypt-proxy&quot;&gt;dnscrypt-proxy&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Normal name servers(like 8.8.8.8) won’t support this protocol. We should use &lt;a href=&quot;https://github.com/dyne/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv&quot;&gt;these&lt;/a&gt; DNS resolvers&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dnscrypt-proxy&lt;/code&gt; by default binds on loopback interface (127.0.0.1) 53 port. So, have to do tittle configuration change.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;1-install-dnscrypt-proxy&quot;&gt;1. Install dnscrypt-proxy&lt;/h3&gt;
+
+&lt;p&gt;From Ubuntu 16/ Linux Mint 18.x, dnscrypt-proxy is available in the offical repo.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;dnscrypt-proxy&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;I found a PPA for Ubuntu 14.04 and Linux Mint 17.x&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;add-apt-repository ppa:anton+/dnscrypt
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;dnscrypt-proxy&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;2-start-dnscrypt-proxy&quot;&gt;2. Start &lt;code class=&quot;highlighter-rouge&quot;&gt;dnscrypt-proxy&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;After installation, with &lt;code class=&quot;highlighter-rouge&quot;&gt;--help&lt;/code&gt; argument get options and run accordingly. But luckily I created a python script which will do it for you.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;wget &lt;span class=&quot;nt&quot;&gt;-qO&lt;/span&gt; dnscrypt.py https://goo.gl/zjZYVR
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python dnscrypt.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;After you run the script, it will lists the DNS reslovers details like below.(The script downloads &lt;a href=&quot;https://github.com/dyne/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv&quot;&gt;reslovers csv&lt;/a&gt; and passes this file as argument to &lt;code class=&quot;highlighter-rouge&quot;&gt;dnscrypt-proxy&lt;/code&gt;`)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/command_run.jpg&quot; alt=&quot;Run the script&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Select one name sever. You can see these name servers have options &lt;a href=&quot;https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DNSSec&lt;/code&gt;&lt;/a&gt; &amp;amp; &lt;code class=&quot;highlighter-rouge&quot;&gt;No Loggging&lt;/code&gt; which provider can logs your queries, choose one accordingly (These options/table header you cant see in above screeshot. You have to scroll up)&lt;/p&gt;
+
+&lt;p&gt;Next, configure your network settings like below&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/network_config.jpeg&quot; alt=&quot;Network Config&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Restart network (disconnect and connect wifi) and your done!&lt;/p&gt;
+
+&lt;p&gt;To verify run &lt;code class=&quot;highlighter-rouge&quot;&gt;tcpdump -i any -n port 2053&lt;/code&gt; (Why &lt;code class=&quot;highlighter-rouge&quot;&gt;2053&lt;/code&gt; port? because in above screenshot I selected &lt;code class=&quot;highlighter-rouge&quot;&gt;66&lt;/code&gt; option which has &lt;code class=&quot;highlighter-rouge&quot;&gt;178.216.201.222:2053&lt;/code&gt;)&lt;/p&gt;
+
+&lt;h5 id=&quot;whats-happening&quot;&gt;What’s happening?&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/diagram.png&quot; alt=&quot;Diagram&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;go-beyond-this-script&quot;&gt;Go beyond this script!&lt;/h2&gt;
+&lt;p&gt;I create &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; script which runs at system boot. So that no need to run above script again and again.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Download &lt;a href=&quot;https://github.com/dyne/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv&quot;&gt;reslovers csv&lt;/a&gt; file with –&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;python dsncrypt.py -d&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Specify &lt;code class=&quot;highlighter-rouge&quot;&gt;resolver_name&lt;/code&gt;(By default it has &lt;code class=&quot;highlighter-rouge&quot;&gt;soltysiak&lt;/code&gt; which has &lt;code class=&quot;highlighter-rouge&quot;&gt;No Logging&lt;/code&gt; policy and &lt;code class=&quot;highlighter-rouge&quot;&gt;DNSSec&lt;/code&gt;) in the script.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; /etc/init.d/encryptdns https://goo.gl/opZ78J
+&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /etc/init.d/encryptdns
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;update-rc.d encryptdns defaults
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service encryptdns start&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Github Repository Link&lt;/p&gt;
+
+  &lt;p&gt;https://github.com/veerendra2/useless-scripts&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;dnscrypt-in-windows&quot;&gt;DNSCrypt in Windows&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;* https://simplednscrypt.org/&quot;&gt;Simple DNSCrypt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/DNSCrypt-Windows.JPG&quot; alt=&quot;Simple DNSCrypt&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Other resources you can try&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jedisct1/dnscrypt-proxy&quot;&gt;https://github.com/jedisct1/dnscrypt-proxy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?</summary></entry><entry><title type="html">Wifi De-authentication attack</title><link href="https://veerendra2.github.io/wifi-deathentication-attack/" rel="alternate" type="text/html" title="Wifi De-authentication attack" /><published>2018-01-11T00:00:00+05:30</published><updated>2018-01-11T00:00:00+05:30</updated><id>https://veerendra2.github.io/wifi-deathentication-attack</id><content type="html" xml:base="https://veerendra2.github.io/wifi-deathentication-attack/">&lt;blockquote&gt;
+  &lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
+
+  &lt;p&gt;-Wikipedia&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult  to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&quot;https://www.aircrack-ng.org/doku.php?id=deauthentication&quot;&gt;here&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “De-authentication” frame to victim’s to tell deauthenticate. It is like, “Hey client! Can you please deauthenticate and authenticate”. Then the client will reconnect to the AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcasts in the network.&lt;/p&gt;
+
+&lt;p&gt;Interestingly, the victim’s laptop/device could not differentiate between attacker and valid AP. Here, the attacker creates “De-authentication” packet/frame with source MAC address from valid AP’s MAC address. So, every device thinks, the management frame came from valid AP.&lt;/p&gt;
+
+&lt;p&gt;The attacker not just send the frame once, but sends continuously. Things get pretty bad, now the clients continuously trying to reconnect. In this way, the clients never connect to its valid AP until the attacker stops sending the “deauth” frames.&lt;/p&gt;
+
+&lt;p&gt;I automated these steps with Python. I used “scapy” module to send “deauth” frames.&lt;/p&gt;
+
+&lt;p&gt;Want to try this script? run bellow commands.&lt;/p&gt;
+
+&lt;h5 id=&quot;dependencies&quot;&gt;Dependencies&lt;/h5&gt;
+&lt;p&gt;wireless
+Install &lt;code class=&quot;highlighter-rouge&quot;&gt;aircrack-ng&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;scapy&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;aircrack-ng &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-scapy &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h5 id=&quot;download-and-run-the-script&quot;&gt;Download and run the script&lt;/h5&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; deauth.py https://goo.gl/5gGHbE
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python deauth.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;When you run the command, you should see like bellow.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/blog-image1.jpg&quot; alt=&quot;Help&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/blog-image2.jpg&quot; alt=&quot;Command Run&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When you start the script, it will create “mon0” interface(A monitoring virtual interface used to send our deauth frames) and observes wifi signals. After few seconds, it will display near APs and its MAC addresses. Choose one to broadcasts the “deauth” frames to that network which results network outage for connected clients to that AP.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;NOTE: Inorder to work deauthentication attack successful, you should near to the target network. The deauth packets should reach the connected devices of the target network&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;so-how-to-avoid-this-attack&quot;&gt;So, how to avoid this attack?&lt;/h2&gt;
+
+&lt;p&gt;Simple, use “802.1w” supported routers. Know more about &lt;a href=&quot;https://en.wikipedia.org/wiki/IEEE_802.11w-2009&quot;&gt;802.1w&lt;/a&gt; and read &lt;a href=&quot;http://www.cisco.com/c/en/us/td/docs/wireless/controller/technotes/5700/software/release/ios_xe_33/11rkw_DeploymentGuide/b_802point11rkw_deployment_guide_cisco_ios_xe_release33/b_802point11rkw_deployment_guide_cisco_ios_xe_release33_chapter_0100.pdf&quot;&gt;cisco document&lt;/a&gt; here&lt;/p&gt;
+
+&lt;p&gt;Check out my repo below for more info. Use my &lt;a href=&quot;https://github.com/veerendra2/wifi-sniffer&quot;&gt;docker image&lt;/a&gt; to kick the environment quickly.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Github Repository Link&lt;/p&gt;
+
+  &lt;p&gt;https://github.com/veerendra2/wifi-deauth-attack&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name></name></author><summary type="html">A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point. -Wikipedia</summary></entry><entry><title type="html">GNU screen commands(Cheat Sheet)</title><link href="https://veerendra2.github.io/gnu-screen-commands/" rel="alternate" type="text/html" title="GNU screen commands(Cheat Sheet)" /><published>2018-01-08T00:00:00+05:30</published><updated>2018-01-08T00:00:00+05:30</updated><id>https://veerendra2.github.io/gnu-screen-commands</id><content type="html" xml:base="https://veerendra2.github.io/gnu-screen-commands/">&lt;blockquote&gt;
+  &lt;p&gt;GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. &lt;a href=&quot;https://en.wikipedia.org/wiki/GNU_Screen&quot;&gt;more&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;-Wikipedia&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install &lt;code class=&quot;highlighter-rouge&quot;&gt;screen&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;screen&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;style&gt;
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        }
+&lt;/style&gt;
+
+&lt;table class=&quot;tablelines&quot;&gt;
+&lt;tr&gt;
+ &lt;th&gt;Keys/Commands&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;screen&lt;/td&gt;&lt;td&gt;Enables Screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then c&lt;/td&gt;&lt;td&gt;Create new screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then n&lt;/td&gt;&lt;td&gt;Go to next screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then p&lt;/td&gt;&lt;td&gt;Go to previous screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then Shift+s&lt;/td&gt;&lt;td&gt;Split screen horizontally&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then Shift+\&lt;/td&gt;&lt;td&gt;Split screen vertically&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then Tab&lt;/td&gt;&lt;td&gt;Traverse between splited screens&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then Shift+x&lt;/td&gt;&lt;td&gt;Unsplit screens&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then Esc (Hit Esc, once you are done)    &lt;/td&gt;&lt;td&gt;Scroll screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;Ctrl+a and then d&lt;/td&gt;&lt;td&gt;Detach screens&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;screen -r PID&lt;/td&gt;&lt;td&gt;Reattach screen&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td&gt;screen -ls&lt;/td&gt;&lt;td&gt;List screens&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;</content><author><name></name></author><summary type="html">GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. more -Wikipedia</summary></entry><entry><title type="html">Install jekyll in Ubuntu 14.04</title><link href="https://veerendra2.github.io/jeklly-website/" rel="alternate" type="text/html" title="Install jekyll in Ubuntu 14.04" /><published>2018-01-07T00:00:00+05:30</published><updated>2018-01-07T00:00:00+05:30</updated><id>https://veerendra2.github.io/jeklly-website</id><content type="html" xml:base="https://veerendra2.github.io/jeklly-website/">&lt;p&gt;I was very excited to try &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt; when I heard about it. When I try to install &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;root@veeru:/home/veeru# gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler
+Fetching: public_suffix-3.0.1.gem &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;100%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ERROR:  Error installing jekyll:
+	public_suffix requires Ruby version &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; 2.1.
+Fetching: bundler-1.16.1.gem &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;100%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+Successfully installed bundler-1.16.1
+1 gem installed
+Installing ri documentation &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;bundler-1.16.1...
+Installing RDoc documentation &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;bundler-1.16.1...&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;I din’t even know what that means(I’m not a Ruby guy, so..). Clearly &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt; needs more then Ruby version 2.1, but in Ubuntu 14.04 if you type &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So lets install Ruby2.4 like below&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-add-repository ppa:brightbox/ruby-ng
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;ruby2.4 ruby2.4-dev make g++ &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then install &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;whats-next&quot;&gt;What’s next?&lt;/h3&gt;
+&lt;p&gt;I found a blog which exactly I was look for to deploy website on Github Pages. As Drew Silcock said in the blog, it better to maintain website source code and compiled website on same repository. Just head over to his &lt;a href=&quot;https://drewsilcock.co.uk/custom-jekyll-plugins&quot;&gt;blog&lt;/a&gt; and check the stuff&lt;/p&gt;</content><author><name></name></author><summary type="html">I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.16.1...</summary></entry></feed>

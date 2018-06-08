@@ -1,4 +1,175 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-04-01T03:44:48+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#networking #python #linux</subtitle><entry><title type="html">Build and install Wireshark</title><link href="https://veerendra2.github.io/wireshark-install/" rel="alternate" type="text/html" title="Build and install Wireshark" /><published>2018-03-30T00:00:00+05:30</published><updated>2018-03-30T00:00:00+05:30</updated><id>https://veerendra2.github.io/wireshark-install</id><content type="html" xml:base="https://veerendra2.github.io/wireshark-install/">&lt;p&gt;Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.3">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-06-09T00:57:19+05:30</updated><id>https://veerendra2.github.io/</id><title type="html">Veerendra’s Blog</title><subtitle>#linux #python #networking</subtitle><entry><title type="html">SSL Configuration for Kubernetes Service - AWS ELB</title><link href="https://veerendra2.github.io/ssl-config-k8s-service-aws/" rel="alternate" type="text/html" title="SSL Configuration for Kubernetes Service - AWS ELB" /><published>2018-05-29T00:00:00+05:30</published><updated>2018-05-29T00:00:00+05:30</updated><id>https://veerendra2.github.io/ssl-config-k8s-service-aws</id><content type="html" xml:base="https://veerendra2.github.io/ssl-config-k8s-service-aws/">&lt;p&gt;Namaste, in this blog post will look into how to enable SSL for ingress service in K8s with self-signed certificate.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note that the K8s cluster is deployed on AWS and enable “&lt;code class=&quot;highlighter-rouge&quot;&gt;type: LoadBalancer&lt;/code&gt;” for service which application can accessible from outside of cluster.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Get &lt;code class=&quot;highlighter-rouge&quot;&gt;cfssl&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;cfssljson&lt;/code&gt; binary files from &lt;a href=&quot;https://pkg.cfssl.org/&quot;&gt;https://pkg.cfssl.org/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Get &lt;code class=&quot;highlighter-rouge&quot;&gt;aws-cli&lt;/code&gt;. Check &lt;a href=&quot;https://docs.aws.amazon.com/cli/latest/userguide/installing.html&quot;&gt;installation docs&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Configure &lt;code class=&quot;highlighter-rouge&quot;&gt;aws-cli&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;aws configure&lt;/code&gt;. It should create files like below&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;veeru@ultron:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ~/.aws/credentials 
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;default]
+aws_access_key_id &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ATIA2HTxxxV5Cqwe
+aws_secret_access_key &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; ATIA2HTxxxV5Cqwexxxxxx
+
+veeru@ultron:~&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ~/.aws/config 
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;default]
+region &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; us-east-2
+output &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; text&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;create-certificate&quot;&gt;Create certificate&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; &amp;gt;csr_ca.json
+{
+&quot;CN&quot;: &quot;My Awesome CA&quot;,
+&quot;key&quot;: {
+  &quot;algo&quot;: &quot;rsa&quot;,
+  &quot;size&quot;: 2048
+},
+  &quot;names&quot;: [
+     {
+       &quot;C&quot;: &quot;Westeros&quot;,
+       &quot;L&quot;: &quot;Winterfell&quot;,
+       &quot;O&quot;: &quot;House Stark&quot;,
+       &quot;OU&quot;: &quot;CA Secsr_ca.jsonrvices&quot;,
+       &quot;ST&quot;: &quot;The North&quot;
+     }
+  ]
+}
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Generate the CA certificate and private key:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;nt&quot;&gt;-initca&lt;/span&gt; csr_ca.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; ca
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls
+&lt;/span&gt;ca-key.pem
+ca.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;upload-your-self-signed-certificate-to-aws&quot;&gt;Upload your self signed certificate to aws&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;aws iam upload-server-certificate &lt;span class=&quot;nt&quot;&gt;--server-certificate-name&lt;/span&gt; your-name &lt;span class=&quot;nt&quot;&gt;--certificate-body&lt;/span&gt; file://ca.pem &lt;span class=&quot;nt&quot;&gt;--private-key&lt;/span&gt; file://ca-key.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;List certificates&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;aws iam list-server-certificates
+SERVERCERTIFICATEMETADATALIST	arn:aws:iam::xxxxx:server-certificate/your-name	2023-04-30T07:52:00Z	/	ASCAIxxxxxCHES3FxxIQO	cf	2018-05-01T08:17:30Z&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;specify-annotation-in-kuberenetes-service&quot;&gt;Specify annotation in Kuberenetes service&lt;/h2&gt;
+
+&lt;p&gt;Edit service with “&lt;code class=&quot;highlighter-rouge&quot;&gt;kubectl edit svc {svc-name}&lt;/code&gt;” or you can also edit with the help of K8s dashboard like me.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&quot;service.beta.kubernetes.io/aws-load-balancer-ssl-cert&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;arn:aws:iam::xxxxx:server-certificate/your-name&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/k8s-service.jpg&quot; alt=&quot;_config.yml&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you should able to access endpoint on &lt;code class=&quot;highlighter-rouge&quot;&gt;https&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;For example: &lt;code class=&quot;highlighter-rouge&quot;&gt;https://xxxx-xxxx.us-east-2.elb.amazonaws.com:9090/graph&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://gist.github.com/mgoodness/1a2926f3b02d8e8149c224d25cc57dc1&quot;&gt;Check out other AWS service annotations&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Namaste, in this blog post will look into how to enable SSL for ingress service in K8s with self-signed certificate.</summary></entry><entry><title type="html">Linux pseudo files &amp;amp; cheat sheet</title><link href="https://veerendra2.github.io/linux-cheatseets/" rel="alternate" type="text/html" title="Linux pseudo files &amp; cheat sheet" /><published>2018-04-14T00:00:00+05:30</published><updated>2018-04-14T00:00:00+05:30</updated><id>https://veerendra2.github.io/linux-cheatseets</id><content type="html" xml:base="https://veerendra2.github.io/linux-cheatseets/">&lt;p&gt;*&lt;em&gt;A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;tips--tricks&quot;&gt;Tips &amp;amp; Tricks&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;How to force a command to return exit code 0 even the command exited non-zero?&lt;/li&gt;
+  &lt;li&gt;How to install dependecies of .deb automatically which was failed to install previsouly?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Example Solution:&lt;/em&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;dpkg &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; r-base-core_3.3.3-1trusty0_amd64.deb &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; : &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get &lt;span class=&quot;nt&quot;&gt;--yes&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--force-yes&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; Dpkg::Options::&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;--force-confdef&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; Dpkg::Options::&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;--force-confold&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;How traverse directories in shell script?&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; command should not use to traverse directories. Remember that each commands in shell script will spawn as individual process unlink other programming language script entire script as single process i.e. The scope of &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; command is only for child process not parent. By using &lt;code class=&quot;highlighter-rouge&quot;&gt;pushd&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;popd&lt;/code&gt; we can achieve traversing directories.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Example Solution:&lt;/em&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;pushd &lt;/span&gt;Downloads
+&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;download.txt
+&lt;span class=&quot;nb&quot;&gt;popd
+pushd &lt;/span&gt;Downloads/movies
+&lt;span class=&quot;nb&quot;&gt;ls
+popd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;files&quot;&gt;Files:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq&lt;/code&gt; - Real time speed of the CPU(ability to adjust their speed to help in saving on battery/power usage)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc&lt;/code&gt; Directory
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/cpuinfo | grep MHz&lt;/code&gt; - The absolute (max) CPU speed&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/sys/net/ipv4/*&lt;/code&gt; - Get more info under this directory from &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt&quot;&gt;kernel.org docs&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/net/tcp and /proc/net/tcp6&lt;/code&gt; - Get complete info of variables for these files from &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/proc_net_tcp.txt&quot;&gt;kernel.org.docs&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Network related in Linux - Refer &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/&quot;&gt;kernel.org.doc&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;special-device-files&quot;&gt;Special Device Files&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/null&lt;/code&gt; - Discards all data written to it but reports that the write operation succeeded &lt;a href=&quot;http://man7.org/linux/man-pages/man4/null.4.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/full&lt;/code&gt; - Returns the error code ENOSPC (meaning “No space left on device”) on writing &lt;a href=&quot;http://man7.org/linux/man-pages/man4/full.4.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/random&lt;/code&gt; - Special file that serves as a blocking pseudorandom number generator. It allows access to environmental noise collected from device drivers and other sources.(Block until additional environmental noise is gathered)&lt;a href=&quot;http://man7.org/linux/man-pages/man4/random.4.html&quot;&gt;Read man&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/urandom&lt;/code&gt; - Without block &lt;a href=&quot;http://man7.org/linux/man-pages/man4/random.4.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/zero&lt;/code&gt; - Provides as many null characters as are read from it &lt;a href=&quot;http://unix.stackexchange.com/questions/254384/difference-between-dev-null-and-dev-zero&quot;&gt;Read More&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;udev&lt;/code&gt; - Linux dynamic device management &lt;a href=&quot;https://mirrors.edge.kernel.org/pub/linux/utils/kernel/hotplug/udev/udev.html&quot;&gt;Read man pages&lt;/a&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;udevadm&lt;/code&gt; -  command to query the udev database and &lt;code class=&quot;highlighter-rouge&quot;&gt;sysfs&lt;/code&gt; &lt;a href=&quot;https://docs.oracle.com/cd/E37670_01/E41138/html/ch07s04.html&quot;&gt;Read More&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;commandstools&quot;&gt;Commands/Tools&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lscpu&lt;/code&gt; - Display CPU architecture information&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1&lt;/code&gt; - Generates 40 characters long random string&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mtr&lt;/code&gt; - mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;lsblk&lt;/code&gt; - Lists block devices&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;directories&quot;&gt;Directories&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/var/lock/&lt;/code&gt; - Store lock files, which are simply files used to indicate that a certain resource (a database, a file, a device) is in use and should not be accessed by another process. Aptitude, for example, locks its database when a package manager is running.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/var/run&lt;/code&gt; - Used to store .pid files, which contain the process id of a running program. This is commonly used in services or other programs that need to make their process id’s available to other processes.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”</summary></entry><entry><title type="html">Build and install Wireshark</title><link href="https://veerendra2.github.io/wireshark-install/" rel="alternate" type="text/html" title="Build and install Wireshark" /><published>2018-03-30T00:00:00+05:30</published><updated>2018-03-30T00:00:00+05:30</updated><id>https://veerendra2.github.io/wireshark-install</id><content type="html" xml:base="https://veerendra2.github.io/wireshark-install/">&lt;p&gt;Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.&lt;/p&gt;
 
 &lt;p&gt;As we all know in Linux, if we need latest version of any software, most of the times we need to build from “source” tar ball which is pain full. Well that’s why people prefer to use fancy package managers like &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;apt&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;yum&lt;/code&gt;, etc. for these kind of software. The main issue is, we have to hunt down the dependencies and install, that’s what I did for this software.&lt;/p&gt;
 
@@ -243,9 +414,11 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
 
 &lt;p&gt;First of all what the heck is &lt;a href=&quot;https://en.wikipedia.org/wiki/Domain_Name_System&quot;&gt;DNS&lt;/a&gt;? in simple, DNS or Domain Name System is a service that resolves/translates domain “name” to “IP” or vice versa. So once you hit google.com in your browser, a &lt;a href=&quot;https://serverfault.com/questions/173187/what-does-a-dns-request-look-like&quot;&gt;DNS query&lt;/a&gt; fired to DNS host(for example 8.8.8.8) like asking “what is the IP of google.com” and gets DNS responses which contains IP of google.com. Now we got the IP of google.com, browser initiates connection and establish HTTPS.&lt;/p&gt;
 
-&lt;p&gt;Why should we care about “DNS queries encryption”? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.&lt;/p&gt;
-
 &lt;p&gt;So, you see these DNS queries are not part of “HTTPS”. So let’s encrypt DNS queries with DNCrypt.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Why should we care about “DNS queries encryption”? well, sometimes the eavesdroppers are interested in meta data of communication rather than actual communication.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&quot;what-is-dnscrypt&quot;&gt;What is &lt;a href=&quot;https://dnscrypt.org/&quot;&gt;DNSCrypt&lt;/a&gt;?&lt;/h2&gt;
 
@@ -267,7 +440,7 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;dnscrypt-proxy&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;For Ubuntu 14.04 and Linux Mint 17.x, we have add PPA which I found one below&lt;/p&gt;
+&lt;p&gt;I found a PPA for Ubuntu 14.04 and Linux Mint 17.x&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;add-apt-repository ppa:anton+/dnscrypt
 &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
@@ -346,8 +519,8 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
 &lt;p&gt;Want to try this script? run bellow commands.&lt;/p&gt;
 
 &lt;h5 id=&quot;dependencies&quot;&gt;Dependencies&lt;/h5&gt;
-
-&lt;p&gt;Install &lt;code class=&quot;highlighter-rouge&quot;&gt;aircrack-ng&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;scapy&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;wireless
+Install &lt;code class=&quot;highlighter-rouge&quot;&gt;aircrack-ng&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;scapy&lt;/code&gt;&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;aircrack-ng &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-scapy &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -359,7 +532,9 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
 
 &lt;p&gt;When you run the command, you should see like bellow.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/cmd_run.jpg&quot; alt=&quot;Command Run&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/blog-image1.jpg&quot; alt=&quot;Help&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/blog-image2.jpg&quot; alt=&quot;Command Run&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;When you start the script, it will create “mon0” interface(A monitoring virtual interface used to send our deauth frames) and observes wifi signals. After few seconds, it will display near APs and its MAC addresses. Choose one to broadcasts the “deauth” frames to that network which results network outage for connected clients to that AP.&lt;/p&gt;
 
@@ -458,79 +633,4 @@ Installing RDoc documentation &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;b
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h3 id=&quot;whats-next&quot;&gt;What’s next?&lt;/h3&gt;
-&lt;p&gt;I found a blog which exactly I was look for to deploy website on Github Pages. As Drew Silcock said in the blog, it better to maintain website source code and compiled website on same repository. Just head over to his &lt;a href=&quot;https://drewsilcock.co.uk/custom-jekyll-plugins&quot;&gt;blog&lt;/a&gt; and check the stuff&lt;/p&gt;</content><author><name></name></author><summary type="html">I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.16.1...</summary></entry><entry><title type="html">MAC Address Scrambling in Linux</title><link href="https://veerendra2.github.io/mac-scrambling/" rel="alternate" type="text/html" title="MAC Address Scrambling in Linux" /><published>2018-01-06T00:00:00+05:30</published><updated>2018-01-06T00:00:00+05:30</updated><id>https://veerendra2.github.io/mac-scrambling</id><content type="html" xml:base="https://veerendra2.github.io/mac-scrambling/">&lt;p&gt;“&lt;strong&gt;MAC Address Scrambling&lt;/strong&gt;“- By name itself we can understand, instead of using burned-in address, the machines uses random MAC address every time. The machine/device changes MAC address regularly to improve security.  MAC address is 48 bit hexadecimal digit which is burned in every electronic device has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.&lt;/p&gt;
-
-&lt;p&gt;So, how static MAC address causes some security issues?  First thing caught in my mind is this&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;According to Edward Snowden, the National Security Agency has a system that tracks the movements of everyone in a city by monitoring the MAC addresses of their electronic devices. As a result of users being trackable by their devices’ MAC addresses, Apple has started using random MAC addresses in their iOS line of devices while scanning for networks.If random MAC addresses are not used, researchers have confirmed that it is possible to link a real identity to a particular wireless MAC address.&lt;/p&gt;
-
-  &lt;p&gt;-wikipedia&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;As I said it is “Burned-in”, means it never changes which network you connect unlike IP address. Another possible attack is “Man-in-Middle” with ARP poisoning. I highly recommend you to read &lt;a href=&quot;https://en.wikipedia.org/wiki/ARP_spoofing&quot;&gt;wikipedia article: ARP spoofing&lt;/a&gt; for better understanding of ARP poisoning.  IEEE group also recommends  random MAC address for Wifi security. Read this &lt;a href=&quot;http://www.csoonline.com/article/2945044/cyber-attacks-espionage/ieee-groups-recommends-random-mac-addresses-for-wi-fi-security.html&quot;&gt;article&lt;/a&gt; for more info&lt;/p&gt;
-
-&lt;p&gt;For Linux, soon will get this feature. But now, I made a script(init script: I know init scripts are not meant for this, but made it!) which changes MAC address on every time machine boots. Not only on boot, we can change whenever we want with simple command and can restore to original or we can go one step further with cron job to schedule the script that changes MAC address for every 1 hour or 30 minutes (Depends on your need).&lt;/p&gt;
-
-&lt;p&gt;It is a shell script uses &lt;a href=&quot;http://manpages.ubuntu.com/manpages/xenial/man1/macchanger.1.html&quot;&gt;macchanger&lt;/a&gt;, which executes every time machine boots thus the interface gets random MAC address every time.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The “macchanger” or any other script never changes the device’s actual MAC address which is burned on the interface, but macchanger create a proxy which machines uses this proxy MAC address for network communication&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;how-to-install&quot;&gt;How to install?&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Install &lt;code class=&quot;highlighter-rouge&quot;&gt;macchanger&lt;/code&gt;&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
-sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install macchanger -y
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Download and place &lt;code class=&quot;highlighter-rouge&quot;&gt;changer&lt;/code&gt; script in /etc/init.d/&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
-wget -q -O /etc/init.d/changer https://goo.gl/tRfoJo
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Give executable permission&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
-sudo chmod +x /etc/init.d/changer
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Run update-rc.d&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
-sudo update-rc.d changer defaults
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Or simply, you can run my One Installer script and choose ‘Changer init script’ in menu as you see in below screenshot&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/one_installer.jpg&quot; alt=&quot;_config.yml&quot; /&gt;&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;wget &lt;span class=&quot;nt&quot;&gt;-qO&lt;/span&gt; oneInstaller.py https://goo.gl/ZcideY &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python oneInstaller.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;commands&quot;&gt;Commands&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;service changer restore &lt;span class=&quot;c&quot;&gt;# To restores original MAC&lt;/span&gt;
-MAC Address Restored 0X:XX:XX:27:d8:XX
-
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;service changer new &lt;span class=&quot;c&quot;&gt;# To assign new MAC. Note that, interface will go down and up&lt;/span&gt;
-MAC Address Changed Succefully
-
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;service changer show &lt;span class=&quot;c&quot;&gt;# To shows current MAC&lt;/span&gt;
-Current MAC: 08:00:0c:27:d8:39&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Change the interface in &lt;code class=&quot;highlighter-rouge&quot;&gt;changer&lt;/code&gt; after you download, by default the interface is &lt;code class=&quot;highlighter-rouge&quot;&gt;wlan0&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;There will be network restart when you run  &lt;code class=&quot;highlighter-rouge&quot;&gt;service changer new&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;service changer restore&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Kali Linux’s latest version(kali-rolling) has this feature. While upgrading(apt-get install upgrade), there is macchanger prompt asking to enable this feature.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><summary type="html">“MAC Address Scrambling“- By name itself we can understand, instead of using burned-in address, the machines uses random MAC address every time. The machine/device changes MAC address regularly to improve security. MAC address is 48 bit hexadecimal digit which is burned in every electronic device has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.</summary></entry></feed>
+&lt;p&gt;I found a blog which exactly I was look for to deploy website on Github Pages. As Drew Silcock said in the blog, it better to maintain website source code and compiled website on same repository. Just head over to his &lt;a href=&quot;https://drewsilcock.co.uk/custom-jekyll-plugins&quot;&gt;blog&lt;/a&gt; and check the stuff&lt;/p&gt;</content><author><name></name></author><summary type="html">I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.16.1...</summary></entry></feed>

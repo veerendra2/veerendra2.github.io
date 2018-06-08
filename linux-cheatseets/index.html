@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Linux pseudo files & cheat sheet – Veerendra's Blog – #linux #python #networking</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”
+
+" />
+    <meta property="og:description" content="*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”
+
+" />
+    
+    <meta name="author" content="Veerendra's Blog" />
+
+    
+    <meta property="og:title" content="Linux pseudo files & cheat sheet" />
+    <meta property="twitter:title" content="Linux pseudo files & cheat sheet" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #linux #python #networking" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars0.githubusercontent.com/u/8393701?s=460&v=4" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
+            <p class="site-description">#linux #python #networking</p>
+          </div>
+
+          <nav>
+            <a href="/bookmarks">My Bookmarks</a>
+            <a href="/archive">Archives</a>
+            <a href="/tags">Tags</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Linux pseudo files & cheat sheet</h1>
+
+  <div class="entry">
+    <p>*<em>A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”</em></p>
+
+<h2 id="tips--tricks">Tips &amp; Tricks</h2>
+<ul>
+  <li>How to force a command to return exit code 0 even the command exited non-zero?</li>
+  <li>How to install dependecies of .deb automatically which was failed to install previsouly?</li>
+</ul>
+
+<p><em>Example Solution:</em></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">dpkg <span class="nt">-i</span> r-base-core_3.3.3-1trusty0_amd64.deb <span class="o">||</span> : <span class="se">\</span>
+<span class="o">&amp;&amp;</span> apt-get <span class="nt">--yes</span> <span class="nt">--force-yes</span> <span class="nt">-o</span> Dpkg::Options::<span class="o">=</span><span class="s2">"--force-confdef"</span> <span class="nt">-o</span> Dpkg::Options::<span class="o">=</span><span class="s2">"--force-confold"</span> <span class="nt">-f</span> <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>How traverse directories in shell script?</p>
+
+    <p><code class="highlighter-rouge">cd</code> command should not use to traverse directories. Remember that each commands in shell script will spawn as individual process unlink other programming language script entire script as single process i.e. The scope of <code class="highlighter-rouge">cd</code> command is only for child process not parent. By using <code class="highlighter-rouge">pushd</code> and <code class="highlighter-rouge">popd</code> we can achieve traversing directories.</p>
+  </li>
+</ul>
+
+<p><em>Example Solution:</em></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">pushd </span>Downloads
+<span class="nb">cat </span>download.txt
+<span class="nb">popd
+pushd </span>Downloads/movies
+<span class="nb">ls
+popd</span></code></pre></figure>
+
+<h2 id="files">Files:</h2>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">/sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq</code> - Real time speed of the CPU(ability to adjust their speed to help in saving on battery/power usage)</p>
+  </li>
+  <li><code class="highlighter-rouge">/proc</code> Directory
+    <ul>
+      <li><code class="highlighter-rouge">/proc/cpuinfo | grep MHz</code> - The absolute (max) CPU speed</li>
+      <li><code class="highlighter-rouge">/proc/sys/net/ipv4/*</code> - Get more info under this directory from <a href="https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt">kernel.org docs</a></li>
+      <li><code class="highlighter-rouge">/proc/net/tcp and /proc/net/tcp6</code> - Get complete info of variables for these files from <a href="https://www.kernel.org/doc/Documentation/networking/proc_net_tcp.txt">kernel.org.docs</a></li>
+    </ul>
+  </li>
+  <li>Network related in Linux - Refer <a href="https://www.kernel.org/doc/Documentation/networking/">kernel.org.doc</a></li>
+</ul>
+
+<h2 id="special-device-files">Special Device Files</h2>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">/dev/null</code> - Discards all data written to it but reports that the write operation succeeded <a href="http://man7.org/linux/man-pages/man4/null.4.html">Read man pages</a></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/dev/full</code> - Returns the error code ENOSPC (meaning “No space left on device”) on writing <a href="http://man7.org/linux/man-pages/man4/full.4.html">Read man pages</a></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/dev/random</code> - Special file that serves as a blocking pseudorandom number generator. It allows access to environmental noise collected from device drivers and other sources.(Block until additional environmental noise is gathered)<a href="http://man7.org/linux/man-pages/man4/random.4.html">Read man</a></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/dev/urandom</code> - Without block <a href="http://man7.org/linux/man-pages/man4/random.4.html">Read man pages</a></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/dev/zero</code> - Provides as many null characters as are read from it <a href="http://unix.stackexchange.com/questions/254384/difference-between-dev-null-and-dev-zero">Read More</a></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">udev</code> - Linux dynamic device management <a href="https://mirrors.edge.kernel.org/pub/linux/utils/kernel/hotplug/udev/udev.html">Read man pages</a></p>
+    <ul>
+      <li><code class="highlighter-rouge">udevadm</code> -  command to query the udev database and <code class="highlighter-rouge">sysfs</code> <a href="https://docs.oracle.com/cd/E37670_01/E41138/html/ch07s04.html">Read More</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="commandstools">Commands/Tools</h2>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">lscpu</code> - Display CPU architecture information</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1</code> - Generates 40 characters long random string</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">mtr</code> - mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">lsblk</code> - Lists block devices</p>
+  </li>
+</ul>
+
+<h2 id="directories">Directories</h2>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">/var/lock/</code> - Store lock files, which are simply files used to indicate that a certain resource (a database, a file, a device) is in use and should not be accessed by another process. Aptitude, for example, locks its database when a package manager is running.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">/var/run</code> - Used to store .pid files, which contain the process id of a running program. This is commonly used in services or other programs that need to make their process id’s available to other processes.</p>
+  </li>
+</ul>
+
+  </div>
+
+  <div class="date">
+    Written on April 14, 2018
+  </div>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'veerendra';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/veerendra2"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/veerendrav2"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/veerendrav2"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/2200798/veerendra"><i class="svg-icon stackoverflow"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  </body>
+</html>
