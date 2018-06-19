@@ -184,6 +184,7 @@ permalink: /bookmarks/
     * ###### Reverse Engineering
       * [Reverse Engineering Basics](https://scriptdotsh.com/index.php/2018/04/09/ground-zero-part-1-reverse-engineering-basics/)
       * [A Primer Guide to Reverse Engineering ](https://puri.sm/posts/primer-to-reverse-engineering/)
+      * [Binary patching and intro to assembly with r2](https://www.leungs.xyz/reversing/2018/06/18/radare2-binary-patching-introduction.html)
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
      * [Mobile App Pentest cheat sheet](https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet)

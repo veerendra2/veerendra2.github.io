@@ -4,7 +4,7 @@ title: SSL Configuration for Kubernetes Service - AWS ELB
 categories: Kubernetes aws
 ---
 
-Namaste, in this blog post will look into how to enable SSL for ingress service in K8s with self-signed certificate.
+Namaste, in this blog post, we will look into how to enable SSL for ingress service in K8s with self-signed certificate.
 
 > Note that the K8s cluster is deployed on AWS and enable "`type: LoadBalancer`" for service which application can accessible from outside of cluster. 
 
