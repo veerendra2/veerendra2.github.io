@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Build and install Wireshark – Veerendra's Blog – #linux #python #networking</title>
+    <title>Build and Install Wireshark – Veerendra's Blog – #docker #kubernetes #linux #python #networking</title>
 
         <meta charset="utf-8" />
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
@@ -9,18 +9,18 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.
+    <meta name="description" content="Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or .cap file. The tool enables different types filtering on packets like follow stream, filer by protocol and IP, etc
 
 " />
-    <meta property="og:description" content="Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.
+    <meta property="og:description" content="Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or .cap file. The tool enables different types filtering on packets like follow stream, filer by protocol and IP, etc
 
 " />
     
     <meta name="author" content="Veerendra's Blog" />
 
     
-    <meta property="og:title" content="Build and install Wireshark" />
-    <meta property="twitter:title" content="Build and install Wireshark" />
+    <meta property="og:title" content="Build and Install Wireshark" />
+    <meta property="twitter:title" content="Build and Install Wireshark" />
     
 
     <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="/style.css" />
-    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #linux #python #networking" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #docker #kubernetes #linux #python #networking" href="/feed.xml" />
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
@@ -41,7 +41,7 @@
 
           <div class="site-info">
             <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
-            <p class="site-description">#linux #python #networking</p>
+            <p class="site-description">#docker #kubernetes #linux #python #networking</p>
           </div>
 
           <nav>
@@ -56,19 +56,19 @@
 
     <div id="main" role="main" class="container">
       <article class="post">
-  <h1>Build and install Wireshark</h1>
+  <h1>Build and Install Wireshark</h1>
 
   <div class="entry">
-    <p>Instead of installing this software from a repository which sometimes we end up installing older version, let’s install latest and stable version of wireshark to get all the benefits/features/bug fixes.</p>
+    <p>Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or <code class="highlighter-rouge">.cap</code> file. The tool enables different types filtering on packets like follow stream, filer by protocol and IP, etc</p>
 
-<p>As we all know in Linux, if we need latest version of any software, most of the times we need to build from “source” tar ball which is pain full. Well that’s why people prefer to use fancy package managers like <code class="highlighter-rouge">apt-get</code>, <code class="highlighter-rouge">apt</code>, <code class="highlighter-rouge">yum</code>, etc. for these kind of software. The main issue is, we have to hunt down the dependencies and install, that’s what I did for this software.</p>
+<p>In order to install latest version of wireshark on Linux, one should built and install from source. Sometimes, building from source is difficult because, we have to hunt down the dependencies. That’s what I did for this software.</p>
 
-<p>And again depends on your OS and package availability, you may need to install other dependencies. I’m using Ubuntu Mate 16 and I found below are sufficient for me.</p>
+<p>Depends on your OS and package availability, you may need to install other dependencies. I’m using Ubuntu Mate 16 and I found below are sufficient for me.</p>
 
 <h4 id="1-install-dependencies">1. Install Dependencies</h4>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>apt-get <span class="nb">install </span>qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools qtmultimedia5-dev libqt5svg5-dev
-<span class="nb">sudo </span>apt-get <span class="nb">install </span>libpcap-dev libgcrypt11-dev libglib2.0-dev ibglib2.0-dev</code></pre></figure>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>libpcap-dev libgcrypt11-dev glib2.0 libgcrypt20-dev libglib2.0-dev ibglib2.0-dev</code></pre></figure>
 
 <h4 id="2-get-the-latest-tar-ball-from-wireshark">2. Get the latest tar ball from <a href="https://www.wireshark.org/#download">wireshark</a></h4>
 

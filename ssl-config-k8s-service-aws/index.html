@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SSL Configuration for Kubernetes Service - AWS ELB – Veerendra's Blog – #linux #python #networking</title>
+    <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB] – Veerendra's Blog – #docker #kubernetes #linux #python #networking</title>
 
         <meta charset="utf-8" />
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
@@ -9,18 +9,18 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="Namaste, in this blog post, we will look into how to enable SSL for ingress service in K8s with self-signed certificate.
+    <meta name="description" content="As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as LoadBalancer, cloud provider doesn’t provide HTTPS mechanism for the enpoint by default.
 
 " />
-    <meta property="og:description" content="Namaste, in this blog post, we will look into how to enable SSL for ingress service in K8s with self-signed certificate.
+    <meta property="og:description" content="As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as LoadBalancer, cloud provider doesn’t provide HTTPS mechanism for the enpoint by default.
 
 " />
     
     <meta name="author" content="Veerendra's Blog" />
 
     
-    <meta property="og:title" content="SSL Configuration for Kubernetes Service - AWS ELB" />
-    <meta property="twitter:title" content="SSL Configuration for Kubernetes Service - AWS ELB" />
+    <meta property="og:title" content="SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" />
+    <meta property="twitter:title" content="SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" />
     
 
     <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="/style.css" />
-    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #linux #python #networking" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #docker #kubernetes #linux #python #networking" href="/feed.xml" />
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
@@ -41,7 +41,7 @@
 
           <div class="site-info">
             <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
-            <p class="site-description">#linux #python #networking</p>
+            <p class="site-description">#docker #kubernetes #linux #python #networking</p>
           </div>
 
           <nav>
@@ -56,10 +56,12 @@
 
     <div id="main" role="main" class="container">
       <article class="post">
-  <h1>SSL Configuration for Kubernetes Service - AWS ELB</h1>
+  <h1>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</h1>
 
   <div class="entry">
-    <p>Namaste, in this blog post, we will look into how to enable SSL for ingress service in K8s with self-signed certificate.</p>
+    <p>As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as <code class="highlighter-rouge">LoadBalancer</code>, cloud provider doesn’t provide HTTPS mechanism for the enpoint by default.</p>
+
+<p>If we look at the K8s setup that is deployed on AWS(For example <a href="https://github.com/kubernetes/kops"><code class="highlighter-rouge">kops</code></a>), there is an actual <code class="highlighter-rouge">ELB</code>(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS’s <code class="highlighter-rouge">ELB</code> is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the enpoint secure.</p>
 
 <blockquote>
   <p>Note that the K8s cluster is deployed on AWS and enable “<code class="highlighter-rouge">type: LoadBalancer</code>” for service which application can accessible from outside of cluster.</p>
