@@ -1,10 +1,12 @@
 ---
 layout: post
-title: Open vSwitch installation in RedHat7
+title: Open vSwitch installation on Redhat7 OS
 categories: linux openvswich
 ---
 
-In this blog we will see how to install Open vSwitch v2.6.1 in RedHat7.
+Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not simple as Kubernetes(relatively). One of the prerequisite for the cluster deployment is Open vSwitch.  
+
+Now let's see how to install Open vSwitch v2.6.1 in RedHat7 step by step
 
 * Install dependencies
 {% highlight shell %}

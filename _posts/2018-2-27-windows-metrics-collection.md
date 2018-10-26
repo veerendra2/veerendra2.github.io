@@ -6,7 +6,7 @@ categories: windows metrics
 
 Ok, getting metrics(CPU, Memory & Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading [/proc](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html) pesudo files. In fact there are so many open source tools to do this in Linux, like [tcollector](https://github.com/OpenTSDB/tcollector) which is my favourite.
 
-Ok, enough talking about Linux, lets look at this [Telegraf tool](https://www.influxdata.com/time-series-platform/telegraf/) and what it does. I found Telegraf tool is really simple and elegant way to collect Windows OS metrics and light weight also, unlike others which some are paid and crappy. This tools doesn't provide any wizard installation to setup but one has to run a command in Windows powershell to install Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.
+Now, Lets look at this [Telegraf tool](https://www.influxdata.com/time-series-platform/telegraf/) and what it does. I found Telegraf tool is really simple, elegant way to collect Windows OS metrics and light weight too, unlike others which some are paid and crappy. This tools doesn't provide any wizard installation to setup, but one has to run a command in Windows powershell to install it as Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.
 
 As they said in [Github repo](https://github.com/influxdata/telegraf) and I quote
 

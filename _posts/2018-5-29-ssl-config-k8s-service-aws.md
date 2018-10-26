@@ -1,10 +1,12 @@
 ---
 layout: post
-title: SSL Configuration for Kubernetes Service - AWS ELB
+title: SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]
 categories: Kubernetes aws
 ---
 
-Namaste, in this blog post, we will look into how to enable SSL for ingress service in K8s with self-signed certificate.
+As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as `LoadBalancer`, cloud provider doesn't provide HTTPS mechanism for the enpoint by default.
+
+If we look at the K8s setup that is deployed on AWS(For example [`kops`](https://github.com/kubernetes/kops)), there is an actual `ELB`(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS's `ELB` is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the enpoint secure.
 
 > Note that the K8s cluster is deployed on AWS and enable "`type: LoadBalancer`" for service which application can accessible from outside of cluster. 
 

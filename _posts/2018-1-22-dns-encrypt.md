@@ -7,7 +7,7 @@ We think if we connect to a website over HTTPS is secure which is true(not true 
 
 ![HTTPS Example]({{ "/assets/https_example.jpg" | absolute_url }}){: .center-image }
 
-Sure if we use HTTPS all your ([POST](https://en.wikipedia.org/wiki/POST_(HTTP)) or GET) data is encrypted end-to-end which prevents eavesdropping, [MITM attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) and have [Confidentiality](https://en.wikipedia.org/wiki/Confidentiality), but again what about DNS queries?
+Sure if we use HTTPS, all your ([POST](https://en.wikipedia.org/wiki/POST_(HTTP)) or GET) data is encrypted end-to-end which prevents eavesdropping, [MITM attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) and have [Confidentiality](https://en.wikipedia.org/wiki/Confidentiality), but again what about DNS queries?
 
 I got this question back in a while, so after a quick Internet search, I found [DNSCrypt](https://en.wikipedia.org/wiki/DNSCrypt) protocol which is really cool that I can encrypt DNS queries.
 

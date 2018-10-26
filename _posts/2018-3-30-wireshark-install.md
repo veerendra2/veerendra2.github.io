@@ -1,19 +1,19 @@
 ---
 layout: post
-title: Build and install Wireshark
+title: Build and Install Wireshark
 categories: linux wireshark
 ---
-Instead of installing this software from a repository which sometimes we end up installing older version, let's install latest and stable version of wireshark to get all the benefits/features/bug fixes.
+Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or `.cap` file. The tool enables different types filtering on packets like follow stream, filer by protocol and IP, etc
 
-As we all know in Linux, if we need latest version of any software, most of the times we need to build from "source" tar ball which is pain full. Well that's why people prefer to use fancy package managers like `apt-get`, `apt`, `yum`, etc. for these kind of software. The main issue is, we have to hunt down the dependencies and install, that's what I did for this software.
+In order to install latest version of wireshark on Linux, one should built and install from source. Sometimes, building from source is difficult because, we have to hunt down the dependencies. That's what I did for this software.
 
-And again depends on your OS and package availability, you may need to install other dependencies. I'm using Ubuntu Mate 16 and I found below are sufficient for me.
+Depends on your OS and package availability, you may need to install other dependencies. I'm using Ubuntu Mate 16 and I found below are sufficient for me.
 
 #### 1. Install Dependencies
 
 {% highlight shell %}
 sudo apt-get install qtbase5-dev qtbase5-dev-tools qttools5-dev qttools5-dev-tools qtmultimedia5-dev libqt5svg5-dev
-sudo apt-get install libpcap-dev libgcrypt11-dev libglib2.0-dev ibglib2.0-dev
+sudo apt-get install libpcap-dev libgcrypt11-dev glib2.0 libgcrypt20-dev libglib2.0-dev ibglib2.0-dev
 {% endhighlight %}
 
 #### 2. Get the latest tar ball from [wireshark](https://www.wireshark.org/#download)

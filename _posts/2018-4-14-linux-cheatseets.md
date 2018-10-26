@@ -18,7 +18,7 @@ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \
 
 * How traverse directories in shell script?
   
-  `cd` command should not use to traverse directories. Remember that each commands in shell script will spawn as individual process unlink other programming language script entire script as single process i.e. The scope of `cd` command is only for child process not parent. By using `pushd` and `popd` we can achieve traversing directories.
+  `cd` command should not be used to traverse directories. Remember that each commands in shell script will spawn as individual process unlink programming language, entire script as single process i.e. The scope of `cd` command is only for child process not parent. By using `pushd` and `popd` we can achieve traversing directories.
 
 _Example Solution:_
 {% highlight shell %}
