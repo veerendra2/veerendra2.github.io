@@ -15,7 +15,13 @@ $ sudo apt-get install screen
 <style>
 .tablelines table, .tablelines td, .tablelines th {
         border: 2px solid black;
+        padding: 5px;
         }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
 </style>
 
 
