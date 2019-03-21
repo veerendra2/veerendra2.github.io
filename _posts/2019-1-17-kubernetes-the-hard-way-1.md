@@ -8,7 +8,7 @@ Hello alle zusammen, after a long time I'm writing this blog and I come with an 
 
 I know what you are thinking, I steal [Kelsey Hightower's Kubernetes The Hard Way tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way), but hey!, I did some research and try to **fit K8s cluster(Multi-Master!) in a laptop with Docker as '[CRI](https://kubernetes.io/docs/setup/cri/)' and Flannel as '[CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)'.**
 
-This blog post follows [Kelsey Hightower's](https://github.com/kelseyhightower) [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), I highly recommend go through his repo. I'm writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. I have divided entire post into 3 parts and all configuration/scripts are in my github repo. Well that has been said, let's start building the cluster.
+This blog post follows [Kelsey Hightower's](https://github.com/kelseyhightower) [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), I highly recommend go through his repo. I'm writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. This series divided into 3 parts and all configuration/scripts are in my [github repo](https://github.com/veerendra2/k8s-the-hard-way-blog). Well that has been said, let's start building the cluster.
 
 Below is my laptop configuration. Make sure you have enough resources in your laptop.(or depends on resources, you can reduce nodes in cluster, etc.)
 
@@ -25,9 +25,12 @@ Below is my laptop configuration. Make sure you have enough resources in your la
  <tr>
   <td>Host OS</td><td>Ubuntu 18.04</td>
  </tr>
+  <tr>
+  <td>Hostname</td><td>ghost</td>
+ </tr>
 </table>
 
-First let's talk about cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters , but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container for load balance the requests, the clusters looks like below.
+First let's talk about cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters , but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters looks like below.
 
 ![Cluster Image]({{ "/assets/Server2.png" | absolute_url }}){: .center-image }
 # 1. Prerequisites
@@ -45,7 +48,7 @@ $ sudo apt-get install qemu-kvm quem-system \
   Because we want to run nginx load balancer container on host
 
 {% highlight shell %}
-curl https://git.io/fjf2i | sudo bash
+$ curl https://raw.githubusercontent.com/veerendra2/useless-scripts/master/scripts/docker_install.sh | sudo bash
 {% endhighlight %}
 * Install cfssl and cfssljson binaries
 {% highlight shell %}
@@ -180,7 +183,7 @@ Below are the IPs, hostname and username for the nodes that I choose
 </table>
 
 * Download Ubuntu 18.04 server `.iso` from [https://www.ubuntu.com/](https://www.ubuntu.com/)
-* In previous section, we installed kvm hypervisor and now lets spin up 4 VMs. Specify bridge name under network section like in below screenshot.(I used "Virtual Machine Manger" GUI to launch VMs)  
+* In previous section, we installed kvm hypervisor and now lets spin up 4 VMs and specify bridge name under network section like in below screenshot.(I used "Virtual Machine Manger" GUI to launch VMs)  
 
 _*I'm not covering OS installation in VM. You can easly find it on Internet._ 
 
@@ -200,7 +203,7 @@ $ ssh-copy-id guest-username@guest-ip
 
 # 3. Provisioning a CA and Generating TLS Certificates
 
-It is one of the good/recommended practice that setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare's PKI toolkit as we downloaded earlier.(Know more about [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure))
+It is a good/recommended practice to setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare's PKI toolkit as we downloaded earlier.(Know more about [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure))
 1. admin user
 2. kubelet
 3. kube-controller-manager
@@ -214,8 +217,8 @@ But first, we have to create [Certificate Authority(CA)](https://en.wikipedia.or
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
-$ wget ca-config.json
-$ wget ca-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-config.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-csr.json
 # Generate CA
 $ cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 $ ls 
@@ -227,7 +230,7 @@ ca-key.pem ca.pem
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
-$ wget admin-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/admin-csr.json
 $ cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
@@ -289,7 +292,7 @@ n1-key.pem n1.pem n2-key.pem n2.pem
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
-$ wget kube-controller-manager-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-controller-manager-csr.json
 # Generate Certificate
 $ cfssl gencert \
   -ca=ca.pem \
@@ -306,7 +309,7 @@ kube-controller-manager-key.pem kube-controller-manager.pem
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
-$ wget kube-proxy-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-proxy-csr.json
 # Generate Certificate
 $ cfssl gencert \
   -ca=ca.pem \
@@ -323,7 +326,7 @@ kube-proxy-key.pem kube-proxy.pem
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
-$ wget kube-scheduler-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-scheduler-csr.json
 # Generate Certificate
 $ cfssl gencert \
   -ca=ca.pem \
@@ -349,7 +352,7 @@ $ cd ~/kubernetes-the-hard-way
 
 # CERT_HOSTNAME=10.32.0.1,<master node 1 Private IP>,<master node 1 hostname>,<master node 2 Private IP>,<master node 2 hostname>,<API load balancer Private IP>,<API load balancer hostname>,127.0.0.1,localhost,kubernetes.default
 $ CERT_HOSTNAME=10.32.0.1,m1,10.200.1.10,m2,10.200.1.11,proxy,10.200.1.15,127.0.0.1,localhost,kubernetes.default
-$ wget kubernetes-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kubernetes-csr.json
 $ cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
@@ -366,7 +369,7 @@ Service account key pair certificate is used to sign [service account](https://k
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
-$ wget service-account-csr.json
+$ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/service-account-csr.json
 $ cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
@@ -400,10 +403,29 @@ done
 
 # 4. Generating kubeconfig Files for Authentication
 
-[kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) are used for authentication between the kubernetes components. kubeconfig consists of mainly 3 things
-1. Cluster info - api-server's IP and its certificate which is encoded in `base64`
-2. Users - User related info like who are authenticating ,their cerificate and key or service account token
-3. Context - Holds Cluster's and User's reference. If you have multiple clusters and users, this `context` becomes handy
+[kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) are used for authentication between the kubernetes components and users-to-kubernetes. kubeconfig consists of mainly 3 things
+<table class="tablelines">
+ <tr>
+  <th>No.</th>
+  <th>Entity</th>
+  <th>Description</th>
+ </tr>
+ <tr>
+  <td>1</td>
+  <td>Cluster</td>
+  <td>api-server's IP and its certificate which is encoded in `base64`</td>
+ </tr>
+ <tr>
+  <td>2</td>
+  <td>Users</td>
+  <td>User related info like who are authenticating ,their cerificate and key or service account token</td>
+ </tr>
+ <tr>
+  <td>3</td>
+  <td>Context</td>
+  <td>Holds Cluster's and User's reference. If you have multiple clusters and users, this `context` becomes handy</td>
+ </tr>
+</table>
 
 In this section, we are going to generate kubeconfig for below components
 
@@ -610,7 +632,13 @@ $ for instance in `cat controller.txt`; do
 done
 {% endhighlight %}
 
-Till now we have generated certificates, kubeconfig files and copied to nodes. In the next post, we will bootstrap controller nodes
+Till now we have following things 
+1. Provisioned compute resources
+2. generated certificates 
+3. kubeconfig files
+4. Copied certificate files and kubeconfigs to nodes
+
+In the next post, we will bootstrap controller nodes
 
 <div class="PageNavigation">
   {% if page.next.url %}

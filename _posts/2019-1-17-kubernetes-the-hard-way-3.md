@@ -4,9 +4,9 @@ title: Kubernetes-The Hard Way With Docker & Flannel (Part 3)
 categories: linux kubernetes
 ---
 
-Welcome to the final part of Kubernetes-The Hard Way With Docker & Flannel. In [part-1]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-1 %}), we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig nodes. In [previous post]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-2 %}), we have bootstrapped controller nodes.
+Welcome to the final part of "Kubernetes-The Hard Way With Docker & Flannel" series. In [part-1]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-1 %}), we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In [previous post]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-2 %}), we have bootstrapped controller nodes.
 
-In this post, we will bootstrap worker nodes which should make cluster up and at the end, perform smoke test on cluster
+In this post, we will bootstrap worker nodes and at the end, perform smoke test on cluster
 
 
 ## 9. Bootstrapping the Kubernetes Worker Nodes
@@ -30,7 +30,7 @@ You can follow [official docs](https://docs.docker.com/install/linux/docker-ce/u
 {% highlight shell %}
 # On worker nodes
 
-$ curl https://git.io/fjf2i | sudo bash
+$ curl https://raw.githubusercontent.com/veerendra2/useless-scripts/master/scripts/docker_install.sh  | sudo bash
 {% endhighlight %}
 
 ### Kubelet Configuration
@@ -166,6 +166,8 @@ $ kubectl get nodes --kubeconfig admin.kubeconfig
 In this section, we will generate kubeconfig file for admin. kubeconfig file requires Kubernetes API server IP which is nginx docker container's IP
 
 {% highlight shell %}
+# On host
+
 $ {
   KUBERNETES_PUBLIC_ADDRESS=`cat nginx_proxy.txt | awk '{print $2}'`
 
@@ -192,7 +194,9 @@ Check the health of the remote Kubernetes cluster
 {% highlight shell %}
 $ kubectl get componentstatuses
 {% endhighlight %}
+
 ![List Components Image]({{ "/assets/components_status_outside.jpg" | absolute_url }}){: .center-image }
+
 List the nodes in the remote Kubernetes cluster
 {% highlight shell %}
 $ kubectl get nodes
@@ -201,7 +205,7 @@ $ kubectl get nodes
 # Provisioning CNI
 In this section, we will setup CNI i.e [Flannel](https://github.com/coreos/flannel) as the title of this blog post says.
 
-_If you want to know other CNIs and there performances, check [Alexis Ducastel's post here](https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560)_
+_**If you want to know other CNIs and there performances, check [Alexis Ducastel's post here](https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560)_
 
 First login into worker nodes and enable ip forwarding 
 {% highlight shell %}
@@ -269,6 +273,8 @@ $ kubectl exec $POD_NAME -- curl <second nginx pod IP address>
 $ kubectl get svc
 {% endhighlight %}
 
+![nginx curl Image]({{ "/assets/nginx_home_page.jpg" | absolute_url }}){: .center-image }
+
 
 # 11. Deploying the DNS Cluster Add-on
 In this section we will deploy [DNS add-on](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/) which provides DNS based service discovery.
@@ -289,7 +295,7 @@ In order to verify DNS resolution in K8s, we need to create a busybox pod and tr
 
 Create a busybox deployment
 {% highlight shell %}
-$ kubectl run busybox --image=busybox:1.28 --command -- sleep 3600
+$ kubectl run busybox --image=odise/busybox-curl --command -- sleep 3600
 {% endhighlight %}
 
 Retrieve the full name of the busybox pod
@@ -301,12 +307,16 @@ Execute a DNS lookup for the kubernetes service inside the busybox pod:
 $ kubectl exec -ti $POD_NAME -- nslookup kubernetes
 {% endhighlight %}
 
-That's completes our objectives, we have installed necessary components to bring up the kubernetes.You can perform [smoke test](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/13-smoke-test.md) from official Kubernetes The Hard Way
+![DNS Image]({{ "/assets/dns.jpg" | absolute_url }}){: .center-image }
+
+If everything is good, you should see "kubernetes" name resolution like above
+
+That completes our objectives, we have installed necessary components to bring up the kubernetes.You can perform some other [smoke test](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/13-smoke-test.md) from official Kubernetes The Hard Way
 
 # Conclusion
 It has been a long post for readers, I have modified the official Kubernetes The Hard Way to setup Docker as CRI and Flannel as CNI. So, let's conclude what we have done so far 
 
-1. Provisioning the compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer for kube-api
+1. Provisioning the compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer.
 2. Generated certificates to setup TLS communication between the kubernetes components
 3. kubeconfig files generations
 4. Provisioning controller and worker nodes with docker and Flannel

@@ -283,7 +283,7 @@ $ sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 {% endhighlight %}
 
 ### Enable HTTP Health Checks
-In original kubernetes the hard way, Kelsy used GCP load balancer to load balance the requests among controllers. Since it is difficult to setup HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health check. He created HTTP nginx proxy for kube-api server, GCP network load balancer perform health check via HTTP nginx proxy. But in our case, we can skip this step since we are not GCP network load balancer
+In original kubernetes the hard way, Kelsey used GCP load balancer to load balance the requests among controllers. Since it is difficult to setup HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health check. He created HTTP nginx proxy for kube-api server, GCP network load balancer perform health check via HTTP nginx proxy. But in our case, we can skip this step since we are not using GCP network load balancer
 
 ### Verification
 Check the components status using below commands.
@@ -407,7 +407,7 @@ $ curl --cacert ca.pem https://${KUBERNETES_PUBLIC_ADDRESS}:6443/version
  
 ![curl for version image]({{ "/assets/curl_version.jpg" | absolute_url }}){: .center-image }
 
-We have successfully setup controller nodes and load balancer. In the next post, we will bootstrap the worker nodes
+In this post, We have successfully provisioned controller nodes and load balancer. In the next post, we will bootstrap the worker nodes
 
 <div class="PageNavigation">
   {% if page.previous.url %}
