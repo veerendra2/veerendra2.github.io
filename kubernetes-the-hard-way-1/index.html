@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kubernetes-The Hard Way With Docker & Flannel (Part 1) – Veerendra's Blog – #docker #kubernetes #linux #python #networking</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post
+
+" />
+    <meta property="og:description" content="Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post
+
+" />
+    
+    <meta name="author" content="Veerendra's Blog" />
+
+    
+    <meta property="og:title" content="Kubernetes-The Hard Way With Docker & Flannel (Part 1)" />
+    <meta property="twitter:title" content="Kubernetes-The Hard Way With Docker & Flannel (Part 1)" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #docker #kubernetes #linux #python #networking" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars0.githubusercontent.com/u/8393701?s=460&v=4" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
+            <p class="site-description">#docker #kubernetes #linux #python #networking</p>
+          </div>
+
+          <nav>
+            <a href="/bookmarks">My Bookmarks</a>
+            <a href="/archive">Archives</a>
+            <a href="/tags">Tags</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Kubernetes-The Hard Way With Docker & Flannel (Part 1)</h1>
+
+  <div class="entry">
+    <p>Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post</p>
+
+<p>I know what you are thinking, I steal <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kelsey Hightower’s Kubernetes The Hard Way tutorial</a>, but hey!, I did some research and try to <strong>fit K8s cluster(Multi-Master!) in a laptop with Docker as ‘<a href="https://kubernetes.io/docs/setup/cri/">CRI</a>’ and Flannel as ‘<a href="https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/">CNI</a>’.</strong></p>
+
+<p>This blog post follows <a href="https://github.com/kelseyhightower">Kelsey Hightower’s</a> <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes The Hard Way</a>, I highly recommend go through his repo. I’m writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. This series divided into 3 parts and all configuration/scripts are available in my <a href="https://github.com/veerendra2/k8s-the-hard-way-blog">github repo</a>. Well that has been said, let’s start building the cluster.</p>
+
+<p>Below is my laptop configuration. Make sure you have enough resources in your laptop.(or depends on resources, you can reduce nodes in cluster, etc.)</p>
+
+<table class="tablelines">
+ <tr>
+  <td>Laptop</td><td>Acer Predator Helios 200</td>
+ </tr>
+ <tr>
+  <td>CPU</td><td>Intel Core i5 8th Gen</td>
+ </tr>
+ <tr>
+  <td>RAM</td><td>8 GB</td>
+ </tr>
+ <tr>
+  <td>Host OS</td><td>Ubuntu 18.04</td>
+ </tr>
+  <tr>
+  <td>Hostname</td><td>ghost</td>
+ </tr>
+</table>
+
+<p>First let’s talk about the cluster in <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kubernetes The Hard Way</a> which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters, but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters looks like below.</p>
+
+<p><img src="https://veerendra2.github.io/assets/Server2.png" alt="Cluster Image" class="center-image" /></p>
+<h1 id="1-prerequisites">1. Prerequisites</h1>
+<h3 id="installation-of-packages">Installation of packages</h3>
+<p><strong><em>*NOTE: The following components will be installed on host machine(laptop)</em></strong></p>
+
+<ul>
+  <li>Install KVM hypervisor.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>qemu-kvm quem-system <span class="se">\</span>
+        libvirt-bin bridge-utils <span class="se">\</span>
+        virt-manager <span class="nt">-y</span> </code></pre></figure>
+
+<ul>
+  <li>
+    <p>Install <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce">Docker</a></p>
+
+    <p>Because we want to run nginx load balancer container on host</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>curl https://raw.githubusercontent.com/veerendra2/useless-scripts/master/scripts/docker_install.sh | <span class="nb">sudo </span>bash</code></pre></figure>
+
+<ul>
+  <li>Install cfssl and cfssljson binaries</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>wget <span class="nt">-q</span> <span class="nt">--show-progress</span> <span class="nt">--https-only</span> <span class="nt">--timestamping</span> <span class="se">\</span>
+  https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 <span class="se">\</span>
+  https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+
+<span class="nv">$ </span><span class="nb">chmod</span> +x cfssl_linux-amd64 cfssljson_linux-amd64
+<span class="nv">$ </span><span class="nb">sudo mv </span>cfssl_linux-amd64 /usr/local/bin/cfssl
+<span class="nv">$ </span><span class="nb">sudo mv </span>cfssljson_linux-amd64 /usr/local/bin/cfssljson
+
+<span class="nv">$ </span>wget https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl
+<span class="nv">$ </span><span class="nb">chmod</span> +x kubectl
+<span class="nv">$ </span><span class="nb">sudo mv </span>kubectl /usr/local/bin/</code></pre></figure>
+
+<h3 id="subnets">Subnets</h3>
+
+<p>In offical “Kubernetes The Hard Way”, cluster network configuration done via <code class="highlighter-rouge">gcloud</code> and obviously we are not going to use it. We have to choose subnets manually for our cluster nodes,CIDR for pods and K8s services. So, here is what I come with</p>
+<table class="tablelines">
+ <tr>
+  <th>No.</th>
+  <th>Name</th>
+  <th>Subnet</th>
+ </tr>
+ <tr>
+  <td>1</td>
+  <td>Cluster Nodes</td>
+  <td>10.200.1.0/24</td>
+ </tr>
+  <tr>
+  <td>2</td>
+  <td>POD CIDR(cluster-cidr)</td>
+  <td>10.100.0.0/16</td>
+ </tr>
+ <tr>
+  <td>3</td>
+  <td>Service(service-cluster-ip)   </td>
+  <td>10.32.0.0/24</td>
+ </tr>
+</table>
+
+<h3 id="linux-bridge--nat">Linux Bridge &amp; NAT</h3>
+<p>As you can see in above diagram, we are going to use <code class="highlighter-rouge">linux bridge</code> to connect our VMs and nginx container. Also we need to do <a href="https://en.wikipedia.org/wiki/Network_address_translation">NATing</a> for our VMs in order to access Internet.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ EXTERNAL_IFACE</span><span class="o">=</span><span class="s2">"wlan0"</span>
+
+<span class="c"># Enable ip forwarding</span>
+<span class="nv">$ </span><span class="nb">sudo </span>sysctl net.ipv4.conf.all.forwarding<span class="o">=</span>1
+
+<span class="c"># Creat br0 bridge</span>
+<span class="nv">$ </span><span class="nb">sudo </span>ip <span class="nb">link </span>add name br0 <span class="nb">type </span>bridge
+<span class="nv">$ </span><span class="nb">sudo </span>ip <span class="nb">link set </span>dev br0 up
+<span class="nv">$ </span><span class="nb">sudo </span>ip addr add 10.200.1.1/24 dev br0
+
+<span class="c"># iptables NAT configuration</span>
+<span class="nv">$ </span><span class="nb">sudo </span>iptables <span class="nt">-t</span> nat <span class="nt">-A</span> POSTROUTING <span class="nt">-o</span> <span class="nv">$EXTERNAL_IFACE</span> <span class="nt">-j</span> MASQUERADE
+<span class="nv">$ </span><span class="nb">sudo </span>iptables <span class="nt">-A</span> FORWARD <span class="nt">-i</span> <span class="nv">$EXTERNAL_IFACE</span> <span class="nt">-o</span> br0 <span class="nt">-m</span> state <span class="nt">--state</span> RELATED,ESTABLISHED <span class="nt">-j</span> ACCEPT
+<span class="nv">$ </span><span class="nb">sudo </span>iptables <span class="nt">-A</span> FORWARD <span class="nt">-i</span> br0 <span class="nt">-o</span> <span class="nv">$EXTERNAL_IFACE</span> <span class="nt">-j</span> ACCEPT
+
+<span class="c"># Bridge config. Read more @ https://tinyurl.com/yan5jnd4</span>
+<span class="nv">$ </span><span class="nb">sudo </span>sysctl <span class="nt">-w</span> net.bridge.bridge-nf-call-arptables<span class="o">=</span>0
+<span class="nv">$ </span><span class="nb">sudo </span>sysctl <span class="nt">-w</span> net.bridge.bridge-nf-call-ip6tables<span class="o">=</span>0
+<span class="nv">$ </span><span class="nb">sudo </span>sysctl <span class="nt">-w</span> net.bridge.bridge-nf-call-iptables<span class="o">=</span>0</code></pre></figure>
+
+<p>In order to launch docker container(nginx load balancer container) on different linux bridge(other than default <code class="highlighter-rouge">docker0</code>), we need to create docker network and specify that network while launching the container. Below command creates <code class="highlighter-rouge">docker network</code> with <code class="highlighter-rouge">br0</code> as bridge</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>docker network create <span class="nt">--driver</span><span class="o">=</span>bridge <span class="se">\</span>
+        <span class="nt">--ip-range</span><span class="o">=</span>10.200.1.0/24 <span class="se">\</span>
+        <span class="nt">--subnet</span><span class="o">=</span>10.200.1.0/24 <span class="nt">-o</span> <span class="s2">"com.docker.network.bridge.name=br0"</span> br0</code></pre></figure>
+
+<h3 id="create-workspace-directory">Create workspace directory</h3>
+<p>We can save all configuration and generate certificates in this directory</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">mkdir</span> ~/kubernetes-the-hard-way
+<span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way</code></pre></figure>
+
+<h1 id="2-provisioning-compute-resources">2. Provisioning Compute Resources</h1>
+
+<ul>
+  <li>Specify cluster info like hostname, IP and user to login in <code class="highlighter-rouge">controllers.txt</code> and <code class="highlighter-rouge">workers.txt</code> files respectively like in below. In the same way add those VM IPs in <code class="highlighter-rouge">/etc/hosts</code> file like below. These files are useful to automate things like copy files to nodes or generating certificates for these nodes, etc. You will see in a moment.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span><span class="nb">cat </span>controllers.txt 
+m1 10.200.1.10 veeru
+m2 10.200.1.11 veeru
+
+<span class="nv">$ </span><span class="nb">cat </span>workers.txt
+n2 10.200.1.13 veeru
+n2 10.200.1.14 veeru
+
+<span class="nv">$ </span><span class="nb">cat </span>nginx_proxy.txt
+proxy 10.200.1.15
+
+<span class="nv">$ </span><span class="nb">cat</span> /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	ghost
+
+10.200.1.10 m1
+10.200.1.11 m2
+10.200.1.12 n1
+10.200.1.13 n2
+10.200.1.15 nginx</code></pre></figure>
+
+<p>Below are the IPs, hostname and username for the nodes that I choose</p>
+<table class="tablelines">
+ <tr>
+  <th>Node Role</th>
+  <th>Node Hostname</th>
+  <th>Node IP</th>
+  <th>Node Login Username</th>
+ </tr>
+ <tr>
+  <td>Controller</td>
+  <td>m1</td>
+  <td>10.200.1.10</td>
+  <td>veeru</td>
+ </tr>
+ <tr>
+  <td>Controller</td>
+  <td>m2</td>
+  <td>10.200.1.11</td>
+  <td>veeru</td>
+ </tr>
+ <tr>
+  <td>Worker</td>
+  <td>n1</td>
+  <td>10.200.1.13</td>
+  <td>veeru</td>
+ </tr>
+ <tr>
+  <td>Worker</td>
+  <td>n2</td>
+  <td>10.200.1.14</td>
+  <td>veeru</td>
+ </tr>
+  <tr>
+  <td>Load Balancer(nginx Container)</td>
+  <td>proxy</td>
+  <td>10.200.1.15</td>
+  <td>N/A</td>
+ </tr>
+</table>
+
+<ul>
+  <li>Download Ubuntu 18.04 server <code class="highlighter-rouge">.iso</code> from <a href="https://www.ubuntu.com/">https://www.ubuntu.com/</a></li>
+  <li>In previous section, we installed kvm hypervisor and now lets spin up 4 VMs and specify bridge name under network section like in below screenshot.(I used “Virtual Machine Manger” GUI to launch VMs)</li>
+</ul>
+
+<p><em>*I’m not covering OS installation in VM. You can easly find it on Internet.</em></p>
+
+<p><em>*NOTE: While installing OS, please select static IP and specify IPs according to their node names</em></p>
+
+<p><em>*TIP: Install OS in VM and clone VM 3 time</em></p>
+
+<p><img src="https://veerendra2.github.io/assets/vm_manager.jpg" alt="VM Manager Image" class="center-image" /></p>
+
+<p>Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should able to ssh both host-to-VM and VM-to-VM. For handy, you can copy ssh keys, so that don’t have to enter password every time.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>ssh-keygen
+<span class="nv">$ </span>ssh-copy-id guest-username@guest-ip</code></pre></figure>
+
+<h1 id="3-provisioning-a-ca-and-generating-tls-certificates">3. Provisioning a CA and Generating TLS Certificates</h1>
+
+<p>It is a good/recommended practice to setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare’s PKI toolkit as we downloaded earlier.(Know more about <a href="https://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a>)</p>
+<ol>
+  <li>admin user</li>
+  <li>kubelet</li>
+  <li>kube-controller-manager</li>
+  <li>kube-proxy</li>
+  <li>kube-scheduler</li>
+  <li>kube-api</li>
+</ol>
+
+<p><img src="https://veerendra2.github.io/assets/certificates.png" alt="Certificates Image" class="center-image" /></p>
+
+<p>But first, we have to create <a href="https://en.wikipedia.org/wiki/Certificate_authority">Certificate Authority(CA)</a> which e-signatures the certificates that we are going to generate.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-config.json
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-csr.json
+<span class="c"># Generate CA</span>
+<span class="nv">$ </span>cfssl gencert <span class="nt">-initca</span> ca-csr.json | cfssljson <span class="nt">-bare</span> ca
+<span class="nv">$ </span><span class="nb">ls 
+</span>ca-key.pem ca.pem</code></pre></figure>
+
+<h3 id="admin-user-client-certificate">Admin User Client Certificate</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/admin-csr.json
+<span class="nv">$ </span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  admin-csr.json | cfssljson <span class="nt">-bare</span> admin
+<span class="nv">$ </span><span class="nb">ls 
+</span>admin-key.pem admin.pem</code></pre></figure>
+
+<h3 id="kubelet-client-certificates">Kubelet Client Certificates</h3>
+<p>As <a href="https://kubernetes.io/docs/reference/access-authn-authz/node/">docs</a> says</p>
+<blockquote>
+  <p>K8s uses node authorization which is a special-purpose authorization mode that specifically authorizes API requests made by kubelets</p>
+</blockquote>
+
+<p>In order to be authorized by the Node Authorizer, Kubelets must use a credential that identifies them as being in the <code class="highlighter-rouge">system:nodes</code> group, with a username of <code class="highlighter-rouge">system:node:&lt;nodeName&gt;</code>. Let’s create a certificate and private key for each worker nodes (In my case n1 and n2)</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+<span class="k">for </span>line <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>workers.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+
+</span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+<span class="nv">INTERNAL_IP</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="sb">`</span>
+
+<span class="nb">cat</span> <span class="o">&gt;</span> <span class="k">${</span><span class="nv">instance</span><span class="k">}</span><span class="nt">-csr</span>.json <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+{
+  "CN": "system:node:</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span><span class="sh">",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "Westeros",
+      "L": "The North",
+      "O": "system:nodes",
+      "OU": "Kubernetes The Hard Way",
+      "ST": "Winterfell"
+    }
+  ]
+}
+</span><span class="no">EOF
+
+</span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-hostname</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span>,<span class="k">${</span><span class="nv">INTERNAL_IP</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  <span class="k">${</span><span class="nv">instance</span><span class="k">}</span><span class="nt">-csr</span>.json | cfssljson <span class="nt">-bare</span> <span class="k">${</span><span class="nv">instance</span><span class="k">}</span>
+<span class="k">done</span>
+
+<span class="nv">$ </span><span class="nb">ls 
+</span>n1-key.pem n1.pem n2-key.pem n2.pem</code></pre></figure>
+
+<h3 id="controller-manager-client-certificate">Controller Manager Client Certificate</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-controller-manager-csr.json
+<span class="c"># Generate Certificate</span>
+<span class="nv">$ </span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  kube-controller-manager-csr.json | cfssljson <span class="nt">-bare</span> kube-controller-manager
+<span class="nv">$ </span><span class="nb">ls 
+</span>kube-controller-manager-key.pem kube-controller-manager.pem</code></pre></figure>
+
+<h3 id="kube-proxy-client-certificate">Kube Proxy Client Certificate</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-proxy-csr.json
+<span class="c"># Generate Certificate</span>
+<span class="nv">$ </span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  kube-proxy-csr.json | cfssljson <span class="nt">-bare</span> kube-proxy
+<span class="nv">$ </span><span class="nb">ls 
+</span>kube-proxy-key.pem kube-proxy.pem</code></pre></figure>
+
+<h3 id="scheduler-client-certificate">Scheduler Client Certificate</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-scheduler-csr.json
+<span class="c"># Generate Certificate</span>
+<span class="nv">$ </span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  kube-scheduler-csr.json | cfssljson <span class="nt">-bare</span> kube-scheduler
+<span class="nv">$ </span><span class="nb">ls 
+</span>kube-scheduler-key.pem kube-scheduler.pem</code></pre></figure>
+
+<h3 id="kubernetes-api-server-certificate">Kubernetes API Server Certificate</h3>
+<p>kube-api server certificate’s hostname should include following things</p>
+<ul>
+  <li>All controller’s hostname</li>
+  <li>All controller’s IP</li>
+  <li>Load balancer’s hostname</li>
+  <li>Load balancer’s IP</li>
+  <li>Kubernetes’s service(Both ‘service name’ and IP which are 10.32.0.1 and <code class="highlighter-rouge">kubernetes.default</code>)</li>
+  <li>localhost</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="c"># CERT_HOSTNAME=10.32.0.1,&lt;master node 1 Private IP&gt;,&lt;master node 1 hostname&gt;,&lt;master node 2 Private IP&gt;,&lt;master node 2 hostname&gt;,&lt;API load balancer Private IP&gt;,&lt;API load balancer hostname&gt;,127.0.0.1,localhost,kubernetes.default</span>
+<span class="nv">$ CERT_HOSTNAME</span><span class="o">=</span>10.32.0.1,m1,10.200.1.10,m2,10.200.1.11,proxy,10.200.1.15,127.0.0.1,localhost,kubernetes.default
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kubernetes-csr.json
+<span class="nv">$ </span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-hostname</span><span class="o">=</span><span class="k">${</span><span class="nv">CERT_HOSTNAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  kubernetes-csr.json | cfssljson <span class="nt">-bare</span> kubernetes
+<span class="nv">$ </span><span class="nb">ls 
+</span>kubernetes-key.pem kubernetes.pem</code></pre></figure>
+
+<h3 id="service-account-key-pair">Service Account Key Pair</h3>
+<p>Service account key pair certificate is used to sign <a href="https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/">service account</a> tokens</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span>wget <span class="nt">-q</span> https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/service-account-csr.json
+<span class="nv">$ </span>cfssl gencert <span class="se">\</span>
+  <span class="nt">-ca</span><span class="o">=</span>ca.pem <span class="se">\</span>
+  <span class="nt">-ca-key</span><span class="o">=</span>ca-key.pem <span class="se">\</span>
+  <span class="nt">-config</span><span class="o">=</span>ca-config.json <span class="se">\</span>
+  <span class="nt">-profile</span><span class="o">=</span>kubernetes <span class="se">\</span>
+  service-account-csr.json | cfssljson <span class="nt">-bare</span> service-account
+<span class="nv">$ </span><span class="nb">ls 
+</span>service-account-key.pem service-account.pem</code></pre></figure>
+
+<h3 id="copy-certificates-to-nodes">Copy Certificates to Nodes</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="c"># Minion</span>
+<span class="nv">$ IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+<span class="nv">$ </span><span class="k">for </span>line <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>workers.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+   </span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+   <span class="nv">user</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $3}'</span><span class="sb">`</span>
+   rsync <span class="nt">-zvhe</span> ssh ca.pem <span class="k">${</span><span class="nv">instance</span><span class="k">}</span><span class="nt">-key</span>.pem <span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.pem <span class="k">${</span><span class="nv">user</span><span class="k">}</span>@<span class="k">${</span><span class="nv">instance</span><span class="k">}</span>:~/
+<span class="k">done</span>
+<span class="c"># Master</span>
+<span class="nv">$ IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+<span class="nv">$ </span><span class="k">for </span>instance <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>controllers.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+   </span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+   <span class="nv">user</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $3}'</span><span class="sb">`</span>
+   rsync <span class="nt">-zvhe</span> ssh ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem <span class="se">\</span>
+    service-account-key.pem service-account.pem <span class="k">${</span><span class="nv">user</span><span class="k">}</span>@<span class="k">${</span><span class="nv">instance</span><span class="k">}</span>:~/
+<span class="k">done</span></code></pre></figure>
+
+<h1 id="4-generating-kubeconfig-files-for-authentication">4. Generating kubeconfig Files for Authentication</h1>
+
+<p><a href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">kubeconfig</a> are used for authentication between the kubernetes components and users-to-kubernetes. kubeconfig consists of mainly 3 things</p>
+<table class="tablelines">
+ <tr>
+  <th>No.</th>
+  <th>Entity</th>
+  <th>Description</th>
+ </tr>
+ <tr>
+  <td>1</td>
+  <td>Cluster</td>
+  <td>api-server's IP and its certificate which encodes in `base64`</td>
+ </tr>
+ <tr>
+  <td>2</td>
+  <td>Users</td>
+  <td>User related info like who are authenticating ,their cerificate and key or service account token</td>
+ </tr>
+ <tr>
+  <td>3</td>
+  <td>Context</td>
+  <td>Holds Cluster's and User's reference. If you have multiple clusters and users, this `context` becomes handy</td>
+ </tr>
+</table>
+
+<p>In this section, we are going to generate kubeconfig for below components</p>
+
+<p><img src="https://veerendra2.github.io/assets/kubeconfig.png" alt="Kubeconfig Image" class="center-image" /></p>
+
+<h3 id="generating-kubelet-kubeconfig">Generating kubelet kubeconfig</h3>
+<p>The <code class="highlighter-rouge">user</code> in kubeconfig should be <code class="highlighter-rouge">system:node:&lt;Worker_name&gt;</code> which should match Kubelet hostname that we specified while generating kubelet client certificate. This will ensure Kubelets are properly authorized by the Kubernetes Node Authorizer.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ KUBERNETES_PUBLIC_ADDRESS</span><span class="o">=</span><span class="sb">`</span><span class="nb">cat </span>nginx_proxy.txt | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="sb">`</span>
+
+<span class="nv">$ IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+<span class="nv">$ </span><span class="k">for </span>instance <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>workers.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+  
+  </span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+
+  kubectl config set-cluster kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--certificate-authority</span><span class="o">=</span>ca.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--server</span><span class="o">=</span>https://<span class="k">${</span><span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="k">}</span>:6443 <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.kubeconfig
+
+  kubectl config set-credentials system:node:<span class="k">${</span><span class="nv">instance</span><span class="k">}</span> <span class="se">\</span>
+    <span class="nt">--client-certificate</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.pem <span class="se">\</span>
+    <span class="nt">--client-key</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span><span class="nt">-key</span>.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.kubeconfig
+
+  kubectl config set-context default <span class="se">\</span>
+    <span class="nt">--cluster</span><span class="o">=</span>kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--user</span><span class="o">=</span>system:node:<span class="k">${</span><span class="nv">instance</span><span class="k">}</span> <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.kubeconfig
+
+  kubectl config use-context default <span class="nt">--kubeconfig</span><span class="o">=</span><span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.kubeconfig
+<span class="k">done</span> 
+<span class="nv">$ </span><span class="nb">ls 
+</span>n1.kubeconfig n2.kubeconfig</code></pre></figure>
+
+<h3 id="generate-kube-proxy-kubeconfig">Generate kube-proxy kubeconfig</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ KUBERNETES_PUBLIC_ADDRESS</span><span class="o">=</span><span class="sb">`</span><span class="nb">cat </span>nginx_proxy.txt | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="sb">`</span>
+
+<span class="nv">$ </span><span class="o">{</span>
+  kubectl config set-cluster kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--certificate-authority</span><span class="o">=</span>ca.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--server</span><span class="o">=</span>https://<span class="k">${</span><span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="k">}</span>:6443 <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-proxy.kubeconfig
+
+  kubectl config set-credentials system:kube-proxy <span class="se">\</span>
+    <span class="nt">--client-certificate</span><span class="o">=</span>kube-proxy.pem <span class="se">\</span>
+    <span class="nt">--client-key</span><span class="o">=</span>kube-proxy-key.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-proxy.kubeconfig
+
+  kubectl config set-context default <span class="se">\</span>
+    <span class="nt">--cluster</span><span class="o">=</span>kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--user</span><span class="o">=</span>system:kube-proxy <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-proxy.kubeconfig
+
+  kubectl config use-context default <span class="nt">--kubeconfig</span><span class="o">=</span>kube-proxy.kubeconfig
+<span class="o">}</span>
+<span class="nv">$ </span><span class="nb">ls 
+</span>kube-proxy.kubeconfig</code></pre></figure>
+
+<h3 id="generate-kube-controller-manager-kubeconfig">Generate kube-controller-manager kubeconfig</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="o">{</span>
+  kubectl config set-cluster kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--certificate-authority</span><span class="o">=</span>ca.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--server</span><span class="o">=</span>https://127.0.0.1:6443 <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-controller-manager.kubeconfig
+
+  kubectl config set-credentials system:kube-controller-manager <span class="se">\</span>
+    <span class="nt">--client-certificate</span><span class="o">=</span>kube-controller-manager.pem <span class="se">\</span>
+    <span class="nt">--client-key</span><span class="o">=</span>kube-controller-manager-key.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-controller-manager.kubeconfig
+
+  kubectl config set-context default <span class="se">\</span>
+    <span class="nt">--cluster</span><span class="o">=</span>kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--user</span><span class="o">=</span>system:kube-controller-manager <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-controller-manager.kubeconfig
+
+  kubectl config use-context default <span class="nt">--kubeconfig</span><span class="o">=</span>kube-controller-manager.kubeconfig
+<span class="o">}</span>
+<span class="nv">$ </span><span class="nb">ls
+</span>kube-controller-manager.kubeconfig</code></pre></figure>
+
+<h3 id="generate-kube-scheduler-kubeconfig">Generate kube-scheduler kubeconfig</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span><span class="o">{</span>
+  kubectl config set-cluster kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--certificate-authority</span><span class="o">=</span>ca.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--server</span><span class="o">=</span>https://127.0.0.1:6443 <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-scheduler.kubeconfig
+
+  kubectl config set-credentials system:kube-scheduler <span class="se">\</span>
+    <span class="nt">--client-certificate</span><span class="o">=</span>kube-scheduler.pem <span class="se">\</span>
+    <span class="nt">--client-key</span><span class="o">=</span>kube-scheduler-key.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-scheduler.kubeconfig
+
+  kubectl config set-context default <span class="se">\</span>
+    <span class="nt">--cluster</span><span class="o">=</span>kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--user</span><span class="o">=</span>system:kube-scheduler <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>kube-scheduler.kubeconfig
+
+  kubectl config use-context default <span class="nt">--kubeconfig</span><span class="o">=</span>kube-scheduler.kubeconfig
+<span class="o">}</span>
+<span class="nv">$ </span><span class="nb">ls 
+</span>kube-scheduler.kubeconfig</code></pre></figure>
+
+<h3 id="generate-admin-kubeconfig">Generate admin kubeconfig</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ </span><span class="o">{</span>
+  kubectl config set-cluster kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--certificate-authority</span><span class="o">=</span>ca.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--server</span><span class="o">=</span>https://127.0.0.1:6443 <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>admin.kubeconfig
+
+  kubectl config set-credentials admin <span class="se">\</span>
+    <span class="nt">--client-certificate</span><span class="o">=</span>admin.pem <span class="se">\</span>
+    <span class="nt">--client-key</span><span class="o">=</span>admin-key.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>admin.kubeconfig
+
+  kubectl config set-context default <span class="se">\</span>
+    <span class="nt">--cluster</span><span class="o">=</span>kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--user</span><span class="o">=</span>admin <span class="se">\</span>
+    <span class="nt">--kubeconfig</span><span class="o">=</span>admin.kubeconfig
+
+  kubectl config use-context default <span class="nt">--kubeconfig</span><span class="o">=</span>admin.kubeconfig
+<span class="o">}</span>
+<span class="nv">$ </span><span class="nb">ls 
+</span>admin.kubeconfig</code></pre></figure>
+
+<h3 id="copy-kubeconfig-files-to-nodes">Copy kubeconfig files to nodes</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cd</span> ~/kubernetes-the-hard-way
+
+<span class="nv">$ IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+<span class="nv">$ </span><span class="k">for </span>line <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>workers.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+  </span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+  <span class="nv">user</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $3}'</span><span class="sb">`</span>
+  rsync <span class="nt">-zvhe</span> ssh <span class="k">${</span><span class="nv">instance</span><span class="k">}</span>.kubeconfig kube-proxy.kubeconfig <span class="k">${</span><span class="nv">user</span><span class="k">}</span>@<span class="k">${</span><span class="nv">instance</span><span class="k">}</span>:~/
+<span class="k">done</span>
+
+<span class="nv">$ </span><span class="k">for </span>instance <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>controllers.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+  </span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+  <span class="nv">user</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $3}'</span><span class="sb">`</span>
+  rsync <span class="nt">-zvhe</span> ssh admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig <span class="k">${</span><span class="nv">user</span><span class="k">}</span>@<span class="k">${</span><span class="nv">instance</span><span class="k">}</span>:~/
+<span class="k">done</span></code></pre></figure>
+
+<h1 id="5-generating-the-data-encryption-config-and-key">5. Generating the Data Encryption Config and Key</h1>
+<p>Kubernetes stores different types of data including cluster state, application configurations, and secrets. Kubernetes supports the ability to encrypt cluster data at rest.In this section we will generate an encryption key and an encryption config suitable for encrypting Kubernetes Secrets.</p>
+
+<h3 id="the-encrypted-key">The Encrypted Key</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">ENCRYPTION_KEY</span><span class="o">=</span><span class="k">$(</span><span class="nb">head</span> <span class="nt">-c</span> 32 /dev/urandom | <span class="nb">base64</span><span class="k">)</span></code></pre></figure>
+
+<h3 id="the-encryption-config-file">The Encryption Config File</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">cat</span> <span class="o">&gt;</span> encryption-config.yaml <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+kind: EncryptionConfig
+apiVersion: v1
+resources:
+  - resources:
+      - secrets
+    providers:
+      - aescbc:
+          keys:
+            - name: key1
+              secret: </span><span class="k">${</span><span class="nv">ENCRYPTION_KEY</span><span class="k">}</span><span class="sh">
+      - identity: {}
+EOF</span></code></pre></figure>
+
+<h3 id="copy-to-controller-nodes">Copy to Controller Nodes</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+<span class="nv">$ </span><span class="k">for </span>instance <span class="k">in</span> <span class="sb">`</span><span class="nb">cat </span>controller.txt<span class="sb">`</span><span class="p">;</span> <span class="k">do
+  </span><span class="nv">instance</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+  <span class="nv">user</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="s1">'{print $3}'</span><span class="sb">`</span>
+  rsync <span class="nt">-zvhe</span> ssh encryption-config.yaml <span class="k">${</span><span class="nv">user</span><span class="k">}</span>@<span class="k">${</span><span class="nv">instance</span><span class="k">}</span>:~/
+<span class="k">done</span></code></pre></figure>
+
+<p>Till now we have done following things</p>
+<ol>
+  <li>Provisioned compute resources</li>
+  <li>Generated certificates</li>
+  <li>Generated kubeconfig files</li>
+  <li>Copied certificate files and kubeconfigs to nodes</li>
+</ol>
+
+<p>In the next post, we will bootstrap controller nodes</p>
+
+<div class="PageNavigation">
+  
+    <a class="next" href="/kubernetes-the-hard-way-2/">Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) &raquo;</a>
+  
+</div>
+
+<style>
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 80%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+</style>
+
+
+  </div>
+
+  <div class="date">
+    Written on January 17, 2019
+  </div>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'veerendra';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/veerendra2"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/veerendrav2"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/veerendrav2"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/2200798/veerendra"><i class="svg-icon stackoverflow"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kubernetes-The Hard Way With Docker & Flannel (Part 3) – Veerendra's Blog – #docker #kubernetes #linux #python #networking</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In previous post, we have bootstrapped controller nodes.
+
+" />
+    <meta property="og:description" content="Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In previous post, we have bootstrapped controller nodes.
+
+" />
+    
+    <meta name="author" content="Veerendra's Blog" />
+
+    
+    <meta property="og:title" content="Kubernetes-The Hard Way With Docker & Flannel (Part 3)" />
+    <meta property="twitter:title" content="Kubernetes-The Hard Way With Docker & Flannel (Part 3)" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #docker #kubernetes #linux #python #networking" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars0.githubusercontent.com/u/8393701?s=460&v=4" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
+            <p class="site-description">#docker #kubernetes #linux #python #networking</p>
+          </div>
+
+          <nav>
+            <a href="/bookmarks">My Bookmarks</a>
+            <a href="/archive">Archives</a>
+            <a href="/tags">Tags</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Kubernetes-The Hard Way With Docker & Flannel (Part 3)</h1>
+
+  <div class="entry">
+    <p>Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In <a href="/kubernetes-the-hard-way-1/">part-1</a>, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In <a href="/kubernetes-the-hard-way-2/">previous post</a>, we have bootstrapped controller nodes.</p>
+
+<p>In this post, we will bootstrap worker nodes and at the end, perform smoke test on cluster</p>
+
+<h2 id="9-bootstrapping-the-kubernetes-worker-nodes">9. Bootstrapping the Kubernetes Worker Nodes</h2>
+<p>As the title of this post “Kubernetes The Hard Way With Docker &amp; Flannel”, what we are going to do now is different from <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kelsey Hightower’s Kubernetes The Hard Way tutorial</a> i.e. container runtime interface is <code class="highlighter-rouge">Docker</code> instead of <code class="highlighter-rouge">containerd</code></p>
+
+<p><strong><em>*NOTE: The below commands must run on all worker nodes</em></strong></p>
+
+<p>Install below packages. <code class="highlighter-rouge">conntack</code> is required for iptables, since it tracks the connections for K8s services</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="o">{</span>
+  <span class="nb">sudo </span>apt-get update
+  <span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>socat conntrack ipset
+<span class="o">}</span> </code></pre></figure>
+
+<h3 id="install-docker">Install docker</h3>
+<p>You can follow <a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/">official docs</a> to install docker on ubuntu or run below script to install</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span>curl https://raw.githubusercontent.com/veerendra2/useless-scripts/master/scripts/docker_install.sh  | <span class="nb">sudo </span>bash</code></pre></figure>
+
+<h3 id="kubelet-configuration">Kubelet Configuration</h3>
+<p>Move certificate files to kubernetes directory</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="o">{</span>
+  <span class="nb">sudo mv</span> <span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span><span class="nt">-key</span>.pem <span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span>.pem /var/lib/kubelet/
+  <span class="nb">sudo mv</span> <span class="k">${</span><span class="nv">HOSTNAME</span><span class="k">}</span>.kubeconfig /var/lib/kubelet/kubeconfig
+  <span class="nb">sudo mv </span>ca.pem /var/lib/kubernetes/
+<span class="o">}</span></code></pre></figure>
+
+<p>Create kubelet configuration file</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span> <span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | sudo tee /var/lib/kubelet/kubelet-config.yaml
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    enabled: true
+  x509:
+    clientCAFile: "/var/lib/kubernetes/ca.pem"
+authorization:
+  mode: Webhook
+clusterDomain: "cluster.local"
+clusterDNS:
+  - "10.32.0.10"
+podCIDR: "10.100.0.0/16"
+#resolvConf: "/run/systemd/resolve/resolv.conf"
+runtimeRequestTimeout: "15m"
+tlsCertFile: "/var/lib/kubelet/n1.pem"
+tlsPrivateKeyFile: "/var/lib/kubelet/n1-key.pem"
+EOF</span></code></pre></figure>
+
+<p>Create kubelet systemd unit file. Below you can notice I have specified <code class="highlighter-rouge">--docker*</code> flag which indicates that kubelet intracts with docker daemon</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | sudo tee /etc/systemd/system/kubelet.service
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/kubernetes/kubernetes
+After=containerd.service
+Requires=containerd.service
+
+[Service]
+ExecStart=/usr/local/bin/kubelet \
+  --config=/var/lib/kubelet/kubelet-config.yaml \
+  --docker=unix:///var/run/docker.sock \
+  --docker-endpoint=unix:///var/run/docker.sock \
+  --image-pull-progress-deadline=2m \
+  --network-plugin=cni \
+  --kubeconfig=/var/lib/kubelet/kubeconfig \
+  --register-node=true \
+  --v=2
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF</span></code></pre></figure>
+
+<h3 id="kube-proxy-configuration">Kube Proxy Configuration</h3>
+<p>Move <code class="highlighter-rouge">kubeconfig</code> to kubernetes directory</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="nb">sudo mv </span>kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig</code></pre></figure>
+
+<p>Create kube-proxy configuration file</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
+kind: KubeProxyConfiguration
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+clientConnection:
+  kubeconfig: "/var/lib/kube-proxy/kubeconfig"
+mode: "iptables"
+clusterCIDR: "10.100.0.0/16"
+EOF</span></code></pre></figure>
+
+<p>Create kube-proxy systemd unit file</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | sudo tee /etc/systemd/system/kube-proxy.service
+[Unit]
+Description=Kubernetes Kube Proxy
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/usr/local/bin/kube-proxy \\
+  --config=/var/lib/kube-proxy/kube-proxy-config.yaml
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF</span></code></pre></figure>
+
+<h3 id="start-worker-services">Start Worker services</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="o">{</span>
+  <span class="nb">sudo </span>systemctl daemon-reload
+  <span class="nb">sudo </span>systemctl <span class="nb">enable </span>kubelet kube-proxy
+  <span class="nb">sudo </span>systemctl start kubelet kube-proxy
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="verification">Verification</h3>
+<p>Once worker services configuration is done on all worker nodes, get nodes list with below command in any controller node</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl get nodes <span class="nt">--kubeconfig</span> admin.kubeconfig</code></pre></figure>
+
+<p><img src="https://veerendra2.github.io/assets/get_nodes.jpg" alt="List Nodes Image" class="center-image" /></p>
+
+<h1 id="10-configuring-kubectl-for-remote-access">10. Configuring kubectl for Remote Access</h1>
+<p>In this section, we will generate kubeconfig file for admin. kubeconfig file requires Kubernetes API server IP which is nginx docker container’s IP</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On host</span>
+
+<span class="nv">$ </span><span class="o">{</span>
+  <span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="o">=</span><span class="sb">`</span><span class="nb">cat </span>nginx_proxy.txt | <span class="nb">awk</span> <span class="s1">'{print $2}'</span><span class="sb">`</span>
+
+  kubectl config set-cluster kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--certificate-authority</span><span class="o">=</span>ca.pem <span class="se">\</span>
+    <span class="nt">--embed-certs</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--server</span><span class="o">=</span>https://<span class="k">${</span><span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="k">}</span>:6443
+
+  kubectl config set-credentials admin <span class="se">\</span>
+    <span class="nt">--client-certificate</span><span class="o">=</span>admin.pem <span class="se">\</span>
+    <span class="nt">--client-key</span><span class="o">=</span>admin-key.pem
+
+  kubectl config set-context kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--cluster</span><span class="o">=</span>kubernetes-the-hard-way <span class="se">\</span>
+    <span class="nt">--user</span><span class="o">=</span>admin
+
+  kubectl config use-context kubernetes-the-hard-way
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="verification-1">Verification</h3>
+<p>Check the health of the remote Kubernetes cluster</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl get componentstatuses</code></pre></figure>
+
+<p><img src="https://veerendra2.github.io/assets/components_status_outside.jpg" alt="List Components Image" class="center-image" /></p>
+
+<p>List the nodes in the remote Kubernetes cluster</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl get nodes</code></pre></figure>
+
+<p><img src="https://veerendra2.github.io/assets/get_nodes_outside.jpg" alt="List Nodes Image" class="center-image" /></p>
+<h1 id="provisioning-cni">Provisioning CNI</h1>
+<p>In this section, we will setup CNI i.e <a href="https://github.com/coreos/flannel">Flannel</a> as the title of this blog post says.</p>
+
+<p><em>**If you want to know other CNIs and there performances, check <a href="https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560">Alexis Ducastel’s post here</a></em></p>
+
+<p>First login into worker nodes and enable ip forwarding</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On worker nodes</span>
+
+<span class="nv">$ </span><span class="nb">sudo </span>sysctl net.ipv4.conf.all.forwarding<span class="o">=</span>1</code></pre></figure>
+
+<p>Get <code class="highlighter-rouge">kube-flannel.yml</code> from <a href="https://github.com/coreos/flannel">coreos’s flannel github repo</a></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># On host</span>
+
+<span class="nv">$ </span>kubectl apply <span class="nt">-f</span> https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml  </code></pre></figure>
+
+<p>Wait for few seconds and verify flannel daemonset status</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl get daemonsets <span class="nt">-n</span> kube-system</code></pre></figure>
+
+<p>Once pods are up, we have to test pod networking that they can connect each other</p>
+
+<p>For that, we will deploy nginx deployment with 2 replicas and busybox pod. Then we will try to curl nginx home page from busybox via nginx’s POD IP</p>
+
+<p>Create nginx deployment with 2 replicas</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span><span class="nb">cat</span> <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh"> | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      run: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+EOF</span></code></pre></figure>
+
+<p>Create service for the deployement</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl expose deployment/nginx</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl run busybox <span class="nt">--image</span><span class="o">=</span>odise/busybox-curl <span class="nt">--command</span> <span class="nt">--</span> <span class="nb">sleep </span>3600
+<span class="nv">$ POD_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">run</span><span class="o">=</span>busybox <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">"{.items[0].metadata.name}"</span><span class="k">)</span></code></pre></figure>
+
+<p>Get nginx pods IP</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl get ep nginx</code></pre></figure>
+
+<p>Now let curl nginx home of nginx pods</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl <span class="nb">exec</span> <span class="nv">$POD_NAME</span> <span class="nt">--</span> curl &lt;first nginx pod IP address&gt;
+<span class="nv">$ </span>kubectl <span class="nb">exec</span> <span class="nv">$POD_NAME</span> <span class="nt">--</span> curl &lt;second nginx pod IP address&gt;
+<span class="nv">$ </span>kubectl get svc</code></pre></figure>
+
+<p><img src="https://veerendra2.github.io/assets/nginx_home_page.jpg" alt="nginx curl Image" class="center-image" /></p>
+
+<h1 id="11-deploying-the-dns-cluster-add-on">11. Deploying the DNS Cluster Add-on</h1>
+<p>In this section we will deploy <a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">DNS add-on</a> which provides DNS based service discovery.
+We will use <a href="https://coredns.io/">coreDNS</a> as DNS add-on in our K8s</p>
+
+<p>Deploy core DNS</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl apply <span class="nt">-f</span> https://storage.googleapis.com/kubernetes-the-hard-way/coredns.yaml</code></pre></figure>
+
+<h3 id="verification-2">Verification</h3>
+<p>Verify core DNS pods are up</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl get pods <span class="nt">-l</span> k8s-app<span class="o">=</span>kube-dns <span class="nt">-n</span> kube-system</code></pre></figure>
+
+<p>In order to verify DNS resolution in K8s, we need to create a busybox pod and try <code class="highlighter-rouge">nslookup</code> the <code class="highlighter-rouge">kubernetes</code> service</p>
+
+<p>Create a busybox deployment</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl run busybox <span class="nt">--image</span><span class="o">=</span>odise/busybox-curl <span class="nt">--command</span> <span class="nt">--</span> <span class="nb">sleep </span>3600</code></pre></figure>
+
+<p>Retrieve the full name of the busybox pod</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ POD_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">run</span><span class="o">=</span>busybox <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">"{.items[0].metadata.name}"</span><span class="k">)</span></code></pre></figure>
+
+<p>Execute a DNS lookup for the kubernetes service inside the busybox pod:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl <span class="nb">exec</span> <span class="nt">-ti</span> <span class="nv">$POD_NAME</span> <span class="nt">--</span> nslookup kubernetes</code></pre></figure>
+
+<p><img src="https://veerendra2.github.io/assets/dns.jpg" alt="DNS Image" class="center-image" /></p>
+
+<p>If everything is good, you should see “kubernetes” name resolution like above</p>
+
+<p>That completes our objectives, we have installed necessary components to bring up the kubernetes.You can perform some other <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/13-smoke-test.md">smoke test</a> from official Kubernetes The Hard Way</p>
+
+<h1 id="conclusion">Conclusion</h1>
+<p>It has been a long post for readers, I have modified the official Kubernetes The Hard Way to setup Docker as CRI and Flannel as CNI. So, let’s conclude what we have done so far</p>
+
+<ol>
+  <li>Provisioning the compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer.</li>
+  <li>Generated certificates to setup TLS communication between the kubernetes components</li>
+  <li>kubeconfig files generations</li>
+  <li>Provisioning controller and worker nodes with docker and Flannel</li>
+</ol>
+
+<p>You can go even further to setup <a href="https://github.com/kubernetes/dashboard">K8s dashboard</a>,K8s logging and Prometheus monitoring, etc. (For starters, you can refer my <a href="https://github.com/veerendra2/prometheus-k8s-monitoring">prometheus-k8s-monitoring</a>)</p>
+
+<h1 id="refernces">Refernces</h1>
+<ol>
+  <li><a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">https://github.com/kelseyhightower/kubernetes-the-hard-way</a></li>
+  <li><a href="https://developer.ibm.com/recipes/tutorials/bridge-the-docker-containers-to-external-network/">https://developer.ibm.com/recipes/tutorials/bridge-the-docker-containers-to-external-network/</a></li>
+  <li><a href="https://docs.docker.com/config/containers/container-networking/">https://docs.docker.com/config/containers/container-networking/</a></li>
+  <li><a href="https://coreos.com/flannel/docs/latest/kubernetes.html">https://coreos.com/flannel/docs/latest/kubernetes.html</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge">https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge</a></li>
+</ol>
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/kubernetes-the-hard-way-2/">&laquo; Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</a>
+  
+</div>
+
+<style>
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 80%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+</style>
+
+
+  </div>
+
+  <div class="date">
+    Written on January 17, 2019
+  </div>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'veerendra';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/veerendra2"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/veerendrav2"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/veerendrav2"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/2200798/veerendra"><i class="svg-icon stackoverflow"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  </body>
+</html>

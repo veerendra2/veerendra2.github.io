@@ -1,4 +1,1444 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.4">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2018-10-27T02:47:47+05:30</updated><id>https://veerendra2.github.io/feed.xml</id><title type="html">Veerendra’s Blog</title><subtitle>#docker #kubernetes #linux #python #networking</subtitle><entry><title type="html">SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title><link href="https://veerendra2.github.io/ssl-config-k8s-service-aws/" rel="alternate" type="text/html" title="SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" /><published>2018-05-29T00:00:00+05:30</published><updated>2018-05-29T00:00:00+05:30</updated><id>https://veerendra2.github.io/ssl-config-k8s-service-aws</id><content type="html" xml:base="https://veerendra2.github.io/ssl-config-k8s-service-aws/">&lt;p&gt;As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as &lt;code class=&quot;highlighter-rouge&quot;&gt;LoadBalancer&lt;/code&gt;, cloud provider doesn’t provide HTTPS mechanism for the enpoint by default.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2019-03-23T03:20:40+05:30</updated><id>https://veerendra2.github.io/feed.xml</id><title type="html">Veerendra’s Blog</title><subtitle>#docker #kubernetes #linux #python #networking</subtitle><entry><title type="html">Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 1)</title><link href="https://veerendra2.github.io/kubernetes-the-hard-way-1/" rel="alternate" type="text/html" title="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" /><published>2019-01-17T00:00:00+05:30</published><updated>2019-01-17T00:00:00+05:30</updated><id>https://veerendra2.github.io/kubernetes-the-hard-way-1</id><content type="html" xml:base="https://veerendra2.github.io/kubernetes-the-hard-way-1/">&lt;p&gt;Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post&lt;/p&gt;
+
+&lt;p&gt;I know what you are thinking, I steal &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;Kelsey Hightower’s Kubernetes The Hard Way tutorial&lt;/a&gt;, but hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as ‘&lt;a href=&quot;https://kubernetes.io/docs/setup/cri/&quot;&gt;CRI&lt;/a&gt;’ and Flannel as ‘&lt;a href=&quot;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&quot;&gt;CNI&lt;/a&gt;’.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This blog post follows &lt;a href=&quot;https://github.com/kelseyhightower&quot;&gt;Kelsey Hightower’s&lt;/a&gt; &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;Kubernetes The Hard Way&lt;/a&gt;, I highly recommend go through his repo. I’m writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. This series divided into 3 parts and all configuration/scripts are available in my &lt;a href=&quot;https://github.com/veerendra2/k8s-the-hard-way-blog&quot;&gt;github repo&lt;/a&gt;. Well that has been said, let’s start building the cluster.&lt;/p&gt;
+
+&lt;p&gt;Below is my laptop configuration. Make sure you have enough resources in your laptop.(or depends on resources, you can reduce nodes in cluster, etc.)&lt;/p&gt;
+
+&lt;table class=&quot;tablelines&quot;&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Laptop&lt;/td&gt;&lt;td&gt;Acer Predator Helios 200&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;CPU&lt;/td&gt;&lt;td&gt;Intel Core i5 8th Gen&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;RAM&lt;/td&gt;&lt;td&gt;8 GB&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Host OS&lt;/td&gt;&lt;td&gt;Ubuntu 18.04&lt;/td&gt;
+ &lt;/tr&gt;
+  &lt;tr&gt;
+  &lt;td&gt;Hostname&lt;/td&gt;&lt;td&gt;ghost&lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;First let’s talk about the cluster in &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;Kubernetes The Hard Way&lt;/a&gt; which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters, but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters looks like below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/Server2.png&quot; alt=&quot;Cluster Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;h1 id=&quot;1-prerequisites&quot;&gt;1. Prerequisites&lt;/h1&gt;
+&lt;h3 id=&quot;installation-of-packages&quot;&gt;Installation of packages&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;*NOTE: The following components will be installed on host machine(laptop)&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install KVM hypervisor.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm quem-system &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        libvirt-bin bridge-utils &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Install &lt;a href=&quot;https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce&quot;&gt;Docker&lt;/a&gt;&lt;/p&gt;
+
+    &lt;p&gt;Because we want to run nginx load balancer container on host&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl https://raw.githubusercontent.com/veerendra2/useless-scripts/master/scripts/docker_install.sh | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;bash&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install cfssl and cfssljson binaries&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--show-progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--https-only&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--timestamping&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chmod&lt;/span&gt; +x cfssl_linux-amd64 cfssljson_linux-amd64
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;cfssl_linux-amd64 /usr/local/bin/cfssl
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;cfssljson_linux-amd64 /usr/local/bin/cfssljson
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chmod&lt;/span&gt; +x kubectl
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;kubectl /usr/local/bin/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;subnets&quot;&gt;Subnets&lt;/h3&gt;
+
+&lt;p&gt;In offical “Kubernetes The Hard Way”, cluster network configuration done via &lt;code class=&quot;highlighter-rouge&quot;&gt;gcloud&lt;/code&gt; and obviously we are not going to use it. We have to choose subnets manually for our cluster nodes,CIDR for pods and K8s services. So, here is what I come with&lt;/p&gt;
+&lt;table class=&quot;tablelines&quot;&gt;
+ &lt;tr&gt;
+  &lt;th&gt;No.&lt;/th&gt;
+  &lt;th&gt;Name&lt;/th&gt;
+  &lt;th&gt;Subnet&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;1&lt;/td&gt;
+  &lt;td&gt;Cluster Nodes&lt;/td&gt;
+  &lt;td&gt;10.200.1.0/24&lt;/td&gt;
+ &lt;/tr&gt;
+  &lt;tr&gt;
+  &lt;td&gt;2&lt;/td&gt;
+  &lt;td&gt;POD CIDR(cluster-cidr)&lt;/td&gt;
+  &lt;td&gt;10.100.0.0/16&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;3&lt;/td&gt;
+  &lt;td&gt;Service(service-cluster-ip)   &lt;/td&gt;
+  &lt;td&gt;10.32.0.0/24&lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;linux-bridge--nat&quot;&gt;Linux Bridge &amp;amp; NAT&lt;/h3&gt;
+&lt;p&gt;As you can see in above diagram, we are going to use &lt;code class=&quot;highlighter-rouge&quot;&gt;linux bridge&lt;/code&gt; to connect our VMs and nginx container. Also we need to do &lt;a href=&quot;https://en.wikipedia.org/wiki/Network_address_translation&quot;&gt;NATing&lt;/a&gt; for our VMs in order to access Internet.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ EXTERNAL_IFACE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;wlan0&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Enable ip forwarding&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sysctl net.ipv4.conf.all.forwarding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+
+&lt;span class=&quot;c&quot;&gt;# Creat br0 bridge&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ip &lt;span class=&quot;nb&quot;&gt;link &lt;/span&gt;add name br0 &lt;span class=&quot;nb&quot;&gt;type &lt;/span&gt;bridge
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ip &lt;span class=&quot;nb&quot;&gt;link set &lt;/span&gt;dev br0 up
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ip addr add 10.200.1.1/24 dev br0
+
+&lt;span class=&quot;c&quot;&gt;# iptables NAT configuration&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; nat &lt;span class=&quot;nt&quot;&gt;-A&lt;/span&gt; POSTROUTING &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$EXTERNAL_IFACE&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; MASQUERADE
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-A&lt;/span&gt; FORWARD &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$EXTERNAL_IFACE&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; br0 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; state &lt;span class=&quot;nt&quot;&gt;--state&lt;/span&gt; RELATED,ESTABLISHED &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;iptables &lt;span class=&quot;nt&quot;&gt;-A&lt;/span&gt; FORWARD &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; br0 &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$EXTERNAL_IFACE&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+
+&lt;span class=&quot;c&quot;&gt;# Bridge config. Read more @ https://tinyurl.com/yan5jnd4&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sysctl &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; net.bridge.bridge-nf-call-arptables&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sysctl &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; net.bridge.bridge-nf-call-ip6tables&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sysctl &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; net.bridge.bridge-nf-call-iptables&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;In order to launch docker container(nginx load balancer container) on different linux bridge(other than default &lt;code class=&quot;highlighter-rouge&quot;&gt;docker0&lt;/code&gt;), we need to create docker network and specify that network while launching the container. Below command creates &lt;code class=&quot;highlighter-rouge&quot;&gt;docker network&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;br0&lt;/code&gt; as bridge&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker network create &lt;span class=&quot;nt&quot;&gt;--driver&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;bridge &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--ip-range&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.200.1.0/24 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;--subnet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.200.1.0/24 &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;com.docker.network.bridge.name=br0&quot;&lt;/span&gt; br0&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;create-workspace-directory&quot;&gt;Create workspace directory&lt;/h3&gt;
+&lt;p&gt;We can save all configuration and generate certificates in this directory&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; ~/kubernetes-the-hard-way
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;2-provisioning-compute-resources&quot;&gt;2. Provisioning Compute Resources&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Specify cluster info like hostname, IP and user to login in &lt;code class=&quot;highlighter-rouge&quot;&gt;controllers.txt&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;workers.txt&lt;/code&gt; files respectively like in below. In the same way add those VM IPs in &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/hosts&lt;/code&gt; file like below. These files are useful to automate things like copy files to nodes or generating certificates for these nodes, etc. You will see in a moment.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;controllers.txt 
+m1 10.200.1.10 veeru
+m2 10.200.1.11 veeru
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;workers.txt
+n2 10.200.1.13 veeru
+n2 10.200.1.14 veeru
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;nginx_proxy.txt
+proxy 10.200.1.15
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	ghost
+
+10.200.1.10 m1
+10.200.1.11 m2
+10.200.1.12 n1
+10.200.1.13 n2
+10.200.1.15 nginx&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Below are the IPs, hostname and username for the nodes that I choose&lt;/p&gt;
+&lt;table class=&quot;tablelines&quot;&gt;
+ &lt;tr&gt;
+  &lt;th&gt;Node Role&lt;/th&gt;
+  &lt;th&gt;Node Hostname&lt;/th&gt;
+  &lt;th&gt;Node IP&lt;/th&gt;
+  &lt;th&gt;Node Login Username&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Controller&lt;/td&gt;
+  &lt;td&gt;m1&lt;/td&gt;
+  &lt;td&gt;10.200.1.10&lt;/td&gt;
+  &lt;td&gt;veeru&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Controller&lt;/td&gt;
+  &lt;td&gt;m2&lt;/td&gt;
+  &lt;td&gt;10.200.1.11&lt;/td&gt;
+  &lt;td&gt;veeru&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Worker&lt;/td&gt;
+  &lt;td&gt;n1&lt;/td&gt;
+  &lt;td&gt;10.200.1.13&lt;/td&gt;
+  &lt;td&gt;veeru&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;Worker&lt;/td&gt;
+  &lt;td&gt;n2&lt;/td&gt;
+  &lt;td&gt;10.200.1.14&lt;/td&gt;
+  &lt;td&gt;veeru&lt;/td&gt;
+ &lt;/tr&gt;
+  &lt;tr&gt;
+  &lt;td&gt;Load Balancer(nginx Container)&lt;/td&gt;
+  &lt;td&gt;proxy&lt;/td&gt;
+  &lt;td&gt;10.200.1.15&lt;/td&gt;
+  &lt;td&gt;N/A&lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Download Ubuntu 18.04 server &lt;code class=&quot;highlighter-rouge&quot;&gt;.iso&lt;/code&gt; from &lt;a href=&quot;https://www.ubuntu.com/&quot;&gt;https://www.ubuntu.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;In previous section, we installed kvm hypervisor and now lets spin up 4 VMs and specify bridge name under network section like in below screenshot.(I used “Virtual Machine Manger” GUI to launch VMs)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;*I’m not covering OS installation in VM. You can easly find it on Internet.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;*NOTE: While installing OS, please select static IP and specify IPs according to their node names&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;*TIP: Install OS in VM and clone VM 3 time&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/vm_manager.jpg&quot; alt=&quot;VM Manager Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should able to ssh both host-to-VM and VM-to-VM. For handy, you can copy ssh keys, so that don’t have to enter password every time.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-copy-id guest-username@guest-ip&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;3-provisioning-a-ca-and-generating-tls-certificates&quot;&gt;3. Provisioning a CA and Generating TLS Certificates&lt;/h1&gt;
+
+&lt;p&gt;It is a good/recommended practice to setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare’s PKI toolkit as we downloaded earlier.(Know more about &lt;a href=&quot;https://en.wikipedia.org/wiki/Public_key_infrastructure&quot;&gt;PKI&lt;/a&gt;)&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;admin user&lt;/li&gt;
+  &lt;li&gt;kubelet&lt;/li&gt;
+  &lt;li&gt;kube-controller-manager&lt;/li&gt;
+  &lt;li&gt;kube-proxy&lt;/li&gt;
+  &lt;li&gt;kube-scheduler&lt;/li&gt;
+  &lt;li&gt;kube-api&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/certificates.png&quot; alt=&quot;Certificates Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But first, we have to create &lt;a href=&quot;https://en.wikipedia.org/wiki/Certificate_authority&quot;&gt;Certificate Authority(CA)&lt;/a&gt; which e-signatures the certificates that we are going to generate.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-config.json
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-csr.json
+&lt;span class=&quot;c&quot;&gt;# Generate CA&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;nt&quot;&gt;-initca&lt;/span&gt; ca-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; ca
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;ca-key.pem ca.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;admin-user-client-certificate&quot;&gt;Admin User Client Certificate&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/admin-csr.json
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  admin-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; admin
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;admin-key.pem admin.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kubelet-client-certificates&quot;&gt;Kubelet Client Certificates&lt;/h3&gt;
+&lt;p&gt;As &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/node/&quot;&gt;docs&lt;/a&gt; says&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;K8s uses node authorization which is a special-purpose authorization mode that specifically authorizes API requests made by kubelets&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In order to be authorized by the Node Authorizer, Kubelets must use a credential that identifies them as being in the &lt;code class=&quot;highlighter-rouge&quot;&gt;system:nodes&lt;/code&gt; group, with a username of &lt;code class=&quot;highlighter-rouge&quot;&gt;system:node:&amp;lt;nodeName&amp;gt;&lt;/code&gt;. Let’s create a certificate and private key for each worker nodes (In my case n1 and n2)&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;IFS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;line &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;workers.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $2}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-csr&lt;/span&gt;.json &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+{
+  &quot;CN&quot;: &quot;system:node:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;&quot;,
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 2048
+  },
+  &quot;names&quot;: [
+    {
+      &quot;C&quot;: &quot;Westeros&quot;,
+      &quot;L&quot;: &quot;The North&quot;,
+      &quot;O&quot;: &quot;system:nodes&quot;,
+      &quot;OU&quot;: &quot;Kubernetes The Hard Way&quot;,
+      &quot;ST&quot;: &quot;Winterfell&quot;
+    }
+  ]
+}
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
+
+&lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-hostname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;,&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-csr&lt;/span&gt;.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;n1-key.pem n1.pem n2-key.pem n2.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;controller-manager-client-certificate&quot;&gt;Controller Manager Client Certificate&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-controller-manager-csr.json
+&lt;span class=&quot;c&quot;&gt;# Generate Certificate&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  kube-controller-manager-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; kube-controller-manager
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;kube-controller-manager-key.pem kube-controller-manager.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kube-proxy-client-certificate&quot;&gt;Kube Proxy Client Certificate&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-proxy-csr.json
+&lt;span class=&quot;c&quot;&gt;# Generate Certificate&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  kube-proxy-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; kube-proxy
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;kube-proxy-key.pem kube-proxy.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;scheduler-client-certificate&quot;&gt;Scheduler Client Certificate&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-scheduler-csr.json
+&lt;span class=&quot;c&quot;&gt;# Generate Certificate&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  kube-scheduler-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; kube-scheduler
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;kube-scheduler-key.pem kube-scheduler.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kubernetes-api-server-certificate&quot;&gt;Kubernetes API Server Certificate&lt;/h3&gt;
+&lt;p&gt;kube-api server certificate’s hostname should include following things&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;All controller’s hostname&lt;/li&gt;
+  &lt;li&gt;All controller’s IP&lt;/li&gt;
+  &lt;li&gt;Load balancer’s hostname&lt;/li&gt;
+  &lt;li&gt;Load balancer’s IP&lt;/li&gt;
+  &lt;li&gt;Kubernetes’s service(Both ‘service name’ and IP which are 10.32.0.1 and &lt;code class=&quot;highlighter-rouge&quot;&gt;kubernetes.default&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;localhost&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;c&quot;&gt;# CERT_HOSTNAME=10.32.0.1,&amp;lt;master node 1 Private IP&amp;gt;,&amp;lt;master node 1 hostname&amp;gt;,&amp;lt;master node 2 Private IP&amp;gt;,&amp;lt;master node 2 hostname&amp;gt;,&amp;lt;API load balancer Private IP&amp;gt;,&amp;lt;API load balancer hostname&amp;gt;,127.0.0.1,localhost,kubernetes.default&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ CERT_HOSTNAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.32.0.1,m1,10.200.1.10,m2,10.200.1.11,proxy,10.200.1.15,127.0.0.1,localhost,kubernetes.default
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kubernetes-csr.json
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-hostname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CERT_HOSTNAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  kubernetes-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; kubernetes
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;kubernetes-key.pem kubernetes.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;service-account-key-pair&quot;&gt;Service Account Key Pair&lt;/h3&gt;
+&lt;p&gt;Service account key pair certificate is used to sign &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/&quot;&gt;service account&lt;/a&gt; tokens&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/service-account-csr.json
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cfssl gencert &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-ca-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca-config.json &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;-profile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  service-account-csr.json | cfssljson &lt;span class=&quot;nt&quot;&gt;-bare&lt;/span&gt; service-account
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;service-account-key.pem service-account.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;copy-certificates-to-nodes&quot;&gt;Copy Certificates to Nodes&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;c&quot;&gt;# Minion&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ IFS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;line &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;workers.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+   &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+   &lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $3}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+   rsync &lt;span class=&quot;nt&quot;&gt;-zvhe&lt;/span&gt; ssh ca.pem &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-key&lt;/span&gt;.pem &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.pem &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;@&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:~/
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Master&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ IFS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;instance &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;controllers.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+   &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+   &lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $3}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+   rsync &lt;span class=&quot;nt&quot;&gt;-zvhe&lt;/span&gt; ssh ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    service-account-key.pem service-account.pem &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;@&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:~/
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;4-generating-kubeconfig-files-for-authentication&quot;&gt;4. Generating kubeconfig Files for Authentication&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/&quot;&gt;kubeconfig&lt;/a&gt; are used for authentication between the kubernetes components and users-to-kubernetes. kubeconfig consists of mainly 3 things&lt;/p&gt;
+&lt;table class=&quot;tablelines&quot;&gt;
+ &lt;tr&gt;
+  &lt;th&gt;No.&lt;/th&gt;
+  &lt;th&gt;Entity&lt;/th&gt;
+  &lt;th&gt;Description&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;1&lt;/td&gt;
+  &lt;td&gt;Cluster&lt;/td&gt;
+  &lt;td&gt;api-server's IP and its certificate which encodes in `base64`&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;2&lt;/td&gt;
+  &lt;td&gt;Users&lt;/td&gt;
+  &lt;td&gt;User related info like who are authenticating ,their cerificate and key or service account token&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+  &lt;td&gt;3&lt;/td&gt;
+  &lt;td&gt;Context&lt;/td&gt;
+  &lt;td&gt;Holds Cluster's and User's reference. If you have multiple clusters and users, this `context` becomes handy&lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;In this section, we are going to generate kubeconfig for below components&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/kubeconfig.png&quot; alt=&quot;Kubeconfig Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;generating-kubelet-kubeconfig&quot;&gt;Generating kubelet kubeconfig&lt;/h3&gt;
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; in kubeconfig should be &lt;code class=&quot;highlighter-rouge&quot;&gt;system:node:&amp;lt;Worker_name&amp;gt;&lt;/code&gt; which should match Kubelet hostname that we specified while generating kubelet client certificate. This will ensure Kubelets are properly authorized by the Kubernetes Node Authorizer.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;nginx_proxy.txt | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $2}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ IFS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;instance &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;workers.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+  
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+
+  kubectl config set-cluster kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--certificate-authority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:6443 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.kubeconfig
+
+  kubectl config set-credentials system:node:&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-key&lt;/span&gt;.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.kubeconfig
+
+  kubectl config set-context default &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;system:node:&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.kubeconfig
+
+  kubectl config use-context default &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.kubeconfig
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt; 
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;n1.kubeconfig n2.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;generate-kube-proxy-kubeconfig&quot;&gt;Generate kube-proxy kubeconfig&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;nginx_proxy.txt | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $2}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  kubectl config set-cluster kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--certificate-authority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:6443 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-proxy.kubeconfig
+
+  kubectl config set-credentials system:kube-proxy &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-proxy.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-proxy-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-proxy.kubeconfig
+
+  kubectl config set-context default &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;system:kube-proxy &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-proxy.kubeconfig
+
+  kubectl config use-context default &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-proxy.kubeconfig
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;kube-proxy.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;generate-kube-controller-manager-kubeconfig&quot;&gt;Generate kube-controller-manager kubeconfig&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  kubectl config set-cluster kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--certificate-authority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://127.0.0.1:6443 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-controller-manager.kubeconfig
+
+  kubectl config set-credentials system:kube-controller-manager &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-controller-manager.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-controller-manager-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-controller-manager.kubeconfig
+
+  kubectl config set-context default &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;system:kube-controller-manager &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-controller-manager.kubeconfig
+
+  kubectl config use-context default &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-controller-manager.kubeconfig
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls
+&lt;/span&gt;kube-controller-manager.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;generate-kube-scheduler-kubeconfig&quot;&gt;Generate kube-scheduler kubeconfig&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  kubectl config set-cluster kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--certificate-authority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://127.0.0.1:6443 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-scheduler.kubeconfig
+
+  kubectl config set-credentials system:kube-scheduler &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-scheduler.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-scheduler-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-scheduler.kubeconfig
+
+  kubectl config set-context default &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;system:kube-scheduler &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-scheduler.kubeconfig
+
+  kubectl config use-context default &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-scheduler.kubeconfig
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;kube-scheduler.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;generate-admin-kubeconfig&quot;&gt;Generate admin kubeconfig&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  kubectl config set-cluster kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--certificate-authority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://127.0.0.1:6443 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin.kubeconfig
+
+  kubectl config set-credentials admin &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin-key.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin.kubeconfig
+
+  kubectl config set-context default &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin.kubeconfig
+
+  kubectl config use-context default &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin.kubeconfig
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls 
+&lt;/span&gt;admin.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;copy-kubeconfig-files-to-nodes&quot;&gt;Copy kubeconfig files to nodes&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ IFS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;line &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;workers.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $3}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+  rsync &lt;span class=&quot;nt&quot;&gt;-zvhe&lt;/span&gt; ssh &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.kubeconfig kube-proxy.kubeconfig &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;@&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:~/
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;instance &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;controllers.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $3}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+  rsync &lt;span class=&quot;nt&quot;&gt;-zvhe&lt;/span&gt; ssh admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;@&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:~/
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h1 id=&quot;5-generating-the-data-encryption-config-and-key&quot;&gt;5. Generating the Data Encryption Config and Key&lt;/h1&gt;
+&lt;p&gt;Kubernetes stores different types of data including cluster state, application configurations, and secrets. Kubernetes supports the ability to encrypt cluster data at rest.In this section we will generate an encryption key and an encryption config suitable for encrypting Kubernetes Secrets.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-encrypted-key&quot;&gt;The Encrypted Key&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;ENCRYPTION_KEY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; 32 /dev/urandom | &lt;span class=&quot;nb&quot;&gt;base64&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;the-encryption-config-file&quot;&gt;The Encryption Config File&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; encryption-config.yaml &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+kind: EncryptionConfig
+apiVersion: v1
+resources:
+  - resources:
+      - secrets
+    providers:
+      - aescbc:
+          keys:
+            - name: key1
+              secret: &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ENCRYPTION_KEY&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+      - identity: {}
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;copy-to-controller-nodes&quot;&gt;Copy to Controller Nodes&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ IFS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;$'&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;instance &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;controller.txt&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $1}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$line&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $3}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+  rsync &lt;span class=&quot;nt&quot;&gt;-zvhe&lt;/span&gt; ssh encryption-config.yaml &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;@&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:~/
+&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Till now we have done following things&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Provisioned compute resources&lt;/li&gt;
+  &lt;li&gt;Generated certificates&lt;/li&gt;
+  &lt;li&gt;Generated kubeconfig files&lt;/li&gt;
+  &lt;li&gt;Copied certificate files and kubeconfigs to nodes&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In the next post, we will bootstrap controller nodes&lt;/p&gt;
+
+&lt;div class=&quot;PageNavigation&quot;&gt;
+  
+    &lt;a class=&quot;next&quot; href=&quot;/kubernetes-the-hard-way-2/&quot;&gt;Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 2) &amp;raquo;&lt;/a&gt;
+  
+&lt;/div&gt;
+
+&lt;style&gt;
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 80%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+&lt;/style&gt;</content><author><name></name></author><summary type="html">Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post</summary></entry><entry><title type="html">Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 2)</title><link href="https://veerendra2.github.io/kubernetes-the-hard-way-2/" rel="alternate" type="text/html" title="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" /><published>2019-01-17T00:00:00+05:30</published><updated>2019-01-17T00:00:00+05:30</updated><id>https://veerendra2.github.io/kubernetes-the-hard-way-2</id><content type="html" xml:base="https://veerendra2.github.io/kubernetes-the-hard-way-2/">&lt;p&gt;Welcome back to “Kubernetes-The Hard Way With Docker &amp;amp; Flannel” series part 2. In &lt;a href=&quot;/kubernetes-the-hard-way-1/&quot;&gt;previous post&lt;/a&gt; we have provised compute resource, generated certificates and kubeconfig files. In this post, we will install/configure controller nodes&lt;/p&gt;
+
+&lt;h1 id=&quot;6-bootstrapping-the-etcd-cluster&quot;&gt;6. Bootstrapping the etcd Cluster&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://coreos.com/etcd/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;etcd&lt;/code&gt;&lt;/a&gt; is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in &lt;code class=&quot;highlighter-rouge&quot;&gt;etcd&lt;/code&gt; via api-server. In this section we will install and configure &lt;code class=&quot;highlighter-rouge&quot;&gt;etcd&lt;/code&gt; on all controller nodes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;*NOTE: The below commands must run on all controller nodes&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;*TIP: You can use &lt;a href=&quot;https://github.com/tmux/tmux/wiki&quot;&gt;tumx&lt;/a&gt; to run command on multiple nodes at same time&lt;/em&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--show-progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--https-only&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--timestamping&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;tar&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-xvf&lt;/span&gt; etcd-v3.3.9-linux-amd64.tar.gz
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;etcd-v3.3.9-linux-amd64/etcd&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; /usr/local/bin/
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /etc/etcd /var/lib/etcd
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo cp &lt;/span&gt;ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Set up the following environment variables which are usefull generate etcd systemd unit file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ ETCD_NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# IP of the current node&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#INITIAL_CLUSTER=&amp;lt;controller 1 hostname&amp;gt;=https://&amp;lt;controller 1 private ip&amp;gt;:2380,&amp;lt;controller 2 hostname&amp;gt;=https://&amp;lt;controller 2 private ip&amp;gt;:2380&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ INITIAL_CLUSTER&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;m1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://10.200.1.10:2380,m2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://10.200.1.11:2380&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create systemd unit file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/systemd/system/etcd.service
+[Unit]
+Description=etcd
+Documentation=https://github.com/coreos
+
+[Service]
+ExecStart=/usr/local/bin/etcd \\
+  --name &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ETCD_NAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; \\
+  --cert-file=/etc/etcd/kubernetes.pem \\
+  --key-file=/etc/etcd/kubernetes-key.pem \\
+  --peer-cert-file=/etc/etcd/kubernetes.pem \\
+  --peer-key-file=/etc/etcd/kubernetes-key.pem \\
+  --trusted-ca-file=/etc/etcd/ca.pem \\
+  --peer-trusted-ca-file=/etc/etcd/ca.pem \\
+  --peer-client-cert-auth \\
+  --client-cert-auth \\
+  --initial-advertise-peer-urls https://&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;:2380 \\
+  --listen-peer-urls https://&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;:2380 \\
+  --listen-client-urls https://&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;:2379,https://127.0.0.1:2379 \\
+  --advertise-client-urls https://&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;:2379 \\
+  --initial-cluster-token etcd-cluster-0 \\
+  --initial-cluster &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INITIAL_CLUSTER&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; \\
+  --initial-cluster-state new \\
+  --data-dir=/var/lib/etcd
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Start the etcd service&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl daemon-reload
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;etcd
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start etcd
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Once &lt;code class=&quot;highlighter-rouge&quot;&gt;etcd&lt;/code&gt; installation and configuration done in all controller nodes, verify that etcd cluster is working properly&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ETCDCTL_API&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3 etcdctl member list &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--endpoints&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://127.0.0.1:2379 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--cacert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/etc/etcd/ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--cert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/etc/etcd/kubernetes.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;--key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/etc/etcd/kubernetes-key.pem&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You should see output like below&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/etcd_verify_output.jpg&quot; alt=&quot;etcd verify image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;7-bootstrapping-the-kubernetes-control-plane&quot;&gt;7. Bootstrapping the Kubernetes Control Plane&lt;/h1&gt;
+&lt;p&gt;The control plane binaries are&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/&quot;&gt;kube-apiserver&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/&quot;&gt;kube-controller-manager&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/&quot;&gt;kube-scheduler&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Download control plane binaries&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;*NOTE: The below commands must run on all controller nodes&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /etc/kubernetes/config
+&lt;span class=&quot;nv&quot;&gt;$ KUBERNETES_VERSION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;v1.10.13
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--show-progress&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--https-only&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--timestamping&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;https://dl.k8s.io/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/bin/linux/amd64/kube-apiserver&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;https://dl.k8s.io/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/bin/linux/amd64/kube-controller-manager&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;https://dl.k8s.io/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/bin/linux/amd64/kube-scheduler&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;https://dl.k8s.io/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_VERSION&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/bin/linux/amd64/kubectl&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;*TIP: You can get version number from &lt;a href=&quot;https://github.com/kubernetes/kubernetes/releases&quot;&gt;kuberntes releases page&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Move the binaries to &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/local/bin/&lt;/code&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;chmod&lt;/span&gt; +x kube-apiserver kube-controller-manager kube-scheduler kubectl
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kubernetes-api-server-configuration&quot;&gt;Kubernetes API Server Configuration&lt;/h3&gt;
+&lt;p&gt;Move certificates to kubernetes directory&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /var/lib/kubernetes/
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    service-account-key.pem service-account.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    encryption-config.yaml /var/lib/kubernetes/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kube-api server systemd unit file.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ CONTROLLER0_IP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.200.1.10
+&lt;span class=&quot;nv&quot;&gt;$ CONTROLLER1_IP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.200.1.11
+&lt;span class=&quot;nv&quot;&gt;$ INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;hostname&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Current node's IP&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/systemd/system/kube-apiserver.service
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/usr/local/bin/kube-apiserver \\
+  --advertise-address=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INTERNAL_IP&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; \\
+  --allow-privileged=true \\
+  --apiserver-count=3 \\
+  --audit-log-maxage=30 \\
+  --audit-log-maxbackup=3 \\
+  --audit-log-maxsize=100 \\
+  --audit-log-path=/var/log/audit.log \\
+  --authorization-mode=Node,RBAC \\
+  --bind-address=0.0.0.0 \\
+  --client-ca-file=/var/lib/kubernetes/ca.pem \\
+  --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
+  --enable-swagger-ui=true \\
+  --etcd-cafile=/var/lib/kubernetes/ca.pem \\
+  --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
+  --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
+  --etcd-servers=https://&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$CONTROLLER0_IP&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;:2379,https://&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$CONTROLLER1_IP&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;:2379 \\
+  --event-ttl=1h \\
+  --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
+  --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
+  --kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\
+  --kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\
+  --kubelet-https=true \\
+  --runtime-config=api/all \\
+  --service-account-key-file=/var/lib/kubernetes/service-account.pem \\
+  --service-cluster-ip-range=10.32.0.0/24 \\
+  --service-node-port-range=30000-32767 \\
+  --tls-cert-file=/var/lib/kubernetes/kubernetes.pem \\
+  --tls-private-key-file=/var/lib/kubernetes/kubernetes-key.pem \\
+  --v=2 \\
+  --kubelet-preferred-address-types=InternalIP,InternalDNS,Hostname,ExternalIP,ExternalDNS
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kubernetes-controller-manager-configuration&quot;&gt;Kubernetes Controller Manager Configuration&lt;/h3&gt;
+&lt;p&gt;Move kubeconfig files to kubernetes directory&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;kube-controller-manager.kubeconfig /var/lib/kubernetes/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kube-controller-manager systemd unit file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/systemd/system/kube-controller-manager.service
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/usr/local/bin/kube-controller-manager \\
+  --address=0.0.0.0 \\
+  --cluster-cidr=10.200.0.0/16 \\
+  --cluster-name=kubernetes \\
+  --cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \\
+  --cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \\
+  --kubeconfig=/var/lib/kubernetes/kube-controller-manager.kubeconfig \\
+  --leader-elect=true \\
+  --root-ca-file=/var/lib/kubernetes/ca.pem \\
+  --service-account-private-key-file=/var/lib/kubernetes/service-account-key.pem \\
+  --service-cluster-ip-range=10.32.0.0/24 \\
+  --use-service-account-credentials=true \\
+  --v=2
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kubernetes-scheduler-configuration&quot;&gt;Kubernetes Scheduler Configuration&lt;/h3&gt;
+&lt;p&gt;Move kube-scheduler kubeconfig to kubernetes directory&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;kube-scheduler.kubeconfig /var/lib/kubernetes/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kube-scheduler configuration file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
+apiVersion: componentconfig/v1alpha1
+kind: KubeSchedulerConfiguration
+clientConnection:
+  kubeconfig: &quot;/var/lib/kubernetes/kube-scheduler.kubeconfig&quot;
+leaderElection:
+  leaderElect: true
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kube-scheduler systemd unit file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/systemd/system/kube-scheduler.service
+[Unit]
+Description=Kubernetes Scheduler
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/usr/local/bin/kube-scheduler \\
+  --config=/etc/kubernetes/config/kube-scheduler.yaml \\
+  --v=2
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;start-the-controller-services&quot;&gt;Start the controller services&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl daemon-reload
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;kube-apiserver kube-controller-manager kube-scheduler
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start kube-apiserver kube-controller-manager kube-scheduler&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;enable-http-health-checks&quot;&gt;Enable HTTP Health Checks&lt;/h3&gt;
+&lt;p&gt;In original “Kubernetes The Hard Way”, Kelsey used GCP load balancer to load balance the requests among controllers. Since it is difficult to setup HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health check. He created HTTP nginx proxy for kube-api server, GCP network load balancer perform health check via HTTP nginx proxy. But in our case, we can skip this step since we are not using GCP network load balancer&lt;/p&gt;
+
+&lt;h3 id=&quot;verification&quot;&gt;Verification&lt;/h3&gt;
+&lt;p&gt;Check the components status using below commands.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get componentstatuses &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt; admin.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Run above command on all controller nodes and verify statuses which should like below&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/components_status.jpg&quot; alt=&quot;components status image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;rbac-for-kubelet-authorization&quot;&gt;RBAC for Kubelet Authorization&lt;/h3&gt;
+&lt;p&gt;In this section we will configure &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/rbac/&quot;&gt;RBAC permissions&lt;/a&gt; to allow the kube-api server to access the Kubelet API on each worker node. Access to the Kubelet API is required for retrieving metrics, logs, and executing commands in pods.&lt;/p&gt;
+
+&lt;p&gt;Create the &lt;code class=&quot;highlighter-rouge&quot;&gt;system:kube-apiserver-to-kubelet&lt;/code&gt; ClusterRole with permissions to access the Kubelet.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | kubectl apply --kubeconfig admin.kubeconfig -f -
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: &quot;true&quot;
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: system:kube-apiserver-to-kubelet
+rules:
+  - apiGroups:
+      - &quot;&quot;
+    resources:
+      - nodes/proxy
+      - nodes/stats
+      - nodes/log
+      - nodes/spec
+      - nodes/metrics
+    verbs:
+      - &quot;*&quot;
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The kube-api server authenticates to the Kubelet as the “kubernetes” user using the client certificate as defined by the &lt;code class=&quot;highlighter-rouge&quot;&gt;--kubelet-client-certificate&lt;/code&gt; flag which have defined in kube-apiserver systemd unit file above.&lt;/p&gt;
+
+&lt;p&gt;Bind the &lt;code class=&quot;highlighter-rouge&quot;&gt;system:kube-apiserver-to-kubelet&lt;/code&gt; ClusterRole to the kubernetes user:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On controller nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | kubectl apply --kubeconfig admin.kubeconfig -f -
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: system:kube-apiserver
+  namespace: &quot;&quot;
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:kube-apiserver-to-kubelet
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: kubernetes
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;the-kubernetes-frontend-load-balancer&quot;&gt;The Kubernetes Frontend Load Balancer&lt;/h3&gt;
+&lt;p&gt;As I said earlier, we are not going using GCP load network load balancer, but we are going using nginx docker container on host(Laptop) to load balance the requests.&lt;/p&gt;
+
+&lt;p&gt;In this section, we will build nginx docker image with appropriate configuration to load balance requests among controller nodes(&lt;code class=&quot;highlighter-rouge&quot;&gt;m1&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;m2&lt;/code&gt;)&lt;/p&gt;
+
+&lt;h5 id=&quot;nginx-configuration&quot;&gt;nginx configuration&lt;/h5&gt;
+&lt;p&gt;Specify controllers IPs with kube-api server’s port in nginx configuration like below&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | tee kubernetes.conf 
+stream {
+    upstream kubernetes {
+        server 10.200.1.10:6443;
+        server 10.200.1.11:6443;
+    }
+
+    server {
+        listen 6443;
+        listen 443;
+        proxy_pass kubernetes;
+    }
+}
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h5 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h5&gt;
+&lt;p&gt;Create &lt;code class=&quot;highlighter-rouge&quot;&gt;Dockerfile&lt;/code&gt; to build nginx load balancer docker image&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | tee Dockerfile
+FROM nginx:latest
+MAINTAINER Veerendra Kakumanu
+
+RUN mkdir -p /etc/nginx/tcpconf.d &amp;amp;&amp;amp; echo &quot;include /etc/nginx/tcpconf.d/*;&quot; &amp;gt;&amp;gt; /etc/nginx/nginx.conf
+COPY kubernetes.conf /etc/nginx/tcpconf.d/kubernetes.conf
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Build and launch the container&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/kubernetes-the-hard-way
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker build &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; nginx_proxy &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt; proxy &lt;span class=&quot;nt&quot;&gt;--net&lt;/span&gt; br0 &lt;span class=&quot;nt&quot;&gt;--ip&lt;/span&gt; 10.200.1.15 nginx-proxy&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;verification-1&quot;&gt;Verification&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;curl&lt;/code&gt; the HTTPS endpoint of load balancer(nginx docker container) which forwards the requests to controller node with certificate.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;10.200.1.15
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;--cacert&lt;/span&gt; ca.pem https://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:6443/version&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;If everything is good, you should see output like below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/curl_version.jpg&quot; alt=&quot;curl for version image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this post, we have successfully provisioned controller nodes and load balancer. We will bootstrap the worker nodes in next post&lt;/p&gt;
+
+&lt;div class=&quot;PageNavigation&quot;&gt;
+  
+    &lt;a class=&quot;prev&quot; href=&quot;/kubernetes-the-hard-way-1/&quot;&gt;&amp;laquo; Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 1)&lt;/a&gt;
+  
+  
+    &lt;a class=&quot;next&quot; href=&quot;/kubernetes-the-hard-way-3/&quot;&gt;Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 3) &amp;raquo;&lt;/a&gt;
+  
+&lt;/div&gt;
+
+&lt;style&gt;
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+&lt;/style&gt;</content><author><name></name></author><summary type="html">Welcome back to “Kubernetes-The Hard Way With Docker &amp;amp; Flannel” series part 2. In previous post we have provised compute resource, generated certificates and kubeconfig files. In this post, we will install/configure controller nodes</summary></entry><entry><title type="html">Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 3)</title><link href="https://veerendra2.github.io/kubernetes-the-hard-way-3/" rel="alternate" type="text/html" title="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" /><published>2019-01-17T00:00:00+05:30</published><updated>2019-01-17T00:00:00+05:30</updated><id>https://veerendra2.github.io/kubernetes-the-hard-way-3</id><content type="html" xml:base="https://veerendra2.github.io/kubernetes-the-hard-way-3/">&lt;p&gt;Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp;amp; Flannel” series. In &lt;a href=&quot;/kubernetes-the-hard-way-1/&quot;&gt;part-1&lt;/a&gt;, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In &lt;a href=&quot;/kubernetes-the-hard-way-2/&quot;&gt;previous post&lt;/a&gt;, we have bootstrapped controller nodes.&lt;/p&gt;
+
+&lt;p&gt;In this post, we will bootstrap worker nodes and at the end, perform smoke test on cluster&lt;/p&gt;
+
+&lt;h2 id=&quot;9-bootstrapping-the-kubernetes-worker-nodes&quot;&gt;9. Bootstrapping the Kubernetes Worker Nodes&lt;/h2&gt;
+&lt;p&gt;As the title of this post “Kubernetes The Hard Way With Docker &amp;amp; Flannel”, what we are going to do now is different from &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;Kelsey Hightower’s Kubernetes The Hard Way tutorial&lt;/a&gt; i.e. container runtime interface is &lt;code class=&quot;highlighter-rouge&quot;&gt;Docker&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;containerd&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;*NOTE: The below commands must run on all worker nodes&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Install below packages. &lt;code class=&quot;highlighter-rouge&quot;&gt;conntack&lt;/code&gt; is required for iptables, since it tracks the connections for K8s services&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;socat conntrack ipset
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;install-docker&quot;&gt;Install docker&lt;/h3&gt;
+&lt;p&gt;You can follow &lt;a href=&quot;https://docs.docker.com/install/linux/docker-ce/ubuntu/&quot;&gt;official docs&lt;/a&gt; to install docker on ubuntu or run below script to install&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl https://raw.githubusercontent.com/veerendra2/useless-scripts/master/scripts/docker_install.sh  | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;bash&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kubelet-configuration&quot;&gt;Kubelet Configuration&lt;/h3&gt;
+&lt;p&gt;Move certificate files to kubernetes directory&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;sudo mv&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOSTNAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-key&lt;/span&gt;.pem &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOSTNAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.pem /var/lib/kubelet/
+  &lt;span class=&quot;nb&quot;&gt;sudo mv&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOSTNAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;.kubeconfig /var/lib/kubelet/kubeconfig
+  &lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;ca.pem /var/lib/kubernetes/
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kubelet configuration file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /var/lib/kubelet/kubelet-config.yaml
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    enabled: true
+  x509:
+    clientCAFile: &quot;/var/lib/kubernetes/ca.pem&quot;
+authorization:
+  mode: Webhook
+clusterDomain: &quot;cluster.local&quot;
+clusterDNS:
+  - &quot;10.32.0.10&quot;
+podCIDR: &quot;10.100.0.0/16&quot;
+#resolvConf: &quot;/run/systemd/resolve/resolv.conf&quot;
+runtimeRequestTimeout: &quot;15m&quot;
+tlsCertFile: &quot;/var/lib/kubelet/n1.pem&quot;
+tlsPrivateKeyFile: &quot;/var/lib/kubelet/n1-key.pem&quot;
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kubelet systemd unit file. Below you can notice I have specified &lt;code class=&quot;highlighter-rouge&quot;&gt;--docker*&lt;/code&gt; flag which indicates that kubelet intracts with docker daemon&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/systemd/system/kubelet.service
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/kubernetes/kubernetes
+After=containerd.service
+Requires=containerd.service
+
+[Service]
+ExecStart=/usr/local/bin/kubelet \
+  --config=/var/lib/kubelet/kubelet-config.yaml \
+  --docker=unix:///var/run/docker.sock \
+  --docker-endpoint=unix:///var/run/docker.sock \
+  --image-pull-progress-deadline=2m \
+  --network-plugin=cni \
+  --kubeconfig=/var/lib/kubelet/kubeconfig \
+  --register-node=true \
+  --v=2
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;kube-proxy-configuration&quot;&gt;Kube Proxy Configuration&lt;/h3&gt;
+&lt;p&gt;Move &lt;code class=&quot;highlighter-rouge&quot;&gt;kubeconfig&lt;/code&gt; to kubernetes directory&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo mv &lt;/span&gt;kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kube-proxy configuration file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
+kind: KubeProxyConfiguration
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+clientConnection:
+  kubeconfig: &quot;/var/lib/kube-proxy/kubeconfig&quot;
+mode: &quot;iptables&quot;
+clusterCIDR: &quot;10.100.0.0/16&quot;
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create kube-proxy systemd unit file&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | sudo tee /etc/systemd/system/kube-proxy.service
+[Unit]
+Description=Kubernetes Kube Proxy
+Documentation=https://github.com/kubernetes/kubernetes
+
+[Service]
+ExecStart=/usr/local/bin/kube-proxy \\
+  --config=/var/lib/kube-proxy/kube-proxy-config.yaml
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;start-worker-services&quot;&gt;Start Worker services&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl daemon-reload
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;kubelet kube-proxy
+  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start kubelet kube-proxy
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;verification&quot;&gt;Verification&lt;/h3&gt;
+&lt;p&gt;Once worker services configuration is done on all worker nodes, get nodes list with below command in any controller node&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get nodes &lt;span class=&quot;nt&quot;&gt;--kubeconfig&lt;/span&gt; admin.kubeconfig&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/get_nodes.jpg&quot; alt=&quot;List Nodes Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;10-configuring-kubectl-for-remote-access&quot;&gt;10. Configuring kubectl for Remote Access&lt;/h1&gt;
+&lt;p&gt;In this section, we will generate kubeconfig file for admin. kubeconfig file requires Kubernetes API server IP which is nginx docker container’s IP&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;nginx_proxy.txt | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{print $2}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+
+  kubectl config set-cluster kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--certificate-authority&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;ca.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--embed-certs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--server&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KUBERNETES_PUBLIC_ADDRESS&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;:6443
+
+  kubectl config set-credentials admin &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-certificate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin.pem &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--client-key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin-key.pem
+
+  kubectl config set-context kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--cluster&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubernetes-the-hard-way &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;admin
+
+  kubectl config use-context kubernetes-the-hard-way
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;verification-1&quot;&gt;Verification&lt;/h3&gt;
+&lt;p&gt;Check the health of the remote Kubernetes cluster&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get componentstatuses&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/components_status_outside.jpg&quot; alt=&quot;List Components Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;List the nodes in the remote Kubernetes cluster&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get nodes&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/get_nodes_outside.jpg&quot; alt=&quot;List Nodes Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;h1 id=&quot;provisioning-cni&quot;&gt;Provisioning CNI&lt;/h1&gt;
+&lt;p&gt;In this section, we will setup CNI i.e &lt;a href=&quot;https://github.com/coreos/flannel&quot;&gt;Flannel&lt;/a&gt; as the title of this blog post says.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;**If you want to know other CNIs and there performances, check &lt;a href=&quot;https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560&quot;&gt;Alexis Ducastel’s post here&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;First login into worker nodes and enable ip forwarding&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On worker nodes&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sysctl net.ipv4.conf.all.forwarding&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Get &lt;code class=&quot;highlighter-rouge&quot;&gt;kube-flannel.yml&lt;/code&gt; from &lt;a href=&quot;https://github.com/coreos/flannel&quot;&gt;coreos’s flannel github repo&lt;/a&gt;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl apply &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml  &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Wait for few seconds and verify flannel daemonset status&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get daemonsets &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Once pods are up, we have to test pod networking that they can connect each other&lt;/p&gt;
+
+&lt;p&gt;For that, we will deploy nginx deployment with 2 replicas and busybox pod. Then we will try to curl nginx home page from busybox via nginx’s POD IP&lt;/p&gt;
+
+&lt;p&gt;Create nginx deployment with 2 replicas&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt; | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      run: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - name: my-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Create service for the deployement&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl expose deployment/nginx&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl run busybox &lt;span class=&quot;nt&quot;&gt;--image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;odise/busybox-curl &lt;span class=&quot;nt&quot;&gt;--command&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sleep &lt;/span&gt;3600
+&lt;span class=&quot;nv&quot;&gt;$ POD_NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;kubectl get pods &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;busybox &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonpath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;{.items[0].metadata.name}&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Get nginx pods IP&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get ep nginx&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now let curl nginx home of nginx pods&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$POD_NAME&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; curl &amp;lt;first nginx pod IP address&amp;gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$POD_NAME&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; curl &amp;lt;second nginx pod IP address&amp;gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get svc&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/nginx_home_page.jpg&quot; alt=&quot;nginx curl Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;11-deploying-the-dns-cluster-add-on&quot;&gt;11. Deploying the DNS Cluster Add-on&lt;/h1&gt;
+&lt;p&gt;In this section we will deploy &lt;a href=&quot;https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/&quot;&gt;DNS add-on&lt;/a&gt; which provides DNS based service discovery.
+We will use &lt;a href=&quot;https://coredns.io/&quot;&gt;coreDNS&lt;/a&gt; as DNS add-on in our K8s&lt;/p&gt;
+
+&lt;p&gt;Deploy core DNS&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl apply &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; https://storage.googleapis.com/kubernetes-the-hard-way/coredns.yaml&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;verification-2&quot;&gt;Verification&lt;/h3&gt;
+&lt;p&gt;Verify core DNS pods are up&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get pods &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; k8s-app&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kube-dns &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kube-system&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;In order to verify DNS resolution in K8s, we need to create a busybox pod and try &lt;code class=&quot;highlighter-rouge&quot;&gt;nslookup&lt;/code&gt; the &lt;code class=&quot;highlighter-rouge&quot;&gt;kubernetes&lt;/code&gt; service&lt;/p&gt;
+
+&lt;p&gt;Create a busybox deployment&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl run busybox &lt;span class=&quot;nt&quot;&gt;--image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;odise/busybox-curl &lt;span class=&quot;nt&quot;&gt;--command&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sleep &lt;/span&gt;3600&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Retrieve the full name of the busybox pod&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ POD_NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;kubectl get pods &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;busybox &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonpath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;{.items[0].metadata.name}&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Execute a DNS lookup for the kubernetes service inside the busybox pod:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ti&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$POD_NAME&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; nslookup kubernetes&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/dns.jpg&quot; alt=&quot;DNS Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If everything is good, you should see “kubernetes” name resolution like above&lt;/p&gt;
+
+&lt;p&gt;That completes our objectives, we have installed necessary components to bring up the kubernetes.You can perform some other &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/13-smoke-test.md&quot;&gt;smoke test&lt;/a&gt; from official Kubernetes The Hard Way&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;It has been a long post for readers, I have modified the official Kubernetes The Hard Way to setup Docker as CRI and Flannel as CNI. So, let’s conclude what we have done so far&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Provisioning the compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer.&lt;/li&gt;
+  &lt;li&gt;Generated certificates to setup TLS communication between the kubernetes components&lt;/li&gt;
+  &lt;li&gt;kubeconfig files generations&lt;/li&gt;
+  &lt;li&gt;Provisioning controller and worker nodes with docker and Flannel&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can go even further to setup &lt;a href=&quot;https://github.com/kubernetes/dashboard&quot;&gt;K8s dashboard&lt;/a&gt;,K8s logging and Prometheus monitoring, etc. (For starters, you can refer my &lt;a href=&quot;https://github.com/veerendra2/prometheus-k8s-monitoring&quot;&gt;prometheus-k8s-monitoring&lt;/a&gt;)&lt;/p&gt;
+
+&lt;h1 id=&quot;refernces&quot;&gt;Refernces&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;https://github.com/kelseyhightower/kubernetes-the-hard-way&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://developer.ibm.com/recipes/tutorials/bridge-the-docker-containers-to-external-network/&quot;&gt;https://developer.ibm.com/recipes/tutorials/bridge-the-docker-containers-to-external-network/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.docker.com/config/containers/container-networking/&quot;&gt;https://docs.docker.com/config/containers/container-networking/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://coreos.com/flannel/docs/latest/kubernetes.html&quot;&gt;https://coreos.com/flannel/docs/latest/kubernetes.html&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge&quot;&gt;https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;PageNavigation&quot;&gt;
+  
+    &lt;a class=&quot;prev&quot; href=&quot;/kubernetes-the-hard-way-2/&quot;&gt;&amp;laquo; Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 2)&lt;/a&gt;
+  
+&lt;/div&gt;
+
+&lt;style&gt;
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 80%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+&lt;/style&gt;</content><author><name></name></author><summary type="html">Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp;amp; Flannel” series. In part-1, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In previous post, we have bootstrapped controller nodes.</summary></entry><entry><title type="html">SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title><link href="https://veerendra2.github.io/ssl-config-k8s-service-aws/" rel="alternate" type="text/html" title="SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" /><published>2018-05-29T00:00:00+05:30</published><updated>2018-05-29T00:00:00+05:30</updated><id>https://veerendra2.github.io/ssl-config-k8s-service-aws</id><content type="html" xml:base="https://veerendra2.github.io/ssl-config-k8s-service-aws/">&lt;p&gt;As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as &lt;code class=&quot;highlighter-rouge&quot;&gt;LoadBalancer&lt;/code&gt;, cloud provider doesn’t provide HTTPS mechanism for the enpoint by default.&lt;/p&gt;
 
 &lt;p&gt;If we look at the K8s setup that is deployed on AWS(For example &lt;a href=&quot;https://github.com/kubernetes/kops&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;kops&lt;/code&gt;&lt;/a&gt;), there is an actual &lt;code class=&quot;highlighter-rouge&quot;&gt;ELB&lt;/code&gt;(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS’s &lt;code class=&quot;highlighter-rouge&quot;&gt;ELB&lt;/code&gt; is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the enpoint secure.&lt;/p&gt;
 
@@ -330,7 +1770,7 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
 &lt;/ul&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;    
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm quem-system libvirt-bin bridge-utils virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h3 id=&quot;2-create-kvmqemu-hard-disk-file&quot;&gt;2. Create KVM/Qemu Hard Disk File&lt;/h3&gt;
 
@@ -504,134 +1944,4 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
 &lt;p&gt;Other resources you can try&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/jedisct1/dnscrypt-proxy&quot;&gt;https://github.com/jedisct1/dnscrypt-proxy&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><summary type="html">We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?</summary></entry><entry><title type="html">Wifi De-authentication Attack</title><link href="https://veerendra2.github.io/wifi-deathentication-attack/" rel="alternate" type="text/html" title="Wifi De-authentication Attack" /><published>2018-01-11T00:00:00+05:30</published><updated>2018-01-11T00:00:00+05:30</updated><id>https://veerendra2.github.io/wifi-deathentication-attack</id><content type="html" xml:base="https://veerendra2.github.io/wifi-deathentication-attack/">&lt;blockquote&gt;
-  &lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
-
-  &lt;p&gt;-Wikipedia&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult  to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&quot;https://www.aircrack-ng.org/doku.php?id=deauthentication&quot;&gt;here&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “De-authentication” frame to victim’s devices/PC to tell deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once  deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;
-
-&lt;p&gt;Interestingly, the victim’s device/PC could not differentiate between the attacker and valid AP. Here, the attacker creates “De-authentication” packet/frame with source MAC address of valid AP’s MAC address. So, every device thinks, the management frame came from valid AP.&lt;/p&gt;
-
-&lt;p&gt;The attacker not just send the frame once, but sends continuously. Things get pretty bad, now the clients continuously trying to reconnect. In this way, the clients never connect to its valid AP until the attacker stops sending the “deauth” frames.&lt;/p&gt;
-
-&lt;h2 id=&quot;so-how-to-avoid-this-attack&quot;&gt;So, how to avoid this attack?&lt;/h2&gt;
-
-&lt;p&gt;Simple, use &lt;code class=&quot;highlighter-rouge&quot;&gt;802.1w&lt;/code&gt; supported routers. Know more about &lt;a href=&quot;https://en.wikipedia.org/wiki/IEEE_802.11w-2009&quot;&gt;802.1w&lt;/a&gt; and read &lt;a href=&quot;http://www.cisco.com/c/en/us/td/docs/wireless/controller/technotes/5700/software/release/ios_xe_33/11rkw_DeploymentGuide/b_802point11rkw_deployment_guide_cisco_ios_xe_release33/b_802point11rkw_deployment_guide_cisco_ios_xe_release33_chapter_0100.pdf&quot;&gt;cisco document here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;check-your-wifi-network-is-vulnerable-to-this-attack-or-not&quot;&gt;Check your wifi network is vulnerable to this attack or not…&lt;/h2&gt;
-
-&lt;p&gt;I have created a Python script which sends deauth packets using &lt;code class=&quot;highlighter-rouge&quot;&gt;scapy&lt;/code&gt; python module. You can use this script to check your wifi network is vulnerable or not. Just run the script, select wifi network that you want to test and if you see network outage, your wifi is vulnerable!&lt;/p&gt;
-
-&lt;h5 id=&quot;dependencies&quot;&gt;Dependencies&lt;/h5&gt;
-&lt;p&gt;wireless
-Install &lt;code class=&quot;highlighter-rouge&quot;&gt;aircrack-ng&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;scapy&lt;/code&gt;&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;aircrack-ng &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-scapy &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h5 id=&quot;download-and-run-the-script&quot;&gt;Download and run the script&lt;/h5&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;wget &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; deauth.py https://goo.gl/5gGHbE
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;python deauth.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;When you run the command, you should see like bellow.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/blog-image1.jpg&quot; alt=&quot;Help&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/blog-image2.jpg&quot; alt=&quot;Command Run&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;When you start the script, it will create “mon0” interface(A monitoring virtual interface used to send our deauth frames) and observes wifi signals. After few seconds, it will display near APs and its MAC addresses. Choose one to broadcasts the “deauth” frames to that network which results network outage for connected clients to that AP.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;NOTE: Inorder to work deauthentication attack successful, you should near to the target network. The deauth packets should reach the connected devices of the target network&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Use my &lt;a href=&quot;https://github.com/veerendra2/wifi-sniffer&quot;&gt;docker image&lt;/a&gt; to kick the environment quickly.&lt;/li&gt;
-  &lt;li&gt;Github Repository Link - &lt;a href=&quot;https://github.com/veerendra2/wifi-deauth-attack&quot;&gt;https://github.com/veerendra2/wifi-deauth-attack&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><summary type="html">A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point. -Wikipedia</summary></entry><entry><title type="html">GNU screen commands(Cheat Sheet)</title><link href="https://veerendra2.github.io/gnu-screen-commands/" rel="alternate" type="text/html" title="GNU screen commands(Cheat Sheet)" /><published>2018-01-08T00:00:00+05:30</published><updated>2018-01-08T00:00:00+05:30</updated><id>https://veerendra2.github.io/gnu-screen-commands</id><content type="html" xml:base="https://veerendra2.github.io/gnu-screen-commands/">&lt;blockquote&gt;
-  &lt;p&gt;GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. &lt;a href=&quot;https://en.wikipedia.org/wiki/GNU_Screen&quot;&gt;more&lt;/a&gt;&lt;/p&gt;
-
-  &lt;p&gt;-Wikipedia&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Install &lt;code class=&quot;highlighter-rouge&quot;&gt;screen&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;screen&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;style&gt;
-.tablelines table, .tablelines td, .tablelines th {
-        border: 2px solid black;
-        }
-&lt;/style&gt;
-
-&lt;table class=&quot;tablelines&quot;&gt;
-&lt;tr&gt;
- &lt;th&gt;Keys/Commands&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;screen&lt;/td&gt;&lt;td&gt;Enables Screen&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then c&lt;/td&gt;&lt;td&gt;Create new screen&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then n&lt;/td&gt;&lt;td&gt;Go to next screen&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then p&lt;/td&gt;&lt;td&gt;Go to previous screen&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then Shift+s&lt;/td&gt;&lt;td&gt;Split screen horizontally&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then Shift+\&lt;/td&gt;&lt;td&gt;Split screen vertically&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then Tab&lt;/td&gt;&lt;td&gt;Traverse between splited screens&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then Shift+x&lt;/td&gt;&lt;td&gt;Unsplit screens&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then Esc (Hit Esc, once you are done)    &lt;/td&gt;&lt;td&gt;Scroll screen&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;Ctrl+a and then d&lt;/td&gt;&lt;td&gt;Detach screens&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;screen -r PID&lt;/td&gt;&lt;td&gt;Reattach screen&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
- &lt;td&gt;screen -ls&lt;/td&gt;&lt;td&gt;List screens&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;</content><author><name></name></author><summary type="html">GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. more -Wikipedia</summary></entry><entry><title type="html">Install jekyll in Ubuntu 14.04</title><link href="https://veerendra2.github.io/jeklly-website/" rel="alternate" type="text/html" title="Install jekyll in Ubuntu 14.04" /><published>2018-01-07T00:00:00+05:30</published><updated>2018-01-07T00:00:00+05:30</updated><id>https://veerendra2.github.io/jeklly-website</id><content type="html" xml:base="https://veerendra2.github.io/jeklly-website/">&lt;p&gt;I was very excited to try &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt; when I heard about it. When I try to install &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;root@veeru:/home/veeru# gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler
-Fetching: public_suffix-3.0.1.gem &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;100%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-ERROR:  Error installing jekyll:
-	public_suffix requires Ruby version &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; 2.1.
-Fetching: bundler-1.16.1.gem &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;100%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-Successfully installed bundler-1.16.1
-1 gem installed
-Installing ri documentation &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;bundler-1.16.1...
-Installing RDoc documentation &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;bundler-1.16.1...&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;I din’t even know what that means(I’m not a Ruby guy, so..). Clearly &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt; needs more then Ruby version 2.1, but in Ubuntu 14.04 if you type &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So lets install Ruby2.4 like below&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-add-repository ppa:brightbox/ruby-ng
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;ruby2.4 ruby2.4-dev make g++ &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Then install &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll&lt;/code&gt;&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jekyll bundler&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;whats-next&quot;&gt;What’s next?&lt;/h3&gt;
-&lt;p&gt;I found a blog which exactly I was look for to deploy website on Github Pages. As Drew Silcock said in the blog, it better to maintain website source code and compiled website on same repository. Just head over to his &lt;a href=&quot;https://drewsilcock.co.uk/custom-jekyll-plugins&quot;&gt;blog&lt;/a&gt; and check the stuff&lt;/p&gt;</content><author><name></name></author><summary type="html">I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.16.1...</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?</summary></entry></feed>
