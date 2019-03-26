@@ -283,7 +283,7 @@ $ sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 {% endhighlight %}
 
 ### Enable HTTP Health Checks
-In original kubernetes the hard way, Kelsey used GCP load balancer to load balance the requests among controllers. Since it is difficult to setup HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health check. He created HTTP nginx proxy for kube-api server, GCP network load balancer perform health check via HTTP nginx proxy. But in our case, we can skip this step since we are not using GCP network load balancer
+In original "Kubernetes The Hard Way", Kelsey used GCP load balancer to load balance the requests among controllers. Since it is difficult to setup HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health check. He created HTTP nginx proxy for kube-api server, GCP network load balancer perform health check via HTTP nginx proxy. But in our case, we can skip this step since we are not using GCP network load balancer
 
 ### Verification
 Check the components status using below commands.
@@ -349,14 +349,15 @@ subjects:
 EOF
 {% endhighlight %}
 ### The Kubernetes Frontend Load Balancer
-As I said earlier, we are not using GCP load network load balancer, but we are using nginx docker container on host(Laptop) to load balance the requests.
+As I said earlier, we are not going using GCP load network load balancer, but we are going using nginx docker container on host(Laptop) to load balance the requests.
 
 In this section, we will build nginx docker image with appropriate configuration to load balance requests among controller nodes(`m1` and `m2`)
 
 ##### nginx configuration
-Specify controller's IPs with kube-api server's port and create nginx configuration like below
+Specify controllers IPs with kube-api server's port in nginx configuration like below
 {% highlight shell %}
 # On host
+cd ~/kubernetes-the-hard-way
 
 $ cat <<EOF | tee kubernetes.conf 
 stream {
@@ -378,6 +379,7 @@ EOF
 Create `Dockerfile` to build nginx load balancer docker image
 {% highlight shell %}
 # On host
+$ cd ~/kubernetes-the-hard-way
 
 $ cat <<EOF | tee Dockerfile
 FROM nginx:latest
@@ -390,13 +392,14 @@ EOF
 Build and launch the container
 {% highlight shell %}
 # On host
+$ cd ~/kubernetes-the-hard-way
 
-$ sudo docker build nginx_proxy .
+$ sudo docker build -t nginx_proxy .
 $ sudo docker run -it -d -h proxy --net br0 --ip 10.200.1.15 nginx-proxy
 {% endhighlight %}
 
 ### Verification
-`curl` the HTTPS endpoint of load balancer(nginx docker container) which forwards the requests to controller node with certificate that we have created earlier.
+`curl` the HTTPS endpoint of load balancer(nginx docker container) which forwards the requests to controller node with certificate.
 {% highlight shell %}
 # On host
 
@@ -407,7 +410,7 @@ $ curl --cacert ca.pem https://${KUBERNETES_PUBLIC_ADDRESS}:6443/version
  
 ![curl for version image]({{ "/assets/curl_version.jpg" | absolute_url }}){: .center-image }
 
-In this post, We have successfully provisioned controller nodes and load balancer. In the next post, we will bootstrap the worker nodes
+In this post, we have successfully provisioned controller nodes and load balancer. We will bootstrap the worker nodes in next post
 
 <div class="PageNavigation">
   {% if page.previous.url %}

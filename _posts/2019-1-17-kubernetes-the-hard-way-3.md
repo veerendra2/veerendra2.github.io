@@ -10,7 +10,7 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 
 
 ## 9. Bootstrapping the Kubernetes Worker Nodes
-As the title of this post "Kubernetes The hard way on Docker & Flannel", what we are going to do now is different from [Kelsey Hightower's Kubernetes The Hard Way tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way) i.e. container runtime interface is `Docker` instead of `containerd`
+As the title of this post "Kubernetes The Hard Way With Docker & Flannel", what we are going to do now is different from [Kelsey Hightower's Kubernetes The Hard Way tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way) i.e. container runtime interface is `Docker` instead of `containerd`
 
 **_*NOTE: The below commands must run on all worker nodes_**
 
@@ -72,7 +72,7 @@ tlsPrivateKeyFile: "/var/lib/kubelet/n1-key.pem"
 EOF
 {% endhighlight %}
 
-Create kubelet systemd unit file. Below you can notice I have specified `--docker*` flag which indicates kubelet intracts with docker daemon
+Create kubelet systemd unit file. Below you can notice I have specified `--docker*` flag which indicates that kubelet intracts with docker daemon
 
 {% highlight shell %}
 # On worker nodes
@@ -149,8 +149,8 @@ EOF
 
 $ {
   sudo systemctl daemon-reload
-  sudo systemctl enable containerd kubelet kube-proxy
-  sudo systemctl start containerd kubelet kube-proxy
+  sudo systemctl enable kubelet kube-proxy
+  sudo systemctl start kubelet kube-proxy
 }
 {% endhighlight %}
 
@@ -227,7 +227,7 @@ $ kubectl get daemonsets -n kube-system
 
 Once pods are up, we have to test pod networking that they can connect each other
 
-For that, we will deploy nginx deployment with 2 replicas and busybox pod. Then we will try to curl nginx home page from busybox via nginx service
+For that, we will deploy nginx deployment with 2 replicas and busybox pod. Then we will try to curl nginx home page from busybox via nginx's POD IP
 
 Create nginx deployment with 2 replicas
 {% highlight shell %}

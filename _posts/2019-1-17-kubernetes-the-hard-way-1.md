@@ -8,7 +8,7 @@ Hello alle zusammen, after a long time I'm writing this blog and I come with an 
 
 I know what you are thinking, I steal [Kelsey Hightower's Kubernetes The Hard Way tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way), but hey!, I did some research and try to **fit K8s cluster(Multi-Master!) in a laptop with Docker as '[CRI](https://kubernetes.io/docs/setup/cri/)' and Flannel as '[CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)'.**
 
-This blog post follows [Kelsey Hightower's](https://github.com/kelseyhightower) [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), I highly recommend go through his repo. I'm writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. This series divided into 3 parts and all configuration/scripts are in my [github repo](https://github.com/veerendra2/k8s-the-hard-way-blog). Well that has been said, let's start building the cluster.
+This blog post follows [Kelsey Hightower's](https://github.com/kelseyhightower) [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), I highly recommend go through his repo. I'm writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. This series divided into 3 parts and all configuration/scripts are available in my [github repo](https://github.com/veerendra2/k8s-the-hard-way-blog). Well that has been said, let's start building the cluster.
 
 Below is my laptop configuration. Make sure you have enough resources in your laptop.(or depends on resources, you can reduce nodes in cluster, etc.)
 
@@ -30,7 +30,7 @@ Below is my laptop configuration. Make sure you have enough resources in your la
  </tr>
 </table>
 
-First let's talk about cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters , but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters looks like below.
+First let's talk about the cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters, but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters looks like below.
 
 ![Cluster Image]({{ "/assets/Server2.png" | absolute_url }}){: .center-image }
 # 1. Prerequisites
@@ -67,7 +67,7 @@ $ sudo mv kubectl /usr/local/bin/
 
 ### Subnets
 
-In offical "Kubernetes The Hard Way", cluster network configuration done via `gcloud` and obviously we are not going to use it. We have to choose subnet manually for our cluster nodes,CIDR for pods and K8s services. So, here is what I come with
+In offical "Kubernetes The Hard Way", cluster network configuration done via `gcloud` and obviously we are not going to use it. We have to choose subnets manually for our cluster nodes,CIDR for pods and K8s services. So, here is what I come with
 <table class="tablelines">
  <tr>
   <th>No.</th>
@@ -95,7 +95,11 @@ In offical "Kubernetes The Hard Way", cluster network configuration done via `gc
 As you can see in above diagram, we are going to use `linux bridge` to connect our VMs and nginx container. Also we need to do [NATing](https://en.wikipedia.org/wiki/Network_address_translation) for our VMs in order to access Internet.
 
 {% highlight shell %}
-$ EXTERNAL_IFACE="wlp0s20f3"
+$ EXTERNAL_IFACE="wlan0"
+
+# Enable ip forwarding
+$ sudo sysctl net.ipv4.conf.all.forwarding=1
+
 # Creat br0 bridge
 $ sudo ip link add name br0 type bridge
 $ sudo ip link set dev br0 up
@@ -127,7 +131,7 @@ $ cd ~/kubernetes-the-hard-way
 
 # 2. Provisioning Compute Resources
 
-* Specify cluster info like hostname, IP and user to login in `controllers.txt` and `workers.txt` files respectively like in below. These files are useful to automate things like copy files to nodes or generating certificates for these nodes, etc. You will see in a moment.
+Specify cluster info(hostname, IP and user to login) in `controllers.txt` and `workers.txt` files respectively like in below. In the same way add those VM IPs in `/etc/hosts` file like below. These files are useful to automate things like copy files to nodes or generating certificates for these nodes, etc. You will see in a moment.
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
@@ -141,6 +145,17 @@ n2 10.200.1.14 veeru
 
 $ cat nginx_proxy.txt
 proxy 10.200.1.15
+
+$ cat /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	ghost
+
+10.200.1.10 m1
+10.200.1.11 m2
+10.200.1.12 n1
+10.200.1.13 n2
+10.200.1.15 nginx
+
 {% endhighlight %}
 Below are the IPs, hostname and username for the nodes that I choose
 <table class="tablelines">
@@ -193,7 +208,7 @@ _*TIP: Install OS in VM and clone VM 3 time_
 
 ![VM Manager Image]({{ "/assets/vm_manager.jpg" | absolute_url }}){: .center-image }
 
-Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should able to ssh both host-to-VM and VM-to-VM. For handy, you can copy ssh keys, so that don't have enter password every time.
+Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should able to ssh both host-to-VM and VM-to-VM. For handy, you can copy ssh keys, so that don't have to enter password every time.
 {% highlight shell %}
 $ ssh-keygen
 $ ssh-copy-id guest-username@guest-ip
@@ -245,7 +260,7 @@ admin-key.pem admin.pem
 As [docs](https://kubernetes.io/docs/reference/access-authn-authz/node/) says
 > K8s uses node authorization which is a special-purpose authorization mode that specifically authorizes API requests made by kubelets
 
-In order to be authorized by the Node Authorizer, Kubelets must use a credential that identifies them as being in the system:nodes group, with a username of system:node:<nodeName>. Let's create a certificate and private key for each worker nodes (In my case n1 and n2)
+In order to be authorized by the Node Authorizer, Kubelets must use a credential that identifies them as being in the `system:nodes` group, with a username of `system:node:<nodeName>`. Let's create a certificate and private key for each worker nodes (In my case n1 and n2)
 {% highlight shell %}
 $ cd ~/kubernetes-the-hard-way
 
@@ -344,7 +359,7 @@ kube-api server certificate's hostname should include following things
 * All controller's IP 
 * Load balancer's hostname
 * Load balancer's IP
-* Kubernetes's service(Both 'service name' and IP which are 10.32.0.1 and kubernetes.default)
+* Kubernetes's service(Both 'service name' and IP which are 10.32.0.1 and `kubernetes.default`)
 * localhost
  
 {% highlight shell %}
@@ -413,7 +428,7 @@ done
  <tr>
   <td>1</td>
   <td>Cluster</td>
-  <td>api-server's IP and its certificate which is encoded in `base64`</td>
+  <td>api-server's IP and its certificate which encodes in `base64`</td>
  </tr>
  <tr>
   <td>2</td>
@@ -632,10 +647,10 @@ $ for instance in `cat controller.txt`; do
 done
 {% endhighlight %}
 
-Till now we have following things 
+Till now we have done following things 
 1. Provisioned compute resources
-2. generated certificates 
-3. kubeconfig files
+2. Generated certificates 
+3. Generated kubeconfig files
 4. Copied certificate files and kubeconfigs to nodes
 
 In the next post, we will bootstrap controller nodes
