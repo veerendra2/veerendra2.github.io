@@ -49,7 +49,7 @@ sudo apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager 
 * `virsh list --all` - : List VMs
 * `virsh console <name>` - : Connect to tty of the VM
    * Note down the IP of the VM once you connect to `tty`. we can `ssh`
-     #### NOTE: Once the console/tty is active, you can not reconnect to that tty
+     #### NOTE: If console/tty is already being used or active, you can reconnect to that tty by using `--extra-args='console=ttyS0'` option
   
 ### 5. Export VM as `.qcow2`
 {% highlight shell %}

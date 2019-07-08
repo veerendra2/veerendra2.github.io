@@ -38,6 +38,9 @@ popd
   * `/proc/sys/net/ipv4/*` - Get more info under this directory from [kernel.org docs](https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt)
   * `/proc/net/tcp and /proc/net/tcp6` - Get complete info of variables for these files from [kernel.org.docs](https://www.kernel.org/doc/Documentation/networking/proc_net_tcp.txt)
 
+* `/proc/sysctl` https://www.kernel.org/doc/Documentation/sysctl/
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Reference_Guide/s3-proc-sys-net.html
+
 * Network related in Linux - Refer [kernel.org.doc](https://www.kernel.org/doc/Documentation/networking/)
   
 ## Special Device Files
