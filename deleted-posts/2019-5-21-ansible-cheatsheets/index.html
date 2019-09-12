@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ansible Cheatsheets – Veerendra's Blog – #docker #kubernetes #linux #python #networking</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="#docker #kubernetes #linux #python #networking">
+    <meta property="og:description" content="#docker #kubernetes #linux #python #networking" />
+    
+    <meta name="author" content="Veerendra's Blog" />
+
+    
+    <meta property="og:title" content="Ansible Cheatsheets" />
+    <meta property="twitter:title" content="Ansible Cheatsheets" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Veerendra's Blog - #docker #kubernetes #linux #python #networking" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://avatars0.githubusercontent.com/u/8393701?s=460&v=4" /></a>
+
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Veerendra's Blog</a></h1>
+            <p class="site-description">#docker #kubernetes #linux #python #networking</p>
+          </div>
+
+          <nav>
+            <a href="/bookmarks">My Bookmarks</a>
+            <a href="/archive">Archives</a>
+            <a href="/tags">Tags</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Ansible Cheatsheets</h1>
+
+  <div class="entry">
+    <p>Yep, that’s right, one more blog on cheatsheet. Because we can easily forget if we don’t practice continuously. From past few months I’ve been working on Ansible, I just want to make some notes on what I learned and try to update this cheatsheet frequently.</p>
+
+<p>I have create example playbooks in my <a href="https://github.com/veerendra2/useless-scripts/tree/master/code_snippets/ansible">repo</a> to cover below topics</p>
+
+<p>Below are the things I choose to cover in this post. (<em>Reader expected to have prior knowledge on Ansible</em>)</p>
+
+<ol>
+  <li>Variables
+    <ul>
+      <li>What is variable in ansible?</li>
+      <li>How to define?</li>
+      <li>Access variable</li>
+    </ul>
+  </li>
+  <li>Iterations
+    <ul>
+      <li>with_nested</li>
+      <li>with_subelements</li>
+      <li>loop</li>
+      <li>with_lines</li>
+    </ul>
+  </li>
+  <li>ini and line configuration files
+    <ul>
+      <li>line in file (GET/SET)</li>
+      <li>ini (GET/SET)</li>
+    </ul>
+  </li>
+  <li>Poll a Command</li>
+  <li>Jinja Templating</li>
+</ol>
+
+<h2 id="1-variables">1. Variables</h2>
+<p>Variables or facts are created per hosts basis, since Ansible is designed to executes tasks on multiple servers, it maintains variables or facts per host.</p>
+
+<p>For example, let’s say there is a group called ‘webservers’ in inventory file and defined a variable inside Play</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">---</span>
+<span class="nv">$ </span><span class="nb">cat </span>inventory.txt
+<span class="o">[</span>webserver]
+192.168.0.10
+192.168.0.11
+192.168.0.12
+
+
+- name: First Play
+  hosts: webserver
+  gather_facts: <span class="nb">false
+  </span>vars:
+    myvars: Hello World
+    elements:
+      - <span class="s2">"Hydrogen"</span>
+      - <span class="s2">"Helium"</span>
+    atomic_no: <span class="o">{</span> <span class="s1">'hydrogen'</span>: 1, <span class="s1">'helium'</span>: 2 <span class="o">}</span>
+    atomic_weight: <span class="c"># Dict with YAML Syntax</span>
+      hydrogen: 1
+      helium: 2
+   tasks:
+   - name: Run Some Tasks
+     shell: <span class="nb">echo</span>  <span class="o">&gt;</span> /tmp/test</code></pre></figure>
+
+<p>All the variables that are defined in <code class="highlighter-rouge">vars</code> are mapped to 3 web server, since we defined <code class="highlighter-rouge">webserver</code> as target hosts. Ansible tracks the variables like below</p>
+
+<table class="tablelines">
+ <tr>
+  <th>Host</th><th>Variables/Facts</th>
+ </tr>
+ <tr>
+  <td>192.168.0.10</td><td>myvars, elements, atomic_no, atomic_weight</td>
+ </tr>
+ <tr>
+  <td>192.168.0.11</td><td>myvars, elements, atomic_no, atomic_weight</td>
+ </tr>
+ <tr>
+  <td>192.168.0.12</td><td>myvars, elements, atomic_no, atomic_weight</td>
+ </tr>
+</table>
+
+<p>And there are some other facts that are created by Ansible automatically like hostname, IPs, default gateway ,etc. Again these are also create per hosts basis.</p>
+
+<h3 id="define-variable">Define Variable</h3>
+
+<h4 id="set_fact"><code class="highlighter-rouge">set_fact</code></h4>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">---</span>
+- name: Var Example2
+  hosts: localhost
+  
+  tasks:
+  - name: Creating or setting fact
+    set_fact:
+      myvars: <span class="s2">"Ghost"</span></code></pre></figure>
+
+<h4 id="with-vars">With <code class="highlighter-rouge">vars</code></h4>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">---</span>
+- name: Var Example2
+  hosts: localhost
+  vars:
+    myvars1: <span class="s2">"Ghost"</span>
+    myvars2: <span class="s2">"Daemon"</span>
+  
+  tasks:
+  - name: Creating or setting fact
+    set_fact:
+      myvars: <span class="s2">"Ghost"</span></code></pre></figure>
+
+<h4 id="pitfall">Pitfall</h4>
+<p>Don’t try to use before the variable definition is complete like below</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">---</span>
+- name: Var Example2
+  hosts: localhost
+  
+  tasks:
+  - name: Creating or setting fact
+    set_fact:
+      count: 10
+      add_to_count: count + 10</code></pre></figure>
+
+<p>Remember, the variable <code class="highlighter-rouge">count</code> will only defined after the execution of task <code class="highlighter-rouge">Creating or setting fact</code>. The above playbook can written as</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">---</span>
+- name: Var Example2
+  hosts: localhost
+  
+  tasks:
+  - name: Creating or setting fact
+    set_fact:
+      count: 10
+      add_to_count: 10 + 10</code></pre></figure>
+
+<h3 id="access-one-plays-variablefacts-in-another-play">Access one <code class="highlighter-rouge">play</code>’s variable/facts in another <code class="highlighter-rouge">play</code></h3>
+<p>As you know, a playbook contains one or more plays, each play contains one or more tasks. Generally, in Ansible, the variables in one play with different <code class="highlighter-rouge">hosts</code> are not accessible directly on another play with another <code class="highlighter-rouge">hosts</code>. By using <code class="highlighter-rouge">hostvars</code>, we can access variables.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">---</span>
+- name: First Play
+  hosts: webservers
+  
+  tasks:
+  - name: Creating or setting fact
+    set_fact:
+      myvars: <span class="s2">"Ghost"</span>
+ 
+- name: Second Play
+  hosts: localhost
+  
+  tasks:
+  - name: Accessing Fist Play<span class="s1">'s Varaible
+    debug: var="This is {{ item }}'</span>s variable -&gt;<span class="o">{{</span>hostvars[item].myvarst<span class="o">}}</span>.<span class="s2">"
+    with_items: "</span><span class="o">{{</span> <span class="nb">groups</span><span class="o">[</span><span class="s1">'web_servers'</span><span class="o">]</span> <span class="o">}}</span><span class="s2">"</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">groups</code> is in-built function to get list of hosts that are defined under <code class="highlighter-rouge">web_servers</code> in inventory file. So, we are iterating on <code class="highlighter-rouge">web_servers</code> and get host’s variable called “myvars” which was defined in above play.</p>
+
+<h2 id="2-iterations">2. Iterations</h2>
+
+<style>
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 80%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+</style>
+
+
+  </div>
+
+  <div class="date">
+    Written on 
+  </div>
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+
+	    var disqus_shortname = 'veerendra';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</article>
+
+    </div>
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/veerendra2"><i class="svg-icon github"></i></a>
+
+<a href="https://www.linkedin.com/in/veerendrav2"><i class="svg-icon linkedin"></i></a>
+
+
+<a href="https://www.twitter.com/veerendrav2"><i class="svg-icon twitter"></i></a>
+<a href="http://stackoverflow.com/users/2200798/veerendra"><i class="svg-icon stackoverflow"></i></a>
+
+
+        </footer>
+      </div>
+    </div>
+
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112970252-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-112970252-1');
+</script>
+
+
+
+  </body>
+</html>

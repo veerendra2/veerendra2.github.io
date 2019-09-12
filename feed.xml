@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2019-03-27T00:01:21+05:30</updated><id>https://veerendra2.github.io/feed.xml</id><title type="html">Veerendra’s Blog</title><subtitle>#docker #kubernetes #linux #python #networking</subtitle><entry><title type="html">Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 1)</title><link href="https://veerendra2.github.io/kubernetes-the-hard-way-1/" rel="alternate" type="text/html" title="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" /><published>2019-01-17T00:00:00+05:30</published><updated>2019-01-17T00:00:00+05:30</updated><id>https://veerendra2.github.io/kubernetes-the-hard-way-1</id><content type="html" xml:base="https://veerendra2.github.io/kubernetes-the-hard-way-1/">&lt;p&gt;Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://veerendra2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://veerendra2.github.io/" rel="alternate" type="text/html" /><updated>2019-09-12T13:53:17+05:30</updated><id>https://veerendra2.github.io/feed.xml</id><title type="html">Veerendra’s Blog</title><subtitle>#docker #kubernetes #linux #python #networking</subtitle><entry><title type="html">Kubernetes-The Hard Way With Docker &amp;amp; Flannel (Part 1)</title><link href="https://veerendra2.github.io/kubernetes-the-hard-way-1/" rel="alternate" type="text/html" title="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" /><published>2019-01-17T00:00:00+05:30</published><updated>2019-01-17T00:00:00+05:30</updated><id>https://veerendra2.github.io/kubernetes-the-hard-way-1</id><content type="html" xml:base="https://veerendra2.github.io/kubernetes-the-hard-way-1/">&lt;p&gt;Hello alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post&lt;/p&gt;
 
 &lt;p&gt;I know what you are thinking, I steal &lt;a href=&quot;https://github.com/kelseyhightower/kubernetes-the-hard-way&quot;&gt;Kelsey Hightower’s Kubernetes The Hard Way tutorial&lt;/a&gt;, but hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as ‘&lt;a href=&quot;https://kubernetes.io/docs/setup/cri/&quot;&gt;CRI&lt;/a&gt;’ and Flannel as ‘&lt;a href=&quot;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&quot;&gt;CNI&lt;/a&gt;’.&lt;/strong&gt;&lt;/p&gt;
 
@@ -1245,7 +1245,7 @@ EOF&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;img src=&quot;https://veerendra2.github.io/assets/get_nodes.jpg&quot; alt=&quot;List Nodes Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;10-configuring-kubectl-for-remote-access&quot;&gt;10. Configuring kubectl for Remote Access&lt;/h1&gt;
-&lt;p&gt;In this section, we will generate kubeconfig file for admin. kubeconfig file requires Kubernetes API server IP which is nginx docker container’s IP&lt;/p&gt;
+&lt;p&gt;In this section, we will generate kubeconfig file for &lt;code class=&quot;highlighter-rouge&quot;&gt;admin&lt;/code&gt; user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;c&quot;&gt;# On host&lt;/span&gt;
 
@@ -1554,6 +1554,10 @@ popd&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
       &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/net/tcp and /proc/net/tcp6&lt;/code&gt; - Get complete info of variables for these files from &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/proc_net_tcp.txt&quot;&gt;kernel.org.docs&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;/proc/sysctl&lt;/code&gt; https://www.kernel.org/doc/Documentation/sysctl/
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Reference_Guide/s3-proc-sys-net.html&lt;/p&gt;
+  &lt;/li&gt;
   &lt;li&gt;Network related in Linux - Refer &lt;a href=&quot;https://www.kernel.org/doc/Documentation/networking/&quot;&gt;kernel.org.doc&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -1815,7 +1819,7 @@ Wrote: /home/ec2-user/rpmbuild/RPMS/x86_64/openvswitch-debuginfo-2.6.1-1.x86_64.
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;virsh console &amp;lt;name&amp;gt;&lt;/code&gt; - : Connect to tty of the VM
     &lt;ul&gt;
       &lt;li&gt;Note down the IP of the VM once you connect to &lt;code class=&quot;highlighter-rouge&quot;&gt;tty&lt;/code&gt;. we can &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt;
-        &lt;h4 id=&quot;note-once-the-consoletty-is-active-you-can-not-reconnect-to-that-tty&quot;&gt;NOTE: Once the console/tty is active, you can not reconnect to that tty&lt;/h4&gt;
+        &lt;h4 id=&quot;note-if-consoletty-is-already-being-used-or-active-you-can-reconnect-to-that-tty-by-using---extra-argsconsolettys0-option&quot;&gt;NOTE: If console/tty is already being used or active, you can reconnect to that tty by using &lt;code class=&quot;highlighter-rouge&quot;&gt;--extra-args='console=ttyS0'&lt;/code&gt; option&lt;/h4&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
