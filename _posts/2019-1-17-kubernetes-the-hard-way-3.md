@@ -163,7 +163,7 @@ $ kubectl get nodes --kubeconfig admin.kubeconfig
 ![List Nodes Image]({{ "/assets/get_nodes.jpg" | absolute_url }}){: .center-image }
 
 # 10. Configuring kubectl for Remote Access
-In this section, we will generate kubeconfig file for admin. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP
+In this section, we will generate kubeconfig file for `admin` user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP
 
 {% highlight shell %}
 # On host

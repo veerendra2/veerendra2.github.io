@@ -5,18 +5,18 @@ categories: linux security
 comments: true
 ---
 
-“**MAC Address Scrambling**“- By name itself we can understand, instead of using burned-in address, the machines uses random MAC address every time. The machine/device changes MAC address regularly to improve security.  MAC address is 48 bit hexadecimal digit which is burned in every electronic device has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.
+“**MAC Address Scrambling**“- By name itself we can understand, instead of using burned-in address, the machines uses random MAC address. The machine/device changes MAC address regularly to improve security.  MAC address is 48 bit hexadecimal digit which is burned in every electronic device has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.
 
-So, how static MAC address causes some security issues?  First thing caught in my mind is this
+So, how does a static MAC address causes some security issues?  First thing caught in my mind is this
 
 
 > According to Edward Snowden, the National Security Agency has a system that tracks the movements of everyone in a city by monitoring the MAC addresses of their electronic devices. As a result of users being trackable by their devices’ MAC addresses, Apple has started using random MAC addresses in their iOS line of devices while scanning for networks.If random MAC addresses are not used, researchers have confirmed that it is possible to link a real identity to a particular wireless MAC address.
 >
-> -wikipedia
+>  -wikipedia (https://en.wikipedia.org/wiki/MAC_address)
 
 As I said it is “Burned-in”, means it never changes which network you connect unlike IP address. Another possible attack is “Man-in-Middle” with ARP poisoning. I highly recommend you to read [wikipedia article: ARP spoofing](https://en.wikipedia.org/wiki/ARP_spoofing) for better understanding of ARP poisoning.  IEEE group also recommends  random MAC address for Wifi security. Read this [article](http://www.csoonline.com/article/2945044/cyber-attacks-espionage/ieee-groups-recommends-random-mac-addresses-for-wi-fi-security.html) for more info
 
-For Linux, soon will get this feature. But now, I made a script(init script: I know init scripts are not meant for this, but made it!) which changes MAC address on every time machine boots. Not only on boot, we can change whenever we want with simple command and can restore to original or we can go one step further with cron job to schedule the script that changes MAC address for every 1 hour or 30 minutes (Depends on your need).
+For Linux, soon will get this feature. But now, I made a script(init script: I know init scripts are not meant for this, but I made it anyway!) which changes MAC address on every time machine boots. Not only on boot, we can change whenever we want with simple command and can restore to original or we can go one step further with cron job to schedule the script that changes MAC address for every 1 hour or 30 minutes (Depends on your need).
 
 It is a shell script uses [macchanger](http://manpages.ubuntu.com/manpages/xenial/man1/macchanger.1.html), which executes every time machine boots thus the interface gets random MAC address every time.
 

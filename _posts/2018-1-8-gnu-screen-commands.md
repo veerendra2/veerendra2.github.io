@@ -12,17 +12,7 @@ categories: linux
 {% highlight shell %}
 $ sudo apt-get install screen
 {% endhighlight %}
-<style>
-.tablelines table, .tablelines td, .tablelines th {
-        border: 2px solid black;
-        padding: 5px;
-        }
-.tablelines th{
- text-align:center;
- font-weight:bold
-}
 
-</style>
 
 
 <table class="tablelines">
@@ -65,4 +55,43 @@ $ sudo apt-get install screen
 <tr>
  <td>screen -ls</td><td>List screens</td>
 </tr>
+<tr>
+ <td>screen -S [session] </td><td>Attach screen</td>
+</tr>
+<tr>
+ <td>screen -XS [session] quit</td><td>Kills screen</td>
+</tr>
 </table>
+
+### Few more in my [Github Gist](https://gist.github.com/veerendra2/2d250c007b49fa213787a465fa1862a6)
+<script src="https://gist.github.com/veerendra2/2d250c007b49fa213787a465fa1862a6.js"></script>
+
+<style>
+.tablelines table, .tablelines td, .tablelines th {
+        border: 2px solid black;
+        padding: 5px;
+        }
+.tablelines th{
+ text-align:center;
+ font-weight:bold
+}
+
+.PageNavigation {
+  font-size: 16px;
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 80%;
+  float: left;
+  margin: 1em 0;
+}
+
+.PageNavigation .next {
+  text-align: left;
+}
+
+</style>
