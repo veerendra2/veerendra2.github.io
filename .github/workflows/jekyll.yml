@@ -1,6 +1,9 @@
 name: Jekyll site CI/CD
 
-on: push
+on:
+  push:
+    branches:
+      - source
 
 jobs:
   build:
