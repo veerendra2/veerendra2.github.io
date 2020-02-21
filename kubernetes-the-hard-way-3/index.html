@@ -10,10 +10,8 @@
 
     
     <meta name="description" content="Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In previous post, we have bootstrapped controller nodes.
-
 " />
     <meta property="og:description" content="Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In previous post, we have bootstrapped controller nodes.
-
 " />
     
     <meta name="author" content="Veerendra's Blog" />
@@ -133,14 +131,14 @@ After=containerd.service
 Requires=containerd.service
 
 [Service]
-ExecStart=/usr/local/bin/kubelet \
-  --config=/var/lib/kubelet/kubelet-config.yaml \
-  --docker=unix:///var/run/docker.sock \
-  --docker-endpoint=unix:///var/run/docker.sock \
-  --image-pull-progress-deadline=2m \
-  --network-plugin=cni \
-  --kubeconfig=/var/lib/kubelet/kubeconfig \
-  --register-node=true \
+ExecStart=/usr/local/bin/kubelet </span><span class="se">\</span><span class="sh">
+  --config=/var/lib/kubelet/kubelet-config.yaml </span><span class="se">\</span><span class="sh">
+  --docker=unix:///var/run/docker.sock </span><span class="se">\</span><span class="sh">
+  --docker-endpoint=unix:///var/run/docker.sock </span><span class="se">\</span><span class="sh">
+  --image-pull-progress-deadline=2m </span><span class="se">\</span><span class="sh">
+  --network-plugin=cni </span><span class="se">\</span><span class="sh">
+  --kubeconfig=/var/lib/kubelet/kubeconfig </span><span class="se">\</span><span class="sh">
+  --register-node=true </span><span class="se">\</span><span class="sh">
   --v=2
 Restart=on-failure
 RestartSec=5
@@ -179,7 +177,7 @@ Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-ExecStart=/usr/local/bin/kube-proxy \\
+ExecStart=/usr/local/bin/kube-proxy </span><span class="se">\\</span><span class="sh">
   --config=/var/lib/kube-proxy/kube-proxy-config.yaml
 Restart=on-failure
 RestartSec=5
@@ -295,7 +293,7 @@ EOF</span></code></pre></figure>
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl expose deployment/nginx</code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>kubectl run busybox <span class="nt">--image</span><span class="o">=</span>odise/busybox-curl <span class="nt">--command</span> <span class="nt">--</span> <span class="nb">sleep </span>3600
-<span class="nv">$ POD_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">run</span><span class="o">=</span>busybox <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">"{.items[0].metadata.name}"</span><span class="k">)</span></code></pre></figure>
+<span class="nv">$ POD_NAME</span><span class="o">=</span><span class="si">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">run</span><span class="o">=</span>busybox <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">"{.items[0].metadata.name}"</span><span class="si">)</span></code></pre></figure>
 
 <p>Get nginx pods IP</p>
 
@@ -330,7 +328,7 @@ We will use <a href="https://coredns.io/">coreDNS</a> as DNS add-on in our K8s</
 
 <p>Retrieve the full name of the busybox pod</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ POD_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">run</span><span class="o">=</span>busybox <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">"{.items[0].metadata.name}"</span><span class="k">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ POD_NAME</span><span class="o">=</span><span class="si">$(</span>kubectl get pods <span class="nt">-l</span> <span class="nv">run</span><span class="o">=</span>busybox <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">"{.items[0].metadata.name}"</span><span class="si">)</span></code></pre></figure>
 
 <p>Execute a DNS lookup for the kubernetes service inside the busybox pod:</p>
 
