@@ -88,3 +88,7 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+  - Dockerfile
+  - serve.sh
+  - build.sh
+  - deleted-posts
