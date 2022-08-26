@@ -3,7 +3,11 @@ title: Wifi De-authentication Attack
 date: 2018-01-11T22:10:22+02:00
 slug: "wifi-deathentication-attack"
 author: Veerendra K
-categories: linux python wifi security
+tags:
+  - linux
+  - python
+  - wifi
+  - security
 ---
 
 >A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.
@@ -29,23 +33,23 @@ I have created a Python script which sends deauth packets using `scapy` python m
 ##### Dependencies
 wireless
 Install `aircrack-ng` and `scapy`
-{% highlight shell %}
+```
 sudo apt-get install aircrack-ng -y
 sudo apt-get install python-scapy -y
-{% endhighlight %}
+```
 
 ##### Download and run the script
 
-{% highlight shell %}
-sudo wget -O deauth.py https://goo.gl/5gGHbE
+```
+sudo wget -O deauth.py https://raw.githubusercontent.com/veerendra2/wifi-deauth-attack/master/deauth.py
 sudo python deauth.py
-{% endhighlight %}
+```
 
 When you run the command, you should see like bellow.
 
-![Help]({{ "/assets/blog-image1.jpg" | absolute_url }}){: .center-image }
+![Help](/blog-image1.jpg)
 
-![Command Run]({{ "/assets/blog-image2.jpg" | absolute_url }}){: .center-image }
+![Command Run](/blog-image2.jpg)
 
 When you start the script, it will create “mon0” interface(A monitoring virtual interface used to send our deauth frames) and observes wifi signals. After few seconds, it will display near APs and its MAC addresses. Choose one to broadcasts the “deauth” frames to that network which results network outage for connected clients to that AP.
 

@@ -3,7 +3,9 @@ title: Windows OS metrics collection with Telegraf
 date: 2018-02-27T22:10:22+02:00
 slug: "windows-metrics-collection"
 author: Veerendra K
-categories: windows metrics
+tags:
+  - windows
+  - metrics
 ---
 
 Ok, getting metrics(CPU, Memory & Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading [/proc](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html) pesudo files. In fact there are so many open source tools to do this in Linux, like [tcollector](https://github.com/OpenTSDB/tcollector) which is my favourite.
@@ -18,31 +20,28 @@ As they said in [Github repo](https://github.com/influxdata/telegraf) and I quot
 >Design goals are to have a minimal memory footprint with a plugin system so that developers in the community can easily add support for collecting metrics from local or remote services.
 >
 
-* Goto influxdata download portal and [download `Telegraf` zip file](https://portal.influxdata.com/downloads)
+1. Goto influxdata download portal and [download `Telegraf` zip file](https://portal.influxdata.com/downloads)
 
-* Create a folder and name it as “Telegraf” in “C:\Program Files” and extract the .zip content to “Telegraf” folder (C:\Program Files\Telegraf)
+2. Create a folder and name it as `Telegraf` in `C:\Program Files` and extract the .zip content to `Telegraf` folder (`C:\Program Files\Telegraf`)
 
-* Download telegraf configuration from [here (telegraf.conf)]({{ "/assets/telegraf.conf" | absolute_url }}) and place it in “C:\Program Files\Telegraf”
+3. Download telegraf configuration from [here (telegraf.conf)](telegraf.conf) and place it in `C:\Program Files\Telegraf`
   * Specify OpenTSDB server IP in `outputs.opentsdb` section in the configuration
 
+  ![Application Location](app-location.JPG)
 
-![Application Location]({{ "/assets/app-location.JPG" | absolute_url }}){: .center-image }
-
-* Open “Windows PowerShell” with administrator rights(Run as administrator) and paste below command to create “windows service”
-
-  {% highlight shell %}
+* Open "Windows PowerShell" with administrator rights(Run as administrator) and paste below command to create "windows service"
+  ```
   C:\"Program Files"\Telegraf\telegraf.exe --config C:\"Program Files"\Telegraf\telegraf.conf –-service install
-  {% endhighlight %}
+  ```
+
+  ![Command Run](cmd-run.JPG)
+
+* In Windows `Services`, you should see `Telegraf` service. Right-click on the Telegraf service, open `"Properties"-> Select "Automatic"` for "Startup Type" and click "Start" button to start the Telegraf service.
 
 
-![Command Run]({{ "/assets/cmd-run.JPG" | absolute_url }}){: .center-image }
-
-* In Windows `Services`, you should see `Telegraf` service. Right-click on the Telegraf service, open `“Properties”-> Select “Automatic”` for “Startup Type” and click “Start” button to start the Telegraf service.
+![Windows Service](/service.JPG)
 
 
-![Windows Service]({{ "/assets/service.JPG" | absolute_url }}){: .center-image }
-
-
-You should able to see [these metrics]({{ "/assets/telegraf_metrics.txt" | absolute_url }}) in your OpenTSDB
+You should able to see [these metrics](/assets/telegraf_metrics.txt) in your OpenTSDB
 
 * Docs - [https://docs.influxdata.com/telegraf/v1.5/introduction/getting_started/](https://docs.influxdata.com/telegraf/v1.5/introduction/getting_started/)
