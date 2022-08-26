@@ -3,12 +3,14 @@ title: Encrypt your DNS queries, stay anonymous
 date: 2018-01-22T22:10:22+02:00
 slug: "dns-encrypt"
 author: Veerendra K
-categories: linux security
+tags:
+  - linux
+  - security
 ---
 
 We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?
 
-![HTTPS Example]({{ "/assets/https_example.jpg" | absolute_url }}){: .center-image }
+![HTTPS Example](/https_example.jpg)
 
 Sure if we use HTTPS, all your ([POST](https://en.wikipedia.org/wiki/POST_(HTTP)) or GET) data is encrypted end-to-end which prevents eavesdropping, [MITM attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) and have [Confidentiality](https://en.wikipedia.org/wiki/Confidentiality), but again what about DNS queries?
 
@@ -35,32 +37,32 @@ There are some points to be noted
 ### 1. Install dnscrypt-proxy
 
 From Ubuntu 16/ Linux Mint 18.x, dnscrypt-proxy is available in the offical repo.
-{% highlight shell %}
+```
 sudo apt-get install dnscrypt-proxy
-{% endhighlight %}
+```
 I found a PPA for Ubuntu 14.04 and Linux Mint 17.x
-{% highlight shell %}
+```
 sudo add-apt-repository ppa:anton+/dnscrypt
 sudo apt-get update
 sudo apt-get install dnscrypt-proxy
-{% endhighlight %}
+```
 
 ### 2. Start `dnscrypt-proxy`
 
 After installation, with `--help` argument get options and run accordingly. But luckily I created a python script which will do it for you.
-{% highlight shell %}
+```
 wget -qO dnscrypt.py https://goo.gl/zjZYVR
 sudo python dnscrypt.py
-{% endhighlight %}
+```
 After you run the script, it will lists the DNS reslovers details like below.(The script downloads [reslovers csv](https://github.com/dyne/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) and passes this file as argument to `dnscrypt-proxy``)
 
-![Run the script]({{ "/assets/command_run.jpg" | absolute_url }}){: .center-image }
+![Run the script](/command_run.jpg)
 
 Select one name sever. You can see these name servers have options [`DNSSec`](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) & `No Loggging` which provider can logs your queries, choose one accordingly (These options/table header you cant see in above screeshot. You have to scroll up)
 
 Next, configure your network settings like below
 
-![Network Config]({{ "/assets/network_config.jpeg" | absolute_url }}){: .center-image }
+![Network Config](/network_config.jpeg)
 
 Restart network (disconnect and connect wifi) and your done!
 
@@ -68,8 +70,7 @@ To verify run `tcpdump -i any -n port 2053` (Why `2053` port? because in above s
 
 ##### What's happening?
 
-![Diagram]({{ "/assets/diagram.png" | absolute_url }}){: .center-image }
-
+![Diagram](/diagram.png)
 
 ## Go beyond this script!
 I create `init` script which runs at system boot. So that no need to run above script again and again.
@@ -77,22 +78,21 @@ I create `init` script which runs at system boot. So that no need to run above s
 * Download [reslovers csv](https://github.com/dyne/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) file with --> `python dsncrypt.py -d`
 * Specify `resolver_name`(By default it has `soltysiak` which has `No Logging` policy and `DNSSec`) in the script.
 
-{% highlight shell %}
+```
 sudo wget -O /etc/init.d/encryptdns https://goo.gl/opZ78J
 sudo chmod +x /etc/init.d/encryptdns
 sudo update-rc.d encryptdns defaults
 sudo service encryptdns start
-{% endhighlight %}
+```
 
 > Github Repository Link
 >
 > https://github.com/veerendra2/useless-scripts
 
 ## DNSCrypt in Windows
-* [Simple DNSCrypt](* https://simplednscrypt.org/)
+* [Simple DNSCrypt](https://simplednscrypt.org/)
 
-
-![Simple DNSCrypt]({{ "/assets/DNSCrypt-Windows.JPG" | absolute_url }}){: .center-image }
+![Simple DNSCrypt](/DNSCrypt-Windows.JPG)
 
 Other resources you can try
 * [https://github.com/jedisct1/dnscrypt-proxy](https://github.com/jedisct1/dnscrypt-proxy)

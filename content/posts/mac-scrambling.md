@@ -3,7 +3,9 @@ title: MAC Address Scrambling in Linux
 date: 2018-01-06T22:10:22+02:00
 slug: "mac-scrambling"
 author: Veerendra K
-categories: linux security
+tags:
+   - linux
+   - security
 ---
 
 “**MAC Address Scrambling**“- By name itself we can understand, instead of using burned-in address, the machines uses random MAC address. The machine/device changes MAC address regularly to improve security.  MAC address is 48 bit hexadecimal digit which is burned in every electronic device has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.
@@ -27,37 +29,28 @@ It is a shell script uses [macchanger](http://manpages.ubuntu.com/manpages/xenia
 
 0. Install `macchanger`
 
-   `
-   sudo apt-get update && sudo apt-get install macchanger -y
-   `
+   ```
+   $ apt-get update && sudo apt-get install macchanger -y
+   ```
 
 1. Download and place `changer` script in /etc/init.d/
 
-   `
-   wget -q -O /etc/init.d/changer https://goo.gl/tRfoJo
-   `
+   ```
+   $ wget -q -O /etc/init.d/changer https://goo.gl/tRfoJo
+   ```
 2. Give executable permission
 
-   `
-   sudo chmod +x /etc/init.d/changer
-   `
+   ```
+   $ sudo chmod +x /etc/init.d/changer
+   ```
 3. Run update-rc.d
 
-   `
-   sudo update-rc.d changer defaults
-   `
-
-Or simply, you can run my One Installer script and choose ‘Changer init script’ in menu as you see in below screenshot
-
-![_config.yml]({{ site.baseurl }}/images/one_installer.jpg)
-
-{% highlight shell %}
-wget -qO oneInstaller.py https://goo.gl/ZcideY && sudo python oneInstaller.py
-{% endhighlight %}
-
+   ```
+   $ sudo update-rc.d changer defaults
+   ```
 ### Commands
 
-{% highlight shell %}
+```
 $ service changer restore # To restores original MAC
 MAC Address Restored 0X:XX:XX:27:d8:XX
 
@@ -66,7 +59,7 @@ MAC Address Changed Succefully
 
 $ service changer show # To shows current MAC
 Current MAC: 08:00:0c:27:d8:39
-{% endhighlight %}
+```
 
 **NOTE:**
 1. Change the interface in `changer` after you download, by default the interface is `wlan0`

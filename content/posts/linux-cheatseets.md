@@ -3,7 +3,8 @@ title: Linux pseudo files & cheat sheet
 date: 2018-04-14T22:10:20+02:00
 slug: "linux-cheatseets"
 author: Veerendra K
-categories: linux
+tags:
+  - linux
 ---
 
 *_A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”_
@@ -12,26 +13,26 @@ categories: linux
 * How to force a command to return exit code 0 even the command exited non-zero?
 * How to install dependecies of .deb automatically which was failed to install previsouly?
 
-_Example Solution:_
-{% highlight shell %}
-dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \
-&& apt-get --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -f install -y \
-{% endhighlight %}
+  _Example Solution:_
+  ```
+  dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \
+  && apt-get --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -f install -y \
+  ```
 
 
 * How traverse directories in shell script?
 
   `cd` command should not be used to traverse directories. Remember that each commands in shell script will spawn as individual process unlink programming language, entire script as single process i.e. The scope of `cd` command is only for child process not parent. By using `pushd` and `popd` we can achieve traversing directories.
 
-_Example Solution:_
-{% highlight shell %}
-pushd Downloads
-cat download.txt
-popd
-pushd Downloads/movies
-ls
-popd
-{% endhighlight %}
+  _Example Solution:_
+  ```
+  $ pushd Downloads
+  $ cat download.txt
+  $ popd
+  $ pushd Downloads/movies
+  $ ls
+  $ popd
+  ```
 ## Files:
 
 * `/sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq` - Real time speed of the CPU(ability to adjust their speed to help in saving on battery/power usage)
