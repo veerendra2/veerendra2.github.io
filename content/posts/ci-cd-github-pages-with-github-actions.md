@@ -3,8 +3,11 @@ title: CI/CD for GitHub Pages with GitHub Actions
 date: 2020-02-21T22:10:22+02:00
 slug: "ci-cd-github-pages-with-github-actions"
 author: Veerendra K
-tags:
-  - jekyll
+tags: [jekyll]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I'm back now. As you might aware GitHub recently launched [GitHub Actions](https://github.com/features/actions) which people can automate workflows like build, test, deploy code from GitHub.
@@ -17,7 +20,7 @@ This blog site is powered by GitHub Pages which you can publish static html site
 
 For this, I'm maintaining 2 branches, one for my markup source files in [`source` branch](https://github.com/veerendra2/veerendra2.github.io/tree/source) and another for static html site in [`master` branch](https://github.com/veerendra2/veerendra2.github.io)
 
-![Branch Image]({{ "/branch_image1.jpg"}}){: .center-image }
+![Branch Image](/branch_image1.jpg)
 
 ## Jekyll
 Everything's good so far, but we know that we are too lazy to write html pages. So, that's where this tool ["Jekyll"](https://jekyllrb.com/) comes into picture, converts markup files to static html website. Once you `jekyll build`, it will build static website in `_site` directory. For local testing you can run `jekyll serve` to see how site looks.(Checkout my other [post to know how to install jekyll](https://veerendra2.github.io/jeklly-website/))
@@ -50,5 +53,5 @@ Let's go thought the `jekyll.yml` line by line very briefly
 
 Now, all I have to do is drop `jekyll.yml` in `.github/workflows/` directory to GitHub pickup my workflow. Below is the picture shows pipeline for my website deployment.
 
-![Pipeline Image]("/pipeline.png"){: .center-image }
+![Pipeline Image](/pipeline.png)
 

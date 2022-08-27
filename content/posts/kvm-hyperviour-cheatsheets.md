@@ -3,19 +3,22 @@ title: KVM Hypervior Cheatsheets
 date: 2018-01-27T22:10:22+02:00
 slug: "kvm-hyperviour-cheatsheets"
 author: Veerendra K
-tags:
-   - linux
+tags: [linux, kvm]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 ### 1. Install Packages
- * Check system  is  capable of running KVM: [`kvm-ok`](http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html)
- ```
+Check system  is  capable of running KVM by running [`kvm-ok`](http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html)
+ ```bash
  $ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y
  ```
 
 ### 2. Create KVM/Qemu Hard Disk File
 
-```
+```bash
 $ qemu-img create -f raw <name>.img <Size>
 
 ## Example
@@ -26,7 +29,7 @@ $ qemu-img create -f raw ubuntu14-HD.img 10G
 
 ### 3. Launch VM with `virt-install`
 
-   ```
+   ```bash
    virt-install --name spinnaker \
    --ram 11096 \
    --vcpus=4 \
@@ -57,7 +60,7 @@ $ qemu-img create -f raw ubuntu14-HD.img 10G
      #### NOTE: If console/tty is already being used or active, you can reconnect to that tty by using `--extra-args='console=ttyS0'` option
 
 ### 5. Export VM as `.qcow2`
-```
+```bash
 $ qemu-img convert -f raw -O qcow2 <souruce .img file> <destination .qcow2 file>
 
 ## Example

@@ -3,9 +3,11 @@ title: Windows OS metrics collection with Telegraf
 date: 2018-02-27T22:10:22+02:00
 slug: "windows-metrics-collection"
 author: Veerendra K
-tags:
-  - windows
-  - metrics
+tags: [windows, metrics]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 Ok, getting metrics(CPU, Memory & Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading [/proc](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html) pesudo files. In fact there are so many open source tools to do this in Linux, like [tcollector](https://github.com/OpenTSDB/tcollector) which is my favourite.

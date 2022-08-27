@@ -3,9 +3,11 @@ title: Encrypt your DNS queries, stay anonymous
 date: 2018-01-22T22:10:22+02:00
 slug: "dns-encrypt"
 author: Veerendra K
-tags:
-  - linux
-  - security
+tags: [linux, security]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 We think if we connect to a website over HTTPS is secure which is true(not true sometimes!), but what about DNS queries that you(browser) sent?
@@ -37,11 +39,11 @@ There are some points to be noted
 ### 1. Install dnscrypt-proxy
 
 From Ubuntu 16/ Linux Mint 18.x, dnscrypt-proxy is available in the offical repo.
-```
+```bash
 sudo apt-get install dnscrypt-proxy
 ```
 I found a PPA for Ubuntu 14.04 and Linux Mint 17.x
-```
+```bash
 sudo add-apt-repository ppa:anton+/dnscrypt
 sudo apt-get update
 sudo apt-get install dnscrypt-proxy

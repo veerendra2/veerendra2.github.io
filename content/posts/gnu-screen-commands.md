@@ -3,9 +3,11 @@ title: GNU screen commands(Cheat Sheet)
 date: 2018-01-08T22:10:22+02:00
 slug: "gnu-screen-commands"
 author: Veerendra K
-tags:
-  - linux
-  - screen
+tags: [linux, screen]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 
@@ -15,7 +17,7 @@ tags:
 
 * Install `screen`
 
-```
+```bash
 $ sudo apt-get install screen
 ```
 

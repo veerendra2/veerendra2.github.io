@@ -3,8 +3,11 @@ title: Linux pseudo files & cheat sheet
 date: 2018-04-14T22:10:20+02:00
 slug: "linux-cheatseets"
 author: Veerendra K
-tags:
-  - linux
+tags: [linux]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 *_A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”_
@@ -14,8 +17,8 @@ tags:
 * How to install dependecies of .deb automatically which was failed to install previsouly?
 
   _Example Solution:_
-  ```
-  dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \
+  ```bash
+  $ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \
   && apt-get --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -f install -y \
   ```
 
@@ -25,7 +28,7 @@ tags:
   `cd` command should not be used to traverse directories. Remember that each commands in shell script will spawn as individual process unlink programming language, entire script as single process i.e. The scope of `cd` command is only for child process not parent. By using `pushd` and `popd` we can achieve traversing directories.
 
   _Example Solution:_
-  ```
+  ```bash
   $ pushd Downloads
   $ cat download.txt
   $ popd

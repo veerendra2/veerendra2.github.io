@@ -3,12 +3,14 @@ title: Kubernetes-The Hard Way With Docker & Flannel (Part 2)
 date: 2019-01-17T22:10:21+02:00
 slug: "kubernetes-the-hard-way-2"
 author: Veerendra K
-tags:
-  - linux
-  - kubernetes
+tags: [linux, kubernetes]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-Welcome back to "Kubernetes-The Hard Way With Docker & Flannel" series part 2. In [previous post]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-1 %}) we have provised compute resource, generated certificates and kubeconfig files. In this post, we will install/configure controller nodes
+Welcome back to "Kubernetes-The Hard Way With Docker & Flannel" series part 2. In [previous post]({{< ref "kubernetes-the-hard-way-1" >}} "previous post") we have provisioned compute resource, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
 
 # 6. Bootstrapping the etcd Cluster
 [`etcd`](https://coreos.com/etcd/) is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in `etcd` via api-server. In this section we will install and configure `etcd` on all controller nodes.
@@ -17,7 +19,7 @@ Welcome back to "Kubernetes-The Hard Way With Docker & Flannel" series part 2. I
 
 _*TIP: You can use [tumx](https://github.com/tmux/tmux/wiki) to run command on multiple nodes at same time_
 
-```
+```bash
 ## On controller nodes
 $ wget -q --show-progress --https-only --timestamping \
   "https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz"
@@ -28,7 +30,7 @@ $ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/
 ```
 
 Set up the following environment variables which are usefull generate etcd systemd unit file
-```
+```bash
 ## On controller nodes
 $ ETCD_NAME=`hostname`
 $ INTERNAL_IP=`hostname -i` # IP of the current node
@@ -37,7 +39,7 @@ $ INITIAL_CLUSTER=m1=https://10.200.1.10:2380,m2=https://10.200.1.11:2380
 ```
 
 Create systemd unit file
-```
+```bash
 ## On controller nodes
 $ cat << EOF | sudo tee /etc/systemd/system/etcd.service
 [Unit]
@@ -72,7 +74,7 @@ EOF
 ```
 
 Start the etcd service
-```
+```bash
 ## On controller nodes
 $ {
   sudo systemctl daemon-reload
@@ -82,7 +84,7 @@ $ {
 ```
 
 Once `etcd` installation and configuration done in all controller nodes, verify that etcd cluster is working properly
-```
+```bash
 ## On controller nodes
 sudo ETCDCTL_API=3 etcdctl member list \
   --endpoints=https://127.0.0.1:2379 \
@@ -104,7 +106,7 @@ Download control plane binaries
 
 **_*NOTE: The below commands must run on all controller nodes_**
 
-```
+```bash
 ## On controller nodes
 $ sudo mkdir -p /etc/kubernetes/config
 $ KUBERNETES_VERSION=v1.10.13
@@ -117,7 +119,7 @@ $ wget -q --show-progress --https-only --timestamping \
 _*TIP: You can get version number from [kubernetes releases page](https://github.com/kubernetes/kubernetes/releases)_
 
 Move the binaries to `/usr/local/bin/`
-```
+```bash
 ## On controller nodes
 $ chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
 $ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
@@ -125,7 +127,7 @@ $ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/loc
 
 ### Kubernetes API Server Configuration
 Move certificates to kubernetes directory
-```
+```bash
 ## On controller nodes
 $ sudo mkdir -p /var/lib/kubernetes/
 $ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
@@ -134,7 +136,7 @@ $ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
 ```
 
 Create kube-api server systemd unit file.
-```
+```bash
 ## On controller nodes
 $ CONTROLLER0_IP=10.200.1.10
 $ CONTROLLER1_IP=10.200.1.11
@@ -187,12 +189,12 @@ EOF
 
 ### Kubernetes Controller Manager Configuration
 Move kubeconfig files to kubernetes directory
-```
+```bash
 ## On controller nodes
 $ sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/
 ```
 Create kube-controller-manager systemd unit file
-```
+```bash
 ## On controller nodes
 $ cat <<EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
 [Unit]
@@ -223,10 +225,10 @@ EOF
 
 ### Kubernetes Scheduler Configuration
 Move kube-scheduler kubeconfig to kubernetes directory
-```
+```bash
 # On controller nodes
 $ sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
-```
+```bash
 Create kube-scheduler configuration file
 ```
 ## On controller nodes
@@ -262,7 +264,7 @@ EOF
 
 ### Start the controller services
 
-```
+```bash
 ## On controller nodes
 $ sudo systemctl daemon-reload
 $ sudo systemctl enable kube-apiserver kube-controller-manager kube-scheduler
@@ -274,7 +276,7 @@ In original "Kubernetes The Hard Way", Kelsey used GCP load balancer to load bal
 
 ### Verification
 Check the components status using below commands.
-```
+```bash
 ## On controller nodes
 $ kubectl get componentstatuses --kubeconfig admin.kubeconfig
 ```
@@ -286,7 +288,7 @@ In this section we will configure [RBAC permissions](https://kubernetes.io/docs/
 
 Create the `system:kube-apiserver-to-kubelet` ClusterRole with permissions to access the Kubelet.
 
-```
+```bash
 ## On controller nodes
 $ cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -314,7 +316,7 @@ The kube-api server authenticates to the Kubelet as the "kubernetes" user using 
 
 Bind the `system:kube-apiserver-to-kubelet` ClusterRole to the kubernetes user:
 
-```
+```bash
 ## On controller nodes
 $ cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -339,7 +341,7 @@ In this section, we will build nginx docker image with appropriate configuration
 
 ##### nginx configuration
 Specify controllers IPs with kube-api server's port in nginx configuration like below
-```
+```bash
 ## On host
 cd ~/kubernetes-the-hard-way
 
@@ -349,7 +351,6 @@ stream {
         server 10.200.1.10:6443;
         server 10.200.1.11:6443;
     }
-
     server {
         listen 6443;
         listen 443;
@@ -361,7 +362,7 @@ EOF
 
 ##### Dockerfile
 Create `Dockerfile` to build nginx load balancer docker image
-```
+```bash
 # On host
 $ cd ~/kubernetes-the-hard-way
 
@@ -374,7 +375,7 @@ COPY kubernetes.conf /etc/nginx/tcpconf.d/kubernetes.conf
 EOF
 ```
 Build and launch the container
-```
+```bash
 # On host
 $ cd ~/kubernetes-the-hard-way
 
@@ -384,7 +385,7 @@ $ sudo docker run -it -d -h proxy --net br0 --ip 10.200.1.15 nginx-proxy
 
 ### Verification
 `curl` the HTTPS endpoint of load balancer(nginx docker container) which forwards the requests to controller node with certificate.
-```
+```bash
 ## On host
 $ KUBERNETES_PUBLIC_ADDRESS=10.200.1.15
 $ curl --cacert ca.pem https://${KUBERNETES_PUBLIC_ADDRESS}:6443/version
