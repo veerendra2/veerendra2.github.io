@@ -3,9 +3,11 @@ title: Kubernetes-The Hard Way With Docker & Flannel (Part 1)
 date: 2019-01-17T22:10:20+02:00
 slug: "kubernetes-the-hard-way-1"
 author: Veerendra K
-tags:
-  - linux
-  - kubernetes
+tags: [linux, kubernetes]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 Hello alle zusammen, after a long time I'm writing this blog and I come with an interesting and long post
@@ -31,14 +33,14 @@ First let's talk about the cluster in [Kubernetes The Hard Way](https://github.c
 **_*NOTE: The following components will be installed on host machine(laptop)_**
 
 * Install KVM hypervisor.
-  ```
+  ```bash
   $ sudo apt-get install qemu-kvm quem-system \
           libvirt-bin bridge-utils \
           virt-manager -y
   ```
 * Install [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce), because we want to run nginx load balancer container on host
 * Install cfssl and cfssljson binaries
-  ```
+  ```bash
   $ wget -q --show-progress --https-only --timestamping \
     https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 \
     https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
@@ -64,7 +66,7 @@ In offical "Kubernetes The Hard Way", cluster network configuration done via `gc
 ### Linux Bridge & NAT
 As you can see in above diagram, we are going to use `linux bridge` to connect our VMs and nginx container. Also we need to do [NATing](https://en.wikipedia.org/wiki/Network_address_translation) for our VMs in order to access Internet.
 
-```
+```bash
 $ EXTERNAL_IFACE="wlan0"
 
 ## Enable ip forwarding
@@ -86,7 +88,7 @@ $ sudo sysctl -w net.bridge.bridge-nf-call-ip6tables=0
 $ sudo sysctl -w net.bridge.bridge-nf-call-iptables=0
 ```
 In order to launch docker container(nginx load balancer container) on different linux bridge(other than default `docker0`), we need to create docker network and specify that network while launching the container. Below command creates `docker network` with `br0` as bridge
-```
+```bash
 $ docker network create --driver=bridge \
         --ip-range=10.200.1.0/24 \
         --subnet=10.200.1.0/24 -o "com.docker.network.bridge.name=br0" br0
@@ -94,7 +96,7 @@ $ docker network create --driver=bridge \
 
 ### Create workspace directory
 We can save all configuration and generate certificates in this directory
-```
+```bash
 $ mkdir ~/kubernetes-the-hard-way
 $ cd ~/kubernetes-the-hard-way
 ```
@@ -103,7 +105,7 @@ $ cd ~/kubernetes-the-hard-way
 
 Specify cluster info(hostname, IP and user to login) in `controllers.txt` and `workers.txt` files respectively like in below. In the same way add those VM IPs in `/etc/hosts` file like below. These files are useful to automate things like copy files to nodes or generating certificates for these nodes, etc. You will see in a moment.
 
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ cat controllers.txt
@@ -148,14 +150,14 @@ _*TIP: Install OS in VM and clone VM 3 time_
 ![VM Manager Image](vm_manager.jpg)
 
 Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should able to ssh both host-to-VM and VM-to-VM. For handy, you can copy ssh keys, so that don't have to enter password every time.
-```
+```bash
 $ ssh-keygen
 $ ssh-copy-id guest-username@guest-ip
 ```
 
 # 3. Provisioning a CA and Generating TLS Certificates
 
-It is good practice to setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare's PKI toolkit as we downloaded earlier.(Know more about [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure))
+It is a good practice to setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare's PKI toolkit as we downloaded earlier.(Know more about [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure))
 1. admin user
 2. kubelet
 3. kube-controller-manager
@@ -166,7 +168,7 @@ It is good practice to setup encrypted communication between the components of K
 ![Certificates Image](certificates.png)
 
 But first, we have to create [Certificate Authority(CA)](https://en.wikipedia.org/wiki/Certificate_authority) which e-signatures the certificates that we are going to generate.
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/ca-config.json
@@ -180,7 +182,7 @@ ca-key.pem ca.pem
 
 ### Admin User Client Certificate
 
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/admin-csr.json
@@ -199,7 +201,7 @@ As [docs](https://kubernetes.io/docs/reference/access-authn-authz/node/) says
 > K8s uses node authorization which is a special-purpose authorization mode that specifically authorizes API requests made by kubelets
 
 In order to be authorized by the Node Authorizer, Kubelets must use a credential that identifies them as being in the `system:nodes` group, with a username of `system:node:<nodeName>`. Let's create a certificate and private key for each worker nodes (In my case n1 and n2)
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 IFS=$'\n'
@@ -242,7 +244,7 @@ n1-key.pem n1.pem n2-key.pem n2.pem
 
 ### Controller Manager Client Certificate
 
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-controller-manager-csr.json
@@ -259,7 +261,7 @@ kube-controller-manager-key.pem kube-controller-manager.pem
 
 ### Kube Proxy Client Certificate
 
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-proxy-csr.json
@@ -276,7 +278,7 @@ kube-proxy-key.pem kube-proxy.pem
 
 ### Scheduler Client Certificate
 
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kube-scheduler-csr.json
@@ -300,10 +302,10 @@ kube-api server certificate's hostname should include following things
 * Kubernetes's service(Both 'service name' and IP which are 10.32.0.1 and `kubernetes.default`)
 * localhost
 
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
-# CERT_HOSTNAME=10.32.0.1,<master node 1 Private IP>,<master node 1 hostname>,<master node 2 Private IP>,<master node 2 hostname>,<API load balancer Private IP>,<API load balancer hostname>,127.0.0.1,localhost,kubernetes.default
+## CERT_HOSTNAME=10.32.0.1,<master node 1 Private IP>,<master node 1 hostname>,<master node 2 Private IP>,<master node 2 hostname>,<API load balancer Private IP>,<API load balancer hostname>,127.0.0.1,localhost,kubernetes.default
 $ CERT_HOSTNAME=10.32.0.1,m1,10.200.1.10,m2,10.200.1.11,proxy,10.200.1.15,127.0.0.1,localhost,kubernetes.default
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/kubernetes-csr.json
 $ cfssl gencert \
@@ -318,7 +320,7 @@ $ ls
 
 ### Service Account Key Pair
 Service account key pair certificate is used to sign [service account](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/) tokens
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ wget -q https://raw.githubusercontent.com/veerendra2/k8s-the-hard-way-blog/master/certificate_configs/service-account-csr.json
@@ -333,7 +335,7 @@ service-account-key.pem service-account.pem
 ```
 
 ### Copy Certificates to Nodes
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 # Minion
@@ -369,7 +371,7 @@ In this section, we are going to generate kubeconfig for below components
 
 ### Generating kubelet kubeconfig
 The `user` in kubeconfig should be `system:node:<Worker_name>` which should match Kubelet hostname that we specified while generating kubelet client certificate. This will ensure Kubelets are properly authorized by the Kubernetes Node Authorizer.
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ KUBERNETES_PUBLIC_ADDRESS=`cat nginx_proxy.txt | awk '{print $2}'`
@@ -403,7 +405,7 @@ n1.kubeconfig n2.kubeconfig
 ```
 
 ### Generate kube-proxy kubeconfig
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ KUBERNETES_PUBLIC_ADDRESS=`cat nginx_proxy.txt | awk '{print $2}'`
@@ -433,7 +435,7 @@ kube-proxy.kubeconfig
 ```
 
 ### Generate kube-controller-manager kubeconfig
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 {
@@ -461,7 +463,7 @@ kube-controller-manager.kubeconfig
 ```
 
 ### Generate kube-scheduler kubeconfig
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ {
@@ -489,7 +491,7 @@ kube-scheduler.kubeconfig
 ```
 
 ### Generate admin kubeconfig
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ {
@@ -517,7 +519,7 @@ admin.kubeconfig
 ```
 
 ### Copy kubeconfig files to nodes
-```
+```bash
 $ cd ~/kubernetes-the-hard-way
 
 $ IFS=$'\n'
@@ -538,11 +540,11 @@ done
 Kubernetes stores different types of data including cluster state, application configurations, and secrets. Kubernetes supports the ability to encrypt cluster data at rest.In this section we will generate an encryption key and an encryption config suitable for encrypting Kubernetes Secrets.
 
 ### The Encrypted Key
-```
+```bash
 ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
 ```
 ### The Encryption Config File
-```
+```bash
 cat > encryption-config.yaml <<EOF
 kind: EncryptionConfig
 apiVersion: v1
@@ -558,7 +560,7 @@ resources:
 EOF
 ```
 ### Copy to Controller Nodes
-```
+```bash
 $ IFS=$'\n'
 $ for instance in `cat controller.txt`; do
   instance=`echo $line | awk '{print $1}'`

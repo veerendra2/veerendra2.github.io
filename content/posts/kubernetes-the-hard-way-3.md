@@ -3,12 +3,14 @@ title: Kubernetes-The Hard Way With Docker & Flannel (Part 3)
 date: 2019-01-17T22:10:22+02:00
 slug: "kubernetes-the-hard-way-3"
 author: Veerendra K
-tags:
-  - linux
-  - kubernetes
+tags: [linux, kubernetes]
+ShowToc: true
+editPost:
+    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
+    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-Welcome to the final part of "Kubernetes-The Hard Way With Docker & Flannel" series. In [part-1]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-1 %}), we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In [previous post]({{ site.baseurl }}{% post_url 2019-1-17-kubernetes-the-hard-way-2 %}), we have bootstrapped controller nodes.
+Welcome to the final part of "Kubernetes-The Hard Way With Docker & Flannel" series. In [part-1]({{< ref "kubernetes-the-hard-way-1" >}} "part-1"), we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In [part-2]({{< ref "kubernetes-the-hard-way-2" >}} "part-2"), we have bootstrapped controller nodes.
 
 In this post, we will bootstrap worker nodes and at the end, perform smoke test on cluster
 
@@ -20,7 +22,7 @@ As the title of this post "Kubernetes The Hard Way With Docker & Flannel", what 
 
 Install below packages. `conntack` is required for iptables, since it tracks the connections for K8s services
 
-```
+```bash
 ## On worker nodes
 $ {
   sudo apt-get update
@@ -33,7 +35,7 @@ You can follow [official docs](https://docs.docker.com/install/linux/docker-ce/u
 
 ### Kubelet Configuration
 Move certificate files to kubernetes directory
-```
+```bash
 ## On worker nodes
 $ {
   sudo mv ${HOSTNAME}-key.pem ${HOSTNAME}.pem /var/lib/kubelet/
@@ -43,7 +45,7 @@ $ {
 ```
 
 Create kubelet configuration file
-```
+```bash
 ## On worker nodes
 $  cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
@@ -69,7 +71,7 @@ EOF
 ```
 
 Create kubelet systemd unit file. Below you can notice I have specified `--docker*` flag which indicates that kubelet intracts with docker daemon
-```
+```bash
 ## On worker nodes
 cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
@@ -98,13 +100,13 @@ EOF
 
 ### Kube Proxy Configuration
 Move `kubeconfig` to kubernetes directory
-```
+```bash
 ## On worker nodes
 $ sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
 ```
 
 Create kube-proxy configuration file
-```
+```bash
 ## On worker nodes
 $ cat <<EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
 kind: KubeProxyConfiguration
@@ -115,8 +117,9 @@ mode: "iptables"
 clusterCIDR: "10.100.0.0/16"
 EOF
 ```
+
 Create kube-proxy systemd unit file
-```
+```bash
 ## On worker nodes
 $ cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
 [Unit]
@@ -135,7 +138,7 @@ EOF
 ```
 
 ### Start Worker services
-```
+```bash
 ## On worker nodes
 $ {
   sudo systemctl daemon-reload
@@ -152,7 +155,7 @@ Once worker services configuration is done on all worker nodes, get nodes list l
 # 10. Configuring kubectl for Remote Access
 In this section, we will generate kubeconfig file for `admin` user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP
 
-```
+```bash
 ## On host
 $ {
   KUBERNETES_PUBLIC_ADDRESS=`cat nginx_proxy.txt | awk '{print $2}'`
@@ -175,36 +178,28 @@ $ {
 ```
 
 ### Verification
-Check the health of the remote Kubernetes cluster
-```
-$ kubectl get componentstatuses
-```
-
-![List Components Image](/components_status_outside.jpg)
-
-List the nodes in the remote Kubernetes cluster
-```
-$ kubectl get nodes
-```
-![List Nodes Image](/get_nodes_outside.jpg)
+* Check health of the remote Kubernetes cluster
+  ![List Components Image](/components_status_outside.jpg)
+* List the nodes in the remote Kubernetes cluster
+  ![List Nodes Image](/get_nodes_outside.jpg)
 # Provisioning CNI
 In this section, we will setup CNI i.e [Flannel](https://github.com/coreos/flannel) as the title of this blog post says.
 
 _**If you want to know other CNIs and there performances, check [Alexis Ducastel's post here](https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560)_
 
 First login into worker nodes and enable ip forwarding
-```
+```bash
 ## On worker nodes
 $ sudo sysctl net.ipv4.conf.all.forwarding=1
 ```
 
 Get `kube-flannel.yml` from [coreos's flannel github repo](https://github.com/coreos/flannel)
-```
+```bash
 ## On host
 $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 Wait for few seconds and verify flannel daemonset status
-```
+```bash
 $ kubectl get daemonsets -n kube-system
 ```
 
@@ -213,7 +208,7 @@ Once pods are up, we have to test pod networking that they can connect each othe
 For that, we will deploy nginx deployment with 2 replicas and busybox pod. Then we will try to curl nginx home page from busybox via nginx's POD IP
 
 Create nginx deployment with 2 replicas
-```
+```bash
 $ cat << EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
@@ -238,17 +233,17 @@ EOF
 ```
 
 Create service for the deployment
-```
+```bash
 $ kubectl expose deployment/nginx
 ```
 
 Get nginx pods IP
-```
+```bash
 $ kubectl get ep nginx
 ```
 
 Now let curl nginx home of nginx pods
-```
+```bash
 $ kubectl run busybox --image=odise/busybox-curl --command -- sleep 3600
 $ POD_NAME=$(kubectl get pods -l run=busybox -o jsonpath="{.items[0].metadata.name}")
 $ kubectl exec $POD_NAME -- curl <first nginx pod IP address>
@@ -264,25 +259,25 @@ In this section we will deploy [DNS add-on](https://kubernetes.io/docs/concepts/
 We will use [coreDNS](https://coredns.io/) as DNS add-on in our K8s
 
 Deploy core DNS
-```
+```bash
 $ kubectl apply -f https://storage.googleapis.com/kubernetes-the-hard-way/coredns.yaml
 ```
 
 ### Verification
 Verify core DNS pods are up
-```
+```bash
 $ kubectl get pods -l k8s-app=kube-dns -n kube-system
 ```
 
 In order to verify DNS resolution in K8s, we need to create a busybox pod and try `nslookup` the `kubernetes` service
 
 Create a busybox deployment
-```
+```bash
 $ kubectl run busybox --image=odise/busybox-curl --command -- sleep 3600
 ```
 
 Retrieve the full name of the busybox pod and execute a DNS lookup for the kubernetes service inside the busybox pod
-```
+```bash
 $ POD_NAME=$(kubectl get pods -l run=busybox -o jsonpath="{.items[0].metadata.name}")
 $ kubectl exec -ti $POD_NAME -- nslookup kubernetes
 ```
@@ -296,7 +291,7 @@ That completes our objectives, we have installed necessary components to bring u
 # Conclusion
 It has been a long post for readers, I have modified the official Kubernetes The Hard Way to setup Docker as CRI and Flannel as CNI. So, let's conclude what we have done so far
 
-1. Provisioning the compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer.
+1. Provisioning compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer.
 2. Generated certificates to setup TLS communication between the kubernetes components
 3. kubeconfig files generations
 4. Provisioning controller and worker nodes with docker and Flannel
@@ -310,11 +305,6 @@ You can go even further to setup [K8s dashboard](https://github.com/kubernetes/d
 4. [https://coreos.com/flannel/docs/latest/kubernetes.html](https://coreos.com/flannel/docs/latest/kubernetes.html)
 5. [https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge](https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge)
 
-<div class="PageNavigation">
-  {% if page.previous.url %}
-    <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
-  {% endif %}
-</div>
 
 
 
