@@ -1,6 +1,6 @@
 ---
 title: Install jekyll in Ubuntu 14.04
-date: 2018-01-07T22:10:22+02:00
+date: 2018-01-07
 slug: "jeklly-website"
 author: Veerendra K
 tags: [jeykll]

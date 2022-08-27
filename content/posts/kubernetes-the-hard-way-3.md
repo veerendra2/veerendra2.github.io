@@ -1,6 +1,6 @@
 ---
 title: Kubernetes-The Hard Way With Docker & Flannel (Part 3)
-date: 2019-01-17T22:10:22+02:00
+date: 2019-01-17
 slug: "kubernetes-the-hard-way-3"
 author: Veerendra K
 tags: [linux, kubernetes]
@@ -298,7 +298,7 @@ It has been a long post for readers, I have modified the official Kubernetes The
 
 You can go even further to setup [K8s dashboard](https://github.com/kubernetes/dashboard),K8s logging and Prometheus monitoring, etc. (For starters, you can refer my [prometheus-k8s-monitoring](https://github.com/veerendra2/prometheus-k8s-monitoring))
 
-# Refernces
+# References
 1. [https://github.com/kelseyhightower/kubernetes-the-hard-way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 2. [https://developer.ibm.com/recipes/tutorials/bridge-the-docker-containers-to-external-network/](https://developer.ibm.com/recipes/tutorials/bridge-the-docker-containers-to-external-network/)
 3. [https://docs.docker.com/config/containers/container-networking/](https://docs.docker.com/config/containers/container-networking/)

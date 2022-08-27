@@ -1,6 +1,6 @@
 ---
 title: Build and Install Wireshark
-date: 2018-03-30T22:10:22+02:00
+date: 2018-03-30
 slug: "wireshark-install"
 author: Veerendra K
 tags: [linux wireshark]

@@ -1,6 +1,6 @@
 ---
 title: MAC Address Scrambling in Linux
-date: 2018-01-06T22:10:22+02:00
+date: 2018-01-06
 slug: "mac-scrambling"
 author: Veerendra K
 tags: [linux, security]

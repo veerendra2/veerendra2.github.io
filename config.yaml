@@ -1,57 +1,107 @@
-languageCode: "en-us"
-baseUrl: ""
-title: "Veerendra's Blog"
+# Based on https://github.com/adityatelange/hugo-PaperMod/blob/exampleSite/configTaxo.yml
+baseURL: "https://veerendra2.github.io"
+title: Veerendra's Blog
+paginate: 5
 theme: "hugo-PaperMod-6.0"
-paginate: 10
-googleAnalytics: "UA-112970252-1"
-enableRobotsTXT: true
 
-menu:
-  main:
-    - identifier: archive
-      name: Archive
-      url: /archives/
-      weight: 0
-    - identifier: search
-      name: Search
-      url: /search/
-      weight: 0
-    # - identifier: about
-    #   name: About
-    #   url: /about/
-    #   weight: 0
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+pygmentsUseClasses: true
+googleAnalytics: "UA-112970252-1"
+
+minify:
+  disableXML: true
+  # minifyOutput: true
+
+languages:
+  en:
+    languageName: "English"
+    weight: 1
+    taxonomies:
+      category: categories
+      tag: tags
+      series: series
+    menu:
+      main:
+        - identifier: archive
+          name: Archive
+          url: /archives/
+          weight: 0
+        - identifier: search
+          name: Search
+          url: /search/
+          weight: 0
+        - identifier: about
+          name: About
+          url: /about/
+          weight: 0
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
 
 params:
-  author: "Veerendra K"
-  homeInfoParams:
-    Title: Hi There
-    Content: Welcome to my blog
-  dateFormat: "02-01-2006"
-  paginationSinglePost: true
-  style: dark
+  env: production
+  description: "My Blog"
+  author: Veerendra K
+  defaultTheme: auto
+  ShowShareButtons: false
   ShowReadingTime: true
-  copyCodeButton: true
-  ShowBreadCrumbs: true
+  disableSpecial1stPost: true
+  displayFullLangName: true
   ShowPostNavLinks: true
-  # utteranc.es support
-  utterancesRepo: "" # mandatory
-  utterancesTheme: "" # optional
-  utterancesIssue: "" # optional
-  utterancesLabel: "" # optional
-  # isso support
-  isso:
-    enabled: true # mandatory
-    data: "https://comments.example.com/" # mandatory
-    jsLocation: "https://comments.example.com/js/embed.min.js" # mandatory
-    css: true # optional
-    lang: "en" # optional
-    replyToSelf: true # mandatory
-    requireAuthor: true # mandatory
-    requireEmail: true # mandatory
-    id: "thread-id" # optional
-    avatar: true # optional
-    avatar-bg: "#f0f0f0" # optional
-    feed: false # optional
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  ShowToc: true
+  tocopen: true
+  # comments: false
+  # images: ["papermod-cover.png"]
+
+  comments:
+    provider: giscus
+    commentable:
+      page: true
+      post: true
+    giscus:
+      repo: veerendra2/veerendra2.github.io
+      repo_id: MDEwOlJlcG9zaXRvcnkxMTU4MjE4OTE=
+      category: General
+      category_id: MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyODQwMzM5
+      mapping: url
+      label: comment
+      theme: dark_tritanopia
+      reactions_enabled: 0
+
+  profileMode:
+    enabled: false
+    title: PaperMod
+    imageUrl: "#"
+    imageTitle: my image
+    # imageWidth: 120
+    # imageHeight: 120
+    buttons:
+      - name: Archives
+        url: archives
+      - name: Tags
+        url: tags
+
+  # homeInfoParams:
+  #   Title: "PaperMod"
+  #   Content: >
+  #     Welcome to demo of hugo's theme PaperMod.
+
+  #     - **PaperMod** is a simple but fast and responsive theme with useful feature-set that enhances UX.
+
+  #     - Do give a 🌟 on Github !
+
+  #     - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper).
 
   socialIcons:
     - name: "linkedin"
@@ -68,13 +118,70 @@ params:
       url: "https://twitter.com/remark6205"
     # - name: "steam"
     #   url: "<link2>"
+
+  # label:
+  #     text: "Home"
+  #     icon: icon.png
+  #     iconHeight: 35
+
+  # analytics:
+  #     google:
+  #         SiteVerificationTag: "XYZabc"
+
+  assets:
+    disableHLJS: true
+  #     favicon: "<link / abs url>"
+  #     favicon16x16: "<link / abs url>"
+  #     favicon32x32: "<link / abs url>"
+  #     apple_touch_icon: "<link / abs url>"
+  #     safari_pinned_tab: "<link / abs url>"
+
+  # cover:
+  #     hidden: true # hide everywhere but not in structured data
+  #     hiddenInList: true # hide on list pages and home
+  #     hiddenInSingle: true # hide on single page
+
+  # fuseOpts:
+  #     isCaseSensitive: false
+  #     shouldSort: true
+  #     location: 0
+  #     distance: 1000
+  #     threshold: 0.4
+  #     minMatchCharLength: 0
+  #     keys: ["title", "permalink", "summary", "content"]
+
 markup:
   goldmark:
     renderer:
-      unsafe: true # enable raw HTML in Markdown
+      unsafe: true
+  highlight:
+    noClasses: false
+    # anchorLineNos: true
+    # codeFences: true
+    # guessSyntax: true
+    # lineNos: true
+    # style: monokai
 
-outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON # is necessary
+privacy:
+  vimeo:
+    disabled: false
+    simple: true
+
+  twitter:
+    disabled: false
+    enableDNT: true
+    simple: true
+
+  instagram:
+    disabled: false
+    simple: true
+
+  youtube:
+    disabled: false
+    privacyEnhanced: true
+
+services:
+  instagram:
+    disableInlineCSS: true
+  twitter:
+    disableInlineCSS: true

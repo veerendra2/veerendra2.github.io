@@ -1,6 +1,6 @@
 ---
 title: SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]
-date: 2018-05-29T22:10:20+02:00
+date: 2018-05-29
 slug: "ssl-config-k8s-service-aws"
 author: Veerendra K
 tags: [kubernetes, aws]

@@ -1,6 +1,6 @@
 ---
 title: GNU screen commands(Cheat Sheet)
-date: 2018-01-08T22:10:22+02:00
+date: 2018-01-08
 slug: "gnu-screen-commands"
 author: Veerendra K
 tags: [linux, screen]

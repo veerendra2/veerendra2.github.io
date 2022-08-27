@@ -1,6 +1,6 @@
 ---
 title: Kubernetes-The Hard Way With Docker & Flannel (Part 1)
-date: 2019-01-17T22:10:20+02:00
+date: 2019-01-17
 slug: "kubernetes-the-hard-way-1"
 author: Veerendra K
 tags: [linux, kubernetes]
