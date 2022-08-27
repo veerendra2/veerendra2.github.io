@@ -1,10 +1,9 @@
 ---
 title: CI/CD for GitHub Pages with GitHub Actions
-date: 2020-02-21T22:10:22+02:00
+date: 2020-02-21
 slug: "ci-cd-github-pages-with-github-actions"
 author: Veerendra K
 tags: [jekyll]
-ShowToc: true
 editPost:
     URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
     Text: "Suggest Changes by Creating Github Issue Here"

@@ -1,6 +1,6 @@
 ---
 title: Windows OS metrics collection with Telegraf
-date: 2018-02-27T22:10:22+02:00
+date: 2018-02-27
 slug: "windows-metrics-collection"
 author: Veerendra K
 tags: [windows, metrics]

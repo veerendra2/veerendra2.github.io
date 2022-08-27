@@ -1,6 +1,6 @@
 ---
 title: Encrypt your DNS queries, stay anonymous
-date: 2018-01-22T22:10:22+02:00
+date: 2018-01-22
 slug: "dns-encrypt"
 author: Veerendra K
 tags: [linux, security]

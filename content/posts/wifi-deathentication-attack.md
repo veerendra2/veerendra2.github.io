@@ -1,6 +1,6 @@
 ---
 title: Wifi De-authentication Attack
-date: 2018-01-11T22:10:22+02:00
+date: 2018-01-11
 slug: "wifi-deathentication-attack"
 author: Veerendra K
 tags: [linux, python, wifi, security]

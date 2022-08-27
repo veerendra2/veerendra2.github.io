@@ -1,6 +1,6 @@
 ---
 title: Linux pseudo files & cheat sheet
-date: 2018-04-14T22:10:20+02:00
+date: 2018-04-14
 slug: "linux-cheatseets"
 author: Veerendra K
 tags: [linux]

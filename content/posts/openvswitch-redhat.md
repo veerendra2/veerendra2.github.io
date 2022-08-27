@@ -1,6 +1,6 @@
 ---
 title: Open vSwitch installation on Redhat7 OS
-date: 2018-02-28T22:10:22+02:00
+date: 2018-02-28
 slug: "openvswitch-redhat"
 author: Veerendra K
 tags: [linux, openvswitch]

@@ -2,6 +2,7 @@
 layout: page
 title: My Bookmarks
 permalink: /bookmarks/
+comments: false
 ---
 * ## Network
   * ### Blogs
@@ -122,7 +123,7 @@ permalink: /bookmarks/
     * [A toolkit for creating efficient kernel tracing and manipulation programs](https://github.com/iovisor/bcc)
     * [Tool for in-depth analysis of USB HID devices communication](https://github.com/ondrejbudai/hidviz/)
     * [From finding text to search and replace, from sorting to beautifying text and more](https://github.com/learnbyexample/Command-line-text-processing)
-    * [Programmable completion functions for bash ](https://github.com/scop/bash-completion)    
+    * [Programmable completion functions for bash ](https://github.com/scop/bash-completion)
   * ### CheatSheets
     * [Bash](https://github.com/Idnan/bash-guide)
 
@@ -141,7 +142,7 @@ permalink: /bookmarks/
     * [You Should Learn Regx](https://blog.patricktriest.com/you-should-learn-regex/)
     * [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/)
     * [Python Excel Tutorial: The Definitive Guide](https://www.datacamp.com/community/tutorials/python-excel-tutorial)
-    * [C++ Data Structures](https://datastructures.js.org/#/home)  
+    * [C++ Data Structures](https://datastructures.js.org/#/home)
     * [Scapy Docs [PDF]]({{ "/assets/scapydoc.pdf" | absolute_url }})
     * [python-course.eu](https://www.python-course.eu)
   * ### Github Projects
@@ -155,7 +156,7 @@ permalink: /bookmarks/
     * [A general-purpose fuzzer ](https://github.com/aoh/radamsa)
     * [Minimal examples of data structures and algorithms in Python ](https://github.com/keon/algorithms)
     * [Python By Examples](https://github.com/dougsland/python-by-examples)
-    
+
 
 * ## Security/Privacy
   * ### Blogs
@@ -188,4 +189,3 @@ permalink: /bookmarks/
    * ### Github Projects
      * [WhatsApp Discover](https://github.com/deepakdaswani/whatsapp_discover)
      * [Mobile App Pentest cheat sheet](https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet)
-     

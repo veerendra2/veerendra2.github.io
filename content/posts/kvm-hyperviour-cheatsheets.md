@@ -1,6 +1,6 @@
 ---
 title: KVM Hypervior Cheatsheets
-date: 2018-01-27T22:10:22+02:00
+date: 2018-01-27
 slug: "kvm-hyperviour-cheatsheets"
 author: Veerendra K
 tags: [linux, kvm]
