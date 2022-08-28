@@ -147,7 +147,7 @@ $ {
 ### Verification
 Once worker services configuration is done on all worker nodes, get nodes list like below command in any controller node
 
-![List Nodes Image](/get_nodes.jpg)
+![List Nodes Image](/static_content/images/get_nodes.jpg)
 
 # 10. Configuring kubectl for Remote Access
 In this section, we will generate a kubeconfig file for `admin` user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP
@@ -176,9 +176,9 @@ $ {
 
 ### Verification
 * Check health of the remote Kubernetes cluster
-  ![List Components Image](/components_status_outside.jpg)
+  ![List Components Image](/static_content/images/components_status_outside.jpg)
 * List the nodes in the remote Kubernetes cluster
-  ![List Nodes Image](/get_nodes_outside.jpg)
+  ![List Nodes Image](/static_content/images/get_nodes_outside.jpg)
 # Provisioning CNI
 In this section, we will set up CNI i.e [Flannel](https://github.com/coreos/flannel) as the title of this blog post says.
 
@@ -248,7 +248,7 @@ $ kubectl exec $POD_NAME -- curl <second nginx pod IP address>
 $ kubectl get svc
 ```
 
-![nginx curl Image](/nginx_home_page.jpg)
+![nginx curl Image](/static_content/images/nginx_home_page.jpg)
 
 
 # 11. Deploying the DNS Cluster Add-on
@@ -279,7 +279,7 @@ $ POD_NAME=$(kubectl get pods -l run=busybox -o jsonpath="{.items[0].metadata.na
 $ kubectl exec -ti $POD_NAME -- nslookup kubernetes
 ```
 
-![DNS Image](/dns.jpg)
+![DNS Image](/static_content/images/dns.jpg)
 
 If everything is good, you should see "kubernetes" name resolution like above
 

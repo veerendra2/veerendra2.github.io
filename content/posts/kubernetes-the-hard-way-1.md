@@ -24,7 +24,7 @@ Below is my laptop configuration. Make sure you have enough resources in your la
 
 First let's talk about the cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy a cluster with multiple masters, but I was afraid it is too much for my laptop. So, I reduced it to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters look like below.
 
-![Cluster Image](/Server2.png)
+![Cluster Image](/static_content/images/Server2.png)
 # 1. Prerequisites
 ### Installation of packages
 **_*NOTE: The following components will be installed on host machine(laptop)_**
@@ -144,7 +144,7 @@ _*NOTE: While installing OS, please select static IP and specify IPs according t
 
 _*TIP: Install OS in VM and clone VM 3 time_
 
-![VM Manager Image](/vm_manager.jpg)
+![VM Manager Image](/static_content/images/vm_manager.jpg)
 
 Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should be able to ssh both host-to-VM and VM-to-VM. For convenience, you can copy ssh keys, so that you don't have to enter a password every time.
 ```bash
@@ -162,7 +162,7 @@ It is a good practice to set up encrypted communication between the components o
 5. kube-scheduler
 6. kube-api
 
-![Certificates Image](/certificates.png)
+![Certificates Image](/static_content/images/certificates.png)
 
 But first, we have to create [Certificate Authority(CA)](https://en.wikipedia.org/wiki/Certificate_authority) which e-signatures the certificates that we are going to generate.
 ```bash
@@ -364,7 +364,7 @@ done
 
 In this section, we are going to generate kubeconfig for below components
 
-![Kubeconfig Image](/kubeconfig.png)
+![Kubeconfig Image](/static_content/images/kubeconfig.png)
 
 ### Generating kubelet kubeconfig
 The `user` in kubeconfig should be `system:node:<Worker_name>` which should match the Kubelet hostname that we specified while generating the kubelet client certificate. This will ensure Kubelets are properly authorized by the Kubernetes Node Authorizer.

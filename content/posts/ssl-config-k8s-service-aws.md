@@ -81,7 +81,7 @@ Edit service with "`kubectl edit svc {svc-name}`" or you can also edit with the 
 "service.beta.kubernetes.io/aws-load-balancer-ssl-cert": "arn:aws:iam::xxxxx:server-certificate/your-name"
 ```
 
-![config.yml](k8s-service.jpg)
+![config.yml](/static_content/images/k8s-service.jpg)
 
 Now you should be able to access the endpoint on `https`.
 * For example: `https://xxxx-xxxx.us-east-2.elb.amazonaws.com:9090/graph`

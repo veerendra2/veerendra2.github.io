@@ -9,7 +9,7 @@ ShowToc: true
 
 We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?
 
-![HTTPS Example](/https_example.jpg)
+![HTTPS Example](/static_content/images/https_example.jpg)
 
 Sure if we use HTTPS, all your ([POST](https://en.wikipedia.org/wiki/POST_(HTTP)) or GET) data is encrypted end-to-end which prevents eavesdropping, [MITM attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) and have [Confidentiality](https://en.wikipedia.org/wiki/Confidentiality), but again what about DNS queries?
 
@@ -55,13 +55,13 @@ sudo python dnscrypt.py
 ```
 After you run the script, it will list the DNS resolver details like below.(The script downloads [resolvers csv](https://github.com/dyne/dnscrypt-proxy/blob/master/dnscrypt-resolvers.csv) and passes this file as argument to `dnscrypt-proxy``)
 
-![Run the script](/command_run.jpg)
+![Run the script](/static_content/images/command_run.jpg)
 
 Select one name server. You can see these name servers have options [`DNSSec`](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) & `No Logging` which provider can logs your queries, choose one accordingly (These options/table header you can't see in above screenshot. You have to scroll up)
 
 Next, configure your network settings like below
 
-![Network Config](/network_config.jpeg)
+![Network Config](/static_content/images/network_config.jpeg)
 
 Restart network (disconnect and connect wifi) and your done!
 
@@ -91,7 +91,7 @@ sudo service encryptdns start
 ## DNSCrypt in Windows
 * [Simple DNSCrypt](https://simplednscrypt.org/)
 
-![Simple DNSCrypt](/DNSCrypt-Windows.JPG)
+![Simple DNSCrypt](/static_content/images/DNSCrypt-Windows.JPG)
 
 Other resources you can try
 * [https://github.com/jedisct1/dnscrypt-proxy](https://github.com/jedisct1/dnscrypt-proxy)
