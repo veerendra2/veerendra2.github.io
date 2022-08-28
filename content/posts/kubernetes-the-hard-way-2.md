@@ -5,12 +5,9 @@ slug: "kubernetes-the-hard-way-2"
 author: Veerendra K
 tags: [linux, kubernetes]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-Welcome back to "Kubernetes-The Hard Way With Docker & Flannel" series part 2. In [previous post]({{< ref "kubernetes-the-hard-way-1" >}} "previous post") we have provisioned compute resource, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
+Welcome back to "Kubernetes-The Hard Way With Docker & Flannel" series part 2. In [previous post]({{< ref "kubernetes-the-hard-way-1" >}} "previous post") we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
 
 # 6. Bootstrapping the etcd Cluster
 [`etcd`](https://coreos.com/etcd/) is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in `etcd` via api-server. In this section we will install and configure `etcd` on all controller nodes.
@@ -86,7 +83,7 @@ $ {
 Once `etcd` installation and configuration done in all controller nodes, verify that etcd cluster is working properly
 ```bash
 ## On controller nodes
-sudo ETCDCTL_API=3 etcdctl member list \
+$ sudo ETCDCTL_API=3 etcdctl member list \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/etcd/ca.pem \
   --cert=/etc/etcd/kubernetes.pem \
@@ -135,7 +132,7 @@ $ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
     encryption-config.yaml /var/lib/kubernetes/
 ```
 
-Create kube-api server systemd unit file.
+Create a kube-api server systemd unit file.
 ```bash
 ## On controller nodes
 $ CONTROLLER0_IP=10.200.1.10
@@ -228,9 +225,9 @@ Move kube-scheduler kubeconfig to kubernetes directory
 ```bash
 # On controller nodes
 $ sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
-```bash
-Create kube-scheduler configuration file
 ```
+Create kube-scheduler configuration file
+```bash
 ## On controller nodes
 $ cat <<EOF | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
 apiVersion: componentconfig/v1alpha1
@@ -272,7 +269,7 @@ $ sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 ```
 
 ### Enable HTTP Health Checks
-In original "Kubernetes The Hard Way", Kelsey used GCP load balancer to load balance the requests among controllers. Since it is difficult to setup HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health check. He created HTTP nginx proxy for kube-api server, GCP network load balancer perform health check via HTTP nginx proxy. But in our case, we can skip this step since we are not using GCP network load balancer
+In the original "Kubernetes The Hard Way", Kelsey used GCP load balancer to load balance the requests among controllers. Since it is difficult to set up HTTPS health checks on GCP network load balancer and kube-apiserver supports only HTTPS health checks. He created HTTP nginx proxy for kube-api server, GCP network load balancer performs health check via HTTP nginx proxy. But in our case, we can skip this step since we are not using GCP network load balancer
 
 ### Verification
 Check the components status using below commands.
@@ -312,7 +309,7 @@ rules:
       - "*"
 EOF
 ```
-The kube-api server authenticates to the Kubelet as the "kubernetes" user using the client certificate as defined by the `--kubelet-client-certificate` flag which have defined in kube-apiserver systemd unit file above.
+The kube-api server authenticates to the Kubelet as the "kubernetes" user using the client certificate as defined by the `--kubelet-client-certificate` flag which has been defined in the kube-apiserver systemd unit file above.
 
 Bind the `system:kube-apiserver-to-kubelet` ClusterRole to the kubernetes user:
 
@@ -384,7 +381,7 @@ $ sudo docker run -it -d -h proxy --net br0 --ip 10.200.1.15 nginx-proxy
 ```
 
 ### Verification
-`curl` the HTTPS endpoint of load balancer(nginx docker container) which forwards the requests to controller node with certificate.
+`curl` the HTTPS endpoint of load balancer(nginx docker container) which forwards the requests to the controller node with certificate.
 ```bash
 ## On host
 $ KUBERNETES_PUBLIC_ADDRESS=10.200.1.15
@@ -394,4 +391,6 @@ If everything is good, you should see output like below.
 
 ![curl for version image](/curl_version.jpg)
 
-In this post, we have successfully provisioned controller nodes and load balancer. We will bootstrap the worker nodes in next post
+In this post, we have successfully provisioned controller nodes and load balancers. We will bootstrap the worker nodes in next post
+
+

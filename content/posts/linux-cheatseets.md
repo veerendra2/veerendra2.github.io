@@ -5,16 +5,13 @@ slug: "linux-cheatseets"
 author: Veerendra K
 tags: [linux]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 *_A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”_
 
 ## Tips & Tricks
-* How to force a command to return exit code 0 even the command exited non-zero?
-* How to install dependecies of .deb automatically which was failed to install previsouly?
+* How to force a command to return exit code 0 even if the command exited non-zero?
+* How to install dependencies of .deb automatically which failed to install previously?
 
   _Example Solution:_
   ```bash
@@ -23,9 +20,9 @@ editPost:
   ```
 
 
-* How traverse directories in shell script?
+* How to traverse directories in shell script?
 
-  `cd` command should not be used to traverse directories. Remember that each commands in shell script will spawn as individual process unlink programming language, entire script as single process i.e. The scope of `cd` command is only for child process not parent. By using `pushd` and `popd` we can achieve traversing directories.
+  `cd` command should not be used to traverse directories. Remember that each commands in shell script will spawn as individual process unlink programming language, entire script as single process i.e. The scope of `cd` command is only for the child process, not the parent. By using `pushd` and `popd` we can achieve traversing directories.
 
   _Example Solution:_
   ```bash
@@ -79,4 +76,4 @@ https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Re
 
 * `/var/lock/` - Store lock files, which are simply files used to indicate that a certain resource (a database, a file, a device) is in use and should not be accessed by another process. Aptitude, for example, locks its database when a package manager is running.
 
-* `/var/run` - Used to store .pid files, which contain the process id of a running program. This is commonly used in services or other programs that need to make their process id’s available to other processes.
+* `/var/run` - Used to store .pid files, which contain the process id of a running program. This is commonly used in services or programs that need to make their process id available to other processes.

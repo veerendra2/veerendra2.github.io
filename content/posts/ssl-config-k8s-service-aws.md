@@ -5,16 +5,13 @@ slug: "ssl-config-k8s-service-aws"
 author: Veerendra K
 tags: [kubernetes, aws]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-As we all know enabling HTTPS to endpoints/websites is essential now a days. When it comes to Kubernetes, when we expose service as `LoadBalancer`, cloud provider doesn't provide HTTPS mechanism for the enpoint by default.
+As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as `LoadBalancer`, the cloud provider doesn't provide an HTTPS mechanism for the endpoint by default.
 
-If we look at the K8s setup that is deployed on AWS(For example [`kops`](https://github.com/kubernetes/kops)), there is an actual `ELB`(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS's `ELB` is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the enpoint secure.
+If we look at the K8s setup that is deployed on AWS(For example [`kops`](https://github.com/kubernetes/kops)), there is an actual `ELB`(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS's `ELB` is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the endpoint secure.
 
-> Note that the K8s cluster is deployed on AWS and enable "`type: LoadBalancer`" for service which application can accessible from outside of cluster.
+> Note that the K8s cluster is deployed on AWS and configured "`type: LoadBalancer`" for `service` which applications can access from outside of the cluster.
 
 ## Prerequisites
    - Get `cfssl` and `cfssljson` binary files from [https://pkg.cfssl.org/](https://pkg.cfssl.org/)
@@ -74,7 +71,7 @@ List certificates
 
 ```bash
 $ aws iam list-server-certificates
-SERVERCERTIFICATEMETADATALIST	arn:aws:iam::xxxxx:server-certificate/your-name	2023-04-30T07:52:00Z	/	ASCAIxxxxxCHES3FxxIQO	cf	2018-05-01T08:17:30Z
+SERVERCERTIFICATEMETADATALIST    arn:aws:iam::xxxxx:server-certificate/your-name    2023-04-30T07:52:00Z    /    ASCAIxxxxxCHES3FxxIQO    cf    2018-05-01T08:17:30Z
 ```
 ## Specify annotation in Kuberenetes service
 
@@ -86,7 +83,7 @@ Edit service with "`kubectl edit svc {svc-name}`" or you can also edit with the 
 
 ![config.yml](k8s-service.jpg)
 
-Now you should able to access endpoint on `https`.
+Now you should be able to access the endpoint on `https`.
 * For example: `https://xxxx-xxxx.us-east-2.elb.amazonaws.com:9090/graph`
 
 [Check out other AWS service annotations](https://gist.github.com/mgoodness/1a2926f3b02d8e8149c224d25cc57dc1)

@@ -5,14 +5,11 @@ slug: "kubernetes-the-hard-way-3"
 author: Veerendra K
 tags: [linux, kubernetes]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-Welcome to the final part of "Kubernetes-The Hard Way With Docker & Flannel" series. In [part-1]({{< ref "kubernetes-the-hard-way-1" >}} "part-1"), we discussed about our cluster architecture, provisioned compute resources, generate certificates and kubeconfig. In [part-2]({{< ref "kubernetes-the-hard-way-2" >}} "part-2"), we have bootstrapped controller nodes.
+Welcome to the final part of "Kubernetes-The Hard Way With Docker & Flannel" series. In [part-1]({{< ref "kubernetes-the-hard-way-1" >}} "part-1"), we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In [part-2]({{< ref "kubernetes-the-hard-way-2" >}} "part-2"), we have bootstrapped controller nodes.
 
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on cluster
+In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
 
 
 ## 9. Bootstrapping the Kubernetes Worker Nodes
@@ -70,10 +67,10 @@ tlsPrivateKeyFile: "/var/lib/kubelet/n1-key.pem"
 EOF
 ```
 
-Create kubelet systemd unit file. Below you can notice I have specified `--docker*` flag which indicates that kubelet intracts with docker daemon
+Create a kubelet systemd unit file. Below you can notice I have specified `--docker*` flag which indicates that kubelet intracts with docker daemon
 ```bash
 ## On worker nodes
-cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
+$ cat <<EOF | sudo tee /etc/systemd/system/kubelet.service
 [Unit]
 Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
@@ -153,7 +150,7 @@ Once worker services configuration is done on all worker nodes, get nodes list l
 ![List Nodes Image](/get_nodes.jpg)
 
 # 10. Configuring kubectl for Remote Access
-In this section, we will generate kubeconfig file for `admin` user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP
+In this section, we will generate a kubeconfig file for `admin` user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP
 
 ```bash
 ## On host
@@ -183,7 +180,7 @@ $ {
 * List the nodes in the remote Kubernetes cluster
   ![List Nodes Image](/get_nodes_outside.jpg)
 # Provisioning CNI
-In this section, we will setup CNI i.e [Flannel](https://github.com/coreos/flannel) as the title of this blog post says.
+In this section, we will set up CNI i.e [Flannel](https://github.com/coreos/flannel) as the title of this blog post says.
 
 _**If you want to know other CNIs and there performances, check [Alexis Ducastel's post here](https://itnext.io/benchmark-results-of-kubernetes-network-plugins-cni-over-10gbit-s-network-36475925a560)_
 
@@ -205,7 +202,7 @@ $ kubectl get daemonsets -n kube-system
 
 Once pods are up, we have to test pod networking that they can connect each other
 
-For that, we will deploy nginx deployment with 2 replicas and busybox pod. Then we will try to curl nginx home page from busybox via nginx's POD IP
+For that, we will deploy nginx deployment with 2 replicas and a busybox pod. Then we will try to curl nginx home page from busybox via nginx's POD IP
 
 Create nginx deployment with 2 replicas
 ```bash
@@ -289,14 +286,14 @@ If everything is good, you should see "kubernetes" name resolution like above
 That completes our objectives, we have installed necessary components to bring up the kubernetes.You can perform some other [smoke test](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/13-smoke-test.md) from official Kubernetes The Hard Way
 
 # Conclusion
-It has been a long post for readers, I have modified the official Kubernetes The Hard Way to setup Docker as CRI and Flannel as CNI. So, let's conclude what we have done so far
+It has been a long post for readers. I have modified the official Kubernetes The Hard Way to set up Docker as CRI and Flannel as CNI. So, let's conclude what we have done so far
 
-1. Provisioning compute resources in Laptop with kvm hypervisor 2 controllers, 2 computes and nginx docker containers which serves as load balancer.
+1. Provisioning compute resources in Laptop with kvm hypervisor 2 controllers, 2 computers and nginx docker containers which serves as load balancer.
 2. Generated certificates to setup TLS communication between the kubernetes components
 3. kubeconfig files generations
 4. Provisioning controller and worker nodes with docker and Flannel
 
-You can go even further to setup [K8s dashboard](https://github.com/kubernetes/dashboard),K8s logging and Prometheus monitoring, etc. (For starters, you can refer my [prometheus-k8s-monitoring](https://github.com/veerendra2/prometheus-k8s-monitoring))
+You can go even further to set up [K8s dashboard](https://github.com/kubernetes/dashboard),K8s logging and Prometheus monitoring, etc. (For starters, you can refer my [prometheus-k8s-monitoring](https://github.com/veerendra2/prometheus-k8s-monitoring))
 
 # References
 1. [https://github.com/kelseyhightower/kubernetes-the-hard-way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
@@ -304,6 +301,8 @@ You can go even further to setup [K8s dashboard](https://github.com/kubernetes/d
 3. [https://docs.docker.com/config/containers/container-networking/](https://docs.docker.com/config/containers/container-networking/)
 4. [https://coreos.com/flannel/docs/latest/kubernetes.html](https://coreos.com/flannel/docs/latest/kubernetes.html)
 5. [https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge](https://unix.stackexchange.com/questions/490893/not-able-to-ssh-from-vm-to-vm-via-linux-bridge)
+
+
 
 
 

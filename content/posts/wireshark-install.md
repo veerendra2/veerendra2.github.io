@@ -5,18 +5,15 @@ slug: "wireshark-install"
 author: Veerendra K
 tags: [linux wireshark]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or `.cap` file. The tool enables different types filtering on packets like follow stream, filer by protocol and IP, etc
+Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or `.cap` file. The tool enables different types filtering on packets like follow stream, filter by protocol and IP, etc
 
-In order to install latest version of wireshark on Linux, one should built and install from source. Sometimes, building from source is difficult because, we have to hunt down the dependencies. That's what I did for this software.
+In order to install the latest version of wireshark on Linux, one should build and install from source. Sometimes, building from source is difficult because we have to hunt down the dependencies. That's what I did for this software.
 
-Depends on your OS and package availability, you may need to install other dependencies. I'm using Ubuntu Mate 16 and I found below are sufficient for me.
+Depending on your OS and package availability, you may need to install other dependencies. I'm using Ubuntu Mate 16 and I found the below are sufficient for me.
 
-#### 1. Install Dependencies
+# Install Dependencies
 
 ```bash
 $ apt-get install -y \
@@ -28,7 +25,7 @@ $ apt-get install -y \
   libglib2.0-dev ibglib2.0-dev
 ```
 
-#### 2. Get the latest tar ball from [wireshark](https://www.wireshark.org/#download)
+# Get the latest tarball from [wireshark](https://www.wireshark.org/#download)
 
 ```bash
 $ wget https://2.na.dl.wireshark.org/src/wireshark-2.4.5.tar.xz
@@ -36,7 +33,7 @@ $ tar -xf wireshark-2.4.5.tar.xz
 $ cd wireshark-2.4.5
 ```
 
-#### 3. Start building
+# Start building
 
 ```bash
 $ ./configure
@@ -48,4 +45,6 @@ $ sudo wireshark
 `./configure` checks dependencies for wireshark in your machines. That's why while running `./configure` you may get dependency missing errors. If that is the case, it will show missing dependency packages name i.e. you can google it and install it.
 
 `make install -j2` will take some time, you can have coffee.(Specify jobs that equals to your number of CPU cores. Ex.`-j4` for quad core)
+
+
 

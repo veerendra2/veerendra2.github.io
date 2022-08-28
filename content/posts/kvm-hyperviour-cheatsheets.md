@@ -1,13 +1,10 @@
 ---
-title: KVM Hypervior Cheatsheets
+title: KVM Hypervisor Cheat Sheets
 date: 2018-01-27
 slug: "kvm-hyperviour-cheatsheets"
 author: Veerendra K
 tags: [linux, kvm]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 ### 1. Install Packages
@@ -16,7 +13,7 @@ Check system  is  capable of running KVM by running [`kvm-ok`](http://manpages.u
  $ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y
  ```
 
-### 2. Create KVM/Qemu Hard Disk File
+### Create KVM/Qemu Hard Disk File
 
 ```bash
 $ qemu-img create -f raw <name>.img <Size>
@@ -27,7 +24,7 @@ $ qemu-img create -f raw ubuntu14-HD.img 10G
 
    * Then copy the HD file to `/var/lib/libvirt/images/`
 
-### 3. Launch VM with `virt-install`
+### Launch VM with `virt-install`
 
    ```bash
    virt-install --name spinnaker \
@@ -53,15 +50,16 @@ $ qemu-img create -f raw ubuntu14-HD.img 10G
      * `--debug` verbose
      * `--description` Description of VM
 
-### 4. Connect to console
+### Connect to console
 * `virsh list --all` - : List VMs
 * `virsh console <name>` - : Connect to tty of the VM
    * Note down the IP of the VM once you connect to `tty`. we can `ssh`
-     #### NOTE: If console/tty is already being used or active, you can reconnect to that tty by using `--extra-args='console=ttyS0'` option
 
-### 5. Export VM as `.qcow2`
+     **NOTE: If console/tty is already being used or active, you can reconnect to that tty by using `--extra-args='console=ttyS0'` option**
+
+### Export VM as `.qcow2`
 ```bash
-$ qemu-img convert -f raw -O qcow2 <souruce .img file> <destination .qcow2 file>
+$ qemu-img convert -f raw -O qcow2 <source .img file> <destination .qcow2 file>
 
 ## Example
 $ qemu-img convert -f raw -O qcow2 /var/lib/libvirt/images/ubuntu14-HD.img /home/opsmx/spinnaker.qcow2
@@ -84,3 +82,6 @@ $ qemu-img convert -f raw -O qcow2 /var/lib/libvirt/images/ubuntu14-HD.img /home
 * [https://docs.openstack.org/image-guide/convert-images.html](https://docs.openstack.org/image-guide/convert-images.html)
 * [https://serverfault.com/questions/604862/any-way-to-convert-qcow2-to-ovf](https://docs.openstack.org/image-guide/convert-images.html)
 * [https://docs.openstack.org/image-guide/convert-images.html](https://docs.openstack.org/image-guide/convert-images.html)
+
+
+
