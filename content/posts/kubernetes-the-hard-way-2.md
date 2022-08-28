@@ -91,7 +91,7 @@ $ sudo ETCDCTL_API=3 etcdctl member list \
 ```
 You should see output like below
 
-![etcd verify image](/etcd_verify_output.jpg)
+![etcd verify image](/static_content/images/etcd_verify_output.jpg)
 
 # 7. Bootstrapping the Kubernetes Control Plane
 The control plane binaries are
@@ -279,7 +279,7 @@ $ kubectl get componentstatuses --kubeconfig admin.kubeconfig
 ```
 Run above command on all controller nodes and verify statuses which should like below
 
-![components status image](/components_status.jpg)
+![components status image](/static_content/images/components_status.jpg)
 ### RBAC for Kubelet Authorization
 In this section we will configure [RBAC permissions](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) to allow the kube-api server to access the Kubelet API on each worker node. Access to the Kubelet API is required for retrieving metrics, logs, and executing commands in pods.
 
@@ -389,7 +389,7 @@ $ curl --cacert ca.pem https://${KUBERNETES_PUBLIC_ADDRESS}:6443/version
 ```
 If everything is good, you should see output like below.
 
-![curl for version image](/curl_version.jpg)
+![curl for version image](/static_content/images/curl_version.jpg)
 
 In this post, we have successfully provisioned controller nodes and load balancers. We will bootstrap the worker nodes in next post
 

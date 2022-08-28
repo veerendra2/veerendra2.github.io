@@ -10,7 +10,7 @@ ShowToc: true
 It has been 2 year since I wrote a new post. Due to busy work and moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on Jekyll themes and tried to modify them according to my requirements. As you can see [here](https://github.com/veerendra2/veerendra2.github.io/tree/6-New-theme-and-remove-disqus) my feature branch.
 
 # Hugo
-![Hugo Image](/hugo.svg)
+![Hugo Image](/static_content/images/hugo.svg)
 But a month ago I discovered [Hugo](https://gohugo.io/), a static website builder like Jekyll, so I decided to take a look at it. And thus I decided to move to Hugo, because of its speed, simple and single binary
 
 Just like Hugo, I discovered Jekyll a few years back, as you can see from [my old blog post]({{< ref "jeklly-website" >}} "my old blog post"). After using Jekyll for a while I see below annoying things while building and installing Jekyll everytime I change the OS in my laptop. [#7](https://github.com/veerendra2/veerendra2.github.io/issues/7)

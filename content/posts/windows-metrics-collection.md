@@ -26,19 +26,19 @@ As they said in [Github repo](https://github.com/influxdata/telegraf) and I quot
 3. Download telegraf configuration from [here (telegraf.conf)](telegraf.conf) and place it in `C:\Program Files\Telegraf`
   * Specify OpenTSDB server IP in `outputs.opentsdb` section in the configuration
 
-  ![Application Location](app-location.JPG)
+  ![Application Location](/static_content/images/app-location.JPG)
 
 * Open "Windows PowerShell" with administrator rights(Run as administrator) and paste below command to create "windows service"
   ```
   C:\"Program Files"\Telegraf\telegraf.exe --config C:\"Program Files"\Telegraf\telegraf.conf –-service install
   ```
 
-  ![Command Run](cmd-run.JPG)
+  ![Command Run](/static_content/images/cmd-run.JPG)
 
 * In Windows `Services`, you should see `Telegraf` service. Right-click on the Telegraf service, open `"Properties"-> Select "Automatic"` for "Startup Type" and click "Start" button to start the Telegraf service.
 
 
-![Windows Service](/service.JPG)
+![Windows Service](/static_content/images/service.JPG)
 
 
 You should able to see [these metrics](/assets/telegraf_metrics.txt) in your OpenTSDB

@@ -44,9 +44,9 @@ $ python deauth.py
 
 When you run the command, you should see it like below.
 
-![Help](/blog-image1.jpg)
+![Help](/static_content/images/blog-image1.jpg)
 
-![Command Run](/blog-image2.jpg)
+![Command Run](/static_content/images/blog-image2.jpg)
 
 When you start the script, it will create a “mon0” interface(A monitoring virtual interface used to send our deauth frames) and observe wifi signals. After a few seconds, it will display near APs and its MAC addresses. Choose one to broadcast the “deauth” frames to that network which results network outage for connected clients to that AP.
 

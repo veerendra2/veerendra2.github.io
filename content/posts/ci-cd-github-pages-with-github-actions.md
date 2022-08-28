@@ -16,7 +16,7 @@ This blog site is powered by GitHub Pages which you can publish static html site
 
 For this, I'm maintaining 2 branches, one for my markdown source files in [`source` branch](https://github.com/veerendra2/veerendra2.github.io/tree/source) and another for static html site in [`master` branch](https://github.com/veerendra2/veerendra2.github.io)
 
-![Branch Image](/branch_image1.jpg)
+![Branch Image](/static_content/images/branch_image1.jpg)
 
 ## Jekyll
 Everything's good so far, but we know that we are too lazy to write html pages. So, that's where this tool ["Jekyll"](https://jekyllrb.com/) comes into picture, converts markdown files to static html websites. Once you `jekyll build`, it will build a static website in the `_site` directory. For local testing you can run `jekyll serve` to see how site looks.(Checkout my other [post to know how to install jekyll](https://veerendra2.github.io/jeklly-website/))
@@ -49,6 +49,6 @@ Let's go thought the `jekyll.yml` line by line very briefly
 
 Now, all I have to do is drop `jekyll.yml` in the `.github/workflows/` directory to GitHub to pick up my workflow. Below is the picture showing the pipeline for my website deployment.
 
-![Pipeline Image](/pipeline.png)
+![Pipeline Image](/static_content/images/pipeline.png)
 
 
