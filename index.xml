@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/</link>
+    <description>Recent content on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 27 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Moving to Hugo and other updates!</title>
+      <link>https://veerendra2.github.io/posts/moving-to-hugo/</link>
+      <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/moving-to-hugo/</guid>
+      <description>It has been 2 year since I wrote a new post. Due to busy work and moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on Jekyll themes and tried to modify them according to my requirements. As you can see here my feature branch.</description>
+    </item>
+    
+    <item>
+      <title>CI/CD for GitHub Pages with GitHub Actions</title>
+      <link>https://veerendra2.github.io/posts/ci-cd-github-pages-with-github-actions/</link>
+      <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/ci-cd-github-pages-with-github-actions/</guid>
+      <description>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.
+I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab.</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</title>
+      <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/</link>
+      <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/</guid>
+      <description>Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post
+I know what you are thinking, I steal Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;CRI&amp;rsquo; and Flannel as &amp;lsquo;CNI&amp;rsquo;.
+This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I highly recommend go through his repo.</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</title>
+      <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/</link>
+      <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/</guid>
+      <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
+6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes.</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</title>
+      <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way-3/</link>
+      <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/kubernetes-the-hard-way-3/</guid>
+      <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
+In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
+    </item>
+    
+    <item>
+      <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title>
+      <link>https://veerendra2.github.io/posts/ssl-config-k8s-service-aws/</link>
+      <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/ssl-config-k8s-service-aws/</guid>
+      <description>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.
+If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s ELB is not TLS enabled by default.</description>
+    </item>
+    
+    <item>
+      <title>Linux pseudo files &amp; cheat sheet</title>
+      <link>https://veerendra2.github.io/posts/linux-cheatseets/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/linux-cheatseets/</guid>
+      <description>*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”
+Tips &amp;amp; Tricks How to force a command to return exit code 0 even if the command exited non-zero?
+How to install dependencies of .deb automatically which failed to install previously?
+Example Solution:
+$ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;amp;&amp;amp; apt-get --yes --force-yes -o Dpkg::Options::=&amp;#34;--force-confdef&amp;#34; -o Dpkg::Options::=&amp;#34;--force-confold&amp;#34; -f install -y \ How to traverse directories in shell script?</description>
+    </item>
+    
+    <item>
+      <title>Build and Install Wireshark</title>
+      <link>https://veerendra2.github.io/posts/wireshark-install/</link>
+      <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/wireshark-install/</guid>
+      <description>Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or .cap file. The tool enables different types filtering on packets like follow stream, filter by protocol and IP, etc
+In order to install the latest version of wireshark on Linux, one should build and install from source. Sometimes, building from source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this software.</description>
+    </item>
+    
+    <item>
+      <title>Open vSwitch installation on Redhat7 OS</title>
+      <link>https://veerendra2.github.io/posts/openvswitch-redhat/</link>
+      <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/openvswitch-redhat/</guid>
+      <description>Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.
+Now let&amp;rsquo;s see how to install Open vSwitch v2.6.1 in RedHat7 step by step
+Install dependencies
+$ sudo yum install gcc make python-devel openssl-devel \ kernel-devel graphviz kernel-debug-devel \ autoconf automake rpm-build redhat-rpm-config \ libtool Grab OpenvSwitch source from http://www.</description>
+    </item>
+    
+    <item>
+      <title>Windows OS metrics collection with Telegraf</title>
+      <link>https://veerendra2.github.io/posts/windows-metrics-collection/</link>
+      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/windows-metrics-collection/</guid>
+      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.
+Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is really simple, elegant way to collect Windows OS metrics and light weight too, unlike others which some are paid and crappy.</description>
+    </item>
+    
+    <item>
+      <title>KVM Hypervisor Cheat Sheets</title>
+      <link>https://veerendra2.github.io/posts/kvm-hyperviour-cheatsheets/</link>
+      <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/kvm-hyperviour-cheatsheets/</guid>
+      <description>1. Install Packages Check system is capable of running KVM by running kvm-ok
+$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y Create KVM/Qemu Hard Disk File $ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt; ## Example $ qemu-img create -f raw ubuntu14-HD.img 10G Then copy the HD file to /var/lib/libvirt/images/ Launch VM with virt-install virt-install --name spinnaker \ --ram 11096 \ --vcpus=4 \ --os-type linux \ --os-variant=ubuntutrusty \ --accelerate \ --nographics -v \ --disk path=/var/lib/libvirt/images/ubuntu14-HD.</description>
+    </item>
+    
+    <item>
+      <title>Encrypt your DNS queries, stay anonymous</title>
+      <link>https://veerendra2.github.io/posts/dns-encrypt/</link>
+      <pubDate>Mon, 22 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/dns-encrypt/</guid>
+      <description>We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?
+Sure if we use HTTPS, all your (POST or GET) data is encrypted end-to-end which prevents eavesdropping, MITM attack and have Confidentiality, but again what about DNS queries?
+I got this question back in a while, so after a quick Internet search, I found DNSCrypt protocol which is really cool that I can encrypt DNS queries.</description>
+    </item>
+    
+    <item>
+      <title>Wifi Deauthentication Attack</title>
+      <link>https://veerendra2.github.io/posts/wifi-deathentication-attack/</link>
+      <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/wifi-deathentication-attack/</guid>
+      <description>A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.
+-Wikipedia
+As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands here).
+So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate.</description>
+    </item>
+    
+    <item>
+      <title>GNU screen commands(Cheat Sheet)</title>
+      <link>https://veerendra2.github.io/posts/gnu-screen-commands/</link>
+      <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/gnu-screen-commands/</guid>
+      <description>GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected.</description>
+    </item>
+    
+    <item>
+      <title>Install jekyll in Ubuntu 14.04</title>
+      <link>https://veerendra2.github.io/posts/jeklly-website/</link>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/jeklly-website/</guid>
+      <description>👉 Update on 27-08-2022 Moving to Hugo and other updates! I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
+root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.</description>
+    </item>
+    
+    <item>
+      <title>MAC Address Scrambling in Linux</title>
+      <link>https://veerendra2.github.io/posts/mac-scrambling/</link>
+      <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/mac-scrambling/</guid>
+      <description>“MAC Address Scrambling“- By name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48 bit hexadecimal digit which is burned in every electronic device that has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://veerendra2.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/about/</guid>
+      <description></description>
+    </item>
+    
+    
+    <item>
+      <title>My Bookmarks</title>
+      <link>https://veerendra2.github.io/bookmarks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/bookmarks/</guid>
+      <description>Network Blogs Capturing Wireless LAN Packets on Ubuntu with tcpdump and Kismet Linux Bridging Phishing With a Rogue Wi-Fi Access Point Fast DDoS analyzer with sflow/netflow/mirror support China&amp;rsquo;s Man-on-the-Side Attack on GitHub SSH testing tool checks the configuration of given server accessible over internet Infinite possibilities with the Scapy Module An Illustrated Guide to the Kaminsky DNS Vulnerability A penetration tester’s guide to sub-domain enumeration A source for pcap files and malware samples Explanation of how https works Daniels Networking Blog Python for Network Engineers Fuzzing proprietary protocols with Scapy, radamsa and a handful of PCAPs How to Decrypt 802.</description>
+    </item>
+    
+    
+  </channel>
+</rss>
