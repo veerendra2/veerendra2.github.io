@@ -5,18 +5,15 @@ slug: "kubernetes-the-hard-way-1"
 author: Veerendra K
 tags: [linux, kubernetes]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
-Hello alle zusammen, after a long time I'm writing this blog and I come with an interesting and long post
+Hallo alle zusammen, after a long time I'm writing this blog and I come with an interesting and long post
 
 I know what you are thinking, I steal [Kelsey Hightower's Kubernetes The Hard Way tutorial](https://github.com/kelseyhightower/kubernetes-the-hard-way), but hey!, I did some research and try to **fit K8s cluster(Multi-Master!) in a laptop with Docker as '[CRI](https://kubernetes.io/docs/setup/cri/)' and Flannel as '[CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)'.**
 
-This blog post follows [Kelsey Hightower's](https://github.com/kelseyhightower) [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), I highly recommend go through his repo. I'm writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if any mistakes and ping me for any queries. This series divided into 3 parts and all configuration/scripts are available in my [github repo](https://github.com/veerendra2/k8s-the-hard-way-blog). Well that has been said, let's start building the cluster.
+This blog post follows [Kelsey Hightower's](https://github.com/kelseyhightower) [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way), I highly recommend go through his repo. I'm writing this blog post to keep it as reference for me and share with other people whoever want to try it. So, feel free to correct me if there are any mistakes and ping me for any queries. This series is divided into 3 parts and all configuration/scripts are available in my [github repo](https://github.com/veerendra2/k8s-the-hard-way-blog). Well that has been said, let's start building the cluster.
 
-Below is my laptop configuration. Make sure you have enough resources in your laptop.(or depends on resources, you can reduce nodes in cluster, etc.)
+Below is my laptop configuration. Make sure you have enough resources in your laptop.(or depends on resources, you can reduce nodes in the cluster, etc.)
 
 | Laptop   | Acer Predator Helios 200 |
 | -------- | ------------------------ |
@@ -25,7 +22,7 @@ Below is my laptop configuration. Make sure you have enough resources in your la
 | Host OS  | Ubuntu 18.04             |
 | Hostname | ghost                    |
 
-First let's talk about the cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy cluster with multiple masters, but I was afraid it is too much for my laptop. So, I reduced to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters looks like below.
+First let's talk about the cluster in [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) which has 3 controller nodes, 3 worker nodes and a load balancer on GCP. I want to deploy a cluster with multiple masters, but I was afraid it is too much for my laptop. So, I reduced it to 2 controller nodes, 2 worker nodes (or VMs in my case) and replaced GCP load balancer with nginx docker container as a load balancer, the clusters look like below.
 
 ![Cluster Image](/Server2.png)
 # 1. Prerequisites
@@ -56,7 +53,7 @@ First let's talk about the cluster in [Kubernetes The Hard Way](https://github.c
 
 ### Subnets
 
-In offical "Kubernetes The Hard Way", cluster network configuration done via `gcloud` and obviously we are not going to use it. We have to choose subnets manually for our cluster nodes,CIDR for pods and K8s services. So, here is what I come with
+In official "Kubernetes The Hard Way", cluster network configuration done via `gcloud` and obviously we are not going to use it. We have to choose subnets manually for our cluster nodes,CIDR for pods and K8s services. So, here is what I come with
 | No. | Name                        | Subnet        |
 | --- | --------------------------- | ------------- |
 | 1   | Cluster Nodes               | 10.200.1.0/24 |
@@ -64,7 +61,7 @@ In offical "Kubernetes The Hard Way", cluster network configuration done via `gc
 | 3   | Service(service-cluster-ip) | 10.32.0.0/24  |
 
 ### Linux Bridge & NAT
-As you can see in above diagram, we are going to use `linux bridge` to connect our VMs and nginx container. Also we need to do [NATing](https://en.wikipedia.org/wiki/Network_address_translation) for our VMs in order to access Internet.
+As you can see in the above diagram, we are going to use a `linux bridge` to connect our VMs and nginx docker container. Also we need to do [NATing](https://en.wikipedia.org/wiki/Network_address_translation) for our VMs in order to access the Internet.
 
 ```bash
 $ EXTERNAL_IFACE="wlan0"
@@ -72,7 +69,7 @@ $ EXTERNAL_IFACE="wlan0"
 ## Enable ip forwarding
 $ sudo sysctl net.ipv4.conf.all.forwarding=1
 
-## Creat br0 bridge
+## Create br0 bridge
 $ sudo ip link add name br0 type bridge
 $ sudo ip link set dev br0 up
 $ sudo ip addr add 10.200.1.1/24 dev br0
@@ -87,7 +84,7 @@ $ sudo sysctl -w net.bridge.bridge-nf-call-arptables=0
 $ sudo sysctl -w net.bridge.bridge-nf-call-ip6tables=0
 $ sudo sysctl -w net.bridge.bridge-nf-call-iptables=0
 ```
-In order to launch docker container(nginx load balancer container) on different linux bridge(other than default `docker0`), we need to create docker network and specify that network while launching the container. Below command creates `docker network` with `br0` as bridge
+In order to launch docker container(nginx load balancer container) on different linux bridge(other than default `docker0`), we need to create a docker network and specify that network while launching the container. Below command creates `docker network` with `br0` as bridge
 ```bash
 $ docker network create --driver=bridge \
         --ip-range=10.200.1.0/24 \
@@ -120,8 +117,8 @@ $ cat nginx_proxy.txt
 proxy 10.200.1.15
 
 $ cat /etc/hosts
-127.0.0.1	localhost
-127.0.1.1	ghost
+127.0.0.1    localhost
+127.0.1.1    ghost
 
 10.200.1.10 m1
 10.200.1.11 m2
@@ -139,17 +136,17 @@ Below are the IPs, hostname and username for the nodes that I choose
 | Load Balancer(nginx Container) | proxy         | 10.200.1.15 | N/A                 |
 
 * Download Ubuntu 18.04 server `.iso` from [https://www.ubuntu.com/](https://www.ubuntu.com/)
-* In previous section, we installed kvm hypervisor and now lets spin up 4 VMs and specify bridge name under network section like in below screenshot.(I used "Virtual Machine Manger" GUI to launch VMs)
+* In previous section, we installed kvm hypervisor and now lets spin up 4 VMs and specify bridge name under network section like in below screenshot.(I used "Virtual Machine Manager" GUI to launch VMs)
 
-_*I'm not covering OS installation in VM. You can easly find it on the Internet._
+_*I'm not covering OS installation in VM. You can easily find it on the Internet._
 
 _*NOTE: While installing OS, please select static IP and specify IPs according to their node names_
 
 _*TIP: Install OS in VM and clone VM 3 time_
 
-![VM Manager Image](vm_manager.jpg)
+![VM Manager Image](/vm_manager.jpg)
 
-Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should able to ssh both host-to-VM and VM-to-VM. For handy, you can copy ssh keys, so that don't have to enter password every time.
+Once the OS installation is completed, check the connectivity between the host-VM and VM-VM and you should be able to ssh both host-to-VM and VM-to-VM. For convenience, you can copy ssh keys, so that you don't have to enter a password every time.
 ```bash
 $ ssh-keygen
 $ ssh-copy-id guest-username@guest-ip
@@ -157,7 +154,7 @@ $ ssh-copy-id guest-username@guest-ip
 
 # 3. Provisioning a CA and Generating TLS Certificates
 
-It is a good practice to setup encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare's PKI toolkit as we downloaded earlier.(Know more about [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure))
+It is a good practice to set up encrypted communication between the components of K8s. In this section we will create public key certificates and private keys for below components using CloudFlare's PKI toolkit as we downloaded earlier.(Know more about [PKI](https://en.wikipedia.org/wiki/Public_key_infrastructure))
 1. admin user
 2. kubelet
 3. kube-controller-manager
@@ -165,7 +162,7 @@ It is a good practice to setup encrypted communication between the components of
 5. kube-scheduler
 6. kube-api
 
-![Certificates Image](certificates.png)
+![Certificates Image](/certificates.png)
 
 But first, we have to create [Certificate Authority(CA)](https://en.wikipedia.org/wiki/Certificate_authority) which e-signatures the certificates that we are going to generate.
 ```bash
@@ -361,16 +358,16 @@ done
 | No. | Entity  | Description                                                                                                 |
 | --- | ------- | ----------------------------------------------------------------------------------------------------------- |
 | 1   | Cluster | api-server's IP and its certificate which encodes in `base64`                                               |
-| 2   | Users   | User related info like who are authenticating ,their cerificate and key or service account token            |
+| 2   | Users   | User related info like who are authenticating ,their certificate and key or service account token           |
 | 3   | Context | Holds Cluster's and User's reference. If you have multiple clusters and users, this `context` becomes handy |
 
 
 In this section, we are going to generate kubeconfig for below components
 
-![Kubeconfig Image](/assets/kubeconfig.png)
+![Kubeconfig Image](/kubeconfig.png)
 
 ### Generating kubelet kubeconfig
-The `user` in kubeconfig should be `system:node:<Worker_name>` which should match Kubelet hostname that we specified while generating kubelet client certificate. This will ensure Kubelets are properly authorized by the Kubernetes Node Authorizer.
+The `user` in kubeconfig should be `system:node:<Worker_name>` which should match the Kubelet hostname that we specified while generating the kubelet client certificate. This will ensure Kubelets are properly authorized by the Kubernetes Node Authorizer.
 ```bash
 $ cd ~/kubernetes-the-hard-way
 
@@ -576,3 +573,5 @@ Till now we have done following things
 4. Copied certificate files and kubeconfigs to nodes
 
 In the next post, we will bootstrap controller nodes
+
+

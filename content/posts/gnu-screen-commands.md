@@ -5,9 +5,6 @@ slug: "gnu-screen-commands"
 author: Veerendra K
 tags: [linux, screen]
 ShowToc: true
-editPost:
-    URL: "https://github.com/veerendra2/veerendra2.github.io/issues"
-    Text: "Suggest Changes by Creating Github Issue Here"
 ---
 
 
