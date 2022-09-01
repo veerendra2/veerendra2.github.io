@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - source
+  workflow_dispatch:
+
 env:
   BUILD_IMAGE: ghcr.io/veerendra2/veerendra2.github.io/hugo:0.102.2
 
