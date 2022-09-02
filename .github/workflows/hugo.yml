@@ -21,8 +21,8 @@ jobs:
       - name: Build site
         run: |
           docker run \
-            -v ${{ github.workspace }}:/opt/ \
-            -v ${{ github.workspace }}/public:/opt/public \
+            -v ${{ github.workspace }}/source:/opt/ \
+            -v ${{ github.workspace }}/source/public:/opt/public \
             $BUILD_IMAGE /bin/bash -c "cd /opt/ && ls -lah && hugo --debug"
 
       - name: Cloning master branch
