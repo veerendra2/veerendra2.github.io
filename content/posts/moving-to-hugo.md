@@ -7,7 +7,7 @@ tags: [hugo]
 ShowToc: true
 ---
 
-It has been 2 year since I wrote a new post. Due to busy work and moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on Jekyll themes and tried to modify them according to my requirements. As you can see [here](https://github.com/veerendra2/veerendra2.github.io/tree/6-New-theme-and-remove-disqus) my feature branch.
+It has been 2 year since I wrote a new post. Due to busy work,  moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on exploring Jekyll themes and tried to modify them according to my requirements. As you can see [here](https://github.com/veerendra2/veerendra2.github.io/issues/6) github issue.
 
 # Hugo
 ![Hugo Image](/static_content/images/hugo.svg)
