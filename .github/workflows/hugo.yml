@@ -23,7 +23,7 @@ jobs:
           docker run \
             -v ${{ github.workspace }}/source:/opt/ \
             -v ${{ github.workspace }}/source/public:/opt/public \
-            $BUILD_IMAGE /bin/bash -c "cd /opt/ && ls -lah && hugo --debug"
+            $BUILD_IMAGE /bin/bash -c "cd /opt/ && hugo --debug"
 
       - name: Cloning master branch
         uses: actions/checkout@v2
