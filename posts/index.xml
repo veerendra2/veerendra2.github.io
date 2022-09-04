@@ -5,7 +5,16 @@
     <link>https://veerendra2.github.io/posts/</link>
     <description>Recent content in Posts on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 27 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Velero Deployment with Kustomize (Azure)</title>
+      <link>https://veerendra2.github.io/posts/velero-deployment/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/posts/velero-deployment/</guid>
+      <description>Introduction Hello guys, today I came up with an interesting write up, that is how to setup backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find proper backup solution in order to configure PV backup and restore.</description>
+    </item>
+    
     <item>
       <title>Moving to Hugo and other updates!</title>
       <link>https://veerendra2.github.io/posts/moving-to-hugo/</link>

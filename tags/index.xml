@@ -5,7 +5,43 @@
     <link>https://veerendra2.github.io/tags/</link>
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 27 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>backup</title>
+      <link>https://veerendra2.github.io/tags/backup/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/backup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k8s</title>
+      <link>https://veerendra2.github.io/tags/k8s/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>restore</title>
+      <link>https://veerendra2.github.io/tags/restore/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/restore/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>velero</title>
+      <link>https://veerendra2.github.io/tags/velero/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/velero/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>hugo</title>
       <link>https://veerendra2.github.io/tags/hugo/</link>
