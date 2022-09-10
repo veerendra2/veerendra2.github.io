@@ -8,10 +8,10 @@
     <lastBuildDate>Thu, 11 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Wifi Deauthentication Attack</title>
-      <link>https://veerendra2.github.io/posts/wifi-deathentication-attack/</link>
+      <link>https://veerendra2.github.io/wifi-deathentication-attack/</link>
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/wifi-deathentication-attack/</guid>
+      <guid>https://veerendra2.github.io/wifi-deathentication-attack/</guid>
       <description>A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.
 -Wikipedia
 As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands here).

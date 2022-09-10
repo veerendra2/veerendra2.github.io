@@ -128,7 +128,7 @@ if (!doNotTrack) {
     <p>Introduction Hello guys, today I came up with an interesting write up, that is how to setup backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from cloud provider(e.g. Azure, AWS, etc), but I couldn’t find proper backup solution in order to configure PV backup and restore....</p>
   </section>
   <footer class="entry-footer"><span title='2022-09-03 00:00:00 +0000 UTC'>September 3, 2022</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Velero Deployment with Kustomize (Azure)" href="https://veerendra2.github.io/posts/velero-deployment/"></a>
+  <a class="entry-link" aria-label="post link to Velero Deployment with Kustomize (Azure)" href="https://veerendra2.github.io/velero-deployment/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -140,7 +140,7 @@ if (!doNotTrack) {
     <p>It has been 2 year since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on exploring Jekyll themes and tried to modify them according to my requirements. As you can see here github issue....</p>
   </section>
   <footer class="entry-footer"><span title='2022-08-27 00:00:00 +0000 UTC'>August 27, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Moving to Hugo and other updates!" href="https://veerendra2.github.io/posts/moving-to-hugo/"></a>
+  <a class="entry-link" aria-label="post link to Moving to Hugo and other updates!" href="https://veerendra2.github.io/moving-to-hugo/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -153,7 +153,7 @@ if (!doNotTrack) {
 I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the “Actions” tab....</p>
   </section>
   <footer class="entry-footer"><span title='2020-02-21 00:00:00 +0000 UTC'>February 21, 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to CI/CD for GitHub Pages with GitHub Actions" href="https://veerendra2.github.io/posts/ci-cd-github-pages-with-github-actions/"></a>
+  <a class="entry-link" aria-label="post link to CI/CD for GitHub Pages with GitHub Actions" href="https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -167,7 +167,7 @@ I know what you are thinking, I steal Kelsey Hightower’s Kubernetes The Hard W
 This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly recommend go through his repo....</p>
   </section>
   <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/"></a>
+  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" href="https://veerendra2.github.io/kubernetes-the-hard-way-1/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -180,7 +180,50 @@ This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly re
 6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes....</p>
   </section>
   <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/"></a>
+  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/kubernetes-the-hard-way-2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
+In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+9. Bootstrapping the Kubernetes Worker Nodes As the title of this post “Kubernetes The Hard Way With Docker &amp; Flannel”, what we are going to do now is different from Kelsey Hightower’s Kubernetes The Hard Way tutorial i....</p>
+  </section>
+  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" href="https://veerendra2.github.io/kubernetes-the-hard-way-3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn’t provide an HTTPS mechanism for the endpoint by default.
+If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS’s ELB is not TLS enabled by default....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-05-29 00:00:00 +0000 UTC'>May 29, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" href="https://veerendra2.github.io/ssl-config-k8s-service-aws/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Linux pseudo files &amp; cheat sheet
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”
+Tips &amp; Tricks How to force a command to return exit code 0 even if the command exited non-zero?
+How to install dependencies of .deb automatically which failed to install previously?
+Example Solution:
+$ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;&amp; apt-get --yes --force-yes -o Dpkg::Options::=&#34;--force-confdef&#34; -o Dpkg::Options::=&#34;--force-confold&#34; -f install -y \ How to traverse directories in shell script?...</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-04-14 00:00:00 +0000 UTC'>April 14, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Linux pseudo files &amp; cheat sheet" href="https://veerendra2.github.io/linux-cheatseets/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

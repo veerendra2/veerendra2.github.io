@@ -59,7 +59,7 @@ if (!doNotTrack) {
   "description": "My Blog",
   "thumbnailUrl": "https://veerendra2.github.io/favicon.ico",
   "sameAs": [
-      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "/static_content/files/Resume_Blog.pdf", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
+      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "mailto:vk.tyk23@simplelogin.com", "/static_content/files/Resume_Blog.pdf", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
   ]
 }
 </script>
@@ -147,6 +147,13 @@ if (!doNotTrack) {
     <circle cx="4" cy="4" r="2"></circle>
 </svg>
     </a>
+    <a href="mailto:vk.tyk23@simplelogin.com" target="_blank" rel="noopener noreferrer me" title="Email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+    </a>
     <a href="/static_content/files/Resume_Blog.pdf" target="_blank" rel="noopener noreferrer me" title="Cv">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
@@ -188,6 +195,89 @@ if (!doNotTrack) {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Elasticsearch Configuration Overview
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series.
+Important Elasticsearch Configuration 📄 Official Docs
+Mainly 3 configuration files
+elasticsearch.yml - Elasticsearch config jvm.options - Elasticsearch JVM settings config log4j2.properties - Elasticsearch logging config Environment Variables
+export the ES_PATH_CONF etc/default/elasticsearch (Sourced environment variables from. Recommended) Settings 📄 Official Docs
+Before going to production, it is recommended go through be below elasticsearch configs. Refer sample_config directory for configuration
+Configuration Description Configuration Reference Path settings Log and data config Refer here Cluster name Cluster name Refer here Node name Node name Refer here Network host IP address that elasticsearch bind on Refer here Discovery settings Cluster discovery and initial master config Refer here Heap size JVM heap memory configuration Recommended heap size should be half of system memory....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:42:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Elasticsearch Configuration Overview" href="https://veerendra2.github.io/elasticsearch-deploy/config-overview/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Elasticsearch Installation
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Install 📄 Office Docs
+Hardware Requirement 📄 Offical Docs
+Resource Minimum Recommended Memory 16 GB 64 GB CPU 8 Cores 16 Disk Depends Depends JDK Installation Pick JVM compatibility version with elasticsearch from here Install OpenJDK from here Download and install JDK 11 (Another guide here) $ apt-get install openjdk-11-jdk -y $ java -version openjdk version &#34;11.0.6&#34; 2020-01-14 OpenJDK Runtime Environment (build 11....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:41:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Elasticsearch Installation" href="https://veerendra2.github.io/elasticsearch-deploy/install/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Elasticsearch Upgrade
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Rolling Upgrade Elasticsearch 📄 Official Docs
+⚠️ A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service
+As of now, the current latest version of elasticsearch is v7.7.1. Below procedure is for rolling upgrade from 7.6.2=&gt;7.7.1.
+1. Divide the cluster into 2 groups Example node names carbon-x
+a. Non master-eligible nodes carbon-2 carbon-3 b....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:40:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Elasticsearch Upgrade" href="https://veerendra2.github.io/elasticsearch-deploy/upgrade/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Kibana Installation
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Kibana Installation 📄 Office docs
+❗ The elasticsearch should be up and running before you start kibana installation procedure
+Install via apt-get from here
+As of today the kibana version is 7.6.2 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - $ sudo apt-get install apt-transport-https $ echo &#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list $ sudo apt-get update &amp;&amp; sudo apt-get install kibana Configure Kibana Refer kibana....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:39:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Kibana Installation" href="https://veerendra2.github.io/elasticsearch-deploy/kabana-install/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Elastalert Demo Config
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Elastalert 📄 Official docs 📂 Official project Repo
+Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.
+Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.
+Installation ❗ Refer elasticsearch-deploy-notes/elastalert for example config
+$ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 install -U PyYAML $ mkdir -p /opt/elastalert/rules ## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo Recommended to create index in elasticsearch for elastalert to store metadata $ elastalert-create-index Elastic Version: 7....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:38:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Elastalert Demo Config" href="https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Velero Deployment with Kustomize (Azure)
     </h2>
   </header>
@@ -195,7 +285,7 @@ if (!doNotTrack) {
     <p>Introduction Hello guys, today I came up with an interesting write up, that is how to setup backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from cloud provider(e.g. Azure, AWS, etc), but I couldn’t find proper backup solution in order to configure PV backup and restore....</p>
   </section>
   <footer class="entry-footer"><span title='2022-09-03 00:00:00 +0000 UTC'>September 3, 2022</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Velero Deployment with Kustomize (Azure)" href="https://veerendra2.github.io/posts/velero-deployment/"></a>
+  <a class="entry-link" aria-label="post link to Velero Deployment with Kustomize (Azure)" href="https://veerendra2.github.io/velero-deployment/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -207,7 +297,7 @@ if (!doNotTrack) {
     <p>It has been 2 year since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on exploring Jekyll themes and tried to modify them according to my requirements. As you can see here github issue....</p>
   </section>
   <footer class="entry-footer"><span title='2022-08-27 00:00:00 +0000 UTC'>August 27, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Moving to Hugo and other updates!" href="https://veerendra2.github.io/posts/moving-to-hugo/"></a>
+  <a class="entry-link" aria-label="post link to Moving to Hugo and other updates!" href="https://veerendra2.github.io/moving-to-hugo/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -220,34 +310,7 @@ if (!doNotTrack) {
 I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the “Actions” tab....</p>
   </section>
   <footer class="entry-footer"><span title='2020-02-21 00:00:00 +0000 UTC'>February 21, 2020</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to CI/CD for GitHub Pages with GitHub Actions" href="https://veerendra2.github.io/posts/ci-cd-github-pages-with-github-actions/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Hallo alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post
-I know what you are thinking, I steal Kelsey Hightower’s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as ‘CRI’ and Flannel as ‘CNI’.
-This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly recommend go through his repo....</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Welcome back to “Kubernetes-The Hard Way With Docker &amp; Flannel” series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes....</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/"></a>
+  <a class="entry-link" aria-label="post link to CI/CD for GitHub Pages with GitHub Actions" href="https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

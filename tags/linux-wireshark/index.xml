@@ -8,10 +8,10 @@
     <lastBuildDate>Fri, 30 Mar 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/linux-wireshark/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Build and Install Wireshark</title>
-      <link>https://veerendra2.github.io/posts/wireshark-install/</link>
+      <link>https://veerendra2.github.io/wireshark-install/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/wireshark-install/</guid>
+      <guid>https://veerendra2.github.io/wireshark-install/</guid>
       <description>Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or .cap file. The tool enables different types filtering on packets like follow stream, filter by protocol and IP, etc
 In order to install the latest version of wireshark on Linux, one should build and install from source. Sometimes, building from source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this software.</description>
     </item>

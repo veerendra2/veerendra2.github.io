@@ -115,7 +115,7 @@ I know what you are thinking, I steal Kelsey Hightower’s Kubernetes The Hard W
 This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly recommend go through his repo....</p>
   </section>
   <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/"></a>
+  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" href="https://veerendra2.github.io/kubernetes-the-hard-way-1/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -128,7 +128,7 @@ This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly re
 6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes....</p>
   </section>
   <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/"></a>
+  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/kubernetes-the-hard-way-2/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -142,7 +142,7 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post “Kubernetes The Hard Way With Docker &amp; Flannel”, what we are going to do now is different from Kelsey Hightower’s Kubernetes The Hard Way tutorial i....</p>
   </section>
   <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" href="https://veerendra2.github.io/posts/kubernetes-the-hard-way-3/"></a>
+  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" href="https://veerendra2.github.io/kubernetes-the-hard-way-3/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -158,7 +158,7 @@ Example Solution:
 $ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;&amp; apt-get --yes --force-yes -o Dpkg::Options::=&#34;--force-confdef&#34; -o Dpkg::Options::=&#34;--force-confold&#34; -f install -y \ How to traverse directories in shell script?...</p>
   </section>
   <footer class="entry-footer"><span title='2018-04-14 00:00:00 +0000 UTC'>April 14, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Linux pseudo files &amp; cheat sheet" href="https://veerendra2.github.io/posts/linux-cheatseets/"></a>
+  <a class="entry-link" aria-label="post link to Linux pseudo files &amp; cheat sheet" href="https://veerendra2.github.io/linux-cheatseets/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -173,7 +173,49 @@ Install dependencies
 $ sudo yum install gcc make python-devel openssl-devel \ kernel-devel graphviz kernel-debug-devel \ autoconf automake rpm-build redhat-rpm-config \ libtool Grab OpenvSwitch source from http://www....</p>
   </section>
   <footer class="entry-footer"><span title='2018-02-28 00:00:00 +0000 UTC'>February 28, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Open vSwitch installation on Redhat7 OS" href="https://veerendra2.github.io/posts/openvswitch-redhat/"></a>
+  <a class="entry-link" aria-label="post link to Open vSwitch installation on Redhat7 OS" href="https://veerendra2.github.io/openvswitch-redhat/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>KVM Hypervisor Cheat Sheets
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>1. Install Packages Check system is capable of running KVM by running kvm-ok
+$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y Create KVM/Qemu Hard Disk File $ qemu-img create -f raw &lt;name&gt;.img &lt;Size&gt; ## Example $ qemu-img create -f raw ubuntu14-HD.img 10G Then copy the HD file to /var/lib/libvirt/images/ Launch VM with virt-install virt-install --name spinnaker \ --ram 11096 \ --vcpus=4 \ --os-type linux \ --os-variant=ubuntutrusty \ --accelerate \ --nographics -v \ --disk path=/var/lib/libvirt/images/ubuntu14-HD....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-01-27 00:00:00 +0000 UTC'>January 27, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to KVM Hypervisor Cheat Sheets" href="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Encrypt your DNS queries, stay anonymous
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?
+Sure if we use HTTPS, all your (POST or GET) data is encrypted end-to-end which prevents eavesdropping, MITM attack and have Confidentiality, but again what about DNS queries?
+I got this question back in a while, so after a quick Internet search, I found DNSCrypt protocol which is really cool that I can encrypt DNS queries....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-01-22 00:00:00 +0000 UTC'>January 22, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Encrypt your DNS queries, stay anonymous" href="https://veerendra2.github.io/dns-encrypt/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Wifi Deauthentication Attack
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.
+-Wikipedia
+As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands here).
+So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim’s devices/PC to tell them to deauthenticate....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-01-11 00:00:00 +0000 UTC'>January 11, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Wifi Deauthentication Attack" href="https://veerendra2.github.io/wifi-deathentication-attack/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

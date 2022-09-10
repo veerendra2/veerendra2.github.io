@@ -59,7 +59,7 @@ if (!doNotTrack) {
   "description": "My Blog",
   "thumbnailUrl": "https://veerendra2.github.io/favicon.ico",
   "sameAs": [
-      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "/static_content/files/Resume_Blog.pdf", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
+      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "mailto:vk.tyk23@simplelogin.com", "/static_content/files/Resume_Blog.pdf", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
   ]
 }
 </script>
@@ -117,19 +117,6 @@ if (!doNotTrack) {
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Windows OS metrics collection with Telegraf
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Ok, getting metrics(CPU, Memory &amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.
-Now, Let’s look at this Telegraf tool and what it does. I found Telegraf tool is really simple, elegant way to collect Windows OS metrics and light weight too, unlike others which some are paid and crappy....</p>
-  </section>
-  <footer class="entry-footer"><span title='2018-02-27 00:00:00 +0000 UTC'>February 27, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Windows OS metrics collection with Telegraf" href="https://veerendra2.github.io/posts/windows-metrics-collection/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2>KVM Hypervisor Cheat Sheets
     </h2>
   </header>
@@ -138,7 +125,7 @@ Now, Let’s look at this Telegraf tool and what it does. I found Telegraf tool 
 $ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y Create KVM/Qemu Hard Disk File $ qemu-img create -f raw &lt;name&gt;.img &lt;Size&gt; ## Example $ qemu-img create -f raw ubuntu14-HD.img 10G Then copy the HD file to /var/lib/libvirt/images/ Launch VM with virt-install virt-install --name spinnaker \ --ram 11096 \ --vcpus=4 \ --os-type linux \ --os-variant=ubuntutrusty \ --accelerate \ --nographics -v \ --disk path=/var/lib/libvirt/images/ubuntu14-HD....</p>
   </section>
   <footer class="entry-footer"><span title='2018-01-27 00:00:00 +0000 UTC'>January 27, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to KVM Hypervisor Cheat Sheets" href="https://veerendra2.github.io/posts/kvm-hyperviour-cheatsheets/"></a>
+  <a class="entry-link" aria-label="post link to KVM Hypervisor Cheat Sheets" href="https://veerendra2.github.io/kvm-hyperviour-cheatsheets/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -152,7 +139,7 @@ Sure if we use HTTPS, all your (POST or GET) data is encrypted end-to-end which 
 I got this question back in a while, so after a quick Internet search, I found DNSCrypt protocol which is really cool that I can encrypt DNS queries....</p>
   </section>
   <footer class="entry-footer"><span title='2018-01-22 00:00:00 +0000 UTC'>January 22, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Encrypt your DNS queries, stay anonymous" href="https://veerendra2.github.io/posts/dns-encrypt/"></a>
+  <a class="entry-link" aria-label="post link to Encrypt your DNS queries, stay anonymous" href="https://veerendra2.github.io/dns-encrypt/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -167,7 +154,7 @@ As you can see, this type of attack is pretty powerful and difficult to detect w
 So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim’s devices/PC to tell them to deauthenticate....</p>
   </section>
   <footer class="entry-footer"><span title='2018-01-11 00:00:00 +0000 UTC'>January 11, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Wifi Deauthentication Attack" href="https://veerendra2.github.io/posts/wifi-deathentication-attack/"></a>
+  <a class="entry-link" aria-label="post link to Wifi Deauthentication Attack" href="https://veerendra2.github.io/wifi-deathentication-attack/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -179,12 +166,36 @@ So, basically the concept is the attacker broadcasts a wifi management “Deauth
     <p>GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected....</p>
   </section>
   <footer class="entry-footer"><span title='2018-01-08 00:00:00 +0000 UTC'>January 8, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to GNU screen commands(Cheat Sheet)" href="https://veerendra2.github.io/posts/gnu-screen-commands/"></a>
+  <a class="entry-link" aria-label="post link to GNU screen commands(Cheat Sheet)" href="https://veerendra2.github.io/gnu-screen-commands/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Install jekyll in Ubuntu 14.04
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 Update on 27-08-2022 Moving to Hugo and other updates! I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
+root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-01-07 00:00:00 +0000 UTC'>January 7, 2018</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Install jekyll in Ubuntu 14.04" href="https://veerendra2.github.io/jeklly-website/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>MAC Address Scrambling in Linux
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>“MAC Address Scrambling“- By name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48 bit hexadecimal digit which is burned in every electronic device that has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-01-06 00:00:00 +0000 UTC'>January 6, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to MAC Address Scrambling in Linux" href="https://veerendra2.github.io/mac-scrambling/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://veerendra2.github.io/page/2/">« Prev Page</a>
-    <a class="next" href="https://veerendra2.github.io/page/4/">Next Page »</a>
   </nav>
 </footer>
     </main>

@@ -8,10 +8,10 @@
     <lastBuildDate>Sun, 07 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/jeykll/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Install jekyll in Ubuntu 14.04</title>
-      <link>https://veerendra2.github.io/posts/jeklly-website/</link>
+      <link>https://veerendra2.github.io/jeklly-website/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/jeklly-website/</guid>
+      <guid>https://veerendra2.github.io/jeklly-website/</guid>
       <description>👉 Update on 27-08-2022 Moving to Hugo and other updates! I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
 root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.</description>
     </item>

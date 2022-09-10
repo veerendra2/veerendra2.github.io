@@ -8,10 +8,10 @@
     <lastBuildDate>Thu, 17 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</title>
-      <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/</link>
+      <link>https://veerendra2.github.io/kubernetes-the-hard-way-1/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/</guid>
+      <guid>https://veerendra2.github.io/kubernetes-the-hard-way-1/</guid>
       <description>Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post
 I know what you are thinking, I steal Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;CRI&amp;rsquo; and Flannel as &amp;lsquo;CNI&amp;rsquo;.
 This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I highly recommend go through his repo.</description>
@@ -19,20 +19,20 @@ This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I h
     
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</title>
-      <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/</link>
+      <link>https://veerendra2.github.io/kubernetes-the-hard-way-2/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/</guid>
+      <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
       <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
 6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes.</description>
     </item>
     
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</title>
-      <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way-3/</link>
+      <link>https://veerendra2.github.io/kubernetes-the-hard-way-3/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/kubernetes-the-hard-way-3/</guid>
+      <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
       <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
 In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
@@ -40,10 +40,10 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
     
     <item>
       <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title>
-      <link>https://veerendra2.github.io/posts/ssl-config-k8s-service-aws/</link>
+      <link>https://veerendra2.github.io/ssl-config-k8s-service-aws/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/ssl-config-k8s-service-aws/</guid>
+      <guid>https://veerendra2.github.io/ssl-config-k8s-service-aws/</guid>
       <description>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.
 If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s ELB is not TLS enabled by default.</description>
     </item>

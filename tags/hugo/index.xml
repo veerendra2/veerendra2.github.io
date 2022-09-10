@@ -8,10 +8,10 @@
     <lastBuildDate>Sat, 27 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Moving to Hugo and other updates!</title>
-      <link>https://veerendra2.github.io/posts/moving-to-hugo/</link>
+      <link>https://veerendra2.github.io/moving-to-hugo/</link>
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/moving-to-hugo/</guid>
+      <guid>https://veerendra2.github.io/moving-to-hugo/</guid>
       <description>It has been 2 year since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on exploring Jekyll themes and tried to modify them according to my requirements. As you can see here github issue.</description>
     </item>
     

@@ -2,37 +2,64 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://veerendra2.github.io/tags/elasticsearch/</loc>
+    <lastmod>2022-09-10T17:42:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</loc>
+    <lastmod>2022-09-10T17:42:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/posts/elasticsearch-deploy/</loc>
+    <lastmod>2022-09-10T17:42:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/posts/</loc>
+    <lastmod>2022-09-10T17:42:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/</loc>
+    <lastmod>2022-09-10T17:42:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/</loc>
+    <lastmod>2022-09-10T17:42:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/elasticsearch-deploy/install/</loc>
+    <lastmod>2022-09-10T17:41:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</loc>
+    <lastmod>2022-09-10T17:40:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/kibana/</loc>
+    <lastmod>2022-09-10T17:39:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</loc>
+    <lastmod>2022-09-10T17:39:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/elastalert/</loc>
+    <lastmod>2022-09-10T17:38:52+02:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</loc>
+    <lastmod>2022-09-10T17:38:52+02:00</lastmod>
+  </url><url>
     <loc>https://veerendra2.github.io/tags/backup/</loc>
     <lastmod>2022-09-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/k8s/</loc>
     <lastmod>2022-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/</loc>
-    <lastmod>2022-09-03T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://veerendra2.github.io/tags/restore/</loc>
-    <lastmod>2022-09-03T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/tags/</loc>
-    <lastmod>2022-09-03T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/</loc>
     <lastmod>2022-09-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/velero/</loc>
     <lastmod>2022-09-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/velero-deployment/</loc>
+    <loc>https://veerendra2.github.io/velero-deployment/</loc>
     <lastmod>2022-09-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/hugo/</loc>
     <lastmod>2022-08-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/moving-to-hugo/</loc>
+    <loc>https://veerendra2.github.io/moving-to-hugo/</loc>
     <lastmod>2022-08-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/ci-cd-github-pages-with-github-actions/</loc>
+    <loc>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</loc>
     <lastmod>2020-02-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/jekyll/</loc>
@@ -41,13 +68,13 @@
     <loc>https://veerendra2.github.io/tags/kubernetes/</loc>
     <lastmod>2019-01-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/kubernetes-the-hard-way-1/</loc>
+    <loc>https://veerendra2.github.io/kubernetes-the-hard-way-1/</loc>
     <lastmod>2019-01-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/kubernetes-the-hard-way-2/</loc>
+    <loc>https://veerendra2.github.io/kubernetes-the-hard-way-2/</loc>
     <lastmod>2019-01-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/kubernetes-the-hard-way-3/</loc>
+    <loc>https://veerendra2.github.io/kubernetes-the-hard-way-3/</loc>
     <lastmod>2019-01-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/linux/</loc>
@@ -56,19 +83,19 @@
     <loc>https://veerendra2.github.io/tags/aws/</loc>
     <lastmod>2018-05-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/ssl-config-k8s-service-aws/</loc>
+    <loc>https://veerendra2.github.io/ssl-config-k8s-service-aws/</loc>
     <lastmod>2018-05-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/linux-cheatseets/</loc>
+    <loc>https://veerendra2.github.io/linux-cheatseets/</loc>
     <lastmod>2018-04-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/wireshark-install/</loc>
+    <loc>https://veerendra2.github.io/wireshark-install/</loc>
     <lastmod>2018-03-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/linux-wireshark/</loc>
     <lastmod>2018-03-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/openvswitch-redhat/</loc>
+    <loc>https://veerendra2.github.io/openvswitch-redhat/</loc>
     <lastmod>2018-02-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/openvswitch/</loc>
@@ -80,16 +107,16 @@
     <loc>https://veerendra2.github.io/tags/windows/</loc>
     <lastmod>2018-02-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/windows-metrics-collection/</loc>
+    <loc>https://veerendra2.github.io/windows-metrics-collection/</loc>
     <lastmod>2018-02-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/kvm/</loc>
     <lastmod>2018-01-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/kvm-hyperviour-cheatsheets/</loc>
+    <loc>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</loc>
     <lastmod>2018-01-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/dns-encrypt/</loc>
+    <loc>https://veerendra2.github.io/dns-encrypt/</loc>
     <lastmod>2018-01-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/security/</loc>
@@ -101,22 +128,22 @@
     <loc>https://veerendra2.github.io/tags/wifi/</loc>
     <lastmod>2018-01-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/wifi-deathentication-attack/</loc>
+    <loc>https://veerendra2.github.io/wifi-deathentication-attack/</loc>
     <lastmod>2018-01-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/gnu-screen-commands/</loc>
+    <loc>https://veerendra2.github.io/gnu-screen-commands/</loc>
     <lastmod>2018-01-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/screen/</loc>
     <lastmod>2018-01-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/jeklly-website/</loc>
+    <loc>https://veerendra2.github.io/jeklly-website/</loc>
     <lastmod>2018-01-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/jeykll/</loc>
     <lastmod>2018-01-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/mac-scrambling/</loc>
+    <loc>https://veerendra2.github.io/mac-scrambling/</loc>
     <lastmod>2018-01-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/about/</loc>

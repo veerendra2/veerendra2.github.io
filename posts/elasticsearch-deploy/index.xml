@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Elasticsearch Deployment Docs on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/posts/elasticsearch-deploy/</link>
+    <description>Recent content in Elasticsearch Deployment Docs on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 10 Sep 2022 17:42:52 +0200</lastBuildDate><atom:link href="https://veerendra2.github.io/posts/elasticsearch-deploy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Elasticsearch Configuration Overview</title>
+      <link>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</link>
+      <pubDate>Sat, 10 Sep 2022 17:42:52 +0200</pubDate>
+      
+      <guid>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</guid>
+      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series.
+Important Elasticsearch Configuration 📄 Official Docs
+Mainly 3 configuration files
+elasticsearch.yml - Elasticsearch config jvm.options - Elasticsearch JVM settings config log4j2.properties - Elasticsearch logging config Environment Variables
+export the ES_PATH_CONF etc/default/elasticsearch (Sourced environment variables from. Recommended) Settings 📄 Official Docs
+Before going to production, it is recommended go through be below elasticsearch configs. Refer sample_config directory for configuration
+Configuration Description Configuration Reference Path settings Log and data config Refer here Cluster name Cluster name Refer here Node name Node name Refer here Network host IP address that elasticsearch bind on Refer here Discovery settings Cluster discovery and initial master config Refer here Heap size JVM heap memory configuration Recommended heap size should be half of system memory.</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch Installation</title>
+      <link>https://veerendra2.github.io/elasticsearch-deploy/install/</link>
+      <pubDate>Sat, 10 Sep 2022 17:41:52 +0200</pubDate>
+      
+      <guid>https://veerendra2.github.io/elasticsearch-deploy/install/</guid>
+      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
+Install 📄 Office Docs
+Hardware Requirement 📄 Offical Docs
+Resource Minimum Recommended Memory 16 GB 64 GB CPU 8 Cores 16 Disk Depends Depends JDK Installation Pick JVM compatibility version with elasticsearch from here Install OpenJDK from here Download and install JDK 11 (Another guide here) $ apt-get install openjdk-11-jdk -y $ java -version openjdk version &amp;#34;11.0.6&amp;#34; 2020-01-14 OpenJDK Runtime Environment (build 11.</description>
+    </item>
+    
+    <item>
+      <title>Elasticsearch Upgrade</title>
+      <link>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</link>
+      <pubDate>Sat, 10 Sep 2022 17:40:52 +0200</pubDate>
+      
+      <guid>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</guid>
+      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
+Rolling Upgrade Elasticsearch 📄 Official Docs
+⚠️ A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service
+As of now, the current latest version of elasticsearch is v7.7.1. Below procedure is for rolling upgrade from 7.6.2=&amp;gt;7.7.1.
+1. Divide the cluster into 2 groups Example node names carbon-x
+a. Non master-eligible nodes carbon-2 carbon-3 b.</description>
+    </item>
+    
+    <item>
+      <title>Kibana Installation</title>
+      <link>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</link>
+      <pubDate>Sat, 10 Sep 2022 17:39:52 +0200</pubDate>
+      
+      <guid>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</guid>
+      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
+Kibana Installation 📄 Office docs
+❗ The elasticsearch should be up and running before you start kibana installation procedure
+Install via apt-get from here
+As of today the kibana version is 7.6.2 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - $ sudo apt-get install apt-transport-https $ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list $ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana Configure Kibana Refer kibana.</description>
+    </item>
+    
+    <item>
+      <title>Elastalert Demo Config</title>
+      <link>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</link>
+      <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
+      
+      <guid>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</guid>
+      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
+Elastalert 📄 Official docs 📂 Official project Repo
+Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.
+Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.
+Installation ❗ Refer elasticsearch-deploy-notes/elastalert for example config
+$ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 install -U PyYAML $ mkdir -p /opt/elastalert/rules ## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo Recommended to create index in elasticsearch for elastalert to store metadata $ elastalert-create-index Elastic Version: 7.</description>
+    </item>
+    
+  </channel>
+</rss>

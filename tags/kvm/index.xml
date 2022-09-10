@@ -8,10 +8,10 @@
     <lastBuildDate>Sat, 27 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/kvm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>KVM Hypervisor Cheat Sheets</title>
-      <link>https://veerendra2.github.io/posts/kvm-hyperviour-cheatsheets/</link>
+      <link>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</link>
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://veerendra2.github.io/posts/kvm-hyperviour-cheatsheets/</guid>
+      <guid>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</guid>
       <description>1. Install Packages Check system is capable of running KVM by running kvm-ok
 $ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y Create KVM/Qemu Hard Disk File $ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt; ## Example $ qemu-img create -f raw ubuntu14-HD.img 10G Then copy the HD file to /var/lib/libvirt/images/ Launch VM with virt-install virt-install --name spinnaker \ --ram 11096 \ --vcpus=4 \ --os-type linux \ --os-variant=ubuntutrusty \ --accelerate \ --nographics -v \ --disk path=/var/lib/libvirt/images/ubuntu14-HD.</description>
     </item>
