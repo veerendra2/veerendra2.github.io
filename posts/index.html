@@ -158,47 +158,6 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Hallo alle zusammen, after a long time I’m writing this blog and I come with an interesting and long post
-I know what you are thinking, I steal Kelsey Hightower’s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as ‘CRI’ and Flannel as ‘CNI’.
-This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly recommend go through his repo....</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)" href="https://veerendra2.github.io/kubernetes-the-hard-way-1/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Welcome back to “Kubernetes-The Hard Way With Docker &amp; Flannel” series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes....</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/kubernetes-the-hard-way-2/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
-9. Bootstrapping the Kubernetes Worker Nodes As the title of this post “Kubernetes The Hard Way With Docker &amp; Flannel”, what we are going to do now is different from Kelsey Hightower’s Kubernetes The Hard Way tutorial i....</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" href="https://veerendra2.github.io/kubernetes-the-hard-way-3/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]
     </h2>
   </header>
@@ -224,6 +183,47 @@ $ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;&amp; apt-get --yes -
   </section>
   <footer class="entry-footer"><span title='2018-04-14 00:00:00 +0000 UTC'>April 14, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
   <a class="entry-link" aria-label="post link to Linux pseudo files &amp; cheat sheet" href="https://veerendra2.github.io/linux-cheatseets/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Build and Install Wireshark
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or .cap file. The tool enables different types filtering on packets like follow stream, filter by protocol and IP, etc
+In order to install the latest version of wireshark on Linux, one should build and install from source. Sometimes, building from source is difficult because we have to hunt down the dependencies. That’s what I did for this software....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-03-30 00:00:00 +0000 UTC'>March 30, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Build and Install Wireshark" href="https://veerendra2.github.io/wireshark-install/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Open vSwitch installation on Redhat7 OS
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.
+Now let’s see how to install Open vSwitch v2.6.1 in RedHat7 step by step
+Install dependencies
+$ sudo yum install gcc make python-devel openssl-devel \ kernel-devel graphviz kernel-debug-devel \ autoconf automake rpm-build redhat-rpm-config \ libtool Grab OpenvSwitch source from http://www....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-02-28 00:00:00 +0000 UTC'>February 28, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Open vSwitch installation on Redhat7 OS" href="https://veerendra2.github.io/openvswitch-redhat/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Windows OS metrics collection with Telegraf
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Ok, getting metrics(CPU, Memory &amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.
+Now, Let’s look at this Telegraf tool and what it does. I found Telegraf tool is really simple, elegant way to collect Windows OS metrics and light weight too, unlike others which some are paid and crappy....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-02-27 00:00:00 +0000 UTC'>February 27, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Windows OS metrics collection with Telegraf" href="https://veerendra2.github.io/windows-metrics-collection/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
