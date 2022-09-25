@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Strimzi Kafka Disaster Recovery with Velero | Veerendra&#39;s Blog</title>
+<meta name="keywords" content="strimzi, kafka, kubernetes, disaster recovery, velero" />
+<meta name="description" content="Introduction Hello my dear fellow humans, hope you are having a great day. Today&rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
+https://strimzi.io
+Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
+Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.">
+<meta name="author" content="Veerendra K">
+<link rel="canonical" href="https://veerendra2.github.io/strimzi-kafka-disaster-recovery/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1e44d58192cbf6d7a4eb649bc43dbc3d4cc432677e5d8adc69b08c34cbe461ac.css" integrity="sha256-HkTVgZLL9tek62SbxD28PUzEMmd&#43;XYrcabCMNMvkYaw=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://veerendra2.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://veerendra2.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://veerendra2.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://veerendra2.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://veerendra2.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.102.2" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-112970252-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script><meta property="og:title" content="Strimzi Kafka Disaster Recovery with Velero" />
+<meta property="og:description" content="Introduction Hello my dear fellow humans, hope you are having a great day. Today&rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
+https://strimzi.io
+Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
+Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://veerendra2.github.io/strimzi-kafka-disaster-recovery/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-24T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-09-24T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Strimzi Kafka Disaster Recovery with Velero"/>
+<meta name="twitter:description" content="Introduction Hello my dear fellow humans, hope you are having a great day. Today&rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
+https://strimzi.io
+Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
+Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://veerendra2.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Strimzi Kafka Disaster Recovery with Velero",
+      "item": "https://veerendra2.github.io/strimzi-kafka-disaster-recovery/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Strimzi Kafka Disaster Recovery with Velero",
+  "name": "Strimzi Kafka Disaster Recovery with Velero",
+  "description": "Introduction Hello my dear fellow humans, hope you are having a great day. Today\u0026rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?\nhttps://strimzi.io\nStrimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.\nBack in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.",
+  "keywords": [
+    "strimzi", "kafka", "kubernetes", "disaster recovery", "velero"
+  ],
+  "articleBody": "Introduction Hello my dear fellow humans, hope you are having a great day. Today’s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?\nhttps://strimzi.io\nStrimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.\nBack in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.\nOne of the important things in IT, when you bring new tech into a team, it should be disaster recovery proof. The team should able to recover data and bring back to normal state after a disaster. For strimzi, it is very easy once you set up backend PV as dynamic storage class provisioner as you can 11.6. Recovering a cluster from persistent volumes. In this guide, I use the velero tool to make things automated and can easily set up in GitOps.\nHeads-up ✋ Before dive into this guide, I want to make you aware on my existing setup and scope\nStrimzi Kafka stateful app is up and running on Kubernetes cluster with backend PV storage class provisioner as AzureDisk. Velero server up and running. Check my previous post “Velero Deployment with Kustomize (Azure)” to know how to set up. This guide does not cover basics of Kafka or how to set up Strimzi Kafka on kubernetes, head over to Strimzi Github project page and browse resources. But for the sake of this guide I create a demo repo contains Strimzi Kafka deployment files 👉 https://github.com/veerendra2/strimzi-kafka-demo\nScenario This is the simple test scenario I picked to test recovery steps. The test is to produce logs/messages to Kafka brokers and read the produced logs/messages from Kafka brokers after recovery. If the recovery is successful, the consumer should able to fetch logs/messages after recovery as you can see in below diagram\nAssume below are events that happen over time.\nProducer produced some logs/messages to Kafka system Kafka brokers receives logs/messages and stores on disk Disaster happens(Refer “Disaster Simulation” to know how to simulate) Recovery (Refer “Recovery Plan” to know how to recover) Kafka recovered from disaster. Up and running Consumers now consume logs/messages which are produced in above point 1. If recovery is successful, the consumer should be able to fetch logs/messages there were stored in Kafka system before disaster. Disaster Simulation Before performing disaster simulation, Kafka cluster should be up and running, there should be some data generated on the cluster. In the prerequisites section, we will see how to prepare for disaster.\nCluster preparation Velero CLI tool should be installed on your local machine.\n$ git clone https://github.com/veerendra2/strimzi-kafka-demo $ cd strimzi-kafka-demo $ kubectl create -f base/namespace.yaml $ kubectl project kafka $ kubectl create -f base/cluster-operator.yaml $ kubectl create -f base/configmaps/ $ kubectl create -f stages/dev/deployment.yaml $ kubectl create -f stages/dev/topics.yaml $ kubectl create -f stages/dev/users.yaml Wait until kafka cluster bootstrap and verify everything is running\n$ kubectl get pods -n kafka NAME READY STATUS RESTARTS AGE carbon-dev-entity-operator-df5h6497-6xmqf 3/3 Running 0 4m carbon-dev-kafka-0 1/1 Running 0 6m carbon-dev-kafka-1 1/1 Running 0 6m carbon-dev-kafka-2 1/1 Running 0 6m carbon-dev-kafka-exporter-657956b4a-zpmdg 1/1 Running 0 3m carbon-dev-zookeeper-0 1/1 Running 0 7m carbon-dev-zookeeper-1 1/1 Running 0 7m carbon-dev-zookeeper-2 1/1 Running 0 7m strimzi-cluster-operator-658y5cf364-tw2nh 1/1 Running 0 2h $ kubectl get pvc -n kafka NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE data-0-carbon-dev-kafka-0 Bound pvc-8092d619-4883-11ec-9048-12rd2ab3g21f 256Gi RWO generic-retain 6m data-0-carbon-dev-kafka-1 Bound pvc-8093210e-4883-11ec-9048-12rd2ab3g21f 256Gi RWO generic-retain 6m data-0-carbon-dev-kafka-2 Bound pvc-8093c74a-4883-11ec-9048-12rd2ab3g21f 256Gi RWO generic-retain 6m data-carbon-dev-zookeeper-0 Bound pvc-4105d01a-4883-11ec-9048-12rd2ab3g21f 64Gi RWO generic-retain 7m data-carbon-dev-zookeeper-1 Bound pvc-4106f177-4883-11ec-9048-12rd2ab3g21f 64Gi RWO generic-retain 7m data-carbon-dev-zookeeper-2 Bound pvc-41072398-4883-11ec-9048-12rd2ab3g21f 64Gi RWO generic-retain 7m $ kubectl get kafkatopic -n kafka NAME CLUSTER PARTITIONS REPLICATION FACTOR my-topic carbon-dev 1 1 $ kubectl get kafkauser -n kafka NAME CLUSTER AUTHENTICATION AUTHORIZATION my-user carbon-dev tls simple Deploy sample producer app to produce logs/messages to Kafka\n## Check deployment config. For example, broker bootstrap route, topic name and user name. Deploy consumer test app $ kubectl create -f kafka-producer.yaml deployment.apps/java-kafka-producer created $ kubectl get pods -n kafka NAME READY STATUS RESTARTS AGE java-kafka-producer-bfd975945-cnmgg 0/1 Completed 1 42s carbon-dev-entity-operator-df5h6497-6xmqf 3/3 Running 0 4m carbon-dev-kafka-0 1/1 Running 0 6m carbon-dev-kafka-1 1/1 Running 0 6m carbon-dev-kafka-2 1/1 Running 0 6m carbon-dev-kafka-exporter-657956b4a-zpmdg 1/1 Running 0 3m carbon-dev-zookeeper-0 1/1 Running 0 7m carbon-dev-zookeeper-1 1/1 Running 0 7m carbon-dev-zookeeper-2 1/1 Running 0 7m strimzi-cluster-operator-658y5cf364-tw2nh 1/1 Running 0 2h $ kubectl logs java-kafka-producer-bfd975945-cnmgg -n kafka ... 2022-08-18 15:29:33 INFO KafkaProducerExample:69 - Sending messages \"Hello world - 997\" \u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c----------------THESE LOG LINES WE NEED TO LOOK TO KNOW PRODUCER SENT TO KAFKA 2022-08-18 15:29:33 INFO KafkaProducerExample:69 - Sending messages \"Hello world - 998\" 2022-08-18 15:29:33 INFO KafkaProducerExample:69 - Sending messages \"Hello world - 999\" 2022-08-18 15:29:33 INFO KafkaProducerExample:91 - 1000 messages sent ... 2994 [main] INFO org.apache.kafka.clients.producer.KafkaProducer - [Producer clientId=producer-1] Closing the Kafka producer with timeoutMillis = 9223372036854775807 ms. 3008 [main] INFO org.apache.kafka.common.metrics.Metrics - Metrics scheduler closed 3008 [main] INFO org.apache.kafka.common.metrics.Metrics - Closing reporter org.apache.kafka.common.metrics.JmxReporter 3008 [main] INFO org.apache.kafka.common.metrics.Metrics - Metrics reporters closed 3009 [main] INFO org.apache.kafka.common.utils.AppInfoParser - App info kafka.producer for producer-1 unregistered [2022-08-18T15:29:33.852+0000] Heap [2022-08-18T15:29:33.852+0000] def new generation total 150016K, used 32262K [0x0000000619400000, 0x00000006236c0000, 0x00000006bb800000) [2022-08-18T15:29:33.852+0000] eden space 133376K, 24% used [0x0000000619400000, 0x000000061b3819d0, 0x0000000621640000) [2022-08-18T15:29:33.852+0000] from space 16640K, 0% used [0x0000000621640000, 0x0000000621640000, 0x0000000622680000) [2022-08-18T15:29:33.852+0000] to space 16640K, 0% used [0x0000000622680000, 0x0000000622680000, 0x00000006236c0000) [2022-08-18T15:29:33.852+0000] tenured generation total 333184K, used 7580K [0x00000006bb800000, 0x00000006cfd60000, 0x0000000800000000) [2022-08-18T15:29:33.852+0000] the space 333184K, 2% used [0x00000006bb800000, 0x00000006bbf672b0, 0x00000006bbf67400, 0x00000006cfd60000) [2022-08-18T15:29:33.852+0000] Metaspace used 23126K, capacity 23940K, committed 24192K, reserved 1071104K [2022-08-18T15:29:33.852+0000] class space used 2563K, capacity 2885K, committed 2944K, reserved 1048576K Configure backup Once Kafka is loaded with sample data, configure backup like below.\n# Velero binary uses a local kubeconfig file to manage velero deployment. So, before running velero, login into cluster # Run one time backup for the test scenario $ velero backup create kafka-backup --include-namespaces=kafka --include-resources persistentvolumeclaims, persistentvolumes Backup request \"kafka-backup\" submitted successfully. Run `velero backup describe kafka-backup` or `velero backup logs kafka-backup` for more details. ## Verify backup is \"Completed\" $ velero backup get NAME STATUS CREATED EXPIRES STORAGE LOCATION SELECTOR kafka-backup Completed 2021-11-21 21:25:23 +0100 STD 88d default Destroy Delete kafka resources in kafka namespace\n## Note down below PVs $ kubectl get pvc -n kafka | awk '{print $3}' | tail -n+2 pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f pvc-9aadbaf8-4afa-11ec-9048-12rd2ab3g21f pvc-9aadd6b8-4afa-11ec-9048-12rd2ab3g21f pvc-6d3118cf-4afa-11ec-9048-12rd2ab3g21f pvc-6d3172c1-4afa-11ec-9048-12rd2ab3g21f pvc-6d3176b9-4afa-11ec-9048-12rd2ab3g21f ## Delete kafka cluster, PVC and namesapce $ kubectl delete kafka `kubectl get kafka -n kafka | awk '{print $1}' | tail -n+2` $ kubectl delete pv `kubectl get pvc -n kafka | awk '{print $3}' | tail -n+2` $ kubectl delete pvc `kubectl get pvc -n kafka | awk '{print $1}' | tail -n+2` $ kubectl delete -f base/cluster-operator.yaml $ kubectl delete namespace kafka Delete disks in cloud provider portal UI to make disaster more solid if required\nRecovery Steps Preparation Velero CLI should be installed on your local machine (Refere Basic Install). All strimzi deployments files should be exactly the same as before the disaster. Check which backups you want to restore\n# Login into cluster $ velero backup get NAME STATUS CREATED EXPIRES STORAGE LOCATION SELECTOR kafka-backup Completed 2021-11-21 21:25:23 +0100 STD 88d default Restore disk In below example uses “kafka-backup” backup to restore from it\n$ velero restore create --from-backup kafka-backup Restore request \"kafka-backup\" submitted successfully. Run `velero restore describe kafka-backup` or `velero restore logs kafka-backup` for more details. # Wait until the restore completed $ velero restore describe kafka-backup Name: kafka-backup Namespace: velero Labels: Annotations: Phase: InProgress \u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c---STATUS Backup: kafka-backup Namespaces: Included: all namespaces found in the backup Excluded: Resources: Included: * Excluded: nodes, events, events.events.k8s.io, backups.velero.io, restores.velero.io, resticrepositories.velero.io Cluster-scoped: auto Namespace mappings: Label selector: Restore PVs: auto Once restore is completed, check PVCs created.\n❗ After restore completed, the PV “names” will same as during backup, but underneath the actual disk name is different in Azure cloud which you can see in below snippet\n$ kubectl get pvc NAME STATUS VOLUME CAPACITY ACCESS MODES STORAGECLASS AGE data-0-carbon-dev-kafka-0 Bound pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f 256Gi RWO generic-retain 3m data-0-carbon-dev-kafka-1 Bound pvc-9aadbaf8-4afa-11ec-9048-12rd2ab3g21f 256Gi RWO generic-retain 3m data-0-carbon-dev-kafka-2 Bound pvc-9aadd6b8-4afa-11ec-9048-12rd2ab3g21f 256Gi RWO generic-retain 3m data-carbon-dev-zookeeper-0 Bound pvc-6d3118cf-4afa-11ec-9048-12rd2ab3g21f 64Gi RWO generic-retain 3m data-carbon-dev-zookeeper-1 Bound pvc-6d3172c1-4afa-11ec-9048-12rd2ab3g21f 64Gi RWO generic-retain 3m data-carbon-dev-zookeeper-2 Bound pvc-6d3176b9-4afa-11ec-9048-12rd2ab3g21f 64Gi RWO generic-retain 3m $ kubectl describe pv pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f Name: pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f Labels: velero.io/backup-name=kafka-backup velero.io/restore-name=kafka-backup Annotations: pv.kubernetes.io/bound-by-controller=yes pv.kubernetes.io/provisioned-by=kubernetes.io/azure-disk volumehelper.VolumeDynamicallyCreatedByKey=azure-disk-dynamic-provisioner Finalizers: [kubernetes.io/pv-protection] StorageClass: generic-retain Status: Bound Claim: kafka/data-0-carbon-dev-kafka-0 Reclaim Policy: Retain Access Modes: RWO Capacity: 256Gi Node Affinity: Message: Source: Type: AzureDisk (an Azure Data Disk mount on the host and bind mount to the pod) DiskName: restore-1b8257d7-2156-44ae-aa30-36f2gc6c64r6 ## \u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c\u003c----DISK NAME IS DIFFERENT AFTER RESTORE DiskURI: /subscriptions/fd667dc8-1e9e-4ab4-b428-9879d458e8ac/resourceGroups/carbondev-openshift/providers/Microsoft.Compute/disks/restore-1b8257d7-2156-44aeaa30-36f2gc6c64r6 Kind: Managed FSType: CachingMode: None ReadOnly: false Events: Re-deploy Strimzi Kafka to recover From strimzi docs; 10.5.3. Recovering a deleted cluster from persistent volumes\nYou can recover a Kafka cluster from persistent volumes (PVs) if they are still present. You might want to do this, for example, after:\nA namespace was deleted unintentionally A whole Kubernetes cluster is lost, but the PVs remain in the infrastructure In our deployment, we use jbod config, the generate PVC name should be data-0-[CLUSTER-NAME]-kafka-0\n1. Bring up cluster-operator $ git clone https://github.com/veerendra2/strimzi-kafka-demo $ cd strimzi-kafka-demo $ kubectl create -f base/namepsace.yaml $ kubectl create -f base/cluster-operator.yaml $ kubectl get pods NAME READY STATUS RESTARTS AGE strimzi-cluster-operator-5c8d5cf966-dhhws 1/1 Running 0 2m 2. Deploy topics ⚠️ If you deploy topic-operator before deploying topics, the topic-operator deletes existing topics while bootstrapping. That’s why we need to deploy topics first\n$ kubectl create -f stages/dev/topics.yaml 3. Deploy Kafka cluster and users $ kubectl create -f stages/dev/deployment.yaml kafka.kafka.strimzi.io/carbon-dev created $ kubectl get pods NAME READY STATUS RESTARTS AGE carbon-dev-entity-operator-cd54f496-vmsfm 3/3 Running 0 3m carbon-dev-kafka-0 1/1 Running 0 5m carbon-dev-kafka-1 1/1 Running 0 5m carbon-dev-kafka-2 1/1 Running 0 5m carbon-dev-kafka-exporter-c67976b6b-vzdff 1/1 Running 0 3m carbon-dev-zookeeper-0 1/1 Running 0 7m carbon-dev-zookeeper-1 1/1 Running 0 7m carbon-dev-zookeeper-2 1/1 Running 0 7m strimzi-cluster-operator-5c8d5cf966-dfhwf 1/1 Running 0 10m $ kubectl create -f stages/dev/users.yaml # Verify all users and topics are created $ kubectl get kafkatopic NAME CLUSTER PARTITIONS REPLICATION FACTOR my-topic carbon-dev 1 1 $ kubectl get kafkauser NAME CLUSTER AUTHENTICATION AUTHORIZATION my-user carbon-dev tls simple If everything works well, the deployment should pick up existing PVCs and running!\nVerification 👉 This verification is based on the scenario we picked.\nIn the above section “Disaster Simulation”, we deployed a sample producer java app to produce logs/messages into Kafka. Now in this step(after recovery), we fetch those logs/messages to see recovery was successful\n# Check deployment config. For example, broker bootstrap route, topic name and user name. Deploy consumer test app $ kubectl create -f kafka-consumer.yaml deployment.apps/java-kafka-consumer created $ kubectl get pods NAME READY STATUS RESTARTS AGE java-kafka-consumer-7456748dbc-vvftf 1/1 Running 0 37s carbon-dev-entity-operator-cd54f496-vmsvm 3/3 Running 0 11m carbon-dev-kafka-0 1/1 Running 0 4m carbon-dev-kafka-1 1/1 Running 0 3m carbon-dev-kafka-2 1/1 Running 0 3m carbon-dev-kafka-exporter-c67976b6b-vz6f6 1/1 Running 0 10m carbon-dev-zookeeper-0 1/1 Running 0 15m carbon-dev-zookeeper-1 1/1 Running 0 15m carbon-dev-zookeeper-2 1/1 Running 0 15m strimzi-cluster-operator-5c8d5cf966-dhhws 1/1 Running 0 18m ## Check logs of the app, see it is fetching messages that were pushed before disaster $ kubectl logs java-kafka-consumer-7456748dbc-vvftf 2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: 20891 2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: \"Hello world - 891\" 2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers: 2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message: 2021-11-23 02:59:28 INFO KafkaConsumerExample:48 - partition: 0 2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: 20892 2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: \"Hello world - 892\" 2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers: 2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message: 2021-11-23 02:59:28 INFO KafkaConsumerExample:48 - partition: 0 2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: 20893 2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: \"Hello world - 893\" 2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers: 2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message: 2021-11-23 02:59:28 INFO KafkaConsumerExample:48 - partition: 0 2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: 20894 2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: \"Hello world - 894\" 2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers: 2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message: ... If you able to see output like above(hello message), the Strimzi Kafka is restored properly\nConclusion In this guide, we have seen how to set up a disaster recovery plan for Strimzi Kafka by using a simple scenario and simulating disaster with Velero.\n",
+  "wordCount" : "2048",
+  "inLanguage": "en",
+  "datePublished": "2022-09-24T00:00:00Z",
+  "dateModified": "2022-09-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Veerendra K"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://veerendra2.github.io/strimzi-kafka-disaster-recovery/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Veerendra's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://veerendra2.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class=" dark" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://veerendra2.github.io" accesskey="h" title="Veerendra&#39;s Blog (Alt + H)">Veerendra&#39;s Blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://veerendra2.github.io/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://veerendra2.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header><main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://veerendra2.github.io">Home</a>&nbsp;»&nbsp;<a href="https://veerendra2.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Strimzi Kafka Disaster Recovery with Velero
+    </h1>
+    <div class="post-meta"><span title='2022-09-24 00:00:00 +0000 UTC'>September 24, 2022</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K&nbsp;|&nbsp;<a href="https://github.com/veerendra2/veerendra2.github.io/issues/new?assignees=veerendra2&amp;labels=bug&amp;template=suggest-changes.md&amp;title=%5BCHANGE%5D" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a><ul>
+                        
+                <li>
+                    <a href="#heads-up-" aria-label="Heads-up ✋">Heads-up ✋</a></li></ul>
+                </li>
+                <li>
+                    <a href="#scenario" aria-label="Scenario">Scenario</a></li>
+                <li>
+                    <a href="#disaster-simulation" aria-label="Disaster Simulation">Disaster Simulation</a><ul>
+                        
+                <li>
+                    <a href="#cluster-preparation" aria-label="Cluster preparation">Cluster preparation</a></li>
+                <li>
+                    <a href="#configure-backup" aria-label="Configure backup">Configure backup</a></li>
+                <li>
+                    <a href="#destroy" aria-label="Destroy">Destroy</a></li></ul>
+                </li>
+                <li>
+                    <a href="#recovery-steps" aria-label="Recovery Steps">Recovery Steps</a><ul>
+                        
+                <li>
+                    <a href="#preparation" aria-label="Preparation">Preparation</a></li>
+                <li>
+                    <a href="#restore-disk" aria-label="Restore disk">Restore disk</a></li>
+                <li>
+                    <a href="#re-deploy-strimzi-kafka-to-recover" aria-label="Re-deploy Strimzi Kafka to recover">Re-deploy Strimzi Kafka to recover</a><ul>
+                        
+                <li>
+                    <a href="#1-bring-up-cluster-operator" aria-label="1. Bring up cluster-operator">1. Bring up cluster-operator</a></li>
+                <li>
+                    <a href="#2-deploy-topics" aria-label="2. Deploy topics">2. Deploy topics</a></li>
+                <li>
+                    <a href="#3-deploy-kafka-cluster-and-users" aria-label="3. Deploy Kafka cluster and users">3. Deploy Kafka cluster and users</a></li></ul>
+                </li>
+                <li>
+                    <a href="#verification" aria-label="Verification">Verification</a></li></ul>
+                </li>
+                <li>
+                    <a href="#conclusion" aria-label="Conclusion">Conclusion</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h1>
+<p>Hello my dear fellow humans, hope you are having a great day. Today&rsquo;s guide is on how to recover from a disaster for <a href="https://strimzi.io/">Strimzi Kafka</a> with <a href="https://velero.io/">Velero</a>. First of all, what is Strmzi Kafka?</p>
+<blockquote>
+<p><a href="https://strimzi.io">https://strimzi.io</a></p>
+<p>Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.</p>
+</blockquote>
+<p><img loading="lazy" src="/static_content/images/strimzi-logo.png" alt="Strizi Logo"  />
+</p>
+<p>Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</p>
+<p>One of the important things in IT, when you bring new tech into a team, it should be disaster recovery proof. The team should able to recover data and bring back to normal state after a disaster. For strimzi, it is very easy once you set up backend <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PV</a>  as dynamic storage class provisioner as you can <a href="https://strimzi.io/docs/operators/latest/full/configuring.html#cluster-recovery-str">11.6. Recovering a cluster from persistent volumes</a>. In this guide, I use the velero tool to make things automated and can easily set up in GitOps.</p>
+<h2 id="heads-up-">Heads-up ✋<a hidden class="anchor" aria-hidden="true" href="#heads-up-">#</a></h2>
+<p>Before dive into this guide, I want to make you aware on my existing setup and scope</p>
+<ul>
+<li>Strimzi Kafka stateful app is up and running on Kubernetes cluster with backend <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PV</a> <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/">storage class</a> provisioner as <code>AzureDisk</code>.</li>
+<li><a href="https://velero.io/">Velero</a> server up and running. Check my previous post <a href="https://veerendra2.github.io/velero-deployment/" title="Velero Deployment with Kustomize (Azure)">&ldquo;Velero Deployment with Kustomize (Azure)&rdquo;</a> to know how to set up.</li>
+<li>This guide does not cover basics of Kafka or how to set up Strimzi Kafka on kubernetes, head over to <a href="https://github.com/strimzi">Strimzi Github project page</a> and browse resources. But for the sake of this guide I create a demo repo contains Strimzi Kafka deployment files</li>
+</ul>
+<blockquote>
+<p>👉 <a href="https://github.com/veerendra2/strimzi-kafka-demo">https://github.com/veerendra2/strimzi-kafka-demo</a></p>
+</blockquote>
+<h1 id="scenario">Scenario<a hidden class="anchor" aria-hidden="true" href="#scenario">#</a></h1>
+<p>This is the simple test scenario I picked to test recovery steps. The test is to produce logs/messages to Kafka brokers and read the produced logs/messages from Kafka brokers after recovery. If the recovery is successful, the consumer should able to fetch logs/messages after recovery as you can see in below diagram</p>
+<p><img loading="lazy" src="/static_content/images/disaster-recovery.png" alt="Disaster Recovery Image"  />
+</p>
+<p>Assume below are events that happen over time.</p>
+<ol>
+<li>Producer produced some logs/messages to Kafka system</li>
+<li>Kafka brokers receives logs/messages and stores on disk</li>
+<li>Disaster happens(Refer &ldquo;Disaster Simulation&rdquo; to know how to simulate)</li>
+<li>Recovery (Refer &ldquo;Recovery Plan&rdquo; to know how to recover)</li>
+<li>Kafka recovered from disaster. Up and running</li>
+<li>Consumers now consume logs/messages which are produced in above point 1. If recovery is successful, the consumer should be able to fetch logs/messages there were stored in Kafka system before disaster.</li>
+</ol>
+<h1 id="disaster-simulation">Disaster Simulation<a hidden class="anchor" aria-hidden="true" href="#disaster-simulation">#</a></h1>
+<p>Before performing disaster simulation, Kafka cluster should be up and running, there should be some data
+generated on the cluster. In the prerequisites section, we will see how to prepare for disaster.</p>
+<h2 id="cluster-preparation">Cluster preparation<a hidden class="anchor" aria-hidden="true" href="#cluster-preparation">#</a></h2>
+<ol>
+<li>
+<p>Velero CLI tool should be installed on your local machine.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git clone https://github.com/veerendra2/strimzi-kafka-demo
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> strimzi-kafka-demo
+</span></span><span class="line"><span class="cl">$ kubectl create -f base/namespace.yaml
+</span></span><span class="line"><span class="cl">$ kubectl project kafka
+</span></span><span class="line"><span class="cl">$ kubectl create -f base/cluster-operator.yaml
+</span></span><span class="line"><span class="cl">$ kubectl create -f base/configmaps/
+</span></span><span class="line"><span class="cl">$ kubectl create -f stages/dev/deployment.yaml
+</span></span><span class="line"><span class="cl">$ kubectl create -f stages/dev/topics.yaml
+</span></span><span class="line"><span class="cl">$ kubectl create -f stages/dev/users.yaml
+</span></span></code></pre></div></li>
+<li>
+<p>Wait until kafka cluster bootstrap and verify everything is running</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl get pods -n kafka
+</span></span><span class="line"><span class="cl">NAME                                        READY   STATUS  RESTARTS    AGE
+</span></span><span class="line"><span class="cl">carbon-dev-entity-operator-df5h6497-6xmqf   3/3     Running <span class="m">0</span>           4m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-0                          1/1     Running <span class="m">0</span>           6m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-1                          1/1     Running <span class="m">0</span>           6m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-2                          1/1     Running <span class="m">0</span>           6m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-exporter-657956b4a-zpmdg   1/1     Running <span class="m">0</span>           3m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-0                      1/1     Running <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-1                      1/1     Running <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-2                      1/1     Running <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">strimzi-cluster-operator-658y5cf364-tw2nh   1/1     Running <span class="m">0</span>           2h
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get pvc -n kafka
+</span></span><span class="line"><span class="cl">NAME                        STATUS  VOLUME                                      CAPACITY    ACCESS MODES    STORAGECLASS    AGE
+</span></span><span class="line"><span class="cl">data-0-carbon-dev-kafka-0   Bound   pvc-8092d619-4883-11ec-9048-12rd2ab3g21f    256Gi       RWO             generic-retain  6m
+</span></span><span class="line"><span class="cl">data-0-carbon-dev-kafka-1   Bound   pvc-8093210e-4883-11ec-9048-12rd2ab3g21f    256Gi       RWO             generic-retain  6m
+</span></span><span class="line"><span class="cl">data-0-carbon-dev-kafka-2   Bound   pvc-8093c74a-4883-11ec-9048-12rd2ab3g21f    256Gi       RWO             generic-retain  6m
+</span></span><span class="line"><span class="cl">data-carbon-dev-zookeeper-0 Bound   pvc-4105d01a-4883-11ec-9048-12rd2ab3g21f    64Gi        RWO             generic-retain  7m
+</span></span><span class="line"><span class="cl">data-carbon-dev-zookeeper-1 Bound   pvc-4106f177-4883-11ec-9048-12rd2ab3g21f    64Gi        RWO             generic-retain  7m
+</span></span><span class="line"><span class="cl">data-carbon-dev-zookeeper-2 Bound   pvc-41072398-4883-11ec-9048-12rd2ab3g21f    64Gi        RWO             generic-retain  7m
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get kafkatopic -n kafka
+</span></span><span class="line"><span class="cl">NAME        CLUSTER     PARTITIONS REPLICATION FACTOR
+</span></span><span class="line"><span class="cl">my-topic    carbon-dev  <span class="m">1</span>           <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get kafkauser -n kafka
+</span></span><span class="line"><span class="cl">NAME    CLUSTER     AUTHENTICATION  AUTHORIZATION
+</span></span><span class="line"><span class="cl">my-user carbon-dev  tls             simple
+</span></span></code></pre></div></li>
+<li>
+<p>Deploy sample producer app to produce logs/messages to Kafka</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## Check deployment config. For example, broker bootstrap route, topic name and user name. Deploy consumer test app</span>
+</span></span><span class="line"><span class="cl">$ kubectl create -f kafka-producer.yaml
+</span></span><span class="line"><span class="cl">deployment.apps/java-kafka-producer created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get pods -n kafka
+</span></span><span class="line"><span class="cl">NAME                                        READY   STATUS      RESTARTS    AGE
+</span></span><span class="line"><span class="cl">java-kafka-producer-bfd975945-cnmgg         0/1     Completed   <span class="m">1</span>           42s
+</span></span><span class="line"><span class="cl">carbon-dev-entity-operator-df5h6497-6xmqf   3/3     Running     <span class="m">0</span>           4m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-0                          1/1     Running     <span class="m">0</span>           6m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-1                          1/1     Running     <span class="m">0</span>           6m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-2                          1/1     Running     <span class="m">0</span>           6m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-exporter-657956b4a-zpmdg   1/1     Running     <span class="m">0</span>           3m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-0                      1/1     Running     <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-1                      1/1     Running     <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-2                      1/1     Running     <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">strimzi-cluster-operator-658y5cf364-tw2nh   1/1     Running     <span class="m">0</span>           2h
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl logs java-kafka-producer-bfd975945-cnmgg -n kafka
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">2022-08-18 15:29:33 INFO KafkaProducerExample:69 - Sending messages <span class="s2">&#34;Hello world - 997&#34;</span> <span class="o">&lt;&lt;&lt;&lt;&lt;&lt;</span>&lt;&lt;----------------THESE LOG LINES WE NEED TO LOOK TO KNOW PRODUCER SENT TO KAFKA
+</span></span><span class="line"><span class="cl">2022-08-18 15:29:33 INFO KafkaProducerExample:69 - Sending messages <span class="s2">&#34;Hello world - 998&#34;</span>
+</span></span><span class="line"><span class="cl">2022-08-18 15:29:33 INFO KafkaProducerExample:69 - Sending messages <span class="s2">&#34;Hello world - 999&#34;</span>
+</span></span><span class="line"><span class="cl">2022-08-18 15:29:33 INFO KafkaProducerExample:91 - <span class="m">1000</span> messages sent ...
+</span></span><span class="line"><span class="cl"><span class="m">2994</span> <span class="o">[</span>main<span class="o">]</span> INFO org.apache.kafka.clients.producer.KafkaProducer - <span class="o">[</span>Producer <span class="nv">clientId</span><span class="o">=</span>producer-1<span class="o">]</span> Closing the Kafka producer with <span class="nv">timeoutMillis</span> <span class="o">=</span> <span class="m">9223372036854775807</span> ms.
+</span></span><span class="line"><span class="cl"><span class="m">3008</span> <span class="o">[</span>main<span class="o">]</span> INFO org.apache.kafka.common.metrics.Metrics - Metrics scheduler closed
+</span></span><span class="line"><span class="cl"><span class="m">3008</span> <span class="o">[</span>main<span class="o">]</span> INFO org.apache.kafka.common.metrics.Metrics - Closing reporter org.apache.kafka.common.metrics.JmxReporter
+</span></span><span class="line"><span class="cl"><span class="m">3008</span> <span class="o">[</span>main<span class="o">]</span> INFO org.apache.kafka.common.metrics.Metrics - Metrics reporters closed
+</span></span><span class="line"><span class="cl"><span class="m">3009</span> <span class="o">[</span>main<span class="o">]</span> INFO org.apache.kafka.common.utils.AppInfoParser - App info kafka.producer <span class="k">for</span> producer-1 unregistered
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> Heap
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> def new generation total 150016K, used 32262K <span class="o">[</span>0x0000000619400000, 0x00000006236c0000, 0x00000006bb800000<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> eden space 133376K, 24% used <span class="o">[</span>0x0000000619400000, 0x000000061b3819d0, 0x0000000621640000<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> from space 16640K, 0% used <span class="o">[</span>0x0000000621640000, 0x0000000621640000, 0x0000000622680000<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> to space 16640K, 0% used <span class="o">[</span>0x0000000622680000, 0x0000000622680000, 0x00000006236c0000<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> tenured generation total 333184K, used 7580K <span class="o">[</span>0x00000006bb800000, 0x00000006cfd60000, 0x0000000800000000<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> the space 333184K, 2% used <span class="o">[</span>0x00000006bb800000, 0x00000006bbf672b0, 0x00000006bbf67400, 0x00000006cfd60000<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> Metaspace used 23126K, capacity 23940K, committed 24192K, reserved 1071104K
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2022-08-18T15:29:33.852+0000<span class="o">]</span> class space used 2563K, capacity 2885K, committed 2944K, reserved 1048576K
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="configure-backup">Configure backup<a hidden class="anchor" aria-hidden="true" href="#configure-backup">#</a></h2>
+<p>Once Kafka is loaded with sample data, configure backup like below.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Velero binary uses a local kubeconfig file to manage velero deployment. So, before running velero, login into cluster</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Run one time backup for the test scenario</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ velero backup create kafka-backup --include-namespaces<span class="o">=</span>kafka --include-resources persistentvolumeclaims, persistentvolumes
+</span></span><span class="line"><span class="cl">Backup request <span class="s2">&#34;kafka-backup&#34;</span> submitted successfully.
+</span></span><span class="line"><span class="cl">Run <span class="sb">`</span>velero backup describe kafka-backup<span class="sb">`</span> or <span class="sb">`</span>velero backup logs kafka-backup<span class="sb">`</span> <span class="k">for</span> more details.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Verify backup is &#34;Completed&#34;</span>
+</span></span><span class="line"><span class="cl">$ velero backup get
+</span></span><span class="line"><span class="cl">NAME            STATUS      CREATED                         EXPIRES STORAGE LOCATION SELECTOR
+</span></span><span class="line"><span class="cl">kafka-backup    Completed   2021-11-21 21:25:23 +0100 STD   88d     default &lt;none&gt;
+</span></span></code></pre></div><h2 id="destroy">Destroy<a hidden class="anchor" aria-hidden="true" href="#destroy">#</a></h2>
+<p>Delete kafka resources in kafka namespace</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## Note down below PVs</span>
+</span></span><span class="line"><span class="cl">$ kubectl get pvc -n kafka <span class="p">|</span> awk <span class="s1">&#39;{print $3}&#39;</span> <span class="p">|</span> tail -n+2
+</span></span><span class="line"><span class="cl">pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">pvc-9aadbaf8-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">pvc-9aadd6b8-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">pvc-6d3118cf-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">pvc-6d3172c1-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">pvc-6d3176b9-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Delete kafka cluster, PVC and namesapce</span>
+</span></span><span class="line"><span class="cl">$ kubectl delete kafka <span class="sb">`</span>kubectl get kafka -n kafka <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> tail -n+2<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">$ kubectl delete pv <span class="sb">`</span>kubectl get pvc -n kafka <span class="p">|</span> awk <span class="s1">&#39;{print $3}&#39;</span> <span class="p">|</span> tail -n+2<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">$ kubectl delete pvc <span class="sb">`</span>kubectl get pvc -n kafka <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> tail -n+2<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">$ kubectl delete -f base/cluster-operator.yaml
+</span></span><span class="line"><span class="cl">$ kubectl delete namespace kafka
+</span></span></code></pre></div><p>Delete disks in cloud provider portal UI to make disaster more solid if required</p>
+<h1 id="recovery-steps">Recovery Steps<a hidden class="anchor" aria-hidden="true" href="#recovery-steps">#</a></h1>
+<h2 id="preparation">Preparation<a hidden class="anchor" aria-hidden="true" href="#preparation">#</a></h2>
+<ul>
+<li>Velero CLI should be installed on your local machine (Refere <a href="https://velero.io/docs/v1.8/basic-install/">Basic Install</a>).</li>
+<li>All strimzi deployments files should be exactly the same as before the disaster.</li>
+</ul>
+<p>Check which backups you want to restore</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Login into cluster</span>
+</span></span><span class="line"><span class="cl">$ velero backup get
+</span></span><span class="line"><span class="cl">NAME            STATUS      CREATED                         EXPIRES STORAGE LOCATION SELECTOR
+</span></span><span class="line"><span class="cl">kafka-backup    Completed   2021-11-21 21:25:23 +0100 STD   88d     default &lt;none&gt;
+</span></span></code></pre></div><h2 id="restore-disk">Restore disk<a hidden class="anchor" aria-hidden="true" href="#restore-disk">#</a></h2>
+<p>In below example uses &ldquo;kafka-backup&rdquo; backup to restore from it</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ velero restore create --from-backup kafka-backup
+</span></span><span class="line"><span class="cl">Restore request <span class="s2">&#34;kafka-backup&#34;</span> submitted successfully.
+</span></span><span class="line"><span class="cl">Run <span class="sb">`</span>velero restore describe kafka-backup<span class="sb">`</span> or <span class="sb">`</span>velero restore logs kafka-backup<span class="sb">`</span> <span class="k">for</span> more details.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Wait until the restore completed</span>
+</span></span><span class="line"><span class="cl">$ velero restore describe kafka-backup
+</span></span><span class="line"><span class="cl">Name:               kafka-backup
+</span></span><span class="line"><span class="cl">Namespace:          velero
+</span></span><span class="line"><span class="cl">Labels:             &lt;none&gt;
+</span></span><span class="line"><span class="cl">Annotations:        &lt;none&gt;
+</span></span><span class="line"><span class="cl">Phase:              InProgress <span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>---STATUS
+</span></span><span class="line"><span class="cl">Backup:             kafka-backup
+</span></span><span class="line"><span class="cl">Namespaces:
+</span></span><span class="line"><span class="cl">Included:           all namespaces found in the backup
+</span></span><span class="line"><span class="cl">Excluded:           &lt;none&gt;
+</span></span><span class="line"><span class="cl">Resources:
+</span></span><span class="line"><span class="cl">Included:           *
+</span></span><span class="line"><span class="cl">Excluded:           nodes, events, events.events.k8s.io, backups.velero.io, restores.velero.io, resticrepositories.velero.io
+</span></span><span class="line"><span class="cl">Cluster-scoped:     auto
+</span></span><span class="line"><span class="cl">Namespace mappings: &lt;none&gt;
+</span></span><span class="line"><span class="cl">Label selector:     &lt;none&gt;
+</span></span><span class="line"><span class="cl">Restore PVs:        auto
+</span></span></code></pre></div><p>Once restore is completed, check PVCs created.</p>
+<blockquote>
+<p>❗ After restore completed, the PV &ldquo;names&rdquo; will same as during backup, but underneath the actual disk name is different in Azure cloud which you can see in below snippet</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl get pvc
+</span></span><span class="line"><span class="cl">NAME                        STATUS  VOLUME                                      CAPACITY    ACCESS MODES    STORAGECLASS    AGE
+</span></span><span class="line"><span class="cl">data-0-carbon-dev-kafka-0   Bound   pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f    256Gi       RWO             generic-retain  3m
+</span></span><span class="line"><span class="cl">data-0-carbon-dev-kafka-1   Bound   pvc-9aadbaf8-4afa-11ec-9048-12rd2ab3g21f    256Gi       RWO             generic-retain  3m
+</span></span><span class="line"><span class="cl">data-0-carbon-dev-kafka-2   Bound   pvc-9aadd6b8-4afa-11ec-9048-12rd2ab3g21f    256Gi       RWO             generic-retain  3m
+</span></span><span class="line"><span class="cl">data-carbon-dev-zookeeper-0 Bound   pvc-6d3118cf-4afa-11ec-9048-12rd2ab3g21f    64Gi        RWO             generic-retain  3m
+</span></span><span class="line"><span class="cl">data-carbon-dev-zookeeper-1 Bound   pvc-6d3172c1-4afa-11ec-9048-12rd2ab3g21f    64Gi        RWO             generic-retain  3m
+</span></span><span class="line"><span class="cl">data-carbon-dev-zookeeper-2 Bound   pvc-6d3176b9-4afa-11ec-9048-12rd2ab3g21f    64Gi        RWO             generic-retain  3m
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl describe pv pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">Name:               pvc-9aad8969-4afa-11ec-9048-12rd2ab3g21f
+</span></span><span class="line"><span class="cl">Labels:             velero.io/backup-name<span class="o">=</span>kafka-backup velero.io/restore-name<span class="o">=</span>kafka-backup
+</span></span><span class="line"><span class="cl">Annotations:        pv.kubernetes.io/bound-by-controller<span class="o">=</span>yes pv.kubernetes.io/provisioned-by<span class="o">=</span>kubernetes.io/azure-disk volumehelper.VolumeDynamicallyCreatedByKey<span class="o">=</span>azure-disk-dynamic-provisioner
+</span></span><span class="line"><span class="cl">Finalizers:         <span class="o">[</span>kubernetes.io/pv-protection<span class="o">]</span>
+</span></span><span class="line"><span class="cl">StorageClass:       generic-retain
+</span></span><span class="line"><span class="cl">Status:             Bound
+</span></span><span class="line"><span class="cl">Claim:              kafka/data-0-carbon-dev-kafka-0
+</span></span><span class="line"><span class="cl">Reclaim Policy:     Retain
+</span></span><span class="line"><span class="cl">Access Modes:       RWO
+</span></span><span class="line"><span class="cl">Capacity:           256Gi
+</span></span><span class="line"><span class="cl">Node Affinity:      &lt;none&gt;
+</span></span><span class="line"><span class="cl">Message:
+</span></span><span class="line"><span class="cl">Source:
+</span></span><span class="line"><span class="cl">Type:               AzureDisk <span class="o">(</span>an Azure Data Disk mount on the host and <span class="nb">bind</span> mount to the pod<span class="o">)</span>
+</span></span><span class="line"><span class="cl">DiskName:           restore-1b8257d7-2156-44ae-aa30-36f2gc6c64r6 <span class="c1">## &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;----DISK NAME IS DIFFERENT AFTER RESTORE</span>
+</span></span><span class="line"><span class="cl">DiskURI:            /subscriptions/fd667dc8-1e9e-4ab4-b428-9879d458e8ac/resourceGroups/carbondev-openshift/providers/Microsoft.Compute/disks/restore-1b8257d7-2156-44aeaa30-36f2gc6c64r6
+</span></span><span class="line"><span class="cl">Kind:               Managed
+</span></span><span class="line"><span class="cl">FSType:
+</span></span><span class="line"><span class="cl">CachingMode:        None
+</span></span><span class="line"><span class="cl">ReadOnly:           <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">Events:             &lt;none&gt;
+</span></span></code></pre></div><h2 id="re-deploy-strimzi-kafka-to-recover">Re-deploy Strimzi Kafka to recover<a hidden class="anchor" aria-hidden="true" href="#re-deploy-strimzi-kafka-to-recover">#</a></h2>
+<p>From strimzi docs; <a href="https://strimzi.io/docs/operators/latest/full/configuring.html#cluster-recovery-str">10.5.3. Recovering a deleted cluster from persistent volumes</a></p>
+<blockquote>
+<p>You can recover a Kafka cluster from persistent volumes (PVs) if they are still present. You might want to do this, for example, after:</p>
+<ul>
+<li>A namespace was deleted unintentionally</li>
+<li>A whole Kubernetes cluster is lost, but the PVs remain in the infrastructure</li>
+</ul>
+</blockquote>
+<p>In our deployment, we use jbod config, the generate PVC name should be <code>data-0-[CLUSTER-NAME]-kafka-0</code></p>
+<h3 id="1-bring-up-cluster-operator">1. Bring up cluster-operator<a hidden class="anchor" aria-hidden="true" href="#1-bring-up-cluster-operator">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git clone https://github.com/veerendra2/strimzi-kafka-demo
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> strimzi-kafka-demo
+</span></span><span class="line"><span class="cl">$ kubectl create -f base/namepsace.yaml
+</span></span><span class="line"><span class="cl">$ kubectl create -f base/cluster-operator.yaml
+</span></span><span class="line"><span class="cl">$ kubectl get pods
+</span></span><span class="line"><span class="cl">NAME                                        READY   STATUS  RESTARTS    AGE
+</span></span><span class="line"><span class="cl">strimzi-cluster-operator-5c8d5cf966-dhhws   1/1     Running <span class="m">0</span>           2m
+</span></span></code></pre></div><h3 id="2-deploy-topics">2. Deploy topics<a hidden class="anchor" aria-hidden="true" href="#2-deploy-topics">#</a></h3>
+<blockquote>
+<p>⚠️ If you deploy <code>topic-operator</code> before deploying <code>topics</code>, the <code>topic-operator</code> deletes existing topics while bootstrapping. That&rsquo;s why we need to deploy <code>topics</code> first</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl create -f stages/dev/topics.yaml
+</span></span></code></pre></div><h3 id="3-deploy-kafka-cluster-and-users">3. Deploy Kafka cluster and users<a hidden class="anchor" aria-hidden="true" href="#3-deploy-kafka-cluster-and-users">#</a></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl create -f stages/dev/deployment.yaml
+</span></span><span class="line"><span class="cl">kafka.kafka.strimzi.io/carbon-dev created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get pods
+</span></span><span class="line"><span class="cl">NAME                                        READY   STATUS  RESTARTS    AGE
+</span></span><span class="line"><span class="cl">carbon-dev-entity-operator-cd54f496-vmsfm   3/3     Running <span class="m">0</span>           3m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-0                          1/1     Running <span class="m">0</span>           5m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-1                          1/1     Running <span class="m">0</span>           5m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-2                          1/1     Running <span class="m">0</span>           5m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-exporter-c67976b6b-vzdff   1/1     Running <span class="m">0</span>           3m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-0                      1/1     Running <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-1                      1/1     Running <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-2                      1/1     Running <span class="m">0</span>           7m
+</span></span><span class="line"><span class="cl">strimzi-cluster-operator-5c8d5cf966-dfhwf   1/1     Running <span class="m">0</span>           10m
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl create -f stages/dev/users.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Verify all users and topics are created</span>
+</span></span><span class="line"><span class="cl">$ kubectl get kafkatopic
+</span></span><span class="line"><span class="cl">NAME        CLUSTER     PARTITIONS REPLICATION FACTOR
+</span></span><span class="line"><span class="cl">my-topic    carbon-dev  <span class="m">1</span>           <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get kafkauser
+</span></span><span class="line"><span class="cl">NAME    CLUSTER     AUTHENTICATION  AUTHORIZATION
+</span></span><span class="line"><span class="cl">my-user carbon-dev  tls             simple
+</span></span></code></pre></div><p>If everything works well, the deployment should pick up existing PVCs and running!</p>
+<h2 id="verification">Verification<a hidden class="anchor" aria-hidden="true" href="#verification">#</a></h2>
+<blockquote>
+<p>👉 This verification is based on the scenario we picked.</p>
+</blockquote>
+<p>In the above section <a href="/strimzi-kafka-disaster-recovery/#disaster-simulation">&ldquo;Disaster Simulation&rdquo;</a>, we deployed a sample producer java app to produce logs/messages into Kafka. Now in this step(after recovery), we fetch those logs/messages to see recovery was successful</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Check deployment config. For example, broker bootstrap route, topic name and user name. Deploy consumer test app</span>
+</span></span><span class="line"><span class="cl">$ kubectl create -f kafka-consumer.yaml
+</span></span><span class="line"><span class="cl">deployment.apps/java-kafka-consumer created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ kubectl get pods
+</span></span><span class="line"><span class="cl">NAME                                        READY   STATUS  RESTARTS    AGE
+</span></span><span class="line"><span class="cl">java-kafka-consumer-7456748dbc-vvftf        1/1     Running <span class="m">0</span>           37s
+</span></span><span class="line"><span class="cl">carbon-dev-entity-operator-cd54f496-vmsvm   3/3     Running <span class="m">0</span>           11m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-0                          1/1     Running <span class="m">0</span>           4m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-1                          1/1     Running <span class="m">0</span>           3m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-2                          1/1     Running <span class="m">0</span>           3m
+</span></span><span class="line"><span class="cl">carbon-dev-kafka-exporter-c67976b6b-vz6f6   1/1     Running <span class="m">0</span>           10m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-0                      1/1     Running <span class="m">0</span>           15m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-1                      1/1     Running <span class="m">0</span>           15m
+</span></span><span class="line"><span class="cl">carbon-dev-zookeeper-2                      1/1     Running <span class="m">0</span>           15m
+</span></span><span class="line"><span class="cl">strimzi-cluster-operator-5c8d5cf966-dhhws   1/1     Running <span class="m">0</span>           18m
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## Check logs of the app, see it is fetching messages that were pushed before disaster</span>
+</span></span><span class="line"><span class="cl">$ kubectl logs java-kafka-consumer-7456748dbc-vvftf
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: <span class="m">20891</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: <span class="s2">&#34;Hello world - 891&#34;</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:48 - partition: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: <span class="m">20892</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: <span class="s2">&#34;Hello world - 892&#34;</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:48 - partition: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: <span class="m">20893</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: <span class="s2">&#34;Hello world - 893&#34;</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:48 - partition: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:49 - offset: <span class="m">20894</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:50 - value: <span class="s2">&#34;Hello world - 894&#34;</span>
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:52 - headers:
+</span></span><span class="line"><span class="cl">2021-11-23 02:59:28 INFO KafkaConsumerExample:47 - Received message:
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>If you able to see output like above(hello message), the Strimzi Kafka is restored properly</p>
+<h1 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h1>
+<p>In this guide, we have seen how to set up a disaster recovery plan for Strimzi Kafka by using a simple scenario and simulating disaster with Velero.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://veerendra2.github.io/tags/strimzi/">strimzi</a></li>
+      <li><a href="https://veerendra2.github.io/tags/kafka/">kafka</a></li>
+      <li><a href="https://veerendra2.github.io/tags/kubernetes/">kubernetes</a></li>
+      <li><a href="https://veerendra2.github.io/tags/disaster-recovery/">disaster recovery</a></li>
+      <li><a href="https://veerendra2.github.io/tags/velero/">velero</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://veerendra2.github.io/elasticsearch-deploy/config-overview/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Elasticsearch Configuration Overview</span>
+  </a>
+</nav>
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Strimzi Kafka Disaster Recovery with Velero on twitter"
+        href="https://twitter.com/intent/tweet/?text=Strimzi%20Kafka%20Disaster%20Recovery%20with%20Velero&amp;url=https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f&amp;hashtags=strimzi%2ckafka%2ckubernetes%2cdisasterrecovery%2cvelero">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Strimzi Kafka Disaster Recovery with Velero on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f&amp;title=Strimzi%20Kafka%20Disaster%20Recovery%20with%20Velero&amp;summary=Strimzi%20Kafka%20Disaster%20Recovery%20with%20Velero&amp;source=https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Strimzi Kafka Disaster Recovery with Velero on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f&title=Strimzi%20Kafka%20Disaster%20Recovery%20with%20Velero">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Strimzi Kafka Disaster Recovery with Velero on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Strimzi Kafka Disaster Recovery with Velero on whatsapp"
+        href="https://api.whatsapp.com/send?text=Strimzi%20Kafka%20Disaster%20Recovery%20with%20Velero%20-%20https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Strimzi Kafka Disaster Recovery with Velero on telegram"
+        href="https://telegram.me/share/url?text=Strimzi%20Kafka%20Disaster%20Recovery%20with%20Velero&amp;url=https%3a%2f%2fveerendra2.github.io%2fstrimzi-kafka-disaster-recovery%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+<script src="https://giscus.app/client.js" data-repo="veerendra2/veerendra2.github.io"
+    data-repo-id="MDEwOlJlcG9zaXRvcnkxMTU4MjE4OTE=" data-category="General"
+    data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyODQwMzM5"
+    data-mapping="url"
+    data-reactions-enabled="0"
+    data-theme="dark_tritanopia" crossorigin="anonymous" async>
+    </script>
+<noscript>Please enable JavaScript to view the comments powered by giscus.</noscript>
+
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

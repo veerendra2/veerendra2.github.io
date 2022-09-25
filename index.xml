@@ -5,7 +5,19 @@
     <link>https://veerendra2.github.io/</link>
     <description>Recent content on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Sep 2022 17:42:52 +0200</lastBuildDate><atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Strimzi Kafka Disaster Recovery with Velero</title>
+      <link>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</guid>
+      <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
+https://strimzi.io
+Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
+Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+    </item>
+    
     <item>
       <title>Elasticsearch Configuration Overview</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</link>
