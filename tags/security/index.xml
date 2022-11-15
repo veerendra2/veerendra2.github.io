@@ -5,7 +5,19 @@
     <link>https://veerendra2.github.io/tags/security/</link>
     <description>Recent content in security on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 22 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/security/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>User Namespace Isolation in Docker</title>
+      <link>https://veerendra2.github.io/docker-userns-remap/</link>
+      <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/docker-userns-remap/</guid>
+      <description>There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.
+https://docs.docker.com/engine/security/userns-remap/
+How to enable *It is better to reinstall docker and remove all existing docker volumes
+Add below /etc/docker/daemon.json { &amp;#34;userns-remap&amp;#34;: &amp;#34;default&amp;#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!</description>
+    </item>
+    
     <item>
       <title>Encrypt your DNS queries, stay anonymous</title>
       <link>https://veerendra2.github.io/dns-encrypt/</link>

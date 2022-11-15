@@ -5,7 +5,29 @@
     <link>https://veerendra2.github.io/</link>
     <description>Recent content on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>User Namespace Isolation in Docker</title>
+      <link>https://veerendra2.github.io/docker-userns-remap/</link>
+      <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/docker-userns-remap/</guid>
+      <description>There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.
+https://docs.docker.com/engine/security/userns-remap/
+How to enable *It is better to reinstall docker and remove all existing docker volumes
+Add below /etc/docker/daemon.json { &amp;#34;userns-remap&amp;#34;: &amp;#34;default&amp;#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!</description>
+    </item>
+    
+    <item>
+      <title>Pi-hole with DHCP Relay in Docker</title>
+      <link>https://veerendra2.github.io/pihole-dhcp-relay/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/pihole-dhcp-relay/</guid>
+      <description>Introduction I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with docker-compose files and ansible automation. One of the applications I was configuring is Pi-hole, a network-wide ad-blocker.
+I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, it says it has to be run as network_mode: host, because it allows Pi-hole to listen to DHCP broadcast packets.</description>
+    </item>
+    
     <item>
       <title>Strimzi Kafka Disaster Recovery with Velero</title>
       <link>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</link>

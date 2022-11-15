@@ -5,7 +5,52 @@
     <link>https://veerendra2.github.io/tags/</link>
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://veerendra2.github.io/tags/docker/</link>
+      <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nugget</title>
+      <link>https://veerendra2.github.io/tags/nugget/</link>
+      <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/nugget/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>security</title>
+      <link>https://veerendra2.github.io/tags/security/</link>
+      <pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dhcp-relay</title>
+      <link>https://veerendra2.github.io/tags/dhcp-relay/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/dhcp-relay/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pihole</title>
+      <link>https://veerendra2.github.io/tags/pihole/</link>
+      <pubDate>Mon, 10 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/pihole/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>disaster recovery</title>
       <link>https://veerendra2.github.io/tags/disaster-recovery/</link>
@@ -174,15 +219,6 @@
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/tags/kvm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>security</title>
-      <link>https://veerendra2.github.io/tags/security/</link>
-      <pubDate>Mon, 22 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/security/</guid>
       <description></description>
     </item>
     

@@ -59,7 +59,7 @@ if (!doNotTrack) {
   "description": "My Blog",
   "thumbnailUrl": "https://veerendra2.github.io/favicon.ico",
   "sameAs": [
-      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "mailto:vk.tyk23@simplelogin.com", "/static_content/files/Resume_Blog.pdf", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
+      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "mailto:vk.tyk23@simplelogin.com", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
   ]
 }
 </script>
@@ -116,10 +116,10 @@ if (!doNotTrack) {
 </header><main class="main"> 
 <article class="first-entry home-info">
     <header class="entry-header">
-        <h1>Hi There</h1>
+        <h1>Hi There 👋</h1>
     </header>
     <section class="entry-content">
-        <p>Welcome to my blog&hellip;</p>
+        <p>I&rsquo;m Veerendra, Senior Site Reliability Engineer, passionate about tech. In my free time, I work on my hobby open source projects and write blogs.</p>
     </section>
     <footer class="entry-footer">
         <div class="social-icons">
@@ -154,16 +154,6 @@ if (!doNotTrack) {
     <polyline points="22,6 12,13 2,6"></polyline>
 </svg>
     </a>
-    <a href="/static_content/files/Resume_Blog.pdf" target="_blank" rel="noopener noreferrer me" title="Cv">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round">
-    <path
-        d="M4 4v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.342a2 2 0 0 0-.602-1.43l-4.44-4.342A2 2 0 0 0 13.56 2H6a2 2 0 0 0-2 2z" />
-    <path d="M9 13h6" />
-    <path d="M9 17h3" />
-    <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-</svg>
-    </a>
     <a href="https://stackoverflow.com/users/2200798/veerendra" target="_blank" rel="noopener noreferrer me" title="Stackoverflow">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
@@ -191,6 +181,34 @@ if (!doNotTrack) {
 </div>
 
     </footer>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>User Namespace Isolation in Docker
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.
+https://docs.docker.com/engine/security/userns-remap/
+How to enable *It is better to reinstall docker and remove all existing docker volumes
+Add below /etc/docker/daemon.json { &#34;userns-remap&#34;: &#34;default&#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!...</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-10-11 00:00:00 +0000 UTC'>October 11, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to User Namespace Isolation in Docker" href="https://veerendra2.github.io/docker-userns-remap/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Pi-hole with DHCP Relay in Docker
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Introduction I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with docker-compose files and ansible automation. One of the applications I was configuring is Pi-hole, a network-wide ad-blocker.
+I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, it says it has to be run as network_mode: host, because it allows Pi-hole to listen to DHCP broadcast packets....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-10-10 00:00:00 +0000 UTC'>October 10, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Pi-hole with DHCP Relay in Docker" href="https://veerendra2.github.io/pihole-dhcp-relay/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -289,30 +307,6 @@ $ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 in
   </section>
   <footer class="entry-footer"><span title='2022-09-10 17:38:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
   <a class="entry-link" aria-label="post link to Elastalert Demo Config" href="https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Velero Deployment with Kustomize (Azure)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Introduction Hello guys, today I came up with an interesting write up, that is how to setup backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from cloud provider(e.g. Azure, AWS, etc), but I couldn’t find proper backup solution in order to configure PV backup and restore....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-09-03 00:00:00 +0000 UTC'>September 3, 2022</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Velero Deployment with Kustomize (Azure)" href="https://veerendra2.github.io/velero-deployment/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Moving to Hugo and other updates!
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>It has been 2 year since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on exploring Jekyll themes and tried to modify them according to my requirements. As you can see here github issue....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-08-27 00:00:00 +0000 UTC'>August 27, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Moving to Hugo and other updates!" href="https://veerendra2.github.io/moving-to-hugo/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
