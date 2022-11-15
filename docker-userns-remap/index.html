@@ -49,8 +49,8 @@ How to enable *It is better to reinstall docker and remove all existing docker v
 Add below /etc/docker/daemon.json { &#34;userns-remap&#34;: &#34;default&#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://veerendra2.github.io/docker-userns-remap/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-10-11T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2022-10-11T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2022-11-11T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-11-11T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="User Namespace Isolation in Docker"/>
@@ -99,8 +99,8 @@ Add below /etc/docker/daemon.json { &#34;userns-remap&#34;: &#34;default&#34; } 
   "articleBody": "There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.\nhttps://docs.docker.com/engine/security/userns-remap/\nHow to enable *It is better to reinstall docker and remove all existing docker volumes\nAdd below /etc/docker/daemon.json { \"userns-remap\": \"default\" } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root! veerendra@atom:~$ docker exec -it nginx whoami root # But outside(on host namespace), the process running it as non-root user veerendra@atom:~$ ps aux | grep nginx 165536 350093 0.0 0.0 6320 4688 ? Ss 03:21 0:00 nginx: master process nginx -g daemon off; 165637 350208 0.0 0.0 6788 4288 ? S 03:21 0:01 nginx: worker process 165637 350209 0.0 0.0 6784 4284 ? S 03:21 0:00 nginx: worker process 165637 350210 0.0 0.0 6784 4284 ? S 03:21 0:01 nginx: worker process 165637 350212 0.0 0.0 6784 4284 ? S 03:21 0:01 nginx: worker process veerend+ 937492 0.0 0.0 6420 1844 pts/0 S+ 16:22 0:00 grep --color=auto nginx As you can see I have not specified any user while deploying the container, but the user inside the container is isolated i.e remapped to a non-root user(uid:165637, gid:165637) on the host\nI think it is very helpful and easy, instead of creating a gid and uid and specifying in docker-compose(or docker CLI).\nLimitation It has some limitation, as the docs says\nSharing PID or NET namespaces with the host (–pid=host or –network=host). External (volume or storage) drivers which are unaware or incapable of using daemon user mappings. Using the –privileged mode flag on docker run without also specifying –userns=host. When I tried to use filebrowser, the file permissions were very unpredictable and I was not able to access mounted partitions.\n",
   "wordCount" : "327",
   "inLanguage": "en",
-  "datePublished": "2022-10-11T00:00:00Z",
-  "dateModified": "2022-10-11T00:00:00Z",
+  "datePublished": "2022-11-11T00:00:00Z",
+  "dateModified": "2022-11-11T00:00:00Z",
   "author":{
     "@type": "Person",
     "name": "Veerendra K"
@@ -177,7 +177,7 @@ Add below /etc/docker/daemon.json { &#34;userns-remap&#34;: &#34;default&#34; } 
     <h1 class="post-title">
       User Namespace Isolation in Docker
     </h1>
-    <div class="post-meta"><span title='2022-10-11 00:00:00 +0000 UTC'>October 11, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K&nbsp;|&nbsp;<a href="https://github.com/veerendra2/veerendra2.github.io/issues/new?assignees=veerendra2&amp;labels=bug&amp;template=suggest-changes.md&amp;title=%5BCHANGE%5D" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+    <div class="post-meta"><span title='2022-11-11 00:00:00 +0000 UTC'>November 11, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K&nbsp;|&nbsp;<a href="https://github.com/veerendra2/veerendra2.github.io/issues/new?assignees=veerendra2&amp;labels=bug&amp;template=suggest-changes.md&amp;title=%5BCHANGE%5D" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
 
 </div>
   </header> <div class="toc">
