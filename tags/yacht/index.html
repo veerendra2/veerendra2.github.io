@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>docker | Veerendra&#39;s Blog</title>
+<title>yacht | Veerendra&#39;s Blog</title>
 <meta name="keywords" content="" />
 <meta name="description" content="My Blog">
 <meta name="author" content="Veerendra K">
-<link rel="canonical" href="https://veerendra2.github.io/tags/docker/" />
+<link rel="canonical" href="https://veerendra2.github.io/tags/yacht/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1e44d58192cbf6d7a4eb649bc43dbc3d4cc432677e5d8adc69b08c34cbe461ac.css" integrity="sha256-HkTVgZLL9tek62SbxD28PUzEMmd&#43;XYrcabCMNMvkYaw=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://veerendra2.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://veerendra2.github.io/favicon-16x16.png">
@@ -19,7 +19,7 @@
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
 <meta name="generator" content="Hugo 0.102.2" />
-<link rel="alternate" type="application/rss+xml" href="https://veerendra2.github.io/tags/docker/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://veerendra2.github.io/tags/yacht/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -40,13 +40,13 @@ if (!doNotTrack) {
 	
 	ga('send', 'pageview');
 }
-</script><meta property="og:title" content="docker" />
+</script><meta property="og:title" content="yacht" />
 <meta property="og:description" content="My Blog" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://veerendra2.github.io/tags/docker/" />
+<meta property="og:url" content="https://veerendra2.github.io/tags/yacht/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="docker"/>
+<meta name="twitter:title" content="yacht"/>
 <meta name="twitter:description" content="My Blog"/>
 
 </head>
@@ -101,7 +101,7 @@ if (!doNotTrack) {
     </nav>
 </header><main class="main"> 
 <header class="page-header"><div class="breadcrumbs"><a href="https://veerendra2.github.io">Home</a>&nbsp;»&nbsp;<a href="https://veerendra2.github.io/tags/">Tags</a></div>
-  <h1>docker</h1>
+  <h1>yacht</h1>
 </header>
 
 <article class="post-entry tag-entry"> 
@@ -115,34 +115,6 @@ I had checked multiple sources, and finally picked two; they are Portainer and Y
   </section>
   <footer class="entry-footer"><span title='2022-12-24 00:00:00 +0000 UTC'>December 24, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
   <a class="entry-link" aria-label="post link to Portainer vs Yacht" href="https://veerendra2.github.io/portainer-vs-yacht/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>User Namespace Isolation in Docker
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.
-https://docs.docker.com/engine/security/userns-remap/
-How to enable *It is better to reinstall docker and remove all existing docker volumes
-Add below /etc/docker/daemon.json { &#34;userns-remap&#34;: &#34;default&#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!...</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-11-11 00:00:00 +0000 UTC'>November 11, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to User Namespace Isolation in Docker" href="https://veerendra2.github.io/docker-userns-remap/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>Pi-hole with DHCP Relay in Docker
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Introduction I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with docker-compose files and ansible automation. One of the applications I was configuring is Pi-hole, a network-wide ad-blocker.
-I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, it says it has to be run as network_mode: host, because it allows Pi-hole to listen to DHCP broadcast packets....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-11-10 00:00:00 +0000 UTC'>November 10, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Pi-hole with DHCP Relay in Docker" href="https://veerendra2.github.io/pihole-dhcp-relay/"></a>
 </article>
     </main>
     

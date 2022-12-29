@@ -117,6 +117,23 @@ if (!doNotTrack) {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>Elastalert Demo Config
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Elastalert 📄 Official docs 📂 Official project Repo
+Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.
+Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.
+Installation ❗ Refer elasticsearch-deploy-notes/elastalert for example config
+$ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 install -U PyYAML $ mkdir -p /opt/elastalert/rules ## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo Recommended to create index in elasticsearch for elastalert to store metadata $ elastalert-create-index Elastic Version: 7....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:38:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Elastalert Demo Config" href="https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>Velero Deployment with Kustomize (Azure)
     </h2>
   </header>
@@ -204,22 +221,6 @@ If we look at the K8s setup that is deployed on AWS(For example kops), there is 
   </section>
   <footer class="entry-footer"><span title='2018-05-29 00:00:00 +0000 UTC'>May 29, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
   <a class="entry-link" aria-label="post link to SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" href="https://veerendra2.github.io/ssl-config-k8s-service-aws/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Linux pseudo files &amp; cheat sheet
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”
-Tips &amp; Tricks How to force a command to return exit code 0 even if the command exited non-zero?
-How to install dependencies of .deb automatically which failed to install previously?
-Example Solution:
-$ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;&amp; apt-get --yes --force-yes -o Dpkg::Options::=&#34;--force-confdef&#34; -o Dpkg::Options::=&#34;--force-confold&#34; -f install -y \ How to traverse directories in shell script?...</p>
-  </section>
-  <footer class="entry-footer"><span title='2018-04-14 00:00:00 +0000 UTC'>April 14, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Linux pseudo files &amp; cheat sheet" href="https://veerendra2.github.io/linux-cheatseets/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

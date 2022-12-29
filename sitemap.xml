@@ -3,7 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://veerendra2.github.io/tags/docker/</loc>
-    <lastmod>2022-11-11T00:00:00+00:00</lastmod>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/homeserver/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/portainer/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/portainer-vs-yacht/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/posts/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/yacht/</loc>
+    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/nugget/</loc>
     <lastmod>2022-11-11T00:00:00+00:00</lastmod>
@@ -11,19 +32,10 @@
     <loc>https://veerendra2.github.io/posts/nuggets/</loc>
     <lastmod>2022-11-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/</loc>
-    <lastmod>2022-11-11T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://veerendra2.github.io/tags/security/</loc>
     <lastmod>2022-11-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/tags/</loc>
-    <lastmod>2022-11-11T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://veerendra2.github.io/docker-userns-remap/</loc>
-    <lastmod>2022-11-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/</loc>
     <lastmod>2022-11-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/dhcp-relay/</loc>
