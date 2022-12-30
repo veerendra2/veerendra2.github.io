@@ -12,8 +12,8 @@
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/windows-metrics-collection/</guid>
-      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.
-Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is really simple, elegant way to collect Windows OS metrics and light weight too, unlike others which some are paid and crappy.</description>
+      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pseudo files. In fact, there are so many open source tools to do this in Linux, like tcollector which is my favourite.
+Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy.</description>
     </item>
     
   </channel>

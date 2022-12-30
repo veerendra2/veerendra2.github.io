@@ -35,7 +35,7 @@ I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, 
       <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
 https://strimzi.io
 Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
     </item>
     
     <item>
@@ -44,7 +44,7 @@ Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to 
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
-      <description>Introduction Hello guys, today I came up with an interesting write up, that is how to setup backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find proper backup solution in order to configure PV backup and restore.</description>
+      <description>Introduction Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore.</description>
     </item>
     
     <item>
@@ -53,7 +53,7 @@ Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to 
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/moving-to-hugo/</guid>
-      <description>It has been 2 year since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up posts. Finally I’m back now, I have been thinking of changing blog themes for a long time. I spent some time on exploring Jekyll themes and tried to modify them according to my requirements. As you can see here github issue.</description>
+      <description>It has been 2 years since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see here GitHub issue.</description>
     </item>
     
     <item>
@@ -62,8 +62,8 @@ Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to 
       <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</guid>
-      <description>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.
-I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab.</description>
+      <description>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.
+I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab.</description>
     </item>
     
     <item>
@@ -95,8 +95,8 @@ $ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;amp;&amp;amp; apt-get
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/wireshark-install/</guid>
-      <description>Wireshark is a really great tool for analyzing traffic, whether it could be live traffic on interface or .cap file. The tool enables different types filtering on packets like follow stream, filter by protocol and IP, etc
-In order to install the latest version of wireshark on Linux, one should build and install from source. Sometimes, building from source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this software.</description>
+      <description>Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the .cap file. The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc
+In order to install the latest version of Wireshark on Linux, one should build and install it from the source. Sometimes, building from a source is difficult because we have to hunt down the dependencies.</description>
     </item>
     
     <item>
@@ -117,8 +117,8 @@ $ sudo yum install gcc make python-devel openssl-devel \ kernel-devel graphviz k
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/windows-metrics-collection/</guid>
-      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pesudo files. In fact there are so many open source tools to do this in Linux, like tcollector which is my favourite.
-Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is really simple, elegant way to collect Windows OS metrics and light weight too, unlike others which some are paid and crappy.</description>
+      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pseudo files. In fact, there are so many open source tools to do this in Linux, like tcollector which is my favourite.
+Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy.</description>
     </item>
     
     <item>
@@ -139,7 +139,7 @@ $ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y 
       <guid>https://veerendra2.github.io/dns-encrypt/</guid>
       <description>We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?
 Sure if we use HTTPS, all your (POST or GET) data is encrypted end-to-end which prevents eavesdropping, MITM attack and have Confidentiality, but again what about DNS queries?
-I got this question back in a while, so after a quick Internet search, I found DNSCrypt protocol which is really cool that I can encrypt DNS queries.</description>
+I got this question back a while ago, so after a quick Internet search, I found DNSCrypt protocol which is cool because I can encrypt DNS queries.</description>
     </item>
     
     <item>
@@ -179,7 +179,7 @@ root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1
       <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/mac-scrambling/</guid>
-      <description>“MAC Address Scrambling“- By name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48 bit hexadecimal digit which is burned in every electronic device that has capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect user’s privacy.</description>
+      <description>“MAC Address Scrambling“- By the name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.</description>
     </item>
     
   </channel>

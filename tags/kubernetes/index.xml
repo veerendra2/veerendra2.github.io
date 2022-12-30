@@ -15,7 +15,7 @@
       <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
 https://strimzi.io
 Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
     </item>
     
     <item>
@@ -24,7 +24,7 @@ Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to 
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
-      <description>Introduction Hello guys, today I came up with an interesting write up, that is how to setup backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find proper backup solution in order to configure PV backup and restore.</description>
+      <description>Introduction Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore.</description>
     </item>
     
     <item>
@@ -45,7 +45,7 @@ This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I h
       
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
       <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes.</description>
+6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.</description>
     </item>
     
     <item>
@@ -55,7 +55,7 @@ This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I h
       
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
       <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
     </item>
     

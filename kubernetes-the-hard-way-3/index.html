@@ -8,7 +8,7 @@
 <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3) | Veerendra&#39;s Blog</title>
 <meta name="keywords" content="linux, kubernetes" />
 <meta name="description" content="Welcome to the final part of &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &ldquo;Kubernetes The Hard Way With Docker &amp; Flannel&rdquo;, what we are going to do now is different from Kelsey Hightower&rsquo;s Kubernetes The Hard Way tutorial i.">
 <meta name="author" content="Veerendra K">
 <link rel="canonical" href="https://veerendra2.github.io/kubernetes-the-hard-way-3/" />
@@ -43,7 +43,7 @@ if (!doNotTrack) {
 }
 </script><meta property="og:title" content="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" />
 <meta property="og:description" content="Welcome to the final part of &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &ldquo;Kubernetes The Hard Way With Docker &amp; Flannel&rdquo;, what we are going to do now is different from Kelsey Hightower&rsquo;s Kubernetes The Hard Way tutorial i." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://veerendra2.github.io/kubernetes-the-hard-way-3/" /><meta property="article:section" content="posts" />
@@ -53,7 +53,7 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)"/>
 <meta name="twitter:description" content="Welcome to the final part of &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &ldquo;Kubernetes The Hard Way With Docker &amp; Flannel&rdquo;, what we are going to do now is different from Kelsey Hightower&rsquo;s Kubernetes The Hard Way tutorial i."/>
 
 
@@ -89,12 +89,12 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
   "@type": "BlogPosting",
   "headline": "Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 3)",
   "name": "Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 3)",
-  "description": "Welcome to the final part of \u0026ldquo;Kubernetes-The Hard Way With Docker \u0026amp; Flannel\u0026rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.\nIn this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster\n9. Bootstrapping the Kubernetes Worker Nodes As the title of this post \u0026ldquo;Kubernetes The Hard Way With Docker \u0026amp; Flannel\u0026rdquo;, what we are going to do now is different from Kelsey Hightower\u0026rsquo;s Kubernetes The Hard Way tutorial i.",
+  "description": "Welcome to the final part of \u0026ldquo;Kubernetes-The Hard Way With Docker \u0026amp; Flannel\u0026rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.\nIn this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster\n9. Bootstrapping the Kubernetes Worker Nodes As the title of this post \u0026ldquo;Kubernetes The Hard Way With Docker \u0026amp; Flannel\u0026rdquo;, what we are going to do now is different from Kelsey Hightower\u0026rsquo;s Kubernetes The Hard Way tutorial i.",
   "keywords": [
     "linux", "kubernetes"
   ],
-  "articleBody": "Welcome to the final part of “Kubernetes-The Hard Way With Docker \u0026 Flannel” series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.\nIn this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster\n9. Bootstrapping the Kubernetes Worker Nodes As the title of this post “Kubernetes The Hard Way With Docker \u0026 Flannel”, what we are going to do now is different from Kelsey Hightower’s Kubernetes The Hard Way tutorial i.e. container runtime interface is docker instead of containerd\n*NOTE: The below commands must run on all worker nodes\nInstall below packages. conntack is required for iptables, since it tracks the connections for K8s services\n## On worker nodes $ { sudo apt-get update sudo apt-get -y install socat conntrack ipset } Install docker You can follow official docs to install docker on ubuntu\nKubelet Configuration Move certificate files to kubernetes directory\n## On worker nodes $ { sudo mv ${HOSTNAME}-key.pem ${HOSTNAME}.pem /var/lib/kubelet/ sudo mv ${HOSTNAME}.kubeconfig /var/lib/kubelet/kubeconfig sudo mv ca.pem /var/lib/kubernetes/ } Create kubelet configuration file\n## On worker nodes $ cat \u003c",
-  "wordCount" : "1015",
+  "articleBody": "Welcome to the final part of “Kubernetes-The Hard Way With Docker \u0026 Flannel” series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.\nIn this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster\n9. Bootstrapping the Kubernetes Worker Nodes As the title of this post “Kubernetes The Hard Way With Docker \u0026 Flannel”, what we are going to do now is different from Kelsey Hightower’s Kubernetes The Hard Way tutorial i.e. container runtime interface is docker instead of containerd\n*NOTE: The below commands must run on all worker nodes\nInstall the below packages. conntack is required for iptables, since it tracks the connections for K8s services\n## On worker nodes $ { sudo apt-get update sudo apt-get -y install socat conntrack ipset } Install docker You can follow official docs to install docker on ubuntu\nKubelet Configuration Move certificate files to kubernetes directory\n## On worker nodes $ { sudo mv ${HOSTNAME}-key.pem ${HOSTNAME}.pem /var/lib/kubelet/ sudo mv ${HOSTNAME}.kubeconfig /var/lib/kubelet/kubeconfig sudo mv ca.pem /var/lib/kubernetes/ } Create kubelet configuration file\n## On worker nodes $ cat \u003c",
+  "wordCount" : "1027",
   "inLanguage": "en",
   "datePublished": "2019-01-17T00:00:00Z",
   "dateModified": "2019-01-17T00:00:00Z",
@@ -228,11 +228,11 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 </div>
 
   <div class="post-content"><p>Welcome to the final part of &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series. In <a href="https://veerendra2.github.io/kubernetes-the-hard-way-1/" title="part-1">part-1</a>, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In <a href="https://veerendra2.github.io/kubernetes-the-hard-way-2/" title="part-2">part-2</a>, we have bootstrapped controller nodes.</p>
-<p>In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster</p>
+<p>In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster</p>
 <h2 id="9-bootstrapping-the-kubernetes-worker-nodes">9. Bootstrapping the Kubernetes Worker Nodes<a hidden class="anchor" aria-hidden="true" href="#9-bootstrapping-the-kubernetes-worker-nodes">#</a></h2>
 <p>As the title of this post &ldquo;Kubernetes The Hard Way With Docker &amp; Flannel&rdquo;, what we are going to do now is different from <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">Kelsey Hightower&rsquo;s Kubernetes The Hard Way tutorial</a> i.e. container runtime interface is <code>docker</code> instead of <code>containerd</code></p>
 <p><strong><em>*NOTE: The below commands must run on all worker nodes</em></strong></p>
-<p>Install below packages. <code>conntack</code> is required for iptables, since it tracks the connections for K8s services</p>
+<p>Install the below packages. <code>conntack</code> is required for iptables, since it tracks the connections for K8s services</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On worker nodes</span>
 </span></span><span class="line"><span class="cl">$ <span class="o">{</span>
 </span></span><span class="line"><span class="cl">  sudo apt-get update
@@ -334,11 +334,11 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 </span></span><span class="line"><span class="cl">  sudo systemctl start kubelet kube-proxy
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h3 id="verification">Verification<a hidden class="anchor" aria-hidden="true" href="#verification">#</a></h3>
-<p>Once worker services configuration is done on all worker nodes, get nodes list like below command in any controller node</p>
+<p>Once worker services configuration is done on all worker nodes, get the nodes list like the below command in any controller node</p>
 <p><img loading="lazy" src="/static_content/images/get_nodes.jpg" alt="List Nodes Image"  />
 </p>
 <h1 id="10-configuring-kubectl-for-remote-access">10. Configuring kubectl for Remote Access<a hidden class="anchor" aria-hidden="true" href="#10-configuring-kubectl-for-remote-access">#</a></h1>
-<p>In this section, we will generate a kubeconfig file for <code>admin</code> user. The kubeconfig file requires Kubernetes API server IP which is nginx load balancer docker container’s IP</p>
+<p>In this section, we will generate a kubeconfig file for <code>admin</code> user. The kubeconfig file requires Kubernetes API server IP which is the nginx load balancer docker container’s IP</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On host</span>
 </span></span><span class="line"><span class="cl">$ <span class="o">{</span>
 </span></span><span class="line"><span class="cl">  <span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="o">=</span><span class="sb">`</span>cat nginx_proxy.txt <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span><span class="sb">`</span>
@@ -360,7 +360,7 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h3 id="verification-1">Verification<a hidden class="anchor" aria-hidden="true" href="#verification-1">#</a></h3>
 <ul>
-<li>Check health of the remote Kubernetes cluster
+<li>Check the health of the remote Kubernetes cluster
 <img loading="lazy" src="/static_content/images/components_status_outside.jpg" alt="List Components Image"  />
 </li>
 <li>List the nodes in the remote Kubernetes cluster
@@ -376,10 +376,10 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 </span></span></code></pre></div><p>Get <code>kube-flannel.yml</code> from <a href="https://github.com/coreos/flannel">coreos&rsquo;s flannel github repo</a></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On host</span>
 </span></span><span class="line"><span class="cl">$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-</span></span></code></pre></div><p>Wait for few seconds and verify flannel daemonset status</p>
+</span></span></code></pre></div><p>Wait for a few seconds and verify the flannel daemonset status</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl get daemonsets -n kube-system
-</span></span></code></pre></div><p>Once pods are up, we have to test pod networking that they can connect each other</p>
-<p>For that, we will deploy nginx deployment with 2 replicas and a busybox pod. Then we will try to curl nginx home page from busybox via nginx&rsquo;s POD IP</p>
+</span></span></code></pre></div><p>Once pods are up, we have to test pod networking so that they can connect to each other</p>
+<p>For that, we will deploy Nginx deployment with 2 replicas and a busy box pod. Then we will try to curl the nginx home page from busybox via nginx&rsquo;s POD IP</p>
 <p>Create nginx deployment with 2 replicas</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt; EOF | kubectl apply -f -
 </span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: apps/v1
@@ -415,7 +415,7 @@ In this post, we will bootstrap worker nodes and at the end, perform smoke test 
 </span></span></code></pre></div><p><img loading="lazy" src="/static_content/images/nginx_home_page.jpg" alt="nginx curl Image"  />
 </p>
 <h1 id="11-deploying-the-dns-cluster-add-on">11. Deploying the DNS Cluster Add-on<a hidden class="anchor" aria-hidden="true" href="#11-deploying-the-dns-cluster-add-on">#</a></h1>
-<p>In this section we will deploy <a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">DNS add-on</a> which provides DNS based service discovery.
+<p>In this section, we will deploy <a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">DNS add-on</a> which provides DNS based service discovery.
 We will use <a href="https://coredns.io/">coreDNS</a> as DNS add-on in our K8s</p>
 <p>Deploy core DNS</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl apply -f https://storage.googleapis.com/kubernetes-the-hard-way/coredns.yaml

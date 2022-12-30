@@ -15,7 +15,7 @@
       <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
 https://strimzi.io
 Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production level Kafka cluster on kubernetes, I have to give credit to Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
     </item>
     
   </channel>

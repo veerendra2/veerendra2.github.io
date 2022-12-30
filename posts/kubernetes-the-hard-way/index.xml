@@ -24,7 +24,7 @@ This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I h
       
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
       <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section we will install and configure etcd on all controller nodes.</description>
+6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.</description>
     </item>
     
     <item>
@@ -34,7 +34,7 @@ This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I h
       
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
       <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform smoke test on the cluster
+In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
 9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
     </item>
     

@@ -7,8 +7,8 @@
 <meta name="robots" content="index, follow">
 <title>CI/CD for GitHub Pages with GitHub Actions | Veerendra&#39;s Blog</title>
 <meta name="keywords" content="jekyll" />
-<meta name="description" content="Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I&rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.
-I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the &ldquo;Actions&rdquo; tab.">
+<meta name="description" content="Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&hellip;anyways I&rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.
+I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &ldquo;Actions&rdquo; tab.">
 <meta name="author" content="Veerendra K">
 <link rel="canonical" href="https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/" />
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.1e44d58192cbf6d7a4eb649bc43dbc3d4cc432677e5d8adc69b08c34cbe461ac.css" integrity="sha256-HkTVgZLL9tek62SbxD28PUzEMmd&#43;XYrcabCMNMvkYaw=" rel="preload stylesheet" as="style">
@@ -41,8 +41,8 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script><meta property="og:title" content="CI/CD for GitHub Pages with GitHub Actions" />
-<meta property="og:description" content="Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I&rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.
-I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the &ldquo;Actions&rdquo; tab." />
+<meta property="og:description" content="Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&hellip;anyways I&rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.
+I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &ldquo;Actions&rdquo; tab." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-02-21T00:00:00&#43;00:00" />
@@ -50,8 +50,8 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CI/CD for GitHub Pages with GitHub Actions"/>
-<meta name="twitter:description" content="Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I&rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.
-I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the &ldquo;Actions&rdquo; tab."/>
+<meta name="twitter:description" content="Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&hellip;anyways I&rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.
+I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &ldquo;Actions&rdquo; tab."/>
 
 
 <script type="application/ld+json">
@@ -80,12 +80,12 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
   "@type": "BlogPosting",
   "headline": "CI/CD for GitHub Pages with GitHub Actions",
   "name": "CI\/CD for GitHub Pages with GitHub Actions",
-  "description": "Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I\u0026rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.\nI have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the \u0026ldquo;Actions\u0026rdquo; tab.",
+  "description": "Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while\u0026hellip;anyways I\u0026rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.\nI have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the \u0026ldquo;Actions\u0026rdquo; tab.",
   "keywords": [
     "jekyll"
   ],
-  "articleBody": "Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I’m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, deploy code from GitHub.\nI have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the “Actions” tab. Then I saw the workflow template for “Jekyll Site CI/CD”, builds Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on GitHub Pages. So, Let’s see how did I setup CI/CD\nBut first let me explain how my blog site works and then manual steps every time I do to publish a blog.\nGitHub Pages This blog site is powered by GitHub Pages which you can publish static html site right from GitHub repository (For example my repo here). All you have to do is to create a repo name like .github.io and drop static html pages in master branch. That’s it, GitHub does the magic, serves your website.\nFor this, I’m maintaining 2 branches, one for my markdown source files in source branch and another for static html site in master branch\nJekyll Everything’s good so far, but we know that we are too lazy to write html pages. So, that’s where this tool “Jekyll” comes into picture, converts markdown files to static html websites. Once you jekyll build, it will build a static website in the _site directory. For local testing you can run jekyll serve to see how site looks.(Checkout my other post to know how to install jekyll)\nMy Manual Workflow Write blog post in markdown files which I keep in source branch (Obviously I can not automate this step :-P) Run jekyll build to build static website Copy static website content from _site to master branch Push master branch changes to repo to publish website Push source branch changes to repo to store/version tracking GitHub Actions Below is the jekyll.yml to automate my workflow\nLet’s go thought the jekyll.yml line by line very briefly\nLine No. Description 3 Event subscription; I want to trigger the workflow only when there is any push in “source” branch 11 I want to run this build procedure on ubuntu box(GitHub action supports other box as well like windows, mac, etc) 16 In order to build, first I have to clone the repo, for this, there is ready made action called “actions/checkout@v2” which checkouts my repo with “source” branch 21 Since I can’t expect GitHub servers to have “jekyll” installed, I built my own docker image for jekyll with dependency gems to build a website. (You can find other jekyll docker image, I’m using older version of jekyll, that’s why I built my own) 28 I want to push static website to “master” branch, so I have to checkout “master” branch as well 33 Copy “_site” content to master branch 37 Normal shell commands, git add and git commit 44 Finally push changes to “master” to publish website with help of using ready made action “ad-m/GitHub-push-action@master” Now, all I have to do is drop jekyll.yml in the .github/workflows/ directory to GitHub to pick up my workflow. Below is the picture showing the pipeline for my website deployment.\n",
-  "wordCount" : "566",
+  "articleBody": "Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while…anyways I’m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.\nI have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the “Actions” tab. Then I saw the workflow template for “Jekyll Site CI/CD”, which builds the Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on GitHub Pages. So, Let’s see how I setup CI/CD\nBut first, let me explain how my blog site works and then the manual steps every time I do to publish a blog.\nGitHub Pages This blog site is powered by GitHub Pages which you can publish static Html site right from the GitHub repository (For example my repo here). All you have to do is to create a repo name like .github.io and drop static Html pages in the master branch. That’s it, GitHub does the magic, and serves your website.\nFor this, I’m maintaining 2 branches, one for my markdown source files in source branch and another for static Html site in master branch\nJekyll Everything’s good so far, but we know that we are too lazy to write Html pages. So, that’s where this tool “Jekyll” comes into the picture, which converts markdown files to static Html websites. Once you jekyll build, it will build a static website in the _site directory. For local testing, you can run jekyll serve to see how the site looks. (Check out my other post to know how to install jekyll)\nMy Manual Workflow Write a blog post in markdown files which I keep in the source branch (Obviously I can not automate this step 😜) Run jekyll build to build static website Copy static website content from _site to master branch Push master branch changes to the repo to publish the website Push source branch changes to the repo to store/version tracking GitHub Actions Below is the jekyll.yml to automate my workflow\nLet’s go through the jekyll.yml line by line very briefly\nLine No. Description 3 Event subscription; I want to trigger the workflow only when there is any push in the “source” branch 11 I want to run this build procedure on ubuntu box(GitHub action supports other box as well like windows, mac, etc) 16 In order to build, first I have to clone the repo, for this, there is ready made action called “actions/checkout@v2” which checkouts my repo with the “source” branch 21 Since I can’t expect GitHub servers to have “jekyll” installed, I built my own docker image for jekyll with dependency gems to build a website. (You can find other jekyll docker image, I’m using an older version of jekyll, that’s why I built my own) 28 I want to push static website to the “master” branch, so I have to check out “master” branch as well 33 Copy “_site” content to master branch 37 Normal shell commands, git add and git commit 44 Finally push changes to “master” to publish the website with help of using ready made action “ad-m/GitHub-push-action@master” Now, all I have to do is drop jekyll.yml in the .github/workflows/ directory to GitHub to pick up my workflow. Below is the picture showing the pipeline for my website deployment.\n",
+  "wordCount" : "589",
   "inLanguage": "en",
   "datePublished": "2020-02-21T00:00:00Z",
   "dateModified": "2020-02-21T00:00:00Z",
@@ -189,28 +189,28 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
     </details>
 </div>
 
-  <div class="post-content"><p>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while..anyways I&rsquo;m back now. As you might know, GitHub recently launched <a href="https://github.com/features/actions">GitHub Actions</a> where people can automate workflows like build, test, deploy code from GitHub.</p>
-<p>I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating workflow from available workflow templates in the &ldquo;Actions&rdquo; tab. Then I saw the workflow template for &ldquo;Jekyll Site CI/CD&rdquo;, builds Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on <a href="https://pages.github.com/">GitHub Pages</a>. So, Let&rsquo;s see how did I setup CI/CD</p>
-<p>But first let me explain how my blog site works and then manual steps every time I do to publish a blog.</p>
+  <div class="post-content"><p>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&hellip;anyways I&rsquo;m back now. As you might know, GitHub recently launched <a href="https://github.com/features/actions">GitHub Actions</a> where people can automate workflows like build, test, and deploy code from GitHub.</p>
+<p>I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &ldquo;Actions&rdquo; tab. Then I saw the workflow template for &ldquo;Jekyll Site CI/CD&rdquo;, which builds the Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on <a href="https://pages.github.com/">GitHub Pages</a>. So, Let&rsquo;s see how I setup CI/CD</p>
+<p>But first, let me explain how my blog site works and then the manual steps every time I do to publish a blog.</p>
 <h2 id="github-pages">GitHub Pages<a hidden class="anchor" aria-hidden="true" href="#github-pages">#</a></h2>
-<p>This blog site is powered by GitHub Pages which you can publish static html site right from GitHub repository (For example my repo <a href="https://github.com/veerendra2/veerendra2.github.io">here</a>). All you have to do is to create a repo name like <code>&lt;YourGitHubUsername&gt;.github.io</code> and drop static html pages in <code>master</code> branch. That&rsquo;s it, GitHub does the magic, serves your website.</p>
-<p>For this, I&rsquo;m maintaining 2 branches, one for my markdown source files in <a href="https://github.com/veerendra2/veerendra2.github.io/tree/source"><code>source</code> branch</a> and another for static html site in <a href="https://github.com/veerendra2/veerendra2.github.io"><code>master</code> branch</a></p>
+<p>This blog site is powered by GitHub Pages which you can publish static Html site right from the GitHub repository (For example my repo <a href="https://github.com/veerendra2/veerendra2.github.io">here</a>). All you have to do is to create a repo name like <code>&lt;YourGitHubUsername&gt;.github.io</code> and drop static Html pages in the <code>master</code> branch. That&rsquo;s it, GitHub does the magic, and serves your website.</p>
+<p>For this, I&rsquo;m maintaining 2 branches, one for my markdown source files in <a href="https://github.com/veerendra2/veerendra2.github.io/tree/source"><code>source</code> branch</a> and another for static Html site in <a href="https://github.com/veerendra2/veerendra2.github.io"><code>master</code> branch</a></p>
 <p><img loading="lazy" src="/static_content/images/branch_image1.jpg" alt="Branch Image"  />
 </p>
 <h2 id="jekyll">Jekyll<a hidden class="anchor" aria-hidden="true" href="#jekyll">#</a></h2>
-<p>Everything&rsquo;s good so far, but we know that we are too lazy to write html pages. So, that&rsquo;s where this tool <a href="https://jekyllrb.com/">&ldquo;Jekyll&rdquo;</a> comes into picture, converts markdown files to static html websites. Once you <code>jekyll build</code>, it will build a static website in the <code>_site</code> directory. For local testing you can run <code>jekyll serve</code> to see how site looks.(Checkout my other <a href="https://veerendra2.github.io/jeklly-website/">post to know how to install jekyll</a>)</p>
+<p>Everything&rsquo;s good so far, but we know that we are too lazy to write Html pages. So, that&rsquo;s where this tool <a href="https://jekyllrb.com/">&ldquo;Jekyll&rdquo;</a> comes into the picture, which converts markdown files to static Html websites. Once you <code>jekyll build</code>, it will build a static website in the <code>_site</code> directory. For local testing, you can run <code>jekyll serve</code> to see how the site looks. (Check out my other <a href="https://veerendra2.github.io/jeklly-website/">post to know how to install jekyll</a>)</p>
 <h2 id="my-manual-workflow">My Manual Workflow<a hidden class="anchor" aria-hidden="true" href="#my-manual-workflow">#</a></h2>
 <ol>
-<li>Write blog post in markdown files which I keep in <code>source</code> branch (Obviously I can not automate this step :-P)</li>
+<li>Write a blog post in markdown files which I keep in the <code>source</code> branch (Obviously I can not automate this step 😜)</li>
 <li>Run <code>jekyll build</code> to build static website</li>
 <li>Copy static website content from <code>_site</code> to <code>master</code> branch</li>
-<li>Push <code>master</code> branch changes to repo to publish website</li>
-<li>Push <code>source</code> branch changes to repo to store/version tracking</li>
+<li>Push <code>master</code> branch changes to the repo to publish the website</li>
+<li>Push <code>source</code> branch changes to the repo to store/version tracking</li>
 </ol>
 <h2 id="github-actions">GitHub Actions<a hidden class="anchor" aria-hidden="true" href="#github-actions">#</a></h2>
 <p>Below is the <code>jekyll.yml</code> to automate my workflow</p>
 <script src="https://gist.GitHub.com/veerendra2/e049bbf03637413e94a2632ad3f20781.js"></script>
-<p>Let&rsquo;s go thought the <code>jekyll.yml</code> line by line very briefly</p>
+<p>Let&rsquo;s go through the <code>jekyll.yml</code> line by line very briefly</p>
 <table>
 <thead>
 <tr>
@@ -221,7 +221,7 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
 <tbody>
 <tr>
 <td>3</td>
-<td>Event subscription; I want to trigger the workflow only when there is any push in &ldquo;source&rdquo; branch</td>
+<td>Event subscription; I want to trigger the workflow only when there is any push in the &ldquo;source&rdquo; branch</td>
 </tr>
 <tr>
 <td>11</td>
@@ -229,15 +229,15 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
 </tr>
 <tr>
 <td>16</td>
-<td>In order to build, first I have to clone the repo, for this, there is ready made action called &ldquo;actions/checkout@v2&rdquo; which checkouts my repo with &ldquo;source&rdquo; branch</td>
+<td>In order to build, first I have to clone the repo, for this, there is ready made action called &ldquo;actions/checkout@v2&rdquo; which checkouts my repo with the &ldquo;source&rdquo; branch</td>
 </tr>
 <tr>
 <td>21</td>
-<td>Since I can&rsquo;t expect GitHub servers to have &ldquo;jekyll&rdquo; installed, I built my own docker image for jekyll with dependency gems to build a website. (You can find other jekyll docker image, I&rsquo;m using older version of jekyll, that&rsquo;s why I built my own)</td>
+<td>Since I can&rsquo;t expect GitHub servers to have &ldquo;jekyll&rdquo; installed, I built my own docker image for jekyll with dependency gems to build a website. (You can find other jekyll docker image, I&rsquo;m using an older version of jekyll, that&rsquo;s why I built my own)</td>
 </tr>
 <tr>
 <td>28</td>
-<td>I want to push static website to &ldquo;master&rdquo; branch, so I have to checkout &ldquo;master&rdquo; branch as well</td>
+<td>I want to push static website to the &ldquo;master&rdquo; branch, so I have to check out &ldquo;master&rdquo; branch as well</td>
 </tr>
 <tr>
 <td>33</td>
@@ -249,7 +249,7 @@ I have started reading docs a little bit, I have to admit, setting up workflows 
 </tr>
 <tr>
 <td>44</td>
-<td>Finally push changes to &ldquo;master&rdquo; to publish website with help of using ready made action &ldquo;ad-m/GitHub-push-action@master&rdquo;</td>
+<td>Finally push changes to &ldquo;master&rdquo; to publish the website with help of using ready made action &ldquo;ad-m/GitHub-push-action@master&rdquo;</td>
 </tr>
 </tbody>
 </table>
