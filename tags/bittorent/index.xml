@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>bittorent on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/tags/bittorent/</link>
+    <description>Recent content in bittorent on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 01 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/bittorent/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 1)</title>
+      <link>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</guid>
+      <description>Introduction One of the services I always wanted to have on my raspberry pi home server is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s &amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo; on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the ansible playbook to deploy the wireguard VPN.</description>
+    </item>
+    
+  </channel>
+</rss>

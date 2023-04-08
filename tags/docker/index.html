@@ -106,6 +106,32 @@ if (!doNotTrack) {
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>Wireguard VPN and BitTorrent on Docker Swarm (Part 1)
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Introduction One of the services I always wanted to have on my raspberry pi home server is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang’s “Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!” on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the ansible playbook to deploy the wireguard VPN....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-04-01 00:00:00 +0000 UTC'>April 1, 2023</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Wireguard VPN and BitTorrent on Docker Swarm (Part 1)" href="https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>Wireguard VPN and BitTorrent on Docker Swarm (Part 2)
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Previously in part 1, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration
+Testing Make sure Wireguard and qBittorrent containers are up and running.
+✅Check you are able to ping Wireguard container from qBittorrent $ docker ps | grep qbittorrent | awk &#39;{print $1, $2}&#39; cd33f2b203c2 linuxserver/qbittorrent:arm64v8-4.5.2 $ docker exec -it cd33f2b203c2 /bin/bash root@qbittorrent:/# ping wireguard PING wireguard (172....</p>
+  </section>
+  <footer class="entry-footer"><span title='2023-04-01 00:00:00 +0000 UTC'>April 1, 2023</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Wireguard VPN and BitTorrent on Docker Swarm (Part 2)" href="https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>Portainer vs Yacht
     </h2>
   </header>
@@ -147,7 +173,7 @@ I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
+    <span>&copy; 2023 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

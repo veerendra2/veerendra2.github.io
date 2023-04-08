@@ -59,7 +59,7 @@ if (!doNotTrack) {
   "description": "My Blog",
   "thumbnailUrl": "https://veerendra2.github.io/favicon.ico",
   "sameAs": [
-      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "mailto:vk.tyk23@simplelogin.com", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401"
+      "https://github.com/veerendra2", "https://gitlab.com/veerendrav2", "https://www.linkedin.com/in/veerendrav2", "mailto:vk.tyk23@simplelogin.com", "https://stackoverflow.com/users/2200798/veerendra", "https://twitter.com/remark6205", "https://medium.com/@cursor9401", "https://www.buymeacoffee.com/Troubling4727"
   ]
 }
 </script>
@@ -114,6 +114,39 @@ if (!doNotTrack) {
         </ul>
     </nav>
 </header><main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Elasticsearch Upgrade
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Rolling Upgrade Elasticsearch 📄 Official Docs
+⚠️ A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service
+As of now, the current latest version of elasticsearch is v7.7.1. Below procedure is for rolling upgrade from 7.6.2=&gt;7.7.1.
+1. Divide the cluster into 2 groups Example node names carbon-x
+a. Non master-eligible nodes carbon-2 carbon-3 b....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:40:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Elasticsearch Upgrade" href="https://veerendra2.github.io/elasticsearch-deploy/upgrade/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Kibana Installation
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>👉 This writeup is part of “Elasticsearch Deploy Docs” series
+Kibana Installation 📄 Office docs
+❗ The elasticsearch should be up and running before you start kibana installation procedure
+Install via apt-get from here
+As of today the kibana version is 7.6.2 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - $ sudo apt-get install apt-transport-https $ echo &#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list $ sudo apt-get update &amp;&amp; sudo apt-get install kibana Configure Kibana Refer kibana....</p>
+  </section>
+  <footer class="entry-footer"><span title='2022-09-10 17:39:52 +0200 +0200'>September 10, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Kibana Installation" href="https://veerendra2.github.io/elasticsearch-deploy/kabana-install/"></a>
+</article>
 
 <article class="post-entry"> 
   <header class="entry-header">
@@ -195,33 +228,6 @@ This blog post follows Kelsey Hightower’s Kubernetes The Hard Way, I highly re
   <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K</footer>
   <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" href="https://veerendra2.github.io/kubernetes-the-hard-way-2/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Welcome to the final part of “Kubernetes-The Hard Way With Docker &amp; Flannel” series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
-9. Bootstrapping the Kubernetes Worker Nodes As the title of this post “Kubernetes The Hard Way With Docker &amp; Flannel”, what we are going to do now is different from Kelsey Hightower’s Kubernetes The Hard Way tutorial i....</p>
-  </section>
-  <footer class="entry-footer"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)" href="https://veerendra2.github.io/kubernetes-the-hard-way-3/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn’t provide an HTTPS mechanism for the endpoint by default.
-If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS’s ELB is not TLS enabled by default....</p>
-  </section>
-  <footer class="entry-footer"><span title='2018-05-29 00:00:00 +0000 UTC'>May 29, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]" href="https://veerendra2.github.io/ssl-config-k8s-service-aws/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://veerendra2.github.io/">« Prev Page</a>
@@ -231,7 +237,7 @@ If we look at the K8s setup that is deployed on AWS(For example kops), there is 
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
+    <span>&copy; 2023 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &

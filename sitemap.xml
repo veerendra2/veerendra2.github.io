@@ -2,8 +2,56 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://veerendra2.github.io/tags/bittorent/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/bittorrent/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/dante-server/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://veerendra2.github.io/tags/docker/</loc>
-    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/docker-swarm/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/posts/home-server-setup/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/networking/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/posts/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/proxy/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/socks5/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/traefik/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/vpn/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/wireguard/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</loc>
+    <lastmod>2023-04-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/homeserver/</loc>
     <lastmod>2022-12-24T00:00:00+00:00</lastmod>
@@ -12,15 +60,6 @@
     <lastmod>2022-12-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/portainer-vs-yacht/</loc>
-    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/posts/</loc>
-    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/tags/</loc>
-    <lastmod>2022-12-24T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/</loc>
     <lastmod>2022-12-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/yacht/</loc>

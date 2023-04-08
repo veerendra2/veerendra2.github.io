@@ -134,19 +134,6 @@ I had checked multiple sources, and finally picked two; they are Portainer and Y
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2>Pi-hole with DHCP Relay in Docker
-    </h2>
-  </header>
-  <section class="entry-content">
-    <p>Introduction I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with docker-compose files and ansible automation. One of the applications I was configuring is Pi-hole, a network-wide ad-blocker.
-I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, it says it has to be run as network_mode: host, because it allows Pi-hole to listen to DHCP broadcast packets....</p>
-  </section>
-  <footer class="entry-footer"><span title='2022-11-10 00:00:00 +0000 UTC'>November 10, 2022</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
-  <a class="entry-link" aria-label="post link to Pi-hole with DHCP Relay in Docker" href="https://veerendra2.github.io/pihole-dhcp-relay/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2>Strimzi Kafka Disaster Recovery with Velero
     </h2>
   </header>
@@ -225,6 +212,19 @@ $ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;&amp; apt-get --yes -
   <footer class="entry-footer"><span title='2018-04-14 00:00:00 +0000 UTC'>April 14, 2018</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Veerendra K</footer>
   <a class="entry-link" aria-label="post link to Linux pseudo files &amp; cheat sheet" href="https://veerendra2.github.io/linux-cheatseets/"></a>
 </article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>Build and Install Wireshark
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the .cap file. The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc
+In order to install the latest version of Wireshark on Linux, one should build and install it from the source. Sometimes, building from a source is difficult because we have to hunt down the dependencies....</p>
+  </section>
+  <footer class="entry-footer"><span title='2018-03-30 00:00:00 +0000 UTC'>March 30, 2018</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Veerendra K</footer>
+  <a class="entry-link" aria-label="post link to Build and Install Wireshark" href="https://veerendra2.github.io/wireshark-install/"></a>
+</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="next" href="https://veerendra2.github.io/posts/page/2/">Next Page »</a>
@@ -233,7 +233,7 @@ $ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;&amp; apt-get --yes -
     </main>
     
 <footer class="footer">
-    <span>&copy; 2022 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
+    <span>&copy; 2023 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
