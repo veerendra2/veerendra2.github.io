@@ -22,8 +22,9 @@
       
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</guid>
       <description>Previously in part 1, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration
-Testing Make sure Wireguard and qBittorrent containers are up and running.
-✅Check you are able to ping Wireguard container from qBittorrent $ docker ps | grep qbittorrent | awk &amp;#39;{print $1, $2}&amp;#39; cd33f2b203c2 linuxserver/qbittorrent:arm64v8-4.5.2 $ docker exec -it cd33f2b203c2 /bin/bash root@qbittorrent:/# ping wireguard PING wireguard (172.</description>
+Testing Below are the tests to make sure qBittorrent has access to the Internet through Wireguard VPN
+➡️Make sure Wireguard and qBittorrent containers are up and running.
+➡️Check you are able to ping Wireguard container from qBittorrent</description>
     </item>
     
     <item>
