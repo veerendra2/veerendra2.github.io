@@ -28,6 +28,16 @@ Testing Below are the tests to make sure qBittorrent has access to the Internet 
     </item>
     
     <item>
+      <title>Portainer vs Yacht</title>
+      <link>https://veerendra2.github.io/portainer-vs-yacht/</link>
+      <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/portainer-vs-yacht/</guid>
+      <description>Introduction I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker containers, and for that, I need a nice and fancy container management tool I want to have on my home server.
+I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known container management tool and Yacht is fairly new.</description>
+    </item>
+    
+    <item>
       <title>Pi-hole with DHCP Relay in Docker</title>
       <link>https://veerendra2.github.io/pihole-dhcp-relay/</link>
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
