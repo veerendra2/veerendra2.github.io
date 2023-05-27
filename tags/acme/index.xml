@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>acme on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/tags/acme/</link>
+    <description>Recent content in acme on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 18 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/acme/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Traefik HTTPS Config with DuckDNS for Local Homeserver</title>
+      <link>https://veerendra2.github.io/traefik-https/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/traefik-https/</guid>
+      <description>This is a how-to guide inspired by &amp;ldquo;Quick and Easy SSL Certificates for Your Homelab!&amp;rdquo;&amp;quot; focus on Traefik reverse proxy server. Although this guide focuses on DuckDNS, a similar configuration can apply to any DNS provider.
+The trick is by setting private IP for the Domain name you own, in my case DuckDNS.
+Get DuckDNS Sub-Domain Sign-up an account in duckdns.org, choose a sub-domain(As I choose a dummy sub-domain lser.duckdns.org) and add your home server IP address(In my case 192.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -5,7 +5,43 @@
     <link>https://veerendra2.github.io/tags/</link>
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 18 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>acme</title>
+      <link>https://veerendra2.github.io/tags/acme/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/acme/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://veerendra2.github.io/tags/docker/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>homeserver</title>
+      <link>https://veerendra2.github.io/tags/homeserver/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/homeserver/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>traefik</title>
+      <link>https://veerendra2.github.io/tags/traefik/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://veerendra2.github.io/tags/traefik/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>bittorent</title>
       <link>https://veerendra2.github.io/tags/bittorent/</link>
@@ -30,15 +66,6 @@
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/tags/dante-server/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://veerendra2.github.io/tags/docker/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
@@ -79,15 +106,6 @@
     </item>
     
     <item>
-      <title>traefik</title>
-      <link>https://veerendra2.github.io/tags/traefik/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/traefik/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>vpn</title>
       <link>https://veerendra2.github.io/tags/vpn/</link>
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
@@ -102,15 +120,6 @@
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
       
       <guid>https://veerendra2.github.io/tags/wireguard/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>homeserver</title>
-      <link>https://veerendra2.github.io/tags/homeserver/</link>
-      <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/homeserver/</guid>
       <description></description>
     </item>
     
