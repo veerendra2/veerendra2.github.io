@@ -1,744 +1,266 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
-
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
-<title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) | Veerendra&#39;s Blog</title>
-<meta name="keywords" content="linux, kubernetes" />
-<meta name="description" content="Welcome back to &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.">
-<meta name="author" content="Veerendra K">
-<link rel="canonical" href="https://veerendra2.github.io/kubernetes-the-hard-way-2/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.1e44d58192cbf6d7a4eb649bc43dbc3d4cc432677e5d8adc69b08c34cbe461ac.css" integrity="sha256-HkTVgZLL9tek62SbxD28PUzEMmd&#43;XYrcabCMNMvkYaw=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://veerendra2.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://veerendra2.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://veerendra2.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://veerendra2.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://veerendra2.github.io/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.102.2" />
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-</noscript><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486872721715518"
-     crossorigin="anonymous"></script>
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-112970252-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script><meta property="og:title" content="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)" />
-<meta property="og:description" content="Welcome back to &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://veerendra2.github.io/kubernetes-the-hard-way-2/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2019-01-17T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2019-01-17T00:00:00&#43;00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)"/>
-<meta name="twitter:description" content="Welcome back to &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Posts",
-      "item": "https://veerendra2.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  3 ,
-      "name": "Kubernetes-The Hard Way With Docker \u0026 Flannel",
-      "item": "https://veerendra2.github.io/posts/kubernetes-the-hard-way/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  4 ,
-      "name": "Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 2)",
-      "item": "https://veerendra2.github.io/kubernetes-the-hard-way-2/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 2)",
-  "name": "Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 2)",
-  "description": "Welcome back to \u0026ldquo;Kubernetes-The Hard Way With Docker \u0026amp; Flannel\u0026rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes\n6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.",
-  "keywords": [
-    "linux", "kubernetes"
-  ],
-  "articleBody": "Welcome back to “Kubernetes-The Hard Way With Docker \u0026 Flannel” series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes\n6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.\n*NOTE: The below commands must run on all controller nodes\n*TIP: You can use tumx to run command on multiple nodes at same time\n## On controller nodes $ wget -q --show-progress --https-only --timestamping \\ \"https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz\" $ tar -xvf etcd-v3.3.9-linux-amd64.tar.gz $ sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/ $ sudo mkdir -p /etc/etcd /var/lib/etcd $ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/ Set up the following environment variables which are usefull generate etcd systemd unit file\n## On controller nodes $ ETCD_NAME=`hostname` $ INTERNAL_IP=`hostname -i` # IP of the current node #INITIAL_CLUSTER==https://:2380,=https://:2380 $ INITIAL_CLUSTER=m1=https://10.200.1.10:2380,m2=https://10.200.1.11:2380 Create a systemd unit file\n## On controller nodes $ cat \u003c\u003c EOF | sudo tee /etc/systemd/system/etcd.service [Unit] Description=etcd Documentation=https://github.com/coreos [Service] ExecStart=/usr/local/bin/etcd \\\\ --name ${ETCD_NAME} \\\\ --cert-file=/etc/etcd/kubernetes.pem \\\\ --key-file=/etc/etcd/kubernetes-key.pem \\\\ --peer-cert-file=/etc/etcd/kubernetes.pem \\\\ --peer-key-file=/etc/etcd/kubernetes-key.pem \\\\ --trusted-ca-file=/etc/etcd/ca.pem \\\\ --peer-trusted-ca-file=/etc/etcd/ca.pem \\\\ --peer-client-cert-auth \\\\ --client-cert-auth \\\\ --initial-advertise-peer-urls https://${INTERNAL_IP}:2380 \\\\ --listen-peer-urls https://${INTERNAL_IP}:2380 \\\\ --listen-client-urls https://${INTERNAL_IP}:2379,https://127.0.0.1:2379 \\\\ --advertise-client-urls https://${INTERNAL_IP}:2379 \\\\ --initial-cluster-token etcd-cluster-0 \\\\ --initial-cluster ${INITIAL_CLUSTER} \\\\ --initial-cluster-state new \\\\ --data-dir=/var/lib/etcd Restart=on-failure RestartSec=5 [Install] WantedBy=multi-user.target EOF Start the etcd service\n## On controller nodes $ { sudo systemctl daemon-reload sudo systemctl enable etcd sudo systemctl start etcd } Once etcd installation and configuration are done in all controller nodes, verify that etcd cluster is working properly\n## On controller nodes $ sudo ETCDCTL_API=3 etcdctl member list \\ --endpoints=https://127.0.0.1:2379 \\ --cacert=/etc/etcd/ca.pem \\ --cert=/etc/etcd/kubernetes.pem \\ --key=/etc/etcd/kubernetes-key.pem You should see output like below\n7. Bootstrapping the Kubernetes Control Plane The control plane binaries are\nkube-apiserver kube-controller-manager kube-scheduler Download control plane binaries\n*NOTE: The below commands must run on all controller nodes\n## On controller nodes $ sudo mkdir -p /etc/kubernetes/config $ KUBERNETES_VERSION=v1.10.13 $ wget -q --show-progress --https-only --timestamping \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kube-apiserver\" \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kube-controller-manager\" \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kube-scheduler\" \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl\" *TIP: You can get version number from kubernetes releases page\nMove the binaries to /usr/local/bin/\n## On controller nodes $ chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl $ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/ Kubernetes API Server Configuration Move certificates to kubernetes directory\n## On controller nodes $ sudo mkdir -p /var/lib/kubernetes/ $ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \\ service-account-key.pem service-account.pem \\ encryption-config.yaml /var/lib/kubernetes/ Create a kube-api server systemd unit file.\n## On controller nodes $ CONTROLLER0_IP=10.200.1.10 $ CONTROLLER1_IP=10.200.1.11 $ INTERNAL_IP=`hostname -i` # Current node's IP $ cat \u003c\u003c EOF | sudo tee /etc/systemd/system/kube-apiserver.service [Unit] Description=Kubernetes API Server Documentation=https://github.com/kubernetes/kubernetes [Service] ExecStart=/usr/local/bin/kube-apiserver \\\\ --advertise-address=${INTERNAL_IP} \\\\ --allow-privileged=true \\\\ --apiserver-count=3 \\\\ --audit-log-maxage=30 \\\\ --audit-log-maxbackup=3 \\\\ --audit-log-maxsize=100 \\\\ --audit-log-path=/var/log/audit.log \\\\ --authorization-mode=Node,RBAC \\\\ --bind-address=0.0.0.0 \\\\ --client-ca-file=/var/lib/kubernetes/ca.pem \\\\ --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\\\ --enable-swagger-ui=true \\\\ --etcd-cafile=/var/lib/kubernetes/ca.pem \\\\ --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\\\ --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\\\ --etcd-servers=https://$CONTROLLER0_IP:2379,https://$CONTROLLER1_IP:2379 \\\\ --event-ttl=1h \\\\ --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\\\ --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\\\ --kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\\\ --kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\\\ --kubelet-https=true \\\\ --runtime-config=api/all \\\\ --service-account-key-file=/var/lib/kubernetes/service-account.pem \\\\ --service-cluster-ip-range=10.32.0.0/24 \\\\ --service-node-port-range=30000-32767 \\\\ --tls-cert-file=/var/lib/kubernetes/kubernetes.pem \\\\ --tls-private-key-file=/var/lib/kubernetes/kubernetes-key.pem \\\\ --v=2 \\\\ --kubelet-preferred-address-types=InternalIP,InternalDNS,Hostname,ExternalIP,ExternalDNS Restart=on-failure RestartSec=5 [Install] WantedBy=multi-user.target EOF Kubernetes Controller Manager Configuration Move kubeconfig files to kubernetes directory\n## On controller nodes $ sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/ Create kube-controller-manager systemd unit file\n## On controller nodes $ cat \u003c",
-  "wordCount" : "1247",
-  "inLanguage": "en",
-  "datePublished": "2019-01-17T00:00:00Z",
-  "dateModified": "2019-01-17T00:00:00Z",
-  "author":{
-    "@type": "Person",
-    "name": "Veerendra K"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://veerendra2.github.io/kubernetes-the-hard-way-2/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Veerendra's Blog",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://veerendra2.github.io/favicon.ico"
-    }
-  }
-}
-</script>
-</head>
-
-<body class=" dark" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://veerendra2.github.io" accesskey="h" title="Veerendra&#39;s Blog (Alt + H)">Veerendra&#39;s Blog</a>
-            <span class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </span>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="https://veerendra2.github.io/archives/" title="Archive">
-                    <span>Archive</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://veerendra2.github.io/posts/nuggets/" title="Nuggets">
-                    <span>Nuggets</span>
-                </a>
-            </li>
-            <li>
-                <a href="https://veerendra2.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header><main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    <div class="breadcrumbs"><a href="https://veerendra2.github.io">Home</a>&nbsp;»&nbsp;<a href="https://veerendra2.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://veerendra2.github.io/posts/kubernetes-the-hard-way/">Kubernetes-The Hard Way With Docker &amp; Flannel</a></div>
-    <h1 class="post-title">
-      Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)
-    </h1>
-    <div class="post-meta"><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K&nbsp;|&nbsp;<a href="https://github.com/veerendra2/veerendra2.github.io/issues/new?assignees=veerendra2&amp;labels=bug&amp;template=suggest-changes.md&amp;title=%5BCHANGE%5D" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
-
-</div>
-  </header> <div class="toc">
-    <details  open>
-        <summary accesskey="c" title="(Alt + C)">
-            <span class="details">Table of Contents</span>
-        </summary>
-
-        <div class="inner"><ul>
-                <li>
-                    <a href="#6-bootstrapping-the-etcd-cluster" aria-label="6. Bootstrapping the etcd Cluster">6. Bootstrapping the etcd Cluster</a></li>
-                <li>
-                    <a href="#7-bootstrapping-the-kubernetes-control-plane" aria-label="7. Bootstrapping the Kubernetes Control Plane">7. Bootstrapping the Kubernetes Control Plane</a><ul>
-                        <ul>
-                        
-                <li>
-                    <a href="#kubernetes-api-server-configuration" aria-label="Kubernetes API Server Configuration">Kubernetes API Server Configuration</a></li>
-                <li>
-                    <a href="#kubernetes-controller-manager-configuration" aria-label="Kubernetes Controller Manager Configuration">Kubernetes Controller Manager Configuration</a></li>
-                <li>
-                    <a href="#kubernetes-scheduler-configuration" aria-label="Kubernetes Scheduler Configuration">Kubernetes Scheduler Configuration</a></li>
-                <li>
-                    <a href="#start-the-controller-services" aria-label="Start the controller services">Start the controller services</a></li>
-                <li>
-                    <a href="#enable-http-health-checks" aria-label="Enable HTTP Health Checks">Enable HTTP Health Checks</a></li>
-                <li>
-                    <a href="#verification" aria-label="Verification">Verification</a></li>
-                <li>
-                    <a href="#rbac-for-kubelet-authorization" aria-label="RBAC for Kubelet Authorization">RBAC for Kubelet Authorization</a></li>
-                <li>
-                    <a href="#the-kubernetes-frontend-load-balancer" aria-label="The Kubernetes Frontend Load Balancer">The Kubernetes Frontend Load Balancer</a><ul>
-                        <ul>
-                        
-                <li>
-                    <a href="#nginx-configuration" aria-label="nginx configuration">nginx configuration</a></li>
-                <li>
-                    <a href="#dockerfile" aria-label="Dockerfile">Dockerfile</a></li></ul>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#verification-1" aria-label="Verification">Verification</a>
-                </li>
-            </ul>
-            </ul>
-            </li>
-            </ul>
-        </div>
-    </details>
-</div>
-
-  <div class="post-content"><p>Welcome back to &ldquo;Kubernetes-The Hard Way With Docker &amp; Flannel&rdquo; series part 2. In <a href="https://veerendra2.github.io/kubernetes-the-hard-way-1/" title="previous post">previous post</a> we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes</p>
-<h1 id="6-bootstrapping-the-etcd-cluster">6. Bootstrapping the etcd Cluster<a hidden class="anchor" aria-hidden="true" href="#6-bootstrapping-the-etcd-cluster">#</a></h1>
-<p><a href="https://coreos.com/etcd/"><code>etcd</code></a> is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in <code>etcd</code> via api-server. In this section, we will install and configure <code>etcd</code> on all controller nodes.</p>
-<p><strong><em>*NOTE: The below commands must run on all controller nodes</em></strong></p>
-<p><em>*TIP: You can use <a href="https://github.com/tmux/tmux/wiki">tumx</a> to run command on multiple nodes at same time</em></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ wget -q --show-progress --https-only --timestamping <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="s2">&#34;https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz&#34;</span>
-</span></span><span class="line"><span class="cl">$ tar -xvf etcd-v3.3.9-linux-amd64.tar.gz
-</span></span><span class="line"><span class="cl">$ sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/
-</span></span><span class="line"><span class="cl">$ sudo mkdir -p /etc/etcd /var/lib/etcd
-</span></span><span class="line"><span class="cl">$ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/
-</span></span></code></pre></div><p>Set up the following environment variables which are usefull generate etcd systemd unit file</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ <span class="nv">ETCD_NAME</span><span class="o">=</span><span class="sb">`</span>hostname<span class="sb">`</span>
-</span></span><span class="line"><span class="cl">$ <span class="nv">INTERNAL_IP</span><span class="o">=</span><span class="sb">`</span>hostname -i<span class="sb">`</span> <span class="c1"># IP of the current node</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#INITIAL_CLUSTER=&lt;controller 1 hostname&gt;=https://&lt;controller 1 private ip&gt;:2380,&lt;controller 2 hostname&gt;=https://&lt;controller 2 private ip&gt;:2380</span>
-</span></span><span class="line"><span class="cl">$ <span class="nv">INITIAL_CLUSTER</span><span class="o">=</span><span class="nv">m1</span><span class="o">=</span>https://10.200.1.10:2380,m2<span class="o">=</span>https://10.200.1.11:2380
-</span></span></code></pre></div><p>Create a systemd unit file</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt; EOF | sudo tee /etc/systemd/system/etcd.service
-</span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
-</span></span></span><span class="line"><span class="cl"><span class="s">Description=etcd
-</span></span></span><span class="line"><span class="cl"><span class="s">Documentation=https://github.com/coreos
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
-</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/bin/etcd \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --name ${ETCD_NAME} \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --cert-file=/etc/etcd/kubernetes.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --key-file=/etc/etcd/kubernetes-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --peer-cert-file=/etc/etcd/kubernetes.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --peer-key-file=/etc/etcd/kubernetes-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --trusted-ca-file=/etc/etcd/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --peer-trusted-ca-file=/etc/etcd/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --peer-client-cert-auth \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --client-cert-auth \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --initial-advertise-peer-urls https://${INTERNAL_IP}:2380 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --listen-peer-urls https://${INTERNAL_IP}:2380 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --listen-client-urls https://${INTERNAL_IP}:2379,https://127.0.0.1:2379 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --advertise-client-urls https://${INTERNAL_IP}:2379 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --initial-cluster-token etcd-cluster-0 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --initial-cluster ${INITIAL_CLUSTER} \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --initial-cluster-state new \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --data-dir=/var/lib/etcd
-</span></span></span><span class="line"><span class="cl"><span class="s">Restart=on-failure
-</span></span></span><span class="line"><span class="cl"><span class="s">RestartSec=5
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Install]
-</span></span></span><span class="line"><span class="cl"><span class="s">WantedBy=multi-user.target
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><p>Start the etcd service</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ <span class="o">{</span>
-</span></span><span class="line"><span class="cl">  sudo systemctl daemon-reload
-</span></span><span class="line"><span class="cl">  sudo systemctl <span class="nb">enable</span> etcd
-</span></span><span class="line"><span class="cl">  sudo systemctl start etcd
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>Once <code>etcd</code> installation and configuration are done in all controller nodes, verify that etcd cluster is working properly</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ sudo <span class="nv">ETCDCTL_API</span><span class="o">=</span><span class="m">3</span> etcdctl member list <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --endpoints<span class="o">=</span>https://127.0.0.1:2379 <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --cacert<span class="o">=</span>/etc/etcd/ca.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --cert<span class="o">=</span>/etc/etcd/kubernetes.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --key<span class="o">=</span>/etc/etcd/kubernetes-key.pem
-</span></span></code></pre></div><p>You should see output like below</p>
-<p><img loading="lazy" src="/static_content/images/etcd_verify_output.jpg" alt="etcd verify image"  />
-</p>
-<h1 id="7-bootstrapping-the-kubernetes-control-plane">7. Bootstrapping the Kubernetes Control Plane<a hidden class="anchor" aria-hidden="true" href="#7-bootstrapping-the-kubernetes-control-plane">#</a></h1>
-<p>The control plane binaries are</p>
-<ul>
-<li><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">kube-apiserver</a></li>
-<li><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/">kube-controller-manager</a></li>
-<li><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/">kube-scheduler</a></li>
-</ul>
-<p>Download control plane binaries</p>
-<p><strong><em>*NOTE: The below commands must run on all controller nodes</em></strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ sudo mkdir -p /etc/kubernetes/config
-</span></span><span class="line"><span class="cl">$ <span class="nv">KUBERNETES_VERSION</span><span class="o">=</span>v1.10.13
-</span></span><span class="line"><span class="cl">$ wget -q --show-progress --https-only --timestamping <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="s2">&#34;https://dl.k8s.io/</span><span class="si">${</span><span class="nv">KUBERNETES_VERSION</span><span class="si">}</span><span class="s2">/bin/linux/amd64/kube-apiserver&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="s2">&#34;https://dl.k8s.io/</span><span class="si">${</span><span class="nv">KUBERNETES_VERSION</span><span class="si">}</span><span class="s2">/bin/linux/amd64/kube-controller-manager&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="s2">&#34;https://dl.k8s.io/</span><span class="si">${</span><span class="nv">KUBERNETES_VERSION</span><span class="si">}</span><span class="s2">/bin/linux/amd64/kube-scheduler&#34;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="s2">&#34;https://dl.k8s.io/</span><span class="si">${</span><span class="nv">KUBERNETES_VERSION</span><span class="si">}</span><span class="s2">/bin/linux/amd64/kubectl&#34;</span>
-</span></span></code></pre></div><p><em>*TIP: You can get version number from <a href="https://github.com/kubernetes/kubernetes/releases">kubernetes releases page</a></em></p>
-<p>Move the binaries to <code>/usr/local/bin/</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
-</span></span><span class="line"><span class="cl">$ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
-</span></span></code></pre></div><h3 id="kubernetes-api-server-configuration">Kubernetes API Server Configuration<a hidden class="anchor" aria-hidden="true" href="#kubernetes-api-server-configuration">#</a></h3>
-<p>Move certificates to kubernetes directory</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ sudo mkdir -p /var/lib/kubernetes/
-</span></span><span class="line"><span class="cl">$ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    service-account-key.pem service-account.pem <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>    encryption-config.yaml /var/lib/kubernetes/
-</span></span></code></pre></div><p>Create a kube-api server systemd unit file.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ <span class="nv">CONTROLLER0_IP</span><span class="o">=</span>10.200.1.10
-</span></span><span class="line"><span class="cl">$ <span class="nv">CONTROLLER1_IP</span><span class="o">=</span>10.200.1.11
-</span></span><span class="line"><span class="cl">$ <span class="nv">INTERNAL_IP</span><span class="o">=</span><span class="sb">`</span>hostname -i<span class="sb">`</span>  <span class="c1"># Current node&#39;s IP</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt; EOF | sudo tee /etc/systemd/system/kube-apiserver.service
-</span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
-</span></span></span><span class="line"><span class="cl"><span class="s">Description=Kubernetes API Server
-</span></span></span><span class="line"><span class="cl"><span class="s">Documentation=https://github.com/kubernetes/kubernetes
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
-</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/bin/kube-apiserver \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --advertise-address=${INTERNAL_IP} \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --allow-privileged=true \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --apiserver-count=3 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --audit-log-maxage=30 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --audit-log-maxbackup=3 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --audit-log-maxsize=100 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --audit-log-path=/var/log/audit.log \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --authorization-mode=Node,RBAC \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --bind-address=0.0.0.0 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --client-ca-file=/var/lib/kubernetes/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --enable-swagger-ui=true \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --etcd-cafile=/var/lib/kubernetes/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --etcd-servers=https://$CONTROLLER0_IP:2379,https://$CONTROLLER1_IP:2379 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --event-ttl=1h \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --kubelet-https=true \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --runtime-config=api/all \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --service-account-key-file=/var/lib/kubernetes/service-account.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --service-cluster-ip-range=10.32.0.0/24 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --service-node-port-range=30000-32767 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --tls-cert-file=/var/lib/kubernetes/kubernetes.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --tls-private-key-file=/var/lib/kubernetes/kubernetes-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --v=2 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --kubelet-preferred-address-types=InternalIP,InternalDNS,Hostname,ExternalIP,ExternalDNS
-</span></span></span><span class="line"><span class="cl"><span class="s">Restart=on-failure
-</span></span></span><span class="line"><span class="cl"><span class="s">RestartSec=5
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Install]
-</span></span></span><span class="line"><span class="cl"><span class="s">WantedBy=multi-user.target
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><h3 id="kubernetes-controller-manager-configuration">Kubernetes Controller Manager Configuration<a hidden class="anchor" aria-hidden="true" href="#kubernetes-controller-manager-configuration">#</a></h3>
-<p>Move kubeconfig files to kubernetes directory</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/
-</span></span></code></pre></div><p>Create kube-controller-manager systemd unit file</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
-</span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
-</span></span></span><span class="line"><span class="cl"><span class="s">Description=Kubernetes Controller Manager
-</span></span></span><span class="line"><span class="cl"><span class="s">Documentation=https://github.com/kubernetes/kubernetes
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
-</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/bin/kube-controller-manager \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --address=0.0.0.0 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --cluster-cidr=10.200.0.0/16 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --cluster-name=kubernetes \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --kubeconfig=/var/lib/kubernetes/kube-controller-manager.kubeconfig \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --leader-elect=true \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --root-ca-file=/var/lib/kubernetes/ca.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --service-account-private-key-file=/var/lib/kubernetes/service-account-key.pem \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --service-cluster-ip-range=10.32.0.0/24 \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --use-service-account-credentials=true \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --v=2
-</span></span></span><span class="line"><span class="cl"><span class="s">Restart=on-failure
-</span></span></span><span class="line"><span class="cl"><span class="s">RestartSec=5
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Install]
-</span></span></span><span class="line"><span class="cl"><span class="s">WantedBy=multi-user.target
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><h3 id="kubernetes-scheduler-configuration">Kubernetes Scheduler Configuration<a hidden class="anchor" aria-hidden="true" href="#kubernetes-scheduler-configuration">#</a></h3>
-<p>Move kube-scheduler kubeconfig to kubernetes directory</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
-</span></span></code></pre></div><p>Create kube-scheduler configuration file</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
-</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: componentconfig/v1alpha1
-</span></span></span><span class="line"><span class="cl"><span class="s">kind: KubeSchedulerConfiguration
-</span></span></span><span class="line"><span class="cl"><span class="s">clientConnection:
-</span></span></span><span class="line"><span class="cl"><span class="s">  kubeconfig: &#34;/var/lib/kubernetes/kube-scheduler.kubeconfig&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">leaderElection:
-</span></span></span><span class="line"><span class="cl"><span class="s">  leaderElect: true
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span><span class="line"><span class="cl"><span class="o">{</span>% endhighlight %<span class="o">}</span>
-</span></span><span class="line"><span class="cl">Create kube-scheduler systemd unit file
-</span></span><span class="line"><span class="cl"><span class="o">{</span>% highlight shell %<span class="o">}</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># On controller nodes</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | sudo tee /etc/systemd/system/kube-scheduler.service
-</span></span></span><span class="line"><span class="cl"><span class="s">[Unit]
-</span></span></span><span class="line"><span class="cl"><span class="s">Description=Kubernetes Scheduler
-</span></span></span><span class="line"><span class="cl"><span class="s">Documentation=https://github.com/kubernetes/kubernetes
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Service]
-</span></span></span><span class="line"><span class="cl"><span class="s">ExecStart=/usr/local/bin/kube-scheduler \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --config=/etc/kubernetes/config/kube-scheduler.yaml \\
-</span></span></span><span class="line"><span class="cl"><span class="s">  --v=2
-</span></span></span><span class="line"><span class="cl"><span class="s">Restart=on-failure
-</span></span></span><span class="line"><span class="cl"><span class="s">RestartSec=5
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">[Install]
-</span></span></span><span class="line"><span class="cl"><span class="s">WantedBy=multi-user.target
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><h3 id="start-the-controller-services">Start the controller services<a hidden class="anchor" aria-hidden="true" href="#start-the-controller-services">#</a></h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ sudo systemctl daemon-reload
-</span></span><span class="line"><span class="cl">$ sudo systemctl <span class="nb">enable</span> kube-apiserver kube-controller-manager kube-scheduler
-</span></span><span class="line"><span class="cl">$ sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
-</span></span></code></pre></div><h3 id="enable-http-health-checks">Enable HTTP Health Checks<a hidden class="anchor" aria-hidden="true" href="#enable-http-health-checks">#</a></h3>
-<p>In the original &ldquo;Kubernetes The Hard Way&rdquo;, Kelsey used a GCP load balancer to load balance the requests among controllers. Since it is difficult to set up HTTPS health checks on the GCP network load balancer and kube-apiserver supports only HTTPS health checks. He created HTTP Nginx proxy for kube-api server, GCP network load balancer performs a health check via HTTP Nginx proxy. But in our case, we can skip this step since we are not using a GCP network load balancer</p>
-<h3 id="verification">Verification<a hidden class="anchor" aria-hidden="true" href="#verification">#</a></h3>
-<p>Check the component&rsquo;s status using the below commands.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ kubectl get componentstatuses --kubeconfig admin.kubeconfig
-</span></span></code></pre></div><p>Run the above command on all controller nodes and verify statuses which should be like below</p>
-<p><img loading="lazy" src="/static_content/images/components_status.jpg" alt="components status image"  />
-</p>
-<h3 id="rbac-for-kubelet-authorization">RBAC for Kubelet Authorization<a hidden class="anchor" aria-hidden="true" href="#rbac-for-kubelet-authorization">#</a></h3>
-<p>In this section, we will configure <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">RBAC permissions</a> to allow the kube-api server to access the Kubelet API on each worker node. Access to the Kubelet API is required for retrieving metrics, logs, and executing commands in pods.</p>
-<p>Create the <code>system:kube-apiserver-to-kubelet</code> ClusterRole with permissions to access the Kubelet.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
-</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: rbac.authorization.k8s.io/v1beta1
-</span></span></span><span class="line"><span class="cl"><span class="s">kind: ClusterRole
-</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
-</span></span></span><span class="line"><span class="cl"><span class="s">  annotations:
-</span></span></span><span class="line"><span class="cl"><span class="s">    rbac.authorization.kubernetes.io/autoupdate: &#34;true&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">  labels:
-</span></span></span><span class="line"><span class="cl"><span class="s">    kubernetes.io/bootstrapping: rbac-defaults
-</span></span></span><span class="line"><span class="cl"><span class="s">  name: system:kube-apiserver-to-kubelet
-</span></span></span><span class="line"><span class="cl"><span class="s">rules:
-</span></span></span><span class="line"><span class="cl"><span class="s">  - apiGroups:
-</span></span></span><span class="line"><span class="cl"><span class="s">      - &#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">    resources:
-</span></span></span><span class="line"><span class="cl"><span class="s">      - nodes/proxy
-</span></span></span><span class="line"><span class="cl"><span class="s">      - nodes/stats
-</span></span></span><span class="line"><span class="cl"><span class="s">      - nodes/log
-</span></span></span><span class="line"><span class="cl"><span class="s">      - nodes/spec
-</span></span></span><span class="line"><span class="cl"><span class="s">      - nodes/metrics
-</span></span></span><span class="line"><span class="cl"><span class="s">    verbs:
-</span></span></span><span class="line"><span class="cl"><span class="s">      - &#34;*&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><p>The kube-api server authenticates to the Kubelet as the &ldquo;kubernetes&rdquo; user using the client certificate as defined by the <code>--kubelet-client-certificate</code> flag which has been defined in the kube-apiserver systemd unit file above.</p>
-<p>Bind the <code>system:kube-apiserver-to-kubelet</code> ClusterRole to the kubernetes user:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On controller nodes</span>
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
-</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: rbac.authorization.k8s.io/v1beta1
-</span></span></span><span class="line"><span class="cl"><span class="s">kind: ClusterRoleBinding
-</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
-</span></span></span><span class="line"><span class="cl"><span class="s">  name: system:kube-apiserver
-</span></span></span><span class="line"><span class="cl"><span class="s">  namespace: &#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s">roleRef:
-</span></span></span><span class="line"><span class="cl"><span class="s">  apiGroup: rbac.authorization.k8s.io
-</span></span></span><span class="line"><span class="cl"><span class="s">  kind: ClusterRole
-</span></span></span><span class="line"><span class="cl"><span class="s">  name: system:kube-apiserver-to-kubelet
-</span></span></span><span class="line"><span class="cl"><span class="s">subjects:
-</span></span></span><span class="line"><span class="cl"><span class="s">  - apiGroup: rbac.authorization.k8s.io
-</span></span></span><span class="line"><span class="cl"><span class="s">    kind: User
-</span></span></span><span class="line"><span class="cl"><span class="s">    name: kubernetes
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><h3 id="the-kubernetes-frontend-load-balancer">The Kubernetes Frontend Load Balancer<a hidden class="anchor" aria-hidden="true" href="#the-kubernetes-frontend-load-balancer">#</a></h3>
-<p>As I said earlier, we are not going to use a GCP load network load balancer, but we are going to use the nginx docker container on the host(Laptop) to load balance the requests.</p>
-<p>In this section, we will build an nginx docker image with the appropriate configuration to load balance requests among controller nodes(<code>m1</code> and <code>m2</code>)</p>
-<h5 id="nginx-configuration">nginx configuration<a hidden class="anchor" aria-hidden="true" href="#nginx-configuration">#</a></h5>
-<p>Specify controllers IPs with kube-api server&rsquo;s port in nginx configuration like below</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On host</span>
-</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ~/kubernetes-the-hard-way
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | tee kubernetes.conf
-</span></span></span><span class="line"><span class="cl"><span class="s">stream {
-</span></span></span><span class="line"><span class="cl"><span class="s">    upstream kubernetes {
-</span></span></span><span class="line"><span class="cl"><span class="s">        server 10.200.1.10:6443;
-</span></span></span><span class="line"><span class="cl"><span class="s">        server 10.200.1.11:6443;
-</span></span></span><span class="line"><span class="cl"><span class="s">    }
-</span></span></span><span class="line"><span class="cl"><span class="s">    server {
-</span></span></span><span class="line"><span class="cl"><span class="s">        listen 6443;
-</span></span></span><span class="line"><span class="cl"><span class="s">        listen 443;
-</span></span></span><span class="line"><span class="cl"><span class="s">        proxy_pass kubernetes;
-</span></span></span><span class="line"><span class="cl"><span class="s">    }
-</span></span></span><span class="line"><span class="cl"><span class="s">}
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><h5 id="dockerfile">Dockerfile<a hidden class="anchor" aria-hidden="true" href="#dockerfile">#</a></h5>
-<p>Create <code>Dockerfile</code> to build nginx load balancer docker image</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On host</span>
-</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> ~/kubernetes-the-hard-way
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">$ cat <span class="s">&lt;&lt;EOF | tee Dockerfile
-</span></span></span><span class="line"><span class="cl"><span class="s">FROM nginx:latest
-</span></span></span><span class="line"><span class="cl"><span class="s">MAINTAINER Veerendra Kakumanu
-</span></span></span><span class="line"><span class="cl"><span class="s">
-</span></span></span><span class="line"><span class="cl"><span class="s">RUN mkdir -p /etc/nginx/tcpconf.d &amp;&amp; echo &#34;include /etc/nginx/tcpconf.d/*;&#34; &gt;&gt; /etc/nginx/nginx.conf
-</span></span></span><span class="line"><span class="cl"><span class="s">COPY kubernetes.conf /etc/nginx/tcpconf.d/kubernetes.conf
-</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
-</span></span></code></pre></div><p>Build and launch the container</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On host</span>
-</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> ~/kubernetes-the-hard-way
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">$ sudo docker build -t nginx_proxy .
-</span></span><span class="line"><span class="cl">$ sudo docker run -it -d -h proxy --net br0 --ip 10.200.1.15 nginx-proxy
-</span></span></code></pre></div><h3 id="verification-1">Verification<a hidden class="anchor" aria-hidden="true" href="#verification-1">#</a></h3>
-<p><code>curl</code> the HTTPS endpoint of the load balancer(Nginx docker container) which forwards the requests to the controller node with certificate.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## On host</span>
-</span></span><span class="line"><span class="cl">$ <span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="o">=</span>10.200.1.15
-</span></span><span class="line"><span class="cl">$ curl --cacert ca.pem https://<span class="si">${</span><span class="nv">KUBERNETES_PUBLIC_ADDRESS</span><span class="si">}</span>:6443/version
-</span></span></code></pre></div><p>If everything is good, you should see the output below.</p>
-<p><img loading="lazy" src="/static_content/images/curl_version.jpg" alt="curl for version image"  />
-</p>
-<p>In this post, we have successfully provisioned controller nodes and load balancers. We will bootstrap the worker nodes in the next post</p>
-
-
-  </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="https://veerendra2.github.io/tags/linux/">linux</a></li>
-      <li><a href="https://veerendra2.github.io/tags/kubernetes/">kubernetes</a></li>
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="https://veerendra2.github.io/kubernetes-the-hard-way-1/">
-    <span class="title">« Prev Page</span>
-    <br>
-    <span>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</span>
-  </a>
-  <a class="next" href="https://veerendra2.github.io/kubernetes-the-hard-way-3/">
-    <span class="title">Next Page »</span>
-    <br>
-    <span>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</span>
-  </a>
-</nav>
-
-
-<div class="share-buttons">
-    <a target="_blank" rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) on twitter"
-        href="https://twitter.com/intent/tweet/?text=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&amp;url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f&amp;hashtags=linux%2ckubernetes">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) on linkedin"
-        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f&amp;title=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&amp;summary=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&amp;source=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) on reddit"
-        href="https://reddit.com/submit?url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f&title=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) on facebook"
-        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) on whatsapp"
-        href="https://api.whatsapp.com/send?text=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29%20-%20https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f">
-        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
-            <path
-                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
-        </svg>
-    </a>
-    <a target="_blank" rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2) on telegram"
-        href="https://telegram.me/share/url?text=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&amp;url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f">
-        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
-            <path
-                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
-        </svg>
-    </a>
-</div>
-
-  </footer>
-<script src="https://giscus.app/client.js" data-repo="veerendra2/veerendra2.github.io"
-    data-repo-id="MDEwOlJlcG9zaXRvcnkxMTU4MjE4OTE=" data-category="General"
-    data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyODQwMzM5"
-    data-mapping="url"
-    data-reactions-enabled="0"
-    data-theme="dark_tritanopia" crossorigin="anonymous" async>
-    </script>
-<noscript>Please enable JavaScript to view the comments powered by giscus.</noscript>
-
-</article>
-    </main>
-    
-<footer class="footer">
-    <span>&copy; 2023 <a href="https://veerendra2.github.io">Veerendra&#39;s Blog</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
-
-        function copyingDone() {
-            copybutton.innerText = 'copied!';
-            setTimeout(() => {
-                copybutton.innerText = 'copy';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
-</body>
-
-</html>
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Kubernetes-The Hard Way With Docker & Flannel (Part 2) | Veerendra's Blog</title><meta name=keywords content="linux,kubernetes"><meta name=description content="Welcome back to &ldquo;Kubernetes-The Hard Way With Docker & Flannel&rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
+6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes."><meta name=author content="Veerendra K"><link rel=canonical href=https://veerendra2.github.io/kubernetes-the-hard-way-2/><link crossorigin=anonymous href=/assets/css/stylesheet.min.1e44d58192cbf6d7a4eb649bc43dbc3d4cc432677e5d8adc69b08c34cbe461ac.css integrity="sha256-HkTVgZLL9tek62SbxD28PUzEMmd+XYrcabCMNMvkYaw=" rel="preload stylesheet" as=style><link rel=icon href=https://veerendra2.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://veerendra2.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://veerendra2.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://veerendra2.github.io/apple-touch-icon.png><link rel=mask-icon href=https://veerendra2.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.110.0"><noscript><style>#theme-toggle,.top-link{display:none}</style></noscript><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486872721715518" crossorigin=anonymous></script>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-112970252-1","auto"),ga("send","pageview"))</script><meta property="og:title" content="Kubernetes-The Hard Way With Docker & Flannel (Part 2)"><meta property="og:description" content="Welcome back to &ldquo;Kubernetes-The Hard Way With Docker & Flannel&rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
+6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes."><meta property="og:type" content="article"><meta property="og:url" content="https://veerendra2.github.io/kubernetes-the-hard-way-2/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-01-17T00:00:00+00:00"><meta property="article:modified_time" content="2019-01-17T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Kubernetes-The Hard Way With Docker & Flannel (Part 2)"><meta name=twitter:description content="Welcome back to &ldquo;Kubernetes-The Hard Way With Docker & Flannel&rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
+6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://veerendra2.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Kubernetes-The Hard Way With Docker \u0026 Flannel","item":"https://veerendra2.github.io/posts/kubernetes-the-hard-way/"},{"@type":"ListItem","position":4,"name":"Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 2)","item":"https://veerendra2.github.io/kubernetes-the-hard-way-2/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 2)","name":"Kubernetes-The Hard Way With Docker \u0026 Flannel (Part 2)","description":"Welcome back to \u0026ldquo;Kubernetes-The Hard Way With Docker \u0026amp; Flannel\u0026rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes\n6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.","keywords":["linux","kubernetes"],"articleBody":"Welcome back to “Kubernetes-The Hard Way With Docker \u0026 Flannel” series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes\n6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.\n*NOTE: The below commands must run on all controller nodes\n*TIP: You can use tumx to run command on multiple nodes at same time\n## On controller nodes $ wget -q --show-progress --https-only --timestamping \\ \"https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz\" $ tar -xvf etcd-v3.3.9-linux-amd64.tar.gz $ sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/ $ sudo mkdir -p /etc/etcd /var/lib/etcd $ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/ Set up the following environment variables which are usefull generate etcd systemd unit file\n## On controller nodes $ ETCD_NAME=`hostname` $ INTERNAL_IP=`hostname -i` # IP of the current node #INITIAL_CLUSTER==https://:2380,=https://:2380 $ INITIAL_CLUSTER=m1=https://10.200.1.10:2380,m2=https://10.200.1.11:2380 Create a systemd unit file\n## On controller nodes $ cat \u003c\u003c EOF | sudo tee /etc/systemd/system/etcd.service [Unit] Description=etcd Documentation=https://github.com/coreos [Service] ExecStart=/usr/local/bin/etcd \\\\ --name ${ETCD_NAME} \\\\ --cert-file=/etc/etcd/kubernetes.pem \\\\ --key-file=/etc/etcd/kubernetes-key.pem \\\\ --peer-cert-file=/etc/etcd/kubernetes.pem \\\\ --peer-key-file=/etc/etcd/kubernetes-key.pem \\\\ --trusted-ca-file=/etc/etcd/ca.pem \\\\ --peer-trusted-ca-file=/etc/etcd/ca.pem \\\\ --peer-client-cert-auth \\\\ --client-cert-auth \\\\ --initial-advertise-peer-urls https://${INTERNAL_IP}:2380 \\\\ --listen-peer-urls https://${INTERNAL_IP}:2380 \\\\ --listen-client-urls https://${INTERNAL_IP}:2379,https://127.0.0.1:2379 \\\\ --advertise-client-urls https://${INTERNAL_IP}:2379 \\\\ --initial-cluster-token etcd-cluster-0 \\\\ --initial-cluster ${INITIAL_CLUSTER} \\\\ --initial-cluster-state new \\\\ --data-dir=/var/lib/etcd Restart=on-failure RestartSec=5 [Install] WantedBy=multi-user.target EOF Start the etcd service\n## On controller nodes $ { sudo systemctl daemon-reload sudo systemctl enable etcd sudo systemctl start etcd } Once etcd installation and configuration are done in all controller nodes, verify that etcd cluster is working properly\n## On controller nodes $ sudo ETCDCTL_API=3 etcdctl member list \\ --endpoints=https://127.0.0.1:2379 \\ --cacert=/etc/etcd/ca.pem \\ --cert=/etc/etcd/kubernetes.pem \\ --key=/etc/etcd/kubernetes-key.pem You should see output like below\n7. Bootstrapping the Kubernetes Control Plane The control plane binaries are\nkube-apiserver kube-controller-manager kube-scheduler Download control plane binaries\n*NOTE: The below commands must run on all controller nodes\n## On controller nodes $ sudo mkdir -p /etc/kubernetes/config $ KUBERNETES_VERSION=v1.10.13 $ wget -q --show-progress --https-only --timestamping \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kube-apiserver\" \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kube-controller-manager\" \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kube-scheduler\" \\ \"https://dl.k8s.io/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl\" *TIP: You can get version number from kubernetes releases page\nMove the binaries to /usr/local/bin/\n## On controller nodes $ chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl $ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/ Kubernetes API Server Configuration Move certificates to kubernetes directory\n## On controller nodes $ sudo mkdir -p /var/lib/kubernetes/ $ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \\ service-account-key.pem service-account.pem \\ encryption-config.yaml /var/lib/kubernetes/ Create a kube-api server systemd unit file.\n## On controller nodes $ CONTROLLER0_IP=10.200.1.10 $ CONTROLLER1_IP=10.200.1.11 $ INTERNAL_IP=`hostname -i` # Current node's IP $ cat \u003c\u003c EOF | sudo tee /etc/systemd/system/kube-apiserver.service [Unit] Description=Kubernetes API Server Documentation=https://github.com/kubernetes/kubernetes [Service] ExecStart=/usr/local/bin/kube-apiserver \\\\ --advertise-address=${INTERNAL_IP} \\\\ --allow-privileged=true \\\\ --apiserver-count=3 \\\\ --audit-log-maxage=30 \\\\ --audit-log-maxbackup=3 \\\\ --audit-log-maxsize=100 \\\\ --audit-log-path=/var/log/audit.log \\\\ --authorization-mode=Node,RBAC \\\\ --bind-address=0.0.0.0 \\\\ --client-ca-file=/var/lib/kubernetes/ca.pem \\\\ --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\\\ --enable-swagger-ui=true \\\\ --etcd-cafile=/var/lib/kubernetes/ca.pem \\\\ --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\\\ --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\\\ --etcd-servers=https://$CONTROLLER0_IP:2379,https://$CONTROLLER1_IP:2379 \\\\ --event-ttl=1h \\\\ --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\\\ --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\\\ --kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\\\ --kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\\\ --kubelet-https=true \\\\ --runtime-config=api/all \\\\ --service-account-key-file=/var/lib/kubernetes/service-account.pem \\\\ --service-cluster-ip-range=10.32.0.0/24 \\\\ --service-node-port-range=30000-32767 \\\\ --tls-cert-file=/var/lib/kubernetes/kubernetes.pem \\\\ --tls-private-key-file=/var/lib/kubernetes/kubernetes-key.pem \\\\ --v=2 \\\\ --kubelet-preferred-address-types=InternalIP,InternalDNS,Hostname,ExternalIP,ExternalDNS Restart=on-failure RestartSec=5 [Install] WantedBy=multi-user.target EOF Kubernetes Controller Manager Configuration Move kubeconfig files to kubernetes directory\n## On controller nodes $ sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/ Create kube-controller-manager systemd unit file\n## On controller nodes $ cat \u003c","wordCount":"1247","inLanguage":"en","datePublished":"2019-01-17T00:00:00Z","dateModified":"2019-01-17T00:00:00Z","author":{"@type":"Person","name":"Veerendra K"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://veerendra2.github.io/kubernetes-the-hard-way-2/"},"publisher":{"@type":"Organization","name":"Veerendra's Blog","logo":{"@type":"ImageObject","url":"https://veerendra2.github.io/favicon.ico"}}}</script></head><body class=dark id=top><script>localStorage.getItem("pref-theme")==="light"&&document.body.classList.remove("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://veerendra2.github.io accesskey=h title="Veerendra's Blog (Alt + H)">Veerendra's Blog</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://veerendra2.github.io/archives/ title=Archive><span>Archive</span></a></li><li><a href=https://veerendra2.github.io/posts/nuggets/ title=Nuggets><span>Nuggets</span></a></li><li><a href=https://veerendra2.github.io/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://veerendra2.github.io>Home</a>&nbsp;»&nbsp;<a href=https://veerendra2.github.io/posts/>Posts</a>&nbsp;»&nbsp;<a href=https://veerendra2.github.io/posts/kubernetes-the-hard-way/>Kubernetes-The Hard Way With Docker & Flannel</a></div><h1 class=post-title>Kubernetes-The Hard Way With Docker & Flannel (Part 2)</h1><div class=post-meta><span title='2019-01-17 00:00:00 +0000 UTC'>January 17, 2019</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Veerendra K&nbsp;|&nbsp;<a href="https://github.com/veerendra2/veerendra2.github.io/issues/new?assignees=veerendra2&labels=bug&template=suggest-changes.md&title=%5BCHANGE%5D" rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#6-bootstrapping-the-etcd-cluster aria-label="6. Bootstrapping the etcd Cluster">6. Bootstrapping the etcd Cluster</a></li><li><a href=#7-bootstrapping-the-kubernetes-control-plane aria-label="7. Bootstrapping the Kubernetes Control Plane">7. Bootstrapping the Kubernetes Control Plane</a><ul><ul><li><a href=#kubernetes-api-server-configuration aria-label="Kubernetes API Server Configuration">Kubernetes API Server Configuration</a></li><li><a href=#kubernetes-controller-manager-configuration aria-label="Kubernetes Controller Manager Configuration">Kubernetes Controller Manager Configuration</a></li><li><a href=#kubernetes-scheduler-configuration aria-label="Kubernetes Scheduler Configuration">Kubernetes Scheduler Configuration</a></li><li><a href=#start-the-controller-services aria-label="Start the controller services">Start the controller services</a></li><li><a href=#enable-http-health-checks aria-label="Enable HTTP Health Checks">Enable HTTP Health Checks</a></li><li><a href=#verification aria-label=Verification>Verification</a></li><li><a href=#rbac-for-kubelet-authorization aria-label="RBAC for Kubelet Authorization">RBAC for Kubelet Authorization</a></li><li><a href=#the-kubernetes-frontend-load-balancer aria-label="The Kubernetes Frontend Load Balancer">The Kubernetes Frontend Load Balancer</a><ul><ul><li><a href=#nginx-configuration aria-label="nginx configuration">nginx configuration</a></li><li><a href=#dockerfile aria-label=Dockerfile>Dockerfile</a></li></ul></ul></li><li><a href=#verification-1 aria-label=Verification>Verification</a></li></ul></ul></li></ul></div></details></div><div class=post-content><p>Welcome back to &ldquo;Kubernetes-The Hard Way With Docker & Flannel&rdquo; series part 2. In <a href=https://veerendra2.github.io/kubernetes-the-hard-way-1/ title="previous post">previous post</a> we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes</p><h1 id=6-bootstrapping-the-etcd-cluster>6. Bootstrapping the etcd Cluster<a hidden class=anchor aria-hidden=true href=#6-bootstrapping-the-etcd-cluster>#</a></h1><p><a href=https://coreos.com/etcd/><code>etcd</code></a> is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in <code>etcd</code> via api-server. In this section, we will install and configure <code>etcd</code> on all controller nodes.</p><p><strong><em>*NOTE: The below commands must run on all controller nodes</em></strong></p><p><em>*TIP: You can use <a href=https://github.com/tmux/tmux/wiki>tumx</a> to run command on multiple nodes at same time</em></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ wget -q --show-progress --https-only --timestamping <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=s2>&#34;https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz&#34;</span>
+</span></span><span class=line><span class=cl>$ tar -xvf etcd-v3.3.9-linux-amd64.tar.gz
+</span></span><span class=line><span class=cl>$ sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/
+</span></span><span class=line><span class=cl>$ sudo mkdir -p /etc/etcd /var/lib/etcd
+</span></span><span class=line><span class=cl>$ sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/
+</span></span></code></pre></div><p>Set up the following environment variables which are usefull generate etcd systemd unit file</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ <span class=nv>ETCD_NAME</span><span class=o>=</span><span class=sb>`</span>hostname<span class=sb>`</span>
+</span></span><span class=line><span class=cl>$ <span class=nv>INTERNAL_IP</span><span class=o>=</span><span class=sb>`</span>hostname -i<span class=sb>`</span> <span class=c1># IP of the current node</span>
+</span></span><span class=line><span class=cl><span class=c1>#INITIAL_CLUSTER=&lt;controller 1 hostname&gt;=https://&lt;controller 1 private ip&gt;:2380,&lt;controller 2 hostname&gt;=https://&lt;controller 2 private ip&gt;:2380</span>
+</span></span><span class=line><span class=cl>$ <span class=nv>INITIAL_CLUSTER</span><span class=o>=</span><span class=nv>m1</span><span class=o>=</span>https://10.200.1.10:2380,m2<span class=o>=</span>https://10.200.1.11:2380
+</span></span></code></pre></div><p>Create a systemd unit file</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt; EOF | sudo tee /etc/systemd/system/etcd.service
+</span></span></span><span class=line><span class=cl><span class=s>[Unit]
+</span></span></span><span class=line><span class=cl><span class=s>Description=etcd
+</span></span></span><span class=line><span class=cl><span class=s>Documentation=https://github.com/coreos
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Service]
+</span></span></span><span class=line><span class=cl><span class=s>ExecStart=/usr/local/bin/etcd \\
+</span></span></span><span class=line><span class=cl><span class=s>  --name ${ETCD_NAME} \\
+</span></span></span><span class=line><span class=cl><span class=s>  --cert-file=/etc/etcd/kubernetes.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --key-file=/etc/etcd/kubernetes-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --peer-cert-file=/etc/etcd/kubernetes.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --peer-key-file=/etc/etcd/kubernetes-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --trusted-ca-file=/etc/etcd/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --peer-trusted-ca-file=/etc/etcd/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --peer-client-cert-auth \\
+</span></span></span><span class=line><span class=cl><span class=s>  --client-cert-auth \\
+</span></span></span><span class=line><span class=cl><span class=s>  --initial-advertise-peer-urls https://${INTERNAL_IP}:2380 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --listen-peer-urls https://${INTERNAL_IP}:2380 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --listen-client-urls https://${INTERNAL_IP}:2379,https://127.0.0.1:2379 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --advertise-client-urls https://${INTERNAL_IP}:2379 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --initial-cluster-token etcd-cluster-0 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --initial-cluster ${INITIAL_CLUSTER} \\
+</span></span></span><span class=line><span class=cl><span class=s>  --initial-cluster-state new \\
+</span></span></span><span class=line><span class=cl><span class=s>  --data-dir=/var/lib/etcd
+</span></span></span><span class=line><span class=cl><span class=s>Restart=on-failure
+</span></span></span><span class=line><span class=cl><span class=s>RestartSec=5
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Install]
+</span></span></span><span class=line><span class=cl><span class=s>WantedBy=multi-user.target
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><p>Start the etcd service</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ <span class=o>{</span>
+</span></span><span class=line><span class=cl>  sudo systemctl daemon-reload
+</span></span><span class=line><span class=cl>  sudo systemctl <span class=nb>enable</span> etcd
+</span></span><span class=line><span class=cl>  sudo systemctl start etcd
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span></code></pre></div><p>Once <code>etcd</code> installation and configuration are done in all controller nodes, verify that etcd cluster is working properly</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ sudo <span class=nv>ETCDCTL_API</span><span class=o>=</span><span class=m>3</span> etcdctl member list <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --endpoints<span class=o>=</span>https://127.0.0.1:2379 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --cacert<span class=o>=</span>/etc/etcd/ca.pem <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --cert<span class=o>=</span>/etc/etcd/kubernetes.pem <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --key<span class=o>=</span>/etc/etcd/kubernetes-key.pem
+</span></span></code></pre></div><p>You should see output like below</p><p><img loading=lazy src=/static_content/images/etcd_verify_output.jpg alt="etcd verify image"></p><h1 id=7-bootstrapping-the-kubernetes-control-plane>7. Bootstrapping the Kubernetes Control Plane<a hidden class=anchor aria-hidden=true href=#7-bootstrapping-the-kubernetes-control-plane>#</a></h1><p>The control plane binaries are</p><ul><li><a href=https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/>kube-apiserver</a></li><li><a href=https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/>kube-controller-manager</a></li><li><a href=https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/>kube-scheduler</a></li></ul><p>Download control plane binaries</p><p><strong><em>*NOTE: The below commands must run on all controller nodes</em></strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ sudo mkdir -p /etc/kubernetes/config
+</span></span><span class=line><span class=cl>$ <span class=nv>KUBERNETES_VERSION</span><span class=o>=</span>v1.10.13
+</span></span><span class=line><span class=cl>$ wget -q --show-progress --https-only --timestamping <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=s2>&#34;https://dl.k8s.io/</span><span class=si>${</span><span class=nv>KUBERNETES_VERSION</span><span class=si>}</span><span class=s2>/bin/linux/amd64/kube-apiserver&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=s2>&#34;https://dl.k8s.io/</span><span class=si>${</span><span class=nv>KUBERNETES_VERSION</span><span class=si>}</span><span class=s2>/bin/linux/amd64/kube-controller-manager&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=s2>&#34;https://dl.k8s.io/</span><span class=si>${</span><span class=nv>KUBERNETES_VERSION</span><span class=si>}</span><span class=s2>/bin/linux/amd64/kube-scheduler&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=s2>&#34;https://dl.k8s.io/</span><span class=si>${</span><span class=nv>KUBERNETES_VERSION</span><span class=si>}</span><span class=s2>/bin/linux/amd64/kubectl&#34;</span>
+</span></span></code></pre></div><p><em>*TIP: You can get version number from <a href=https://github.com/kubernetes/kubernetes/releases>kubernetes releases page</a></em></p><p>Move the binaries to <code>/usr/local/bin/</code></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
+</span></span><span class=line><span class=cl>$ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/
+</span></span></code></pre></div><h3 id=kubernetes-api-server-configuration>Kubernetes API Server Configuration<a hidden class=anchor aria-hidden=true href=#kubernetes-api-server-configuration>#</a></h3><p>Move certificates to kubernetes directory</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ sudo mkdir -p /var/lib/kubernetes/
+</span></span><span class=line><span class=cl>$ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    service-account-key.pem service-account.pem <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    encryption-config.yaml /var/lib/kubernetes/
+</span></span></code></pre></div><p>Create a kube-api server systemd unit file.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ <span class=nv>CONTROLLER0_IP</span><span class=o>=</span>10.200.1.10
+</span></span><span class=line><span class=cl>$ <span class=nv>CONTROLLER1_IP</span><span class=o>=</span>10.200.1.11
+</span></span><span class=line><span class=cl>$ <span class=nv>INTERNAL_IP</span><span class=o>=</span><span class=sb>`</span>hostname -i<span class=sb>`</span>  <span class=c1># Current node&#39;s IP</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt; EOF | sudo tee /etc/systemd/system/kube-apiserver.service
+</span></span></span><span class=line><span class=cl><span class=s>[Unit]
+</span></span></span><span class=line><span class=cl><span class=s>Description=Kubernetes API Server
+</span></span></span><span class=line><span class=cl><span class=s>Documentation=https://github.com/kubernetes/kubernetes
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Service]
+</span></span></span><span class=line><span class=cl><span class=s>ExecStart=/usr/local/bin/kube-apiserver \\
+</span></span></span><span class=line><span class=cl><span class=s>  --advertise-address=${INTERNAL_IP} \\
+</span></span></span><span class=line><span class=cl><span class=s>  --allow-privileged=true \\
+</span></span></span><span class=line><span class=cl><span class=s>  --apiserver-count=3 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --audit-log-maxage=30 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --audit-log-maxbackup=3 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --audit-log-maxsize=100 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --audit-log-path=/var/log/audit.log \\
+</span></span></span><span class=line><span class=cl><span class=s>  --authorization-mode=Node,RBAC \\
+</span></span></span><span class=line><span class=cl><span class=s>  --bind-address=0.0.0.0 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --client-ca-file=/var/lib/kubernetes/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --enable-admission-plugins=Initializers,NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
+</span></span></span><span class=line><span class=cl><span class=s>  --enable-swagger-ui=true \\
+</span></span></span><span class=line><span class=cl><span class=s>  --etcd-cafile=/var/lib/kubernetes/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --etcd-servers=https://$CONTROLLER0_IP:2379,https://$CONTROLLER1_IP:2379 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --event-ttl=1h \\
+</span></span></span><span class=line><span class=cl><span class=s>  --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
+</span></span></span><span class=line><span class=cl><span class=s>  --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --kubelet-client-certificate=/var/lib/kubernetes/kubernetes.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --kubelet-client-key=/var/lib/kubernetes/kubernetes-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --kubelet-https=true \\
+</span></span></span><span class=line><span class=cl><span class=s>  --runtime-config=api/all \\
+</span></span></span><span class=line><span class=cl><span class=s>  --service-account-key-file=/var/lib/kubernetes/service-account.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --service-cluster-ip-range=10.32.0.0/24 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --service-node-port-range=30000-32767 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --tls-cert-file=/var/lib/kubernetes/kubernetes.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --tls-private-key-file=/var/lib/kubernetes/kubernetes-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --v=2 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --kubelet-preferred-address-types=InternalIP,InternalDNS,Hostname,ExternalIP,ExternalDNS
+</span></span></span><span class=line><span class=cl><span class=s>Restart=on-failure
+</span></span></span><span class=line><span class=cl><span class=s>RestartSec=5
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Install]
+</span></span></span><span class=line><span class=cl><span class=s>WantedBy=multi-user.target
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><h3 id=kubernetes-controller-manager-configuration>Kubernetes Controller Manager Configuration<a hidden class=anchor aria-hidden=true href=#kubernetes-controller-manager-configuration>#</a></h3><p>Move kubeconfig files to kubernetes directory</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/
+</span></span></code></pre></div><p>Create kube-controller-manager systemd unit file</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
+</span></span></span><span class=line><span class=cl><span class=s>[Unit]
+</span></span></span><span class=line><span class=cl><span class=s>Description=Kubernetes Controller Manager
+</span></span></span><span class=line><span class=cl><span class=s>Documentation=https://github.com/kubernetes/kubernetes
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Service]
+</span></span></span><span class=line><span class=cl><span class=s>ExecStart=/usr/local/bin/kube-controller-manager \\
+</span></span></span><span class=line><span class=cl><span class=s>  --address=0.0.0.0 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --cluster-cidr=10.200.0.0/16 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --cluster-name=kubernetes \\
+</span></span></span><span class=line><span class=cl><span class=s>  --cluster-signing-cert-file=/var/lib/kubernetes/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --cluster-signing-key-file=/var/lib/kubernetes/ca-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --kubeconfig=/var/lib/kubernetes/kube-controller-manager.kubeconfig \\
+</span></span></span><span class=line><span class=cl><span class=s>  --leader-elect=true \\
+</span></span></span><span class=line><span class=cl><span class=s>  --root-ca-file=/var/lib/kubernetes/ca.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --service-account-private-key-file=/var/lib/kubernetes/service-account-key.pem \\
+</span></span></span><span class=line><span class=cl><span class=s>  --service-cluster-ip-range=10.32.0.0/24 \\
+</span></span></span><span class=line><span class=cl><span class=s>  --use-service-account-credentials=true \\
+</span></span></span><span class=line><span class=cl><span class=s>  --v=2
+</span></span></span><span class=line><span class=cl><span class=s>Restart=on-failure
+</span></span></span><span class=line><span class=cl><span class=s>RestartSec=5
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Install]
+</span></span></span><span class=line><span class=cl><span class=s>WantedBy=multi-user.target
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><h3 id=kubernetes-scheduler-configuration>Kubernetes Scheduler Configuration<a hidden class=anchor aria-hidden=true href=#kubernetes-scheduler-configuration>#</a></h3><p>Move kube-scheduler kubeconfig to kubernetes directory</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># On controller nodes</span>
+</span></span><span class=line><span class=cl>$ sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/
+</span></span></code></pre></div><p>Create kube-scheduler configuration file</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
+</span></span></span><span class=line><span class=cl><span class=s>apiVersion: componentconfig/v1alpha1
+</span></span></span><span class=line><span class=cl><span class=s>kind: KubeSchedulerConfiguration
+</span></span></span><span class=line><span class=cl><span class=s>clientConnection:
+</span></span></span><span class=line><span class=cl><span class=s>  kubeconfig: &#34;/var/lib/kubernetes/kube-scheduler.kubeconfig&#34;
+</span></span></span><span class=line><span class=cl><span class=s>leaderElection:
+</span></span></span><span class=line><span class=cl><span class=s>  leaderElect: true
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span><span class=line><span class=cl><span class=o>{</span>% endhighlight %<span class=o>}</span>
+</span></span><span class=line><span class=cl>Create kube-scheduler systemd unit file
+</span></span><span class=line><span class=cl><span class=o>{</span>% highlight shell %<span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=c1># On controller nodes</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | sudo tee /etc/systemd/system/kube-scheduler.service
+</span></span></span><span class=line><span class=cl><span class=s>[Unit]
+</span></span></span><span class=line><span class=cl><span class=s>Description=Kubernetes Scheduler
+</span></span></span><span class=line><span class=cl><span class=s>Documentation=https://github.com/kubernetes/kubernetes
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Service]
+</span></span></span><span class=line><span class=cl><span class=s>ExecStart=/usr/local/bin/kube-scheduler \\
+</span></span></span><span class=line><span class=cl><span class=s>  --config=/etc/kubernetes/config/kube-scheduler.yaml \\
+</span></span></span><span class=line><span class=cl><span class=s>  --v=2
+</span></span></span><span class=line><span class=cl><span class=s>Restart=on-failure
+</span></span></span><span class=line><span class=cl><span class=s>RestartSec=5
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>[Install]
+</span></span></span><span class=line><span class=cl><span class=s>WantedBy=multi-user.target
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><h3 id=start-the-controller-services>Start the controller services<a hidden class=anchor aria-hidden=true href=#start-the-controller-services>#</a></h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ sudo systemctl daemon-reload
+</span></span><span class=line><span class=cl>$ sudo systemctl <span class=nb>enable</span> kube-apiserver kube-controller-manager kube-scheduler
+</span></span><span class=line><span class=cl>$ sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
+</span></span></code></pre></div><h3 id=enable-http-health-checks>Enable HTTP Health Checks<a hidden class=anchor aria-hidden=true href=#enable-http-health-checks>#</a></h3><p>In the original &ldquo;Kubernetes The Hard Way&rdquo;, Kelsey used a GCP load balancer to load balance the requests among controllers. Since it is difficult to set up HTTPS health checks on the GCP network load balancer and kube-apiserver supports only HTTPS health checks. He created HTTP Nginx proxy for kube-api server, GCP network load balancer performs a health check via HTTP Nginx proxy. But in our case, we can skip this step since we are not using a GCP network load balancer</p><h3 id=verification>Verification<a hidden class=anchor aria-hidden=true href=#verification>#</a></h3><p>Check the component&rsquo;s status using the below commands.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ kubectl get componentstatuses --kubeconfig admin.kubeconfig
+</span></span></code></pre></div><p>Run the above command on all controller nodes and verify statuses which should be like below</p><p><img loading=lazy src=/static_content/images/components_status.jpg alt="components status image"></p><h3 id=rbac-for-kubelet-authorization>RBAC for Kubelet Authorization<a hidden class=anchor aria-hidden=true href=#rbac-for-kubelet-authorization>#</a></h3><p>In this section, we will configure <a href=https://kubernetes.io/docs/reference/access-authn-authz/rbac/>RBAC permissions</a> to allow the kube-api server to access the Kubelet API on each worker node. Access to the Kubelet API is required for retrieving metrics, logs, and executing commands in pods.</p><p>Create the <code>system:kube-apiserver-to-kubelet</code> ClusterRole with permissions to access the Kubelet.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+</span></span></span><span class=line><span class=cl><span class=s>apiVersion: rbac.authorization.k8s.io/v1beta1
+</span></span></span><span class=line><span class=cl><span class=s>kind: ClusterRole
+</span></span></span><span class=line><span class=cl><span class=s>metadata:
+</span></span></span><span class=line><span class=cl><span class=s>  annotations:
+</span></span></span><span class=line><span class=cl><span class=s>    rbac.authorization.kubernetes.io/autoupdate: &#34;true&#34;
+</span></span></span><span class=line><span class=cl><span class=s>  labels:
+</span></span></span><span class=line><span class=cl><span class=s>    kubernetes.io/bootstrapping: rbac-defaults
+</span></span></span><span class=line><span class=cl><span class=s>  name: system:kube-apiserver-to-kubelet
+</span></span></span><span class=line><span class=cl><span class=s>rules:
+</span></span></span><span class=line><span class=cl><span class=s>  - apiGroups:
+</span></span></span><span class=line><span class=cl><span class=s>      - &#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s>    resources:
+</span></span></span><span class=line><span class=cl><span class=s>      - nodes/proxy
+</span></span></span><span class=line><span class=cl><span class=s>      - nodes/stats
+</span></span></span><span class=line><span class=cl><span class=s>      - nodes/log
+</span></span></span><span class=line><span class=cl><span class=s>      - nodes/spec
+</span></span></span><span class=line><span class=cl><span class=s>      - nodes/metrics
+</span></span></span><span class=line><span class=cl><span class=s>    verbs:
+</span></span></span><span class=line><span class=cl><span class=s>      - &#34;*&#34;
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><p>The kube-api server authenticates to the Kubelet as the &ldquo;kubernetes&rdquo; user using the client certificate as defined by the <code>--kubelet-client-certificate</code> flag which has been defined in the kube-apiserver systemd unit file above.</p><p>Bind the <code>system:kube-apiserver-to-kubelet</code> ClusterRole to the kubernetes user:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On controller nodes</span>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+</span></span></span><span class=line><span class=cl><span class=s>apiVersion: rbac.authorization.k8s.io/v1beta1
+</span></span></span><span class=line><span class=cl><span class=s>kind: ClusterRoleBinding
+</span></span></span><span class=line><span class=cl><span class=s>metadata:
+</span></span></span><span class=line><span class=cl><span class=s>  name: system:kube-apiserver
+</span></span></span><span class=line><span class=cl><span class=s>  namespace: &#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s>roleRef:
+</span></span></span><span class=line><span class=cl><span class=s>  apiGroup: rbac.authorization.k8s.io
+</span></span></span><span class=line><span class=cl><span class=s>  kind: ClusterRole
+</span></span></span><span class=line><span class=cl><span class=s>  name: system:kube-apiserver-to-kubelet
+</span></span></span><span class=line><span class=cl><span class=s>subjects:
+</span></span></span><span class=line><span class=cl><span class=s>  - apiGroup: rbac.authorization.k8s.io
+</span></span></span><span class=line><span class=cl><span class=s>    kind: User
+</span></span></span><span class=line><span class=cl><span class=s>    name: kubernetes
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><h3 id=the-kubernetes-frontend-load-balancer>The Kubernetes Frontend Load Balancer<a hidden class=anchor aria-hidden=true href=#the-kubernetes-frontend-load-balancer>#</a></h3><p>As I said earlier, we are not going to use a GCP load network load balancer, but we are going to use the nginx docker container on the host(Laptop) to load balance the requests.</p><p>In this section, we will build an nginx docker image with the appropriate configuration to load balance requests among controller nodes(<code>m1</code> and <code>m2</code>)</p><h5 id=nginx-configuration>nginx configuration<a hidden class=anchor aria-hidden=true href=#nginx-configuration>#</a></h5><p>Specify controllers IPs with kube-api server&rsquo;s port in nginx configuration like below</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On host</span>
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ~/kubernetes-the-hard-way
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | tee kubernetes.conf
+</span></span></span><span class=line><span class=cl><span class=s>stream {
+</span></span></span><span class=line><span class=cl><span class=s>    upstream kubernetes {
+</span></span></span><span class=line><span class=cl><span class=s>        server 10.200.1.10:6443;
+</span></span></span><span class=line><span class=cl><span class=s>        server 10.200.1.11:6443;
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>    server {
+</span></span></span><span class=line><span class=cl><span class=s>        listen 6443;
+</span></span></span><span class=line><span class=cl><span class=s>        listen 443;
+</span></span></span><span class=line><span class=cl><span class=s>        proxy_pass kubernetes;
+</span></span></span><span class=line><span class=cl><span class=s>    }
+</span></span></span><span class=line><span class=cl><span class=s>}
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><h5 id=dockerfile>Dockerfile<a hidden class=anchor aria-hidden=true href=#dockerfile>#</a></h5><p>Create <code>Dockerfile</code> to build nginx load balancer docker image</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># On host</span>
+</span></span><span class=line><span class=cl>$ <span class=nb>cd</span> ~/kubernetes-the-hard-way
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ cat <span class=s>&lt;&lt;EOF | tee Dockerfile
+</span></span></span><span class=line><span class=cl><span class=s>FROM nginx:latest
+</span></span></span><span class=line><span class=cl><span class=s>MAINTAINER Veerendra Kakumanu
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>RUN mkdir -p /etc/nginx/tcpconf.d &amp;&amp; echo &#34;include /etc/nginx/tcpconf.d/*;&#34; &gt;&gt; /etc/nginx/nginx.conf
+</span></span></span><span class=line><span class=cl><span class=s>COPY kubernetes.conf /etc/nginx/tcpconf.d/kubernetes.conf
+</span></span></span><span class=line><span class=cl><span class=s>EOF</span>
+</span></span></code></pre></div><p>Build and launch the container</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># On host</span>
+</span></span><span class=line><span class=cl>$ <span class=nb>cd</span> ~/kubernetes-the-hard-way
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ sudo docker build -t nginx_proxy .
+</span></span><span class=line><span class=cl>$ sudo docker run -it -d -h proxy --net br0 --ip 10.200.1.15 nginx-proxy
+</span></span></code></pre></div><h3 id=verification-1>Verification<a hidden class=anchor aria-hidden=true href=#verification-1>#</a></h3><p><code>curl</code> the HTTPS endpoint of the load balancer(Nginx docker container) which forwards the requests to the controller node with certificate.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1>## On host</span>
+</span></span><span class=line><span class=cl>$ <span class=nv>KUBERNETES_PUBLIC_ADDRESS</span><span class=o>=</span>10.200.1.15
+</span></span><span class=line><span class=cl>$ curl --cacert ca.pem https://<span class=si>${</span><span class=nv>KUBERNETES_PUBLIC_ADDRESS</span><span class=si>}</span>:6443/version
+</span></span></code></pre></div><p>If everything is good, you should see the output below.</p><p><img loading=lazy src=/static_content/images/curl_version.jpg alt="curl for version image"></p><p>In this post, we have successfully provisioned controller nodes and load balancers. We will bootstrap the worker nodes in the next post</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://veerendra2.github.io/tags/linux/>linux</a></li><li><a href=https://veerendra2.github.io/tags/kubernetes/>kubernetes</a></li></ul><nav class=paginav><a class=prev href=https://veerendra2.github.io/kubernetes-the-hard-way-1/><span class=title>« Prev Page</span><br><span>Kubernetes-The Hard Way With Docker & Flannel (Part 1)</span></a>
+<a class=next href=https://veerendra2.github.io/kubernetes-the-hard-way-3/><span class=title>Next Page »</span><br><span>Kubernetes-The Hard Way With Docker & Flannel (Part 3)</span></a></nav><div class=share-buttons><a target=_blank rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker & Flannel (Part 2) on twitter" href="https://twitter.com/intent/tweet/?text=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f&hashtags=linux%2ckubernetes"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker & Flannel (Part 2) on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f&title=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&summary=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&source=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker & Flannel (Part 2) on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f&title=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker & Flannel (Part 2) on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker & Flannel (Part 2) on whatsapp" href="https://api.whatsapp.com/send?text=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29%20-%20https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share Kubernetes-The Hard Way With Docker & Flannel (Part 2) on telegram" href="https://telegram.me/share/url?text=Kubernetes-The%20Hard%20Way%20With%20Docker%20%26%20Flannel%20%28Part%202%29&url=https%3a%2f%2fveerendra2.github.io%2fkubernetes-the-hard-way-2%2f"><svg viewBox="2 2 28 28"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></div></footer><script src=https://giscus.app/client.js data-repo=veerendra2/veerendra2.github.io data-repo-id="MDEwOlJlcG9zaXRvcnkxMTU4MjE4OTE=" data-category=General data-category-id=MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyODQwMzM5 data-mapping=url data-reactions-enabled=0 data-theme=dark_tritanopia crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the comments powered by giscus.</noscript></article></main><footer class=footer><span>&copy; 2023 <a href=https://veerendra2.github.io>Veerendra's Blog</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerText="copy";function s(){t.innerText="copied!",setTimeout(()=>{t.innerText="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
