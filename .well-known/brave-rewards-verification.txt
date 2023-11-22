@@ -1,0 +1,4 @@
+This is a Brave Creators publisher verification file.
+
+Domain: veerendra2.github.io
+Token: 1501fd0fc771d72889ac430118ffd13a201cf4a85cb0b3a6dd415cb0a0a7afb5
