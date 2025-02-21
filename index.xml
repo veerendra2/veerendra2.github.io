@@ -4,348 +4,859 @@
     <title>Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/</link>
     <description>Recent content on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 18 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I setup my self-host Wordpress and automated backup with Kopia and Cloudflare R2 for FREE</title>
+      <link>https://veerendra2.github.io/worpress-backup-kopia/</link>
+      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/worpress-backup-kopia/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Few months back, my wife has started blogging on worpress and I setup a Wordpress instances with docker compose on Oracle Cloud alwayfree tier VM. Every thing went smooth, and then ocurred my mind after a month, &amp;ldquo;What about backup?&amp;rdquo;, maybe in time in future, Oracle may remove the alway-free tire, the I have to migrate to new cloud provider and it is also general recomendation to setup a backup.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Traefik HTTPS Config with DuckDNS for Local Homeserver</title>
       <link>https://veerendra2.github.io/traefik-https/</link>
       <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/traefik-https/</guid>
-      <description>This is a how-to guide inspired by &amp;ldquo;Quick and Easy SSL Certificates for Your Homelab!&amp;rdquo;&amp;quot; focus on Traefik reverse proxy server. Although this guide focuses on DuckDNS, a similar configuration can apply to any DNS provider.
-The trick is by setting private IP for the domain name you own, in my case DuckDNS.
-Get DuckDNS Sub-Domain Sign-up an account in duckdns.org, choose a sub-domain(As I choose a dummy sub-domain lser.duckdns.org) and add your home server IP address(In my case 192.</description>
+      <description>&lt;p&gt;This is a how-to guide inspired by &lt;a href=&#34;https://www.youtube.com/watch?v=qlcVx-k-02E&#34;&gt;&amp;ldquo;Quick and Easy SSL Certificates for Your Homelab!&amp;rdquo;&lt;/a&gt;&amp;quot; focus on Traefik reverse proxy server. Although this guide focuses on DuckDNS, a similar configuration can apply to any DNS provider.&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/blog-18-1.png&#34; alt=&#34;blog-14-1&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;The trick is by setting private IP for the domain name you own, in my case DuckDNS.&lt;/p&gt;
+&lt;h2 id=&#34;get-duckdns-sub-domain&#34;&gt;Get DuckDNS Sub-Domain&lt;/h2&gt;
+&lt;p&gt;Sign-up an account in &lt;a href=&#34;https://duckdns.org/&#34;&gt;duckdns.org&lt;/a&gt;, choose a sub-domain(As I choose a dummy sub-domain &lt;code&gt;lser.duckdns.org&lt;/code&gt;) and add your home server IP address(In my case &lt;code&gt;192.168.0.120&lt;/code&gt;)&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 1)</title>
       <link>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</link>
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</guid>
-      <description>Introduction One of the services I always wanted to have on my raspberry pi home server is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s &amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo; on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the ansible playbook to deploy the wireguard VPN.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;One of the services I always wanted to have on my &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberry pi home server&lt;/a&gt; is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s &lt;a href=&#34;https://www.youtube.com/watch?v=SMF301vQqJo&#34;&gt;&amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo;&lt;/a&gt; on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the &lt;a href=&#34;https://github.com/notthebee/ansible-easy-vpn&#34;&gt;ansible playbook&lt;/a&gt; to deploy the wireguard VPN. After I tested a few months on Mobile and PC, I&amp;rsquo;m comfortable setting up server and client. So, I decided to use the Wireguard in my &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberrypi-homeserver&lt;/a&gt; project.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 2)</title>
       <link>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</link>
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</guid>
-      <description>Previously in part 1, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration
-Testing Below are the tests to make sure qBittorrent has access to the Internet through Wireguard VPN
-➡️Make sure Wireguard and qBittorrent containers are up and running.
-➡️Check you are able to ping Wireguard container from qBittorrent</description>
+      <description>&lt;p&gt;Previously in &lt;a href=&#34;https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/&#34; title=&#34;part 1&#34;&gt;part 1&lt;/a&gt;, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration&lt;/p&gt;
+&lt;h1 id=&#34;testing&#34;&gt;Testing&lt;/h1&gt;
+&lt;p&gt;Below are the tests to make sure qBittorrent has access to the Internet through Wireguard VPN&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;#x27a1;&amp;#xfe0f;Make sure Wireguard and qBittorrent containers are up and running.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;#x27a1;&amp;#xfe0f;Check you are able to ping Wireguard container from qBittorrent&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Portainer vs Yacht</title>
       <link>https://veerendra2.github.io/portainer-vs-yacht/</link>
       <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/portainer-vs-yacht/</guid>
-      <description>Introduction I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker containers, and for that, I need a nice and fancy container management tool I want to have on my home server.
-I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known container management tool and Yacht is fairly new.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker containers, and for that, I need a nice and fancy container management tool I want to have on my home server.&lt;/p&gt;
+&lt;p&gt;I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known container management tool and Yacht is fairly new. In this post, I would like to give my thoughts on both tools.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>User Namespace Isolation in Docker</title>
       <link>https://veerendra2.github.io/docker-userns-remap/</link>
       <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/docker-userns-remap/</guid>
-      <description>There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.
-https://docs.docker.com/engine/security/userns-remap/
-How to enable *It is better to reinstall docker and remove all existing docker volumes
-Add below /etc/docker/daemon.json { &amp;#34;userns-remap&amp;#34;: &amp;#34;default&amp;#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!</description>
+      <description>&lt;p&gt;There is a cool feature in docker called &lt;code&gt;userns-remap&lt;/code&gt;, discovered while doing my RaspberryPi home server project; &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver/issues/15#issuecomment-1296311979&#34;&gt;15#issuecomment-1296311979&lt;/a&gt;, I can just enable &lt;code&gt;userns-remap&lt;/code&gt; and docker does all remapping of &lt;code&gt;uid&lt;/code&gt; and &lt;code&gt;gid&lt;/code&gt; inside docker container to a non-root user on the host.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.docker.com/engine/security/userns-remap/&#34;&gt;https://docs.docker.com/engine/security/userns-remap/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;how-to-enable&#34;&gt;How to enable&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;*It is better to reinstall docker and remove all existing docker volumes&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Add below &lt;code&gt;/etc/docker/daemon.json&lt;/code&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;userns-remap&amp;#34;: &amp;#34;default&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Restart the docker daemon
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo systemctl restart docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Ansible automation &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver/blob/main/tasks/docker.yml&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;in-action&#34;&gt;In-Action&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# Run the Nginx container
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker run -it -d nginx
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# Inside, the process thinks it is running as root!
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerendra@atom:~$ docker exec -it nginx whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# But outside(on host namespace), the process running it as non-root user
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerendra@atom:~$ ps aux | grep nginx
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165536    350093  0.0  0.0   6320  4688 ?        Ss   03:21   0:00 nginx: master process nginx -g daemon off;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350208  0.0  0.0   6788  4288 ?        S    03:21   0:01 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350209  0.0  0.0   6784  4284 ?        S    03:21   0:00 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350210  0.0  0.0   6784  4284 ?        S    03:21   0:01 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350212  0.0  0.0   6784  4284 ?        S    03:21   0:01 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerend+  937492  0.0  0.0   6420  1844 pts/0    S+   16:22   0:00 grep --color=auto nginx
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see I have not specified any user while deploying the container, but the user inside the container is isolated i.e remapped to a non-root user(uid:&lt;code&gt;165637&lt;/code&gt;, gid:&lt;code&gt;165637&lt;/code&gt;) on the host&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Pi-hole with DHCP Relay in Docker</title>
       <link>https://veerendra2.github.io/pihole-dhcp-relay/</link>
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/pihole-dhcp-relay/</guid>
-      <description>Introduction I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with docker-compose files and ansible automation. One of the applications I was configuring is Pi-hole, a network-wide ad-blocker.
-I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, it says it has to be run as network_mode: host, because it allows Pi-hole to listen to DHCP broadcast packets.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with &lt;code&gt;docker-compose&lt;/code&gt; files and ansible automation. One of the applications I was configuring is &lt;a href=&#34;https://pi-hole.net&#34;&gt;Pi-hole&lt;/a&gt;, a network-wide ad-blocker.&lt;/p&gt;
+&lt;p&gt;I decided to use Pi-hole as also DHCP server for my LAN. When I look into &lt;a href=&#34;https://docs.pi-hole.net/docker/DHCP/&#34;&gt;docs&lt;/a&gt;, it says it has to be run as &lt;code&gt;network_mode: host&lt;/code&gt;, because it allows Pi-hole to listen to DHCP broadcast packets. If the Pi-hole is deployed in bridge mode, there is a Linux bridge(Think of it as a router for a second!) which won&amp;rsquo;t allow broadcast packets.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Strimzi Kafka Disaster Recovery with Velero</title>
       <link>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</link>
       <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</guid>
-      <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
-https://strimzi.io
-Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt; with &lt;a href=&#34;https://velero.io/&#34;&gt;Velero&lt;/a&gt;. First of all, what is Strmzi Kafka?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://strimzi.io&#34;&gt;https://strimzi.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/strimzi-logo.png&#34; alt=&#34;Strizi Logo&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elasticsearch Configuration Overview</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</link>
       <pubDate>Sat, 10 Sep 2022 17:42:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series.
-Important Elasticsearch Configuration 📄 Official Docs
-Mainly 3 configuration files
-elasticsearch.yml - Elasticsearch config jvm.options - Elasticsearch JVM settings config log4j2.properties - Elasticsearch logging config Environment Variables
-export the ES_PATH_CONF etc/default/elasticsearch (Sourced environment variables from. Recommended) Settings 📄 Official Docs
-Before going to production, it is recommended go through be below elasticsearch configs. Refer sample_config directory for configuration
-Configuration Description Configuration Reference Path settings Log and data config Refer here Cluster name Cluster name Refer here Node name Node name Refer here Network host IP address that elasticsearch bind on Refer here Discovery settings Cluster discovery and initial master config Refer here Heap size JVM heap memory configuration Recommended heap size should be half of system memory.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;important-elasticsearch-configuration&#34;&gt;Important Elasticsearch Configuration&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Mainly 3 configuration files&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;elasticsearch.yml - Elasticsearch config
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jvm.options       - Elasticsearch JVM settings config
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;log4j2.properties - Elasticsearch logging config
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Environment Variables&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;export&lt;/code&gt; the ES_PATH_CONF&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;etc/default/elasticsearch&lt;/code&gt; (Sourced environment variables from. Recommended)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;settings&#34;&gt;Settings&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Before going to production, it is recommended go through be below elasticsearch configs. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config&#34;&gt;&lt;code&gt;sample_config&lt;/code&gt;&lt;/a&gt; directory for configuration&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Configuration&lt;/th&gt;
+          &lt;th&gt;Description&lt;/th&gt;
+          &lt;th&gt;Configuration Reference&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Path settings&lt;/td&gt;
+          &lt;td&gt;Log and data config&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L40&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Cluster name&lt;/td&gt;
+          &lt;td&gt;Cluster name&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L17&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Node name&lt;/td&gt;
+          &lt;td&gt;Node name&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L23&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Network host&lt;/td&gt;
+          &lt;td&gt;IP address that elasticsearch bind on&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L59&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Discovery settings&lt;/td&gt;
+          &lt;td&gt;Cluster discovery and initial master config&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L72&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Heap size&lt;/td&gt;
+          &lt;td&gt;JVM heap memory configuration&lt;/td&gt;
+          &lt;td&gt;Recommended heap size should be half of system memory. Make sure min and max heap memory same value. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/jvm.options#L22&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Heap dump path&lt;/td&gt;
+          &lt;td&gt;Heap dump location path config&lt;/td&gt;
+          &lt;td&gt;Default config is sufficient. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/jvm.options#L61&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;GC logging&lt;/td&gt;
+          &lt;td&gt;Garbage collection logging configuration&lt;/td&gt;
+          &lt;td&gt;Default config is sufficient. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastic/search/sample_config/jvm.options#L66&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Temp directory&lt;/td&gt;
+          &lt;td&gt;Configure private temporary directory that Elasticsearch uses is excluded from periodic cleanup&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;important-system-configuration&#34;&gt;Important System Configuration&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/system-config.html&#34;&gt;Offical Docs&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elasticsearch Installation</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/install/</link>
       <pubDate>Sat, 10 Sep 2022 17:41:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/install/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Install 📄 Office Docs
-Hardware Requirement 📄 Offical Docs
-Resource Minimum Recommended Memory 16 GB 64 GB CPU 8 Cores 16 Disk Depends Depends JDK Installation Pick JVM compatibility version with elasticsearch from here Install OpenJDK from here Download and install JDK 11 (Another guide here) $ apt-get install openjdk-11-jdk -y $ java -version openjdk version &amp;#34;11.0.6&amp;#34; 2020-01-14 OpenJDK Runtime Environment (build 11.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;install&#34;&gt;Install&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;hardware-requirement&#34;&gt;Hardware Requirement&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/guide/current/hardware.html&#34;&gt;Offical Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Resource&lt;/th&gt;
+          &lt;th&gt;Minimum&lt;/th&gt;
+          &lt;th&gt;Recommended&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Memory&lt;/td&gt;
+          &lt;td&gt;16 GB&lt;/td&gt;
+          &lt;td&gt;64 GB&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;CPU&lt;/td&gt;
+          &lt;td&gt;8 Cores&lt;/td&gt;
+          &lt;td&gt;16&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Disk&lt;/td&gt;
+          &lt;td&gt;Depends&lt;/td&gt;
+          &lt;td&gt;Depends&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;jdk-installation&#34;&gt;JDK Installation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Pick JVM compatibility version with elasticsearch from &lt;a href=&#34;https://www.elastic.co/support/matrix#matrix_jvm&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install OpenJDK from &lt;a href=&#34;https://openjdk.java.net/install/index.html&#34;&gt;here&lt;/a&gt;
+Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/java-se-ri/11&#34;&gt;here&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install openjdk-11-jdk -y
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ java -version
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;openjdk version &amp;#34;11.0.6&amp;#34; 2020-01-14
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;OpenJDK Runtime Environment (build 11.0.6+10-post-Ubuntu-1ubuntu118.04.1)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Ubuntu-1ubuntu118.04.1, mixed mode, sharing)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;elasticsearch-installation&#34;&gt;Elasticsearch Installation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Download latest elasticsearch from &lt;a href=&#34;https://www.elastic.co/downloads/elasticsearch&#34;&gt;here&lt;/a&gt; (As of today the latest version is &lt;code&gt;7.6.2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Recommended to download/install package via &lt;code&gt;.dep&lt;/code&gt; or &lt;code&gt;PPA&lt;/code&gt; which postscripts creates user, groups and adds under systemd&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/7.6/deb.html#deb-repo&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elasticsearch Upgrade</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</link>
       <pubDate>Sat, 10 Sep 2022 17:40:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Rolling Upgrade Elasticsearch 📄 Official Docs
-⚠️ A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service
-As of now, the current latest version of elasticsearch is v7.7.1. Below procedure is for rolling upgrade from 7.6.2=&amp;gt;7.7.1.
-1. Divide the cluster into 2 groups Example node names carbon-x
-a. Non master-eligible nodes carbon-2 carbon-3 b.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;rolling-upgrade-elasticsearch&#34;&gt;Rolling Upgrade Elasticsearch&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-upgrade.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x26a0;&amp;#xfe0f; A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As of now, the current latest version of elasticsearch is &lt;code&gt;v7.7.1&lt;/code&gt;. Below procedure is for rolling upgrade from &lt;code&gt;7.6.2&lt;/code&gt;=&amp;gt;&lt;code&gt;7.7.1&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;1-divide-the-cluster-into-2-groups&#34;&gt;1. Divide the cluster into 2 groups&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Example node names &lt;code&gt;carbon-x&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;a. Non master-eligible nodes
+&lt;ul&gt;
+&lt;li&gt;carbon-2&lt;/li&gt;
+&lt;li&gt;carbon-3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;b. Master-eligible nodes
+&lt;ul&gt;
+&lt;li&gt;carbon-1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Upgrade order (Important!)&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kibana Installation</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</link>
       <pubDate>Sat, 10 Sep 2022 17:39:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Kibana Installation 📄 Office docs
-❗ The elasticsearch should be up and running before you start kibana installation procedure
-Install via apt-get from here
-As of today the kibana version is 7.6.2 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - $ sudo apt-get install apt-transport-https $ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list $ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana Configure Kibana Refer kibana.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;kibana-installation&#34;&gt;Kibana Installation&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x2757; The elasticsearch should be up and running before you start kibana installation procedure&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/downloads/kibana&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;As of today the kibana version is &lt;code&gt;7.6.2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install apt-transport-https
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;configure-kibana&#34;&gt;Configure Kibana&lt;/h2&gt;
+&lt;p&gt;Refer &lt;code&gt;kibana.yml&lt;/code&gt; configuration file in current directory and modify accordingly&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elastalert Demo Config</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</link>
       <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Elastalert 📄 Official docs 📂 Official project Repo
-Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.
-Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.
-Installation ❗ Refer elasticsearch-deploy-notes/elastalert for example config
-$ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 install -U PyYAML $ mkdir -p /opt/elastalert/rules ## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo Recommended to create index in elasticsearch for elastalert to store metadata $ elastalert-create-index Elastic Version: 7.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;elastalert&#34;&gt;Elastalert&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.&lt;/p&gt;
+&lt;p&gt;Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.&lt;/p&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x2757; Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt; for example config&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install python3-pip
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install elastalert
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install -U PyYAML
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ mkdir -p /opt/elastalert/rules
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Recommended to create index in elasticsearch for elastalert to store metadata&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ elastalert-create-index
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Elastic Version: 7.7.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading Elastic 6 index mappings:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/silence.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert_status.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/past_elastalert.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert_error.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;New index elastalert_status created
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Done!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Test rules in case if it is needed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ elastalert-test-rule --config /opt/elastalert/config.yaml /opt/elastalert/rules/heartbeat_checks.yml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;postfix-gmail-smtp&#34;&gt;Postfix Gmail SMTP&lt;/h3&gt;
+&lt;p&gt;In oder to use Gmail as SMTP, you need to enable 2-Factor authentication and generate app password&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Velero Deployment with Kustomize (Azure)</title>
       <link>https://veerendra2.github.io/velero-deployment/</link>
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
-      <description>Introduction Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt;, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/&#34;&gt;persistance volume(PV)&lt;/a&gt; as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore. Sure, you can configure these managed disk backups from Terraform or manually in cloud provider portals. But tools like Velero, backup PV from kubernetes side which is more visible and easy to manage which is what you will see in a moment.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Moving to Hugo and other updates!</title>
       <link>https://veerendra2.github.io/moving-to-hugo/</link>
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/moving-to-hugo/</guid>
-      <description>It has been 2 years since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see here GitHub issue.</description>
+      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work,  moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>CI/CD for GitHub Pages with GitHub Actions</title>
       <link>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</link>
       <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</guid>
-      <description>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.
-I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab.</description>
+      <description>&lt;p&gt;Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched &lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt; where people can automate workflows like build, test, and deploy code from GitHub.&lt;/p&gt;
+&lt;p&gt;I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab. Then I saw the workflow template for &amp;ldquo;Jekyll Site CI/CD&amp;rdquo;, which builds the Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt;. So, Let&amp;rsquo;s see how I setup CI/CD&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-1/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-1/</guid>
-      <description>Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post
-I know what you are thinking, I steal Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;CRI&amp;rsquo; and Flannel as &amp;lsquo;CNI&amp;rsquo;.
-This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I highly recommend go through his repo.</description>
+      <description>&lt;p&gt;Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post&lt;/p&gt;
+&lt;p&gt;I know what you are thinking, I steal &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt;, but hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/setup/cri/&#34;&gt;CRI&lt;/a&gt;&amp;rsquo; and Flannel as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;CNI&lt;/a&gt;&amp;rsquo;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This blog post follows &lt;a href=&#34;https://github.com/kelseyhightower&#34;&gt;Kelsey Hightower&amp;rsquo;s&lt;/a&gt; &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kubernetes The Hard Way&lt;/a&gt;, I highly recommend go through his repo. I&amp;rsquo;m writing this blog post to keep it as a reference for me and share it with other people who want to try it. So, feel free to correct me if there are any mistakes and ping me for any queries. This series is divided into 3 parts and all configuration/scripts are available in my &lt;a href=&#34;https://github.com/veerendra2/k8s-the-hard-way-blog&#34;&gt;github repo&lt;/a&gt;. Well, that has been said, let&amp;rsquo;s start building the cluster.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-2/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
-      <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.</description>
+      <description>&lt;p&gt;Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;previous post&#34;&gt;previous post&lt;/a&gt; we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes&lt;/p&gt;
+&lt;h1 id=&#34;6-bootstrapping-the-etcd-cluster&#34;&gt;6. Bootstrapping the etcd Cluster&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://coreos.com/etcd/&#34;&gt;&lt;code&gt;etcd&lt;/code&gt;&lt;/a&gt; is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in &lt;code&gt;etcd&lt;/code&gt; via api-server. In this section, we will install and configure &lt;code&gt;etcd&lt;/code&gt; on all controller nodes.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-3/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
-      <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
-9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
+      <description>&lt;p&gt;Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;part-1&#34;&gt;part-1&lt;/a&gt;, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-2/&#34; title=&#34;part-2&#34;&gt;part-2&lt;/a&gt;, we have bootstrapped controller nodes.&lt;/p&gt;
+&lt;p&gt;In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster&lt;/p&gt;
+&lt;h2 id=&#34;9-bootstrapping-the-kubernetes-worker-nodes&#34;&gt;9. Bootstrapping the Kubernetes Worker Nodes&lt;/h2&gt;
+&lt;p&gt;As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt; i.e. container runtime interface is &lt;code&gt;docker&lt;/code&gt; instead of &lt;code&gt;containerd&lt;/code&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title>
       <link>https://veerendra2.github.io/ssl-config-k8s-service-aws/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/ssl-config-k8s-service-aws/</guid>
-      <description>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.
-If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s ELB is not TLS enabled by default.</description>
+      <description>&lt;p&gt;As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as &lt;code&gt;LoadBalancer&lt;/code&gt;, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.&lt;/p&gt;
+&lt;p&gt;If we look at the K8s setup that is deployed on AWS(For example &lt;a href=&#34;https://github.com/kubernetes/kops&#34;&gt;&lt;code&gt;kops&lt;/code&gt;&lt;/a&gt;), there is an actual &lt;code&gt;ELB&lt;/code&gt;(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s &lt;code&gt;ELB&lt;/code&gt; is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the endpoint secure.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Linux pseudo files &amp; cheat sheet</title>
       <link>https://veerendra2.github.io/linux-cheatseets/</link>
       <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/linux-cheatseets/</guid>
-      <description>*A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”
-Tips &amp;amp; Tricks How to force a command to return exit code 0 even if the command exited non-zero?
-How to install dependencies of .deb automatically which failed to install previously?
-Example Solution:
-$ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb || : \ &amp;amp;&amp;amp; apt-get --yes --force-yes -o Dpkg::Options::=&amp;#34;--force-confdef&amp;#34; -o Dpkg::Options::=&amp;#34;--force-confold&amp;#34; -f install -y \ How to traverse directories in shell script?</description>
+      <description>&lt;p&gt;*&lt;em&gt;A blog post that I’m actively collecting “Linux pseudo files info, cheat sheets and tips”&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;tips--tricks&#34;&gt;Tips &amp;amp; Tricks&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;How to force a command to return exit code 0 even if the command exited non-zero?&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;How to install dependencies of .deb automatically which failed to install previously?&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example Solution:&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; : &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get --yes --force-yes -o Dpkg::Options::&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;--force-confdef&amp;#34;&lt;/span&gt; -o Dpkg::Options::&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;--force-confold&amp;#34;&lt;/span&gt; -f install -y &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;How to traverse directories in shell script?&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Build and Install Wireshark</title>
       <link>https://veerendra2.github.io/wireshark-install/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wireshark-install/</guid>
-      <description>Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the .cap file. The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc
-In order to install the latest version of Wireshark on Linux, one should build and install it from the source. Sometimes, building from a source is difficult because we have to hunt down the dependencies.</description>
+      <description>&lt;p&gt;Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the &lt;code&gt;.cap&lt;/code&gt; file. The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc&lt;/p&gt;
+&lt;p&gt;In order to install the latest version of Wireshark on Linux, one should build and install it from the source. Sometimes, building from a source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this software.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Open vSwitch installation on Redhat7 OS</title>
       <link>https://veerendra2.github.io/openvswitch-redhat/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/openvswitch-redhat/</guid>
-      <description>Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.
-Now let&amp;rsquo;s see how to install Open vSwitch v2.6.1 in RedHat7 step by step
-Install dependencies
-$ sudo yum install gcc make python-devel openssl-devel \ kernel-devel graphviz kernel-debug-devel \ autoconf automake rpm-build redhat-rpm-config \ libtool Grab OpenvSwitch source from http://www.</description>
+      <description>&lt;p&gt;Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.&lt;/p&gt;
+&lt;p&gt;Now let&amp;rsquo;s see how to install Open vSwitch v2.6.1 in RedHat7 step by step&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Install dependencies&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo yum install gcc make python-devel openssl-devel &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      kernel-devel graphviz kernel-debug-devel &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      autoconf automake rpm-build redhat-rpm-config &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      libtool
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Grab OpenvSwitch source from &lt;a href=&#34;http://www.openvswitch.org/download/&#34;&gt;http://www.openvswitch.org/download/&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Windows OS metrics collection with Telegraf</title>
       <link>https://veerendra2.github.io/windows-metrics-collection/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/windows-metrics-collection/</guid>
-      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pseudo files. In fact, there are so many open source tools to do this in Linux, like tcollector which is my favourite.
-Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy.</description>
+      <description>&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&#34;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&#34;&gt;/proc&lt;/a&gt; pseudo files. In fact, there are so many open source tools to do this in Linux, like &lt;a href=&#34;https://github.com/OpenTSDB/tcollector&#34;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
+&lt;p&gt;Now, Let&amp;rsquo;s look at this &lt;a href=&#34;https://www.influxdata.com/time-series-platform/telegraf/&#34;&gt;Telegraf tool&lt;/a&gt; and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy. This tool doesn&amp;rsquo;t provide any wizard installation to set up, but one has to run a command in Windows Powershell to install it as Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>KVM Hypervisor Cheat Sheets</title>
       <link>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</link>
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</guid>
-      <description>1. Install Packages Check system is capable of running KVM by running kvm-ok
-$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y Create KVM/Qemu Hard Disk File $ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt; ## Example $ qemu-img create -f raw ubuntu14-HD.img 10G Then copy the HD file to /var/lib/libvirt/images/ Launch VM with virt-install virt-install --name spinnaker \ --ram 11096 \ --vcpus=4 \ --os-type linux \ --os-variant=ubuntutrusty \ --accelerate \ --nographics -v \ --disk path=/var/lib/libvirt/images/ubuntu14-HD.</description>
+      <description>&lt;h3 id=&#34;1-install-packages&#34;&gt;1. Install Packages&lt;/h3&gt;
+&lt;p&gt;Check system  is  capable of running KVM by running &lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-kvmqemu-hard-disk-file&#34;&gt;Create KVM/Qemu Hard Disk File&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;## Example&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ qemu-img create -f raw ubuntu14-HD.img 10G
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Then copy the HD file to &lt;code&gt;/var/lib/libvirt/images/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;launch-vm-with-virt-install&#34;&gt;Launch VM with &lt;code&gt;virt-install&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;virt-install --name spinnaker &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--ram &lt;span class=&#34;m&#34;&gt;11096&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--vcpus&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--os-type linux &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--os-variant&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ubuntutrusty &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--accelerate &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--nographics -v  &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--disk &lt;span class=&#34;nv&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/var/lib/libvirt/images/ubuntu14-HD.img,size&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--extra-args &lt;span class=&#34;s2&#34;&gt;&amp;#34;console=ttyS0&amp;#34;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--location /opt/ubuntu14.iso --force &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--network bridge:virbr0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Explanation&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Encrypt your DNS queries, stay anonymous</title>
       <link>https://veerendra2.github.io/dns-encrypt/</link>
       <pubDate>Mon, 22 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/dns-encrypt/</guid>
-      <description>We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?
-Sure if we use HTTPS, all your (POST or GET) data is encrypted end-to-end which prevents eavesdropping, MITM attack and have Confidentiality, but again what about DNS queries?
-I got this question back a while ago, so after a quick Internet search, I found DNSCrypt protocol which is cool because I can encrypt DNS queries.</description>
+      <description>&lt;p&gt;We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/https_example.jpg&#34; alt=&#34;HTTPS Example&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;Sure if we use HTTPS, all your (&lt;a href=&#34;https://en.wikipedia.org/wiki/POST_(HTTP)&#34;&gt;POST&lt;/a&gt; or GET) data is encrypted end-to-end which prevents eavesdropping, &lt;a href=&#34;https://en.wikipedia.org/wiki/Man-in-the-middle_attack&#34;&gt;MITM attack&lt;/a&gt; and have &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidentiality&#34;&gt;Confidentiality&lt;/a&gt;, but again what about DNS queries?&lt;/p&gt;
+&lt;p&gt;I got this question back a while ago, so after a quick Internet search, I found &lt;a href=&#34;https://en.wikipedia.org/wiki/DNSCrypt&#34;&gt;DNSCrypt&lt;/a&gt; protocol which is cool because I can encrypt DNS queries.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Wifi Deauthentication Attack</title>
       <link>https://veerendra2.github.io/wifi-deathentication-attack/</link>
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wifi-deathentication-attack/</guid>
-      <description>A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.
--Wikipedia
-As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands here).
-So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
+&lt;p&gt;-Wikipedia&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult  to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once  deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>GNU screen commands(Cheat Sheet)</title>
       <link>https://veerendra2.github.io/gnu-screen-commands/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/gnu-screen-commands/</guid>
-      <description>GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. &lt;a href=&#34;https://en.wikipedia.org/wiki/GNU_Screen&#34;&gt;more&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Install jekyll in Ubuntu 14.04</title>
       <link>https://veerendra2.github.io/jeklly-website/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/jeklly-website/</guid>
-      <description>👉 Update on 27-08-2022 Moving to Hugo and other updates! I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
-root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.</description>
+      <description>&lt;p&gt;&amp;#x1f449; Update on 27-08-2022 &lt;a href=&#34;https://veerendra2.github.io/moving-to-hugo/&#34; title=&#34;Moving to Hugo and other updates!&#34;&gt; Moving to Hugo and other updates! &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I was very excited to try &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;code&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt; when I heard about it. When I try to install &lt;code&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root@veeru:/home/veeru# gem install jekyll bundler
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Fetching: public_suffix-3.0.1.gem &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;100%&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ERROR:  Error installing jekyll:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    public_suffix requires Ruby version &amp;gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; 2.1.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Fetching: bundler-1.16.1.gem &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;100%&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Successfully installed bundler-1.16.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; gem installed
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing ri documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing RDoc documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I don&amp;rsquo;t even know what that means(I&amp;rsquo;m not a Ruby guy, so..). Clearly &lt;code&gt;jekyll&lt;/code&gt; needs more than Ruby version 2.1, but in Ubuntu 14.04 if you type &lt;code&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So let&amp;rsquo;s install Ruby 2.4 like below&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>MAC Address Scrambling in Linux</title>
       <link>https://veerendra2.github.io/mac-scrambling/</link>
       <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/mac-scrambling/</guid>
-      <description>“MAC Address Scrambling“- By the name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.</description>
+      <description>&lt;p&gt;“&lt;strong&gt;MAC Address Scrambling&lt;/strong&gt;“- By the name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security.  MAC address is a 48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>About</title>
       <link>https://veerendra2.github.io/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/about/</guid>
       <description></description>
     </item>
-    
-    
-    
     <item>
       <title>My Bookmarks</title>
       <link>https://veerendra2.github.io/bookmarks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/bookmarks/</guid>
-      <description>Network Blogs Capturing Wireless LAN Packets on Ubuntu with tcpdump and Kismet Linux Bridging Phishing With a Rogue Wi-Fi Access Point Fast DDoS analyzer with sflow/netflow/mirror support China&amp;rsquo;s Man-on-the-Side Attack on GitHub SSH testing tool checks the configuration of given server accessible over internet Infinite possibilities with the Scapy Module An Illustrated Guide to the Kaminsky DNS Vulnerability A penetration tester’s guide to sub-domain enumeration A source for pcap files and malware samples Explanation of how https works Daniels Networking Blog Python for Network Engineers Fuzzing proprietary protocols with Scapy, radamsa and a handful of PCAPs How to Decrypt 802.</description>
+      <description>&lt;ul&gt;
+&lt;li&gt;
+&lt;h2 id=&#34;network&#34;&gt;Network&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;blogs&#34;&gt;Blogs&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://sandilands.info/sgordon/capturing-wireless-lan-with-ubuntu-tcpdump-kismet&#34;&gt;Capturing Wireless LAN Packets on Ubuntu with tcpdump and Kismet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://goyalankit.com/blog/linux-bridge&#34;&gt;Linux Bridging&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://xeushack.com/phishing-with-a-rogue-wifi-access-point/&#34;&gt;Phishing With a Rogue Wi-Fi Access Point&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://packages.debian.org/sid/fastnetmon&#34;&gt;Fast DDoS analyzer with sflow/netflow/mirror support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.netresec.com/?page=Blog&amp;month=2015-03&amp;post=China%27s-Man-on-the-Side-Attack-on-GitHub&#34;&gt;China&amp;rsquo;s Man-on-the-Side Attack on GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://sshcheck.com/&#34;&gt;SSH testing tool checks the configuration of given server accessible over internet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://bt3gl.github.io/black-hat-python-infinite-possibilities-with-the-scapy-module.html&#34;&gt;Infinite possibilities with the Scapy Module &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.unixwiz.net/techtips/iguide-kaminsky-dns-vuln.html&#34;&gt;An Illustrated Guide to the Kaminsky DNS Vulnerability&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.appsecco.com/a-penetration-testers-guide-to-sub-domain-enumeration-7d842d5570f6&#34;&gt;A penetration tester’s guide to sub-domain enumeration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.malware-traffic-analysis.net/&#34;&gt;A source for pcap files and malware samples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://dev.to/ruidfigueiredo/briefish-explanation-of-how-https-works&#34;&gt;Explanation of how https works &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://lostintransit.se/&#34;&gt;Daniels Networking Blog &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pynet.twb-tech.com/&#34;&gt;Python for Network Engineers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.blazeinfosec.com/fuzzing-proprietary-protocols-with-scapy-radamsa-and-a-handful-of-pcaps/&#34;&gt;Fuzzing proprietary protocols with Scapy, radamsa and a handful of PCAPs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.wireshark.org/HowToDecrypt802.11&#34;&gt;How to Decrypt 802.11&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.isi.edu/nsnam/ns/tutorial/&#34;&gt;Tutorials for Network Simulator &amp;ldquo;ns&amp;rdquo;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html&#34;&gt;The First Few Milliseconds of an HTTPS Connection&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://medium.freecodecamp.org/https-explained-with-carrier-pigeons-7029d2193351&#34;&gt;HTTPS explained with carrier pigeons&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.c0ffee.net/blog/mail-server-guide&#34;&gt;How To Run Your Own Mail Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.bettercap.org/&#34;&gt;Bettercap -  MITM attack tool&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://hackertarget.com/tcpdump-examples/&#34;&gt;Tcpdump Examples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h4 id=&#34;bluetooth&#34;&gt;Bluetooth&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.evilsocket.net/2017/09/23/This-is-not-a-post-about-BLE-introducing-BLEAH/&#34;&gt;BLEAH-A BLE scanner for &amp;ldquo;smart&amp;rdquo; devices hacking&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://conorpp.com/proxying-bluetooth-devices-for-security-analysis-using-btproxy&#34;&gt;Proxying Bluetooth devices for security analysis using btproxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.evilsocket.net/2015/01/29/nike-fuelband-se-ble-protocol-reversed/&#34;&gt;Nike+ FuelBand SE BLE Protocol Reversed&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ubertooth.sourceforge.net/&#34;&gt;Ubertooth - Can sniff some data from Basic Rate (BR) Bluetooth Classic connections.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ianharvey.github.io/bluepy-doc/&#34;&gt;A Bluetooth LE interface for Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;github-projects&#34;&gt;Github Projects&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;wireless&#34;&gt;Wireless&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/wi-fi-analyzer/fluxion&#34;&gt;MITM WPA attacks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/P0cL4bs/WiFi-Pumpkin&#34;&gt;Framework for Rogue Wi-Fi Access Point Attack &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/xtr4nge/FruityWifi&#34;&gt;FruityWiFi is a wireless network auditing tool.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/xdavidhu/probeSniffer&#34;&gt;Tool for sniffing unencrypted wireless probe requests from devices&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;[Rogue Access Point framework for Wi-Fi automatic association attacks and victim-customized phishing](Rogue Access Point framework for Wi-Fi automatic association attacks and victim-customized phishing)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/oblique/create_ap&#34;&gt;This script creates a NATed or Bridged WiFi Access Point&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/k4m4/kickthemout&#34;&gt;Kick devices off your network by performing an ARP Spoof attack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Tylous/SniffAir&#34;&gt;A framework for wireless pentesting. &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/brannondorsey/wifi-cracking&#34;&gt;Crack WPA/WPA2 Wi-Fi Routers with Airodump-ng and Aircrack-ng/Hashcat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/conorpp/btproxy&#34;&gt;Bluetooth Proxy tool&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;dns&#34;&gt;DNS&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/curl/curl/wiki/DNS-over-HTTPS&#34;&gt;DNS over HTTPS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/eldraco/domain_analyzer&#34;&gt;Analyze the security of any domain by finding all the information possible. Made in python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/elceef/dnstwist&#34;&gt;Domain name permutation engine for detecting typo squatting, phishing and corporate espionage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/NavyTitanium/DNSMasterChef&#34;&gt;Selective DNS proxy forwarding based on DNS threat blocking providers intelligence&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/darkoperator/dnsrecon&#34;&gt;DNS Enumeration Script &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aboul3la/Sublist3r&#34;&gt;Fast subdomains enumeration tool for penetration testers &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ak1t4/open-redirect-scanner&#34;&gt;Open redirect subdomains scanner&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/eldraco/domain_analyzer&#34;&gt;Analyze the security of any domain by finding all the information possible. Made in python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/michenriksen/aquatone&#34;&gt;A set of tools for performing reconnaissance on domain names&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;scan&#34;&gt;Scan&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/scrapy/scrapy&#34;&gt;Scrapy, a fast high-level web crawling &amp;amp; scraping framework for Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/robertdavidgraham/masscan&#34;&gt;TCP port scanner, spews SYN packets asynchronously, scanning entire Internet in under 5 minutes. &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/sullo/nikto&#34;&gt;Nikto web server scanner &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/milesrichardson/docker-onion-nmap&#34;&gt;Scan .onion hidden services with nmap using Tor, proxychains and dnsmasq&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mirsamantajbakhsh/OnionHarvester&#34;&gt;A small TOR Onion Address harvester for checking if the address is available or not.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/buger/goreplay&#34;&gt;Tool for capturing and replaying live HTTP traffic into a test environment&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alexxy/netdiscover&#34;&gt;netdiscover&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/bwaldvogel/neighbourhood&#34;&gt;Layer 2 network neighbourhood discovery tool that uses scapy &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/tintinweb/scapy-ssl_tls&#34;&gt;SSL/TLS layers for scapy the interactive packet manipulation tool&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/secdev/scapy&#34;&gt;The python-based interactive packet manipulation program &amp;amp; library&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/KimiNewt/pyshark&#34;&gt;Python wrapper for tshark, allowing python packet parsing using wireshark dissectors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yarrick/pingfs&#34;&gt;Stores your data in ICMP ping packets &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/simsong/tcpflow&#34;&gt;TCP/IP packet demultiplexer &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/regit/pynetfilter_conntrack&#34;&gt;Python binding of libnetfilter_conntrack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/GouveaHeitor/nipe&#34;&gt;Nipe is a script to make Tor Network your default gateway&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aploium/shootback&#34;&gt;A reverse TCP tunnel let you access target behind NAT or firewall &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/wangyu-/udp2raw-tunnel&#34;&gt;A Tunnel which Turns UDP Traffic into Encrypted UDP/FakeTCP/ICMP Traffic by using Raw Socket&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://regauth.standards.ieee.org/standards-ra-web/pub/view.html#registries&#34;&gt;Search MAC Address&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h2 id=&#34;linux&#34;&gt;Linux&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;blogs-1&#34;&gt;Blogs&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;boot&#34;&gt;Boot&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.tldp.org/HOWTO/HighQuality-Apps-HOWTO/boot.html#boot.runlevel&#34;&gt;Run Levels &amp;amp; How to make init scripts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://0x00sec.org/t/realmode-assembly-writing-bootable-stuff-part-5/3667&#34;&gt;Realmode Assembly – Writing bootable stuff&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://debian-administration.org/article/28/Making_scripts_run_at_boot_time_with_Debian&#34;&gt;Making scripts run at boot time with Debian&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://3zanders.co.uk/2017/10/13/writing-a-bootloader/&#34;&gt;Writing a Bootloader &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fhd/init-script-template&#34;&gt;init script template&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=TyMLi8QF6sw&#34;&gt;systemd, Beyond init-Youtube Talk&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://opensource.com/article/18/1/analyzing-linux-boot-process&#34;&gt;Analyzing the Linux boot process&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;[Write Simple OS from scratch [PDF]]({{ site.url }}/assets/os-dev.pdf)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;os-development&#34;&gt;OS Development&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://littleosbook.github.io/#introduction&#34;&gt;The little book about OS development&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://samypesse.gitbooks.io/how-to-create-an-operating-system/&#34;&gt;How to Make a Computer Operating System&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://arjunsreedharan.org/post/82710718100/kernel-101-lets-write-a-kernel&#34;&gt;Let&amp;rsquo;s Write a Kernel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://wiki.osdev.org/Main_Page&#34;&gt;Information about the creation of operating systems&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://os.phil-opp.com/&#34;&gt;Writing OS in Rust&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;commands&#34;&gt;Commands&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://codeahoy.com/2017/01/20/hhtop-explained-visually/&#34;&gt;htop explained visually with screenshot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://explainshell.com/&#34;&gt;Explain Shell&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://vim-adventures.com/&#34;&gt;Learn VIM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.lopezferrando.com/30-interesting-shell-commands/&#34;&gt;30 interesting commands for the Linux shell&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.digitalocean.com/community/tutorials/an-introduction-to-linux-permissions&#34;&gt;An Introduction to Linux Permissions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.tecmint.com/permanently-and-securely-delete-files-directories-linux/&#34;&gt;3 Ways to Permanently and Securely Delete &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://opensource.com/article/18/1/two-great-uses-cp-command-update&#34;&gt;Two great uses for the cp command: Bash shortcuts &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h5 id=&#34;files&#34;&gt;Files&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.aychedee.com/2012/03/14/etc_shadow-password-hash-formats/&#34;&gt;Understanding and generating the hash stored in /etc/shadow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/cd/E19683-01/806-4078/secfiles-69/index.html&#34;&gt;What is setiud, setgid and sticky bit in Linux?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt&#34;&gt;/proc/sys/net/ipv4&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.kernel.org/doc/Documentation/networking/proc_net_tcp.txt&#34;&gt;/proc/net/tcp and /proc/net/tcp6&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://man7.org/linux/man-pages/man4/null.4.html&#34;&gt;/dev/null&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://man7.org/linux/man-pages/man4/full.4.html&#34;&gt;/dev/full&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://man7.org/linux/man-pages/man4/random.4.html&#34;&gt;/dev/random&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://man7.org/linux/man-pages/man4/random.4.html&#34;&gt;/dev/urandom&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://unix.stackexchange.com/questions/254384/difference-between-dev-null-and-dev-zero&#34;&gt;/dev/zero&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/RainwayApp/warden&#34;&gt;Warden.NET is an easy to use process management library for keeping track of processes on Windows. &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;[Android Internals[PDF]]({{ &amp;ldquo;/assets/android_internals.pdf &amp;quot; | absolute_url }})&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://qmonnet.github.io/whirl-offload/2016/09/01/dive-into-bpf/&#34;&gt;A list of reading materials for BPF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Leo-G/DevopsWiki/wiki/How-Linux-CPU-Usage-Time-and-Percentage-is-calculated&#34;&gt;How Linux CPU Usage Time and Percentage is calculated&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.joshlemon.com.au/protecting-your-pdf-files-and-metadata/&#34;&gt;Removing Your PDF Metadata &amp;amp; Protecting PDF Files&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gitlab.com/nowayout/prochunter&#34;&gt;Linux Process Hunter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://landley.net/writing/memory-faq.txt&#34;&gt;Linux Memory Managment Frequently Asked Questions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://thevivi.net/2018/03/23/attack-infrastructure-logging-part-1-logging-server-setup/&#34;&gt;Attack Infrastructure Logging&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://saferwall.com/blog/virtualization-internals-part-1-intro-to-virtualization&#34;&gt;Virtualization Internals&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;github-projects-1&#34;&gt;Github Projects&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/iovisor/bcc&#34;&gt;A toolkit for creating efficient kernel tracing and manipulation programs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ondrejbudai/hidviz/&#34;&gt;Tool for in-depth analysis of USB HID devices communication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/learnbyexample/Command-line-text-processing&#34;&gt;From finding text to search and replace, from sorting to beautifying text and more&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/scop/bash-completion&#34;&gt;Programmable completion functions for bash &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;cheatsheets&#34;&gt;CheatSheets&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Idnan/bash-guide&#34;&gt;Bash&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h2 id=&#34;python&#34;&gt;Python&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;blog&#34;&gt;Blog&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://gist.github.com/simonw/8aa492e59265c1a021f5c5618f9e6b12&#34;&gt;How to recover lost Python source code if it&amp;rsquo;s still resident in-memory&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/playlist?list=PLzV58Zm8FuBL6OAv1Yu6AwXZrnsFbbR0S&#34;&gt;Cpython Internals: Codewalk through the Python interpreter source codes [Youtube Playlist]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://interactivepython.org/courselib/static/pythonds/index.html&#34;&gt;Problem Solving with Algorithms and Data Structures using Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.nltk.org/book/?=&#34;&gt;Natural Language Processing with Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.quantifiedcode.com/python-anti-patterns/latex/The-Little-Book-of-Python-Anti-Patterns-1.0.pdf&#34;&gt;Python Anti-Patterns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/playlist?list=PLQVvvaa0QuDeETZEOy4VdocT7TOjfSA8a&#34;&gt;Python Plays: Grand Theft Auto V&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pythonprogramming.net/&#34;&gt;https://pythonprogramming.net/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/keon/algorithms&#34;&gt;Pythonic Data Structures and Algorithms&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://learnxinyminutes.com/docs/shutit/&#34;&gt;An automation tool that models a user’s actions on a terminal.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/zeeshanu/learn-regex/blob/master/README.md&#34;&gt;Regx in easy way&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.patricktriest.com/you-should-learn-regex/&#34;&gt;You Should Learn Regx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ruslanspivak.com/lsbasi-part1/&#34;&gt;Let’s Build A Simple Interpreter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.datacamp.com/community/tutorials/python-excel-tutorial&#34;&gt;Python Excel Tutorial: The Definitive Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://datastructures.js.org/#/home&#34;&gt;C++ Data Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;[Scapy Docs [PDF]]({{ &amp;ldquo;/assets/scapydoc.pdf&amp;rdquo; | absolute_url }})&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.python-course.eu&#34;&gt;python-course.eu&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;github-projects-2&#34;&gt;Github Projects&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ac-pm/Inspeckage&#34;&gt;Android Package Inspector - dynamic analysis with api hooks, start unexported activities and more. (Xposed Module) &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/abhishekbanthia/Public-APIs&#34;&gt;A public list of APIs from round the web. &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/m-labs/migen&#34;&gt;A Python toolbox for building complex digital hardware&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mtdvio/every-programmer-should-know&#34;&gt;A collection of (mostly) technical things every software developer should know&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/alex/what-happens-when&#34;&gt;What happens when&amp;hellip;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aeroxis/sultan&#34;&gt;Command and Rule over your Shell&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ianmiell/shutit&#34;&gt;Shutit-Automation framework for programmers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aoh/radamsa&#34;&gt;A general-purpose fuzzer &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/keon/algorithms&#34;&gt;Minimal examples of data structures and algorithms in Python &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/dougsland/python-by-examples&#34;&gt;Python By Examples&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h2 id=&#34;securityprivacy&#34;&gt;Security/Privacy&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;blogs-2&#34;&gt;Blogs&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h6 id=&#34;privacy&#34;&gt;Privacy&lt;/h6&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://clearcode.cc/blog/intelligent-tracking-prevention/&#34;&gt;What Is Intelligent Tracking Prevention and How Does It Work?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://clearcode.cc/blog/online-privacy-user-data/&#34;&gt;The Truth About Online Privacy: How Your Data is Collected, Shared, and Sold&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://clearcode.cc/blog/cookie-syncing/&#34;&gt;What is Cookie Syncing and How Does it Work?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/jbtronics/CrookedStyleSheets&#34;&gt;Webpage tracking only using CSS (and no JS) &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://stanfy.com/blog/monitor-mobile-app-traffic-with-sniffers/&#34;&gt;How to Monitor Mobile App Traffic With Sniffers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://vulnerablelife.wordpress.com/2017/05/13/python-for-penetration-testers/&#34;&gt;Python for PenTesters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.perspectiverisk.com/intro-to-basic-disassembly-reverse-engineering/&#34;&gt;Intro to basic Disassembly &amp;amp; Reverse Engineering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.pentesteracademy.com/course?id=1&#34;&gt;Python for Pentesters-pentesteracademy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://startyourownisp.com/&#34;&gt;Start Your Own ISP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.fortinet.com/2018/01/17/into-the-implementation-of-spectre&#34;&gt;Details of the implementation of Spectre,&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.j-michel.org/blog/2018/01/16/attacking-secure-usb-keys-behind-the-scene&#34;&gt;Attacking secure USB keys, behind the scene&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.tecmint.com/install-tripwire-ids-intrusion-detection-system-on-linux/&#34;&gt;How to Install Tripwire IDS (Intrusion Detection System) on Linux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.hacker101.com/&#34;&gt;Hacker101!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.netspi.com/four-ways-bypass-android-ssl-verification-certificate-pinning/&#34;&gt;Four Ways to Bypass Android SSL Verification and Certificate Pinning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cedricvb.be/post/tracing-api-calls-in-burp-with-frida/&#34;&gt;Tracing API calls in Burp with Frida&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://n0where.net/&#34;&gt;Open Source CyberSecurity - n0where.net&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;[Command Injection [PDF]]({{ &amp;ldquo;/assets/Command_Injection_Shell_Injection.pdf&amp;rdquo; | absolute_url }})&lt;/li&gt;
+&lt;li&gt;[Recon-ng Guid [PDF]]({{ &amp;ldquo;/assets/recon-ng-guide.pdf&amp;rdquo; | absolute_url }})&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.evilsocket.net/2017/04/27/Android-Applications-Reversing-101/&#34;&gt;Android Applications Reversing 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://moveax.me/&#34;&gt;moveax.me&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.zimperium.com/zanti-cyber-threat-detection/&#34;&gt;The New zANTI: Mobile Penetration &amp;amp; Security Analysis Toolkit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h6 id=&#34;reverse-engineering&#34;&gt;Reverse Engineering&lt;/h6&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://scriptdotsh.com/index.php/2018/04/09/ground-zero-part-1-reverse-engineering-basics/&#34;&gt;Reverse Engineering Basics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://puri.sm/posts/primer-to-reverse-engineering/&#34;&gt;A Primer Guide to Reverse Engineering &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.leungs.xyz/reversing/2018/06/18/radare2-binary-patching-introduction.html&#34;&gt;Binary patching and intro to assembly with r2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;github-projects-3&#34;&gt;Github Projects&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/deepakdaswani/whatsapp_discover&#34;&gt;WhatsApp Discover&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/tanprathan/MobileApp-Pentest-Cheatsheet&#34;&gt;Mobile App Pentest cheat sheet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
-    
-    
   </channel>
 </rss>

@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>wireguard on Veerendra&#39;s Blog</title>
+    <title>Wireguard on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/wireguard/</link>
-    <description>Recent content in wireguard on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Wireguard on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 01 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/wireguard/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 1)</title>
       <link>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</link>
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</guid>
-      <description>Introduction One of the services I always wanted to have on my raspberry pi home server is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s &amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo; on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the ansible playbook to deploy the wireguard VPN.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;One of the services I always wanted to have on my &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberry pi home server&lt;/a&gt; is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s &lt;a href=&#34;https://www.youtube.com/watch?v=SMF301vQqJo&#34;&gt;&amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo;&lt;/a&gt; on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the &lt;a href=&#34;https://github.com/notthebee/ansible-easy-vpn&#34;&gt;ansible playbook&lt;/a&gt; to deploy the wireguard VPN. After I tested a few months on Mobile and PC, I&amp;rsquo;m comfortable setting up server and client. So, I decided to use the Wireguard in my &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberrypi-homeserver&lt;/a&gt; project.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 2)</title>
       <link>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</link>
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</guid>
-      <description>Previously in part 1, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration
-Testing Below are the tests to make sure qBittorrent has access to the Internet through Wireguard VPN
-➡️Make sure Wireguard and qBittorrent containers are up and running.
-➡️Check you are able to ping Wireguard container from qBittorrent</description>
+      <description>&lt;p&gt;Previously in &lt;a href=&#34;https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/&#34; title=&#34;part 1&#34;&gt;part 1&lt;/a&gt;, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration&lt;/p&gt;
+&lt;h1 id=&#34;testing&#34;&gt;Testing&lt;/h1&gt;
+&lt;p&gt;Below are the tests to make sure qBittorrent has access to the Internet through Wireguard VPN&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;#x27a1;&amp;#xfe0f;Make sure Wireguard and qBittorrent containers are up and running.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;#x27a1;&amp;#xfe0f;Check you are able to ping Wireguard container from qBittorrent&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

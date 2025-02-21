@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>aws on Veerendra&#39;s Blog</title>
+    <title>Aws on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/aws/</link>
-    <description>Recent content in aws on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 29 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Aws on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 29 May 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/aws/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title>
       <link>https://veerendra2.github.io/ssl-config-k8s-service-aws/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/ssl-config-k8s-service-aws/</guid>
-      <description>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.
-If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s ELB is not TLS enabled by default.</description>
+      <description>&lt;p&gt;As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as &lt;code&gt;LoadBalancer&lt;/code&gt;, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.&lt;/p&gt;
+&lt;p&gt;If we look at the K8s setup that is deployed on AWS(For example &lt;a href=&#34;https://github.com/kubernetes/kops&#34;&gt;&lt;code&gt;kops&lt;/code&gt;&lt;/a&gt;), there is an actual &lt;code&gt;ELB&lt;/code&gt;(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s &lt;code&gt;ELB&lt;/code&gt; is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the endpoint secure.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

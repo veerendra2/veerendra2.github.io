@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>kubernetes on Veerendra&#39;s Blog</title>
+    <title>Kubernetes on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Kubernetes on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Strimzi Kafka Disaster Recovery with Velero</title>
       <link>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</link>
       <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</guid>
-      <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
-https://strimzi.io
-Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt; with &lt;a href=&#34;https://velero.io/&#34;&gt;Velero&lt;/a&gt;. First of all, what is Strmzi Kafka?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://strimzi.io&#34;&gt;https://strimzi.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/strimzi-logo.png&#34; alt=&#34;Strizi Logo&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Velero Deployment with Kustomize (Azure)</title>
       <link>https://veerendra2.github.io/velero-deployment/</link>
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
-      <description>Introduction Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt;, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/&#34;&gt;persistance volume(PV)&lt;/a&gt; as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore. Sure, you can configure these managed disk backups from Terraform or manually in cloud provider portals. But tools like Velero, backup PV from kubernetes side which is more visible and easy to manage which is what you will see in a moment.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-1/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-1/</guid>
-      <description>Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post
-I know what you are thinking, I steal Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;CRI&amp;rsquo; and Flannel as &amp;lsquo;CNI&amp;rsquo;.
-This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I highly recommend go through his repo.</description>
+      <description>&lt;p&gt;Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post&lt;/p&gt;
+&lt;p&gt;I know what you are thinking, I steal &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt;, but hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/setup/cri/&#34;&gt;CRI&lt;/a&gt;&amp;rsquo; and Flannel as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;CNI&lt;/a&gt;&amp;rsquo;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This blog post follows &lt;a href=&#34;https://github.com/kelseyhightower&#34;&gt;Kelsey Hightower&amp;rsquo;s&lt;/a&gt; &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kubernetes The Hard Way&lt;/a&gt;, I highly recommend go through his repo. I&amp;rsquo;m writing this blog post to keep it as a reference for me and share it with other people who want to try it. So, feel free to correct me if there are any mistakes and ping me for any queries. This series is divided into 3 parts and all configuration/scripts are available in my &lt;a href=&#34;https://github.com/veerendra2/k8s-the-hard-way-blog&#34;&gt;github repo&lt;/a&gt;. Well, that has been said, let&amp;rsquo;s start building the cluster.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-2/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
-      <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.</description>
+      <description>&lt;p&gt;Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;previous post&#34;&gt;previous post&lt;/a&gt; we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes&lt;/p&gt;
+&lt;h1 id=&#34;6-bootstrapping-the-etcd-cluster&#34;&gt;6. Bootstrapping the etcd Cluster&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://coreos.com/etcd/&#34;&gt;&lt;code&gt;etcd&lt;/code&gt;&lt;/a&gt; is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in &lt;code&gt;etcd&lt;/code&gt; via api-server. In this section, we will install and configure &lt;code&gt;etcd&lt;/code&gt; on all controller nodes.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-3/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
-      <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
-9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
+      <description>&lt;p&gt;Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;part-1&#34;&gt;part-1&lt;/a&gt;, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-2/&#34; title=&#34;part-2&#34;&gt;part-2&lt;/a&gt;, we have bootstrapped controller nodes.&lt;/p&gt;
+&lt;p&gt;In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster&lt;/p&gt;
+&lt;h2 id=&#34;9-bootstrapping-the-kubernetes-worker-nodes&#34;&gt;9. Bootstrapping the Kubernetes Worker Nodes&lt;/h2&gt;
+&lt;p&gt;As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt; i.e. container runtime interface is &lt;code&gt;docker&lt;/code&gt; instead of &lt;code&gt;containerd&lt;/code&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title>
       <link>https://veerendra2.github.io/ssl-config-k8s-service-aws/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/ssl-config-k8s-service-aws/</guid>
-      <description>As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as LoadBalancer, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.
-If we look at the K8s setup that is deployed on AWS(For example kops), there is an actual ELB(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s ELB is not TLS enabled by default.</description>
+      <description>&lt;p&gt;As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as &lt;code&gt;LoadBalancer&lt;/code&gt;, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.&lt;/p&gt;
+&lt;p&gt;If we look at the K8s setup that is deployed on AWS(For example &lt;a href=&#34;https://github.com/kubernetes/kops&#34;&gt;&lt;code&gt;kops&lt;/code&gt;&lt;/a&gt;), there is an actual &lt;code&gt;ELB&lt;/code&gt;(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s &lt;code&gt;ELB&lt;/code&gt; is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the endpoint secure.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

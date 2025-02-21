@@ -4,19 +4,49 @@
     <title>Nugget Posts on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/posts/nuggets/</link>
     <description>Recent content in Nugget Posts on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 11 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/posts/nuggets/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 11 Nov 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/posts/nuggets/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>User Namespace Isolation in Docker</title>
       <link>https://veerendra2.github.io/docker-userns-remap/</link>
       <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/docker-userns-remap/</guid>
-      <description>There is a cool feature in docker called userns-remap, discovered while doing my RaspberryPi home server project; 15#issuecomment-1296311979, I can just enable userns-remap and docker does all remapping of uid and gid inside docker container to a non-root user on the host.
-https://docs.docker.com/engine/security/userns-remap/
-How to enable *It is better to reinstall docker and remove all existing docker volumes
-Add below /etc/docker/daemon.json { &amp;#34;userns-remap&amp;#34;: &amp;#34;default&amp;#34; } Restart the docker daemon $ sudo systemctl restart docker Ansible automation here In-Action # Run the Nginx container $ docker run -it -d nginx # Inside, the process thinks it is running as root!</description>
+      <description>&lt;p&gt;There is a cool feature in docker called &lt;code&gt;userns-remap&lt;/code&gt;, discovered while doing my RaspberryPi home server project; &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver/issues/15#issuecomment-1296311979&#34;&gt;15#issuecomment-1296311979&lt;/a&gt;, I can just enable &lt;code&gt;userns-remap&lt;/code&gt; and docker does all remapping of &lt;code&gt;uid&lt;/code&gt; and &lt;code&gt;gid&lt;/code&gt; inside docker container to a non-root user on the host.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.docker.com/engine/security/userns-remap/&#34;&gt;https://docs.docker.com/engine/security/userns-remap/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;how-to-enable&#34;&gt;How to enable&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;*It is better to reinstall docker and remove all existing docker volumes&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Add below &lt;code&gt;/etc/docker/daemon.json&lt;/code&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;#34;userns-remap&amp;#34;: &amp;#34;default&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Restart the docker daemon
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo systemctl restart docker
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Ansible automation &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver/blob/main/tasks/docker.yml&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;in-action&#34;&gt;In-Action&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# Run the Nginx container
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ docker run -it -d nginx
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# Inside, the process thinks it is running as root!
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerendra@atom:~$ docker exec -it nginx whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# But outside(on host namespace), the process running it as non-root user
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerendra@atom:~$ ps aux | grep nginx
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165536    350093  0.0  0.0   6320  4688 ?        Ss   03:21   0:00 nginx: master process nginx -g daemon off;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350208  0.0  0.0   6788  4288 ?        S    03:21   0:01 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350209  0.0  0.0   6784  4284 ?        S    03:21   0:00 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350210  0.0  0.0   6784  4284 ?        S    03:21   0:01 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350212  0.0  0.0   6784  4284 ?        S    03:21   0:01 nginx: worker process
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerend+  937492  0.0  0.0   6420  1844 pts/0    S+   16:22   0:00 grep --color=auto nginx
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see I have not specified any user while deploying the container, but the user inside the container is isolated i.e remapped to a non-root user(uid:&lt;code&gt;165637&lt;/code&gt;, gid:&lt;code&gt;165637&lt;/code&gt;) on the host&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

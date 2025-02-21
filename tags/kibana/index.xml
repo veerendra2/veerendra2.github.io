@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>kibana on Veerendra&#39;s Blog</title>
+    <title>Kibana on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/kibana/</link>
-    <description>Recent content in kibana on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Sep 2022 17:39:52 +0200</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/kibana/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Kibana on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 10 Sep 2022 17:39:52 +0200</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/kibana/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kibana Installation</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</link>
       <pubDate>Sat, 10 Sep 2022 17:39:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Kibana Installation 📄 Office docs
-❗ The elasticsearch should be up and running before you start kibana installation procedure
-Install via apt-get from here
-As of today the kibana version is 7.6.2 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - $ sudo apt-get install apt-transport-https $ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list $ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana Configure Kibana Refer kibana.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;kibana-installation&#34;&gt;Kibana Installation&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x2757; The elasticsearch should be up and running before you start kibana installation procedure&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/downloads/kibana&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;As of today the kibana version is &lt;code&gt;7.6.2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install apt-transport-https
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;configure-kibana&#34;&gt;Configure Kibana&lt;/h2&gt;
+&lt;p&gt;Refer &lt;code&gt;kibana.yml&lt;/code&gt; configuration file in current directory and modify accordingly&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

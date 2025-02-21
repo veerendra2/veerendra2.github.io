@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>metrics on Veerendra&#39;s Blog</title>
+    <title>Metrics on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/metrics/</link>
-    <description>Recent content in metrics on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 27 Feb 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/metrics/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Metrics on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 27 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/metrics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Windows OS metrics collection with Telegraf</title>
       <link>https://veerendra2.github.io/windows-metrics-collection/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/windows-metrics-collection/</guid>
-      <description>Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading /proc pseudo files. In fact, there are so many open source tools to do this in Linux, like tcollector which is my favourite.
-Now, Let&amp;rsquo;s look at this Telegraf tool and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy.</description>
+      <description>&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&#34;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&#34;&gt;/proc&lt;/a&gt; pseudo files. In fact, there are so many open source tools to do this in Linux, like &lt;a href=&#34;https://github.com/OpenTSDB/tcollector&#34;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
+&lt;p&gt;Now, Let&amp;rsquo;s look at this &lt;a href=&#34;https://www.influxdata.com/time-series-platform/telegraf/&#34;&gt;Telegraf tool&lt;/a&gt; and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy. This tool doesn&amp;rsquo;t provide any wizard installation to set up, but one has to run a command in Windows Powershell to install it as Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

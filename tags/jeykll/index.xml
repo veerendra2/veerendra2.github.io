@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>jeykll on Veerendra&#39;s Blog</title>
+    <title>Jeykll on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/jeykll/</link>
-    <description>Recent content in jeykll on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/jeykll/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Jeykll on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/jeykll/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Install jekyll in Ubuntu 14.04</title>
       <link>https://veerendra2.github.io/jeklly-website/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/jeklly-website/</guid>
-      <description>👉 Update on 27-08-2022 Moving to Hugo and other updates! I was very excited to try Jekyll and Github Pages when I heard about it. When I try to install jekyll, I got below error
-root@veeru:/home/veeru# gem install jekyll bundler Fetching: public_suffix-3.0.1.gem (100%) ERROR: Error installing jekyll: public_suffix requires Ruby version &amp;gt;= 2.1. Fetching: bundler-1.16.1.gem (100%) Successfully installed bundler-1.16.1 1 gem installed Installing ri documentation for bundler-1.16.1... Installing RDoc documentation for bundler-1.</description>
+      <description>&lt;p&gt;&amp;#x1f449; Update on 27-08-2022 &lt;a href=&#34;https://veerendra2.github.io/moving-to-hugo/&#34; title=&#34;Moving to Hugo and other updates!&#34;&gt; Moving to Hugo and other updates! &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I was very excited to try &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;code&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt; when I heard about it. When I try to install &lt;code&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root@veeru:/home/veeru# gem install jekyll bundler
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Fetching: public_suffix-3.0.1.gem &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;100%&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ERROR:  Error installing jekyll:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    public_suffix requires Ruby version &amp;gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; 2.1.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Fetching: bundler-1.16.1.gem &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;100%&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Successfully installed bundler-1.16.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; gem installed
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing ri documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing RDoc documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I don&amp;rsquo;t even know what that means(I&amp;rsquo;m not a Ruby guy, so..). Clearly &lt;code&gt;jekyll&lt;/code&gt; needs more than Ruby version 2.1, but in Ubuntu 14.04 if you type &lt;code&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So let&amp;rsquo;s install Ruby 2.4 like below&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

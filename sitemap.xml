@@ -2,6 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://veerendra2.github.io/tags/backup/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/worpress-backup-kopia/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/kopia/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/posts/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/restore/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://veerendra2.github.io/tags/wordpress/</loc>
+    <lastmod>2024-12-06T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://veerendra2.github.io/tags/acme/</loc>
     <lastmod>2023-05-18T00:00:00+00:00</lastmod>
   </url><url>
@@ -14,19 +38,10 @@
     <loc>https://veerendra2.github.io/tags/homeserver/</loc>
     <lastmod>2023-05-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://veerendra2.github.io/posts/</loc>
-    <lastmod>2023-05-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/tags/</loc>
-    <lastmod>2023-05-18T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://veerendra2.github.io/tags/traefik/</loc>
     <lastmod>2023-05-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/traefik-https/</loc>
-    <lastmod>2023-05-18T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/</loc>
     <lastmod>2023-05-18T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/tags/bittorent/</loc>
@@ -136,12 +151,6 @@
   </url><url>
     <loc>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</loc>
     <lastmod>2022-09-10T17:38:52+02:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/tags/backup/</loc>
-    <lastmod>2022-09-03T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://veerendra2.github.io/tags/restore/</loc>
-    <lastmod>2022-09-03T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://veerendra2.github.io/velero-deployment/</loc>
     <lastmod>2022-09-03T00:00:00+00:00</lastmod>

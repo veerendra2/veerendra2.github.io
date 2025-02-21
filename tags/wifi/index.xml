@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>wifi on Veerendra&#39;s Blog</title>
+    <title>Wifi on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/wifi/</link>
-    <description>Recent content in wifi on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 11 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/wifi/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Wifi on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 11 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/wifi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Wifi Deauthentication Attack</title>
       <link>https://veerendra2.github.io/wifi-deathentication-attack/</link>
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/wifi-deathentication-attack/</guid>
-      <description>A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.
--Wikipedia
-As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands here).
-So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
+&lt;p&gt;-Wikipedia&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult  to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once  deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

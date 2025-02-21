@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>backup on Veerendra&#39;s Blog</title>
+    <title>Backup on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/backup/</link>
-    <description>Recent content in backup on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 03 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/backup/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Backup on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/backup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I setup my self-host Wordpress and automated backup with Kopia and Cloudflare R2 for FREE</title>
+      <link>https://veerendra2.github.io/worpress-backup-kopia/</link>
+      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/worpress-backup-kopia/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Few months back, my wife has started blogging on worpress and I setup a Wordpress instances with docker compose on Oracle Cloud alwayfree tier VM. Every thing went smooth, and then ocurred my mind after a month, &amp;ldquo;What about backup?&amp;rdquo;, maybe in time in future, Oracle may remove the alway-free tire, the I have to migrate to new cloud provider and it is also general recomendation to setup a backup.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Velero Deployment with Kustomize (Azure)</title>
       <link>https://veerendra2.github.io/velero-deployment/</link>
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
-      <description>Introduction Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt;, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/&#34;&gt;persistance volume(PV)&lt;/a&gt; as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore. Sure, you can configure these managed disk backups from Terraform or manually in cloud provider portals. But tools like Velero, backup PV from kubernetes side which is more visible and easy to manage which is what you will see in a moment.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

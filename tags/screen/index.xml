@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>screen on Veerendra&#39;s Blog</title>
+    <title>Screen on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/screen/</link>
-    <description>Recent content in screen on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/screen/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Screen on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 08 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/screen/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GNU screen commands(Cheat Sheet)</title>
       <link>https://veerendra2.github.io/gnu-screen-commands/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/gnu-screen-commands/</guid>
-      <description>GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. &lt;a href=&#34;https://en.wikipedia.org/wiki/GNU_Screen&#34;&gt;more&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

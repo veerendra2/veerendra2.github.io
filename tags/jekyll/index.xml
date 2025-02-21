@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>jekyll on Veerendra&#39;s Blog</title>
+    <title>Jekyll on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/jekyll/</link>
-    <description>Recent content in jekyll on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 21 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/jekyll/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Jekyll on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 21 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/jekyll/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CI/CD for GitHub Pages with GitHub Actions</title>
       <link>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</link>
       <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</guid>
-      <description>Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched GitHub Actions where people can automate workflows like build, test, and deploy code from GitHub.
-I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab.</description>
+      <description>&lt;p&gt;Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched &lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt; where people can automate workflows like build, test, and deploy code from GitHub.&lt;/p&gt;
+&lt;p&gt;I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab. Then I saw the workflow template for &amp;ldquo;Jekyll Site CI/CD&amp;rdquo;, which builds the Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt;. So, Let&amp;rsquo;s see how I setup CI/CD&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

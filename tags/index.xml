@@ -4,385 +4,317 @@
     <title>Tags on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/</link>
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 18 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>acme</title>
-      <link>https://veerendra2.github.io/tags/acme/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/acme/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://veerendra2.github.io/tags/docker/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>homeserver</title>
-      <link>https://veerendra2.github.io/tags/homeserver/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/homeserver/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>traefik</title>
-      <link>https://veerendra2.github.io/tags/traefik/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/traefik/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bittorent</title>
-      <link>https://veerendra2.github.io/tags/bittorent/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/bittorent/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bittorrent</title>
-      <link>https://veerendra2.github.io/tags/bittorrent/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/bittorrent/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>dante-server</title>
-      <link>https://veerendra2.github.io/tags/dante-server/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/dante-server/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker-swarm</title>
-      <link>https://veerendra2.github.io/tags/docker-swarm/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/docker-swarm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>networking</title>
-      <link>https://veerendra2.github.io/tags/networking/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/networking/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>proxy</title>
-      <link>https://veerendra2.github.io/tags/proxy/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/proxy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>socks5</title>
-      <link>https://veerendra2.github.io/tags/socks5/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/socks5/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>vpn</title>
-      <link>https://veerendra2.github.io/tags/vpn/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/vpn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>wireguard</title>
-      <link>https://veerendra2.github.io/tags/wireguard/</link>
-      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/wireguard/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>portainer</title>
-      <link>https://veerendra2.github.io/tags/portainer/</link>
-      <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/portainer/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>yacht</title>
-      <link>https://veerendra2.github.io/tags/yacht/</link>
-      <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/yacht/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nugget</title>
-      <link>https://veerendra2.github.io/tags/nugget/</link>
-      <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/nugget/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>security</title>
-      <link>https://veerendra2.github.io/tags/security/</link>
-      <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/security/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>dhcp-relay</title>
-      <link>https://veerendra2.github.io/tags/dhcp-relay/</link>
-      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/dhcp-relay/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pihole</title>
-      <link>https://veerendra2.github.io/tags/pihole/</link>
-      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/pihole/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>disaster recovery</title>
-      <link>https://veerendra2.github.io/tags/disaster-recovery/</link>
-      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/disaster-recovery/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kafka</title>
-      <link>https://veerendra2.github.io/tags/kafka/</link>
-      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/kafka/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://veerendra2.github.io/tags/kubernetes/</link>
-      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>strimzi</title>
-      <link>https://veerendra2.github.io/tags/strimzi/</link>
-      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/strimzi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>velero</title>
-      <link>https://veerendra2.github.io/tags/velero/</link>
-      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/velero/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>elasticsearch</title>
-      <link>https://veerendra2.github.io/tags/elasticsearch/</link>
-      <pubDate>Sat, 10 Sep 2022 17:42:52 +0200</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/elasticsearch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kibana</title>
-      <link>https://veerendra2.github.io/tags/kibana/</link>
-      <pubDate>Sat, 10 Sep 2022 17:39:52 +0200</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/kibana/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>elastalert</title>
-      <link>https://veerendra2.github.io/tags/elastalert/</link>
-      <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
-      
-      <guid>https://veerendra2.github.io/tags/elastalert/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>backup</title>
+      <title>Backup</title>
       <link>https://veerendra2.github.io/tags/backup/</link>
-      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
-      
+      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/tags/backup/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>restore</title>
+      <title>Kopia</title>
+      <link>https://veerendra2.github.io/tags/kopia/</link>
+      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/kopia/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Restore</title>
       <link>https://veerendra2.github.io/tags/restore/</link>
-      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
-      
+      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/tags/restore/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>hugo</title>
+      <title>Wordpress</title>
+      <link>https://veerendra2.github.io/tags/wordpress/</link>
+      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/wordpress/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Acme</title>
+      <link>https://veerendra2.github.io/tags/acme/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/acme/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker</title>
+      <link>https://veerendra2.github.io/tags/docker/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Homeserver</title>
+      <link>https://veerendra2.github.io/tags/homeserver/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/homeserver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Traefik</title>
+      <link>https://veerendra2.github.io/tags/traefik/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/traefik/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bittorent</title>
+      <link>https://veerendra2.github.io/tags/bittorent/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/bittorent/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bittorrent</title>
+      <link>https://veerendra2.github.io/tags/bittorrent/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/bittorrent/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dante-Server</title>
+      <link>https://veerendra2.github.io/tags/dante-server/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/dante-server/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker-Swarm</title>
+      <link>https://veerendra2.github.io/tags/docker-swarm/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/docker-swarm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Networking</title>
+      <link>https://veerendra2.github.io/tags/networking/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/networking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Proxy</title>
+      <link>https://veerendra2.github.io/tags/proxy/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/proxy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Socks5</title>
+      <link>https://veerendra2.github.io/tags/socks5/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/socks5/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vpn</title>
+      <link>https://veerendra2.github.io/tags/vpn/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/vpn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wireguard</title>
+      <link>https://veerendra2.github.io/tags/wireguard/</link>
+      <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/wireguard/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Portainer</title>
+      <link>https://veerendra2.github.io/tags/portainer/</link>
+      <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/portainer/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Yacht</title>
+      <link>https://veerendra2.github.io/tags/yacht/</link>
+      <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/yacht/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nugget</title>
+      <link>https://veerendra2.github.io/tags/nugget/</link>
+      <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/nugget/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>https://veerendra2.github.io/tags/security/</link>
+      <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Dhcp-Relay</title>
+      <link>https://veerendra2.github.io/tags/dhcp-relay/</link>
+      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/dhcp-relay/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pihole</title>
+      <link>https://veerendra2.github.io/tags/pihole/</link>
+      <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/pihole/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Disaster Recovery</title>
+      <link>https://veerendra2.github.io/tags/disaster-recovery/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/disaster-recovery/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kafka</title>
+      <link>https://veerendra2.github.io/tags/kafka/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/kafka/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes</title>
+      <link>https://veerendra2.github.io/tags/kubernetes/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Strimzi</title>
+      <link>https://veerendra2.github.io/tags/strimzi/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/strimzi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Velero</title>
+      <link>https://veerendra2.github.io/tags/velero/</link>
+      <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/velero/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Elasticsearch</title>
+      <link>https://veerendra2.github.io/tags/elasticsearch/</link>
+      <pubDate>Sat, 10 Sep 2022 17:42:52 +0200</pubDate>
+      <guid>https://veerendra2.github.io/tags/elasticsearch/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kibana</title>
+      <link>https://veerendra2.github.io/tags/kibana/</link>
+      <pubDate>Sat, 10 Sep 2022 17:39:52 +0200</pubDate>
+      <guid>https://veerendra2.github.io/tags/kibana/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Elastalert</title>
+      <link>https://veerendra2.github.io/tags/elastalert/</link>
+      <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
+      <guid>https://veerendra2.github.io/tags/elastalert/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hugo</title>
       <link>https://veerendra2.github.io/tags/hugo/</link>
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/hugo/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>jekyll</title>
+      <title>Jekyll</title>
       <link>https://veerendra2.github.io/tags/jekyll/</link>
       <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/jekyll/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>linux</title>
+      <title>Linux</title>
       <link>https://veerendra2.github.io/tags/linux/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/linux/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>aws</title>
+      <title>Aws</title>
       <link>https://veerendra2.github.io/tags/aws/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/aws/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>linux wireshark</title>
+      <title>Linux Wireshark</title>
       <link>https://veerendra2.github.io/tags/linux-wireshark/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/linux-wireshark/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>openvswitch</title>
+      <title>Openvswitch</title>
       <link>https://veerendra2.github.io/tags/openvswitch/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/openvswitch/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>metrics</title>
+      <title>Metrics</title>
       <link>https://veerendra2.github.io/tags/metrics/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/metrics/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>windows</title>
+      <title>Windows</title>
       <link>https://veerendra2.github.io/tags/windows/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/windows/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>kvm</title>
+      <title>Kvm</title>
       <link>https://veerendra2.github.io/tags/kvm/</link>
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/kvm/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>python</title>
+      <title>Python</title>
       <link>https://veerendra2.github.io/tags/python/</link>
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/python/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>wifi</title>
+      <title>Wifi</title>
       <link>https://veerendra2.github.io/tags/wifi/</link>
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/wifi/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>screen</title>
+      <title>Screen</title>
       <link>https://veerendra2.github.io/tags/screen/</link>
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/screen/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>jeykll</title>
+      <title>Jeykll</title>
       <link>https://veerendra2.github.io/tags/jeykll/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/tags/jeykll/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

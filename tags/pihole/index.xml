@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>pihole on Veerendra&#39;s Blog</title>
+    <title>Pihole on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/pihole/</link>
-    <description>Recent content in pihole on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 10 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/pihole/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Pihole on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 10 Nov 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/pihole/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pi-hole with DHCP Relay in Docker</title>
       <link>https://veerendra2.github.io/pihole-dhcp-relay/</link>
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/pihole-dhcp-relay/</guid>
-      <description>Introduction I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with docker-compose files and ansible automation. One of the applications I was configuring is Pi-hole, a network-wide ad-blocker.
-I decided to use Pi-hole as also DHCP server for my LAN. When I look into docs, it says it has to be run as network_mode: host, because it allows Pi-hole to listen to DHCP broadcast packets.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with &lt;code&gt;docker-compose&lt;/code&gt; files and ansible automation. One of the applications I was configuring is &lt;a href=&#34;https://pi-hole.net&#34;&gt;Pi-hole&lt;/a&gt;, a network-wide ad-blocker.&lt;/p&gt;
+&lt;p&gt;I decided to use Pi-hole as also DHCP server for my LAN. When I look into &lt;a href=&#34;https://docs.pi-hole.net/docker/DHCP/&#34;&gt;docs&lt;/a&gt;, it says it has to be run as &lt;code&gt;network_mode: host&lt;/code&gt;, because it allows Pi-hole to listen to DHCP broadcast packets. If the Pi-hole is deployed in bridge mode, there is a Linux bridge(Think of it as a router for a second!) which won&amp;rsquo;t allow broadcast packets.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

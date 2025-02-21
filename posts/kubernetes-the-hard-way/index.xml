@@ -4,39 +4,37 @@
     <title>Kubernetes-The Hard Way With Docker &amp; Flannel on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/posts/kubernetes-the-hard-way/</link>
     <description>Recent content in Kubernetes-The Hard Way With Docker &amp; Flannel on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 17 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/posts/kubernetes-the-hard-way/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 17 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/posts/kubernetes-the-hard-way/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-1/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-1/</guid>
-      <description>Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post
-I know what you are thinking, I steal Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial, but hey!, I did some research and try to fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;CRI&amp;rsquo; and Flannel as &amp;lsquo;CNI&amp;rsquo;.
-This blog post follows Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way, I highly recommend go through his repo.</description>
+      <description>&lt;p&gt;Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post&lt;/p&gt;
+&lt;p&gt;I know what you are thinking, I steal &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt;, but hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/setup/cri/&#34;&gt;CRI&lt;/a&gt;&amp;rsquo; and Flannel as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;CNI&lt;/a&gt;&amp;rsquo;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This blog post follows &lt;a href=&#34;https://github.com/kelseyhightower&#34;&gt;Kelsey Hightower&amp;rsquo;s&lt;/a&gt; &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kubernetes The Hard Way&lt;/a&gt;, I highly recommend go through his repo. I&amp;rsquo;m writing this blog post to keep it as a reference for me and share it with other people who want to try it. So, feel free to correct me if there are any mistakes and ping me for any queries. This series is divided into 3 parts and all configuration/scripts are available in my &lt;a href=&#34;https://github.com/veerendra2/k8s-the-hard-way-blog&#34;&gt;github repo&lt;/a&gt;. Well, that has been said, let&amp;rsquo;s start building the cluster.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-2/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
-      <description>Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In previous post we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes
-6. Bootstrapping the etcd Cluster etcd is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in etcd via api-server. In this section, we will install and configure etcd on all controller nodes.</description>
+      <description>&lt;p&gt;Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;previous post&#34;&gt;previous post&lt;/a&gt; we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes&lt;/p&gt;
+&lt;h1 id=&#34;6-bootstrapping-the-etcd-cluster&#34;&gt;6. Bootstrapping the etcd Cluster&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://coreos.com/etcd/&#34;&gt;&lt;code&gt;etcd&lt;/code&gt;&lt;/a&gt; is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in &lt;code&gt;etcd&lt;/code&gt; via api-server. In this section, we will install and configure &lt;code&gt;etcd&lt;/code&gt; on all controller nodes.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-3/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
-      <description>Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In part-1, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In part-2, we have bootstrapped controller nodes.
-In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster
-9. Bootstrapping the Kubernetes Worker Nodes As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial i.</description>
+      <description>&lt;p&gt;Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;part-1&#34;&gt;part-1&lt;/a&gt;, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-2/&#34; title=&#34;part-2&#34;&gt;part-2&lt;/a&gt;, we have bootstrapped controller nodes.&lt;/p&gt;
+&lt;p&gt;In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster&lt;/p&gt;
+&lt;h2 id=&#34;9-bootstrapping-the-kubernetes-worker-nodes&#34;&gt;9. Bootstrapping the Kubernetes Worker Nodes&lt;/h2&gt;
+&lt;p&gt;As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt; i.e. container runtime interface is &lt;code&gt;docker&lt;/code&gt; instead of &lt;code&gt;containerd&lt;/code&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

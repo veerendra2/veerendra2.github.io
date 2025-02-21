@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>velero on Veerendra&#39;s Blog</title>
+    <title>Velero on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/velero/</link>
-    <description>Recent content in velero on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/velero/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Velero on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/velero/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Strimzi Kafka Disaster Recovery with Velero</title>
       <link>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</link>
       <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</guid>
-      <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
-https://strimzi.io
-Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt; with &lt;a href=&#34;https://velero.io/&#34;&gt;Velero&lt;/a&gt;. First of all, what is Strmzi Kafka?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://strimzi.io&#34;&gt;https://strimzi.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/strimzi-logo.png&#34; alt=&#34;Strizi Logo&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Velero Deployment with Kustomize (Azure)</title>
       <link>https://veerendra2.github.io/velero-deployment/</link>
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
-      <description>Introduction Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on Strimzi Kafka, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses persistance volume(PV) as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt;, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/&#34;&gt;persistance volume(PV)&lt;/a&gt; as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore. Sure, you can configure these managed disk backups from Terraform or manually in cloud provider portals. But tools like Velero, backup PV from kubernetes side which is more visible and easy to manage which is what you will see in a moment.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

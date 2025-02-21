@@ -4,75 +4,256 @@
     <title>Elasticsearch Deployment Docs on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/posts/elasticsearch-deploy/</link>
     <description>Recent content in Elasticsearch Deployment Docs on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Sep 2022 17:42:52 +0200</lastBuildDate><atom:link href="https://veerendra2.github.io/posts/elasticsearch-deploy/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 10 Sep 2022 17:42:52 +0200</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/posts/elasticsearch-deploy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Elasticsearch Configuration Overview</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</link>
       <pubDate>Sat, 10 Sep 2022 17:42:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/config-overview/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series.
-Important Elasticsearch Configuration 📄 Official Docs
-Mainly 3 configuration files
-elasticsearch.yml - Elasticsearch config jvm.options - Elasticsearch JVM settings config log4j2.properties - Elasticsearch logging config Environment Variables
-export the ES_PATH_CONF etc/default/elasticsearch (Sourced environment variables from. Recommended) Settings 📄 Official Docs
-Before going to production, it is recommended go through be below elasticsearch configs. Refer sample_config directory for configuration
-Configuration Description Configuration Reference Path settings Log and data config Refer here Cluster name Cluster name Refer here Node name Node name Refer here Network host IP address that elasticsearch bind on Refer here Discovery settings Cluster discovery and initial master config Refer here Heap size JVM heap memory configuration Recommended heap size should be half of system memory.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;important-elasticsearch-configuration&#34;&gt;Important Elasticsearch Configuration&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Mainly 3 configuration files&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;elasticsearch.yml - Elasticsearch config
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jvm.options       - Elasticsearch JVM settings config
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;log4j2.properties - Elasticsearch logging config
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Environment Variables&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;export&lt;/code&gt; the ES_PATH_CONF&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;etc/default/elasticsearch&lt;/code&gt; (Sourced environment variables from. Recommended)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;settings&#34;&gt;Settings&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Before going to production, it is recommended go through be below elasticsearch configs. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config&#34;&gt;&lt;code&gt;sample_config&lt;/code&gt;&lt;/a&gt; directory for configuration&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Configuration&lt;/th&gt;
+          &lt;th&gt;Description&lt;/th&gt;
+          &lt;th&gt;Configuration Reference&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Path settings&lt;/td&gt;
+          &lt;td&gt;Log and data config&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L40&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Cluster name&lt;/td&gt;
+          &lt;td&gt;Cluster name&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L17&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Node name&lt;/td&gt;
+          &lt;td&gt;Node name&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L23&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Network host&lt;/td&gt;
+          &lt;td&gt;IP address that elasticsearch bind on&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L59&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Discovery settings&lt;/td&gt;
+          &lt;td&gt;Cluster discovery and initial master config&lt;/td&gt;
+          &lt;td&gt;Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/elasticsearch.yml#L72&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Heap size&lt;/td&gt;
+          &lt;td&gt;JVM heap memory configuration&lt;/td&gt;
+          &lt;td&gt;Recommended heap size should be half of system memory. Make sure min and max heap memory same value. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/jvm.options#L22&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Heap dump path&lt;/td&gt;
+          &lt;td&gt;Heap dump location path config&lt;/td&gt;
+          &lt;td&gt;Default config is sufficient. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config/jvm.options#L61&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;GC logging&lt;/td&gt;
+          &lt;td&gt;Garbage collection logging configuration&lt;/td&gt;
+          &lt;td&gt;Default config is sufficient. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastic/search/sample_config/jvm.options#L66&#34;&gt;here&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Temp directory&lt;/td&gt;
+          &lt;td&gt;Configure private temporary directory that Elasticsearch uses is excluded from periodic cleanup&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;important-system-configuration&#34;&gt;Important System Configuration&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/system-config.html&#34;&gt;Offical Docs&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elasticsearch Installation</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/install/</link>
       <pubDate>Sat, 10 Sep 2022 17:41:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/install/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Install 📄 Office Docs
-Hardware Requirement 📄 Offical Docs
-Resource Minimum Recommended Memory 16 GB 64 GB CPU 8 Cores 16 Disk Depends Depends JDK Installation Pick JVM compatibility version with elasticsearch from here Install OpenJDK from here Download and install JDK 11 (Another guide here) $ apt-get install openjdk-11-jdk -y $ java -version openjdk version &amp;#34;11.0.6&amp;#34; 2020-01-14 OpenJDK Runtime Environment (build 11.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;install&#34;&gt;Install&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;hardware-requirement&#34;&gt;Hardware Requirement&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/guide/current/hardware.html&#34;&gt;Offical Docs&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Resource&lt;/th&gt;
+          &lt;th&gt;Minimum&lt;/th&gt;
+          &lt;th&gt;Recommended&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Memory&lt;/td&gt;
+          &lt;td&gt;16 GB&lt;/td&gt;
+          &lt;td&gt;64 GB&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;CPU&lt;/td&gt;
+          &lt;td&gt;8 Cores&lt;/td&gt;
+          &lt;td&gt;16&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Disk&lt;/td&gt;
+          &lt;td&gt;Depends&lt;/td&gt;
+          &lt;td&gt;Depends&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;jdk-installation&#34;&gt;JDK Installation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Pick JVM compatibility version with elasticsearch from &lt;a href=&#34;https://www.elastic.co/support/matrix#matrix_jvm&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install OpenJDK from &lt;a href=&#34;https://openjdk.java.net/install/index.html&#34;&gt;here&lt;/a&gt;
+Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/java-se-ri/11&#34;&gt;here&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install openjdk-11-jdk -y
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ java -version
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;openjdk version &amp;#34;11.0.6&amp;#34; 2020-01-14
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;OpenJDK Runtime Environment (build 11.0.6+10-post-Ubuntu-1ubuntu118.04.1)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Ubuntu-1ubuntu118.04.1, mixed mode, sharing)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;elasticsearch-installation&#34;&gt;Elasticsearch Installation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Download latest elasticsearch from &lt;a href=&#34;https://www.elastic.co/downloads/elasticsearch&#34;&gt;here&lt;/a&gt; (As of today the latest version is &lt;code&gt;7.6.2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Recommended to download/install package via &lt;code&gt;.dep&lt;/code&gt; or &lt;code&gt;PPA&lt;/code&gt; which postscripts creates user, groups and adds under systemd&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/7.6/deb.html#deb-repo&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elasticsearch Upgrade</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</link>
       <pubDate>Sat, 10 Sep 2022 17:40:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/upgrade/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Rolling Upgrade Elasticsearch 📄 Official Docs
-⚠️ A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service
-As of now, the current latest version of elasticsearch is v7.7.1. Below procedure is for rolling upgrade from 7.6.2=&amp;gt;7.7.1.
-1. Divide the cluster into 2 groups Example node names carbon-x
-a. Non master-eligible nodes carbon-2 carbon-3 b.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;rolling-upgrade-elasticsearch&#34;&gt;Rolling Upgrade Elasticsearch&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-upgrade.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x26a0;&amp;#xfe0f; A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As of now, the current latest version of elasticsearch is &lt;code&gt;v7.7.1&lt;/code&gt;. Below procedure is for rolling upgrade from &lt;code&gt;7.6.2&lt;/code&gt;=&amp;gt;&lt;code&gt;7.7.1&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;1-divide-the-cluster-into-2-groups&#34;&gt;1. Divide the cluster into 2 groups&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Example node names &lt;code&gt;carbon-x&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;a. Non master-eligible nodes
+&lt;ul&gt;
+&lt;li&gt;carbon-2&lt;/li&gt;
+&lt;li&gt;carbon-3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;b. Master-eligible nodes
+&lt;ul&gt;
+&lt;li&gt;carbon-1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Upgrade order (Important!)&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Kibana Installation</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</link>
       <pubDate>Sat, 10 Sep 2022 17:39:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/kabana-install/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Kibana Installation 📄 Office docs
-❗ The elasticsearch should be up and running before you start kibana installation procedure
-Install via apt-get from here
-As of today the kibana version is 7.6.2 $ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - $ sudo apt-get install apt-transport-https $ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list $ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana Configure Kibana Refer kibana.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;kibana-installation&#34;&gt;Kibana Installation&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x2757; The elasticsearch should be up and running before you start kibana installation procedure&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/downloads/kibana&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;As of today the kibana version is &lt;code&gt;7.6.2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install apt-transport-https
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ echo &amp;#34;deb https://artifacts.elastic.co/packages/7.x/apt stable main&amp;#34; | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install kibana
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;configure-kibana&#34;&gt;Configure Kibana&lt;/h2&gt;
+&lt;p&gt;Refer &lt;code&gt;kibana.yml&lt;/code&gt; configuration file in current directory and modify accordingly&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Elastalert Demo Config</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</link>
       <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Elastalert 📄 Official docs 📂 Official project Repo
-Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.
-Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.
-Installation ❗ Refer elasticsearch-deploy-notes/elastalert for example config
-$ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 install -U PyYAML $ mkdir -p /opt/elastalert/rules ## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo Recommended to create index in elasticsearch for elastalert to store metadata $ elastalert-create-index Elastic Version: 7.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;elastalert&#34;&gt;Elastalert&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.&lt;/p&gt;
+&lt;p&gt;Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.&lt;/p&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x2757; Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt; for example config&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install python3-pip
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install elastalert
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install -U PyYAML
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ mkdir -p /opt/elastalert/rules
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Recommended to create index in elasticsearch for elastalert to store metadata&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ elastalert-create-index
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Elastic Version: 7.7.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading Elastic 6 index mappings:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/silence.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert_status.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/past_elastalert.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert_error.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;New index elastalert_status created
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Done!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Test rules in case if it is needed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ elastalert-test-rule --config /opt/elastalert/config.yaml /opt/elastalert/rules/heartbeat_checks.yml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;postfix-gmail-smtp&#34;&gt;Postfix Gmail SMTP&lt;/h3&gt;
+&lt;p&gt;In oder to use Gmail as SMTP, you need to enable 2-Factor authentication and generate app password&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

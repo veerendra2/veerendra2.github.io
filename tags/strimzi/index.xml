@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>strimzi on Veerendra&#39;s Blog</title>
+    <title>Strimzi on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/strimzi/</link>
-    <description>Recent content in strimzi on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/strimzi/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Strimzi on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 24 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/strimzi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Strimzi Kafka Disaster Recovery with Velero</title>
       <link>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</link>
       <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
-      
       <guid>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</guid>
-      <description>Introduction Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for Strimzi Kafka with Velero. First of all, what is Strmzi Kafka?
-https://strimzi.io
-Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.
-Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.</description>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt; with &lt;a href=&#34;https://velero.io/&#34;&gt;Velero&lt;/a&gt;. First of all, what is Strmzi Kafka?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://strimzi.io&#34;&gt;https://strimzi.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/strimzi-logo.png&#34; alt=&#34;Strizi Logo&#34;  /&gt;
+&lt;/p&gt;
+&lt;p&gt;Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

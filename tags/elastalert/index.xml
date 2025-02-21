@@ -1,24 +1,56 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>elastalert on Veerendra&#39;s Blog</title>
+    <title>Elastalert on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/elastalert/</link>
-    <description>Recent content in elastalert on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 10 Sep 2022 17:38:52 +0200</lastBuildDate><atom:link href="https://veerendra2.github.io/tags/elastalert/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Elastalert on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 10 Sep 2022 17:38:52 +0200</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/elastalert/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Elastalert Demo Config</title>
       <link>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</link>
       <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
-      
       <guid>https://veerendra2.github.io/elasticsearch-deploy/elastalert-demo/</guid>
-      <description>👉 This writeup is part of &amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo; series
-Elastalert 📄 Official docs 📂 Official project Repo
-Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.
-Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.
-Installation ❗ Refer elasticsearch-deploy-notes/elastalert for example config
-$ sudo apt-get install python3-pip $ sudo pip3 install elastalert $ sudo pip3 install -U PyYAML $ mkdir -p /opt/elastalert/rules ## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo Recommended to create index in elasticsearch for elastalert to store metadata $ elastalert-create-index Elastic Version: 7.</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f449; This writeup is part of &lt;a href=&#34;https://veerendra2.github.io/posts/elasticsearch-deploy/&#34; title=&#34;previous post&#34;&gt;&amp;ldquo;Elasticsearch Deploy Docs&amp;rdquo;&lt;/a&gt; series&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;elastalert&#34;&gt;Elastalert&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.&lt;/p&gt;
+&lt;p&gt;Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.&lt;/p&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;#x2757; Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt; for example config&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install python3-pip
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install elastalert
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install -U PyYAML
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ mkdir -p /opt/elastalert/rules
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;## Copy alert rules yaml files and config file to /opt/elastalert and /opt/elastalert/rules accordingly from this repo
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Recommended to create index in elasticsearch for elastalert to store metadata&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ elastalert-create-index
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Elastic Version: 7.7.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading Elastic 6 index mappings:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/silence.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert_status.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/past_elastalert.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading index mapping &amp;#39;es_mappings/6/elastalert_error.json&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;New index elastalert_status created
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Done!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Test rules in case if it is needed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ elastalert-test-rule --config /opt/elastalert/config.yaml /opt/elastalert/rules/heartbeat_checks.yml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;postfix-gmail-smtp&#34;&gt;Postfix Gmail SMTP&lt;/h3&gt;
+&lt;p&gt;In oder to use Gmail as SMTP, you need to enable 2-Factor authentication and generate app password&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
