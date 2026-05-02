@@ -4,36 +4,78 @@
     <title>Tags on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/</link>
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- 0.139.3</generator>
+    <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 02 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Backup</title>
-      <link>https://veerendra2.github.io/tags/backup/</link>
-      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/backup/</guid>
+      <title>Ansible</title>
+      <link>https://veerendra2.github.io/tags/ansible/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/ansible/</guid>
       <description></description>
     </item>
     <item>
-      <title>Kopia</title>
-      <link>https://veerendra2.github.io/tags/kopia/</link>
-      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/kopia/</guid>
+      <title>Composeflux</title>
+      <link>https://veerendra2.github.io/tags/composeflux/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/composeflux/</guid>
       <description></description>
     </item>
     <item>
-      <title>Restore</title>
-      <link>https://veerendra2.github.io/tags/restore/</link>
-      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/restore/</guid>
+      <title>Devops</title>
+      <link>https://veerendra2.github.io/tags/devops/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/devops/</guid>
       <description></description>
     </item>
     <item>
-      <title>Wordpress</title>
-      <link>https://veerendra2.github.io/tags/wordpress/</link>
-      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/wordpress/</guid>
+      <title>Docker</title>
+      <link>https://veerendra2.github.io/tags/docker/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Docker-Compose</title>
+      <link>https://veerendra2.github.io/tags/docker-compose/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/docker-compose/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gitops</title>
+      <link>https://veerendra2.github.io/tags/gitops/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/gitops/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Golang</title>
+      <link>https://veerendra2.github.io/tags/golang/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Homeserver</title>
+      <link>https://veerendra2.github.io/tags/homeserver/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/homeserver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Komodo</title>
+      <link>https://veerendra2.github.io/tags/komodo/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/komodo/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Self-Hosting</title>
+      <link>https://veerendra2.github.io/tags/self-hosting/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/self-hosting/</guid>
       <description></description>
     </item>
     <item>
@@ -41,20 +83,6 @@
       <link>https://veerendra2.github.io/tags/acme/</link>
       <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/tags/acme/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Docker</title>
-      <link>https://veerendra2.github.io/tags/docker/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/docker/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Homeserver</title>
-      <link>https://veerendra2.github.io/tags/homeserver/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/homeserver/</guid>
       <description></description>
     </item>
     <item>
@@ -223,6 +251,20 @@
       <link>https://veerendra2.github.io/tags/elastalert/</link>
       <pubDate>Sat, 10 Sep 2022 17:38:52 +0200</pubDate>
       <guid>https://veerendra2.github.io/tags/elastalert/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Backup</title>
+      <link>https://veerendra2.github.io/tags/backup/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/backup/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Restore</title>
+      <link>https://veerendra2.github.io/tags/restore/</link>
+      <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/restore/</guid>
       <description></description>
     </item>
     <item>

@@ -4,7 +4,7 @@
     <title>Openvswitch on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/openvswitch/</link>
     <description>Recent content in Openvswitch on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- 0.139.3</generator>
+    <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
     <lastBuildDate>Wed, 28 Feb 2018 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/openvswitch/index.xml" rel="self" type="application/rss+xml" />
@@ -19,9 +19,9 @@
 &lt;li&gt;
 &lt;p&gt;Install dependencies&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo yum install gcc make python-devel openssl-devel &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      kernel-devel graphviz kernel-debug-devel &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      autoconf automake rpm-build redhat-rpm-config &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      libtool
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      kernel-devel graphviz kernel-debug-devel &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      autoconf automake rpm-build redhat-rpm-config &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      libtool
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Grab OpenvSwitch source from &lt;a href=&#34;http://www.openvswitch.org/download/&#34;&gt;http://www.openvswitch.org/download/&lt;/a&gt;&lt;/p&gt;</description>

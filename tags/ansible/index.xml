@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Ansible on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/tags/ansible/</link>
+    <description>Recent content in Ansible on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.161.1</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 02 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/ansible/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitOps for Homeservers (Part 1) — My Homeservers, Ansible, and the Pain Points</title>
+      <link>https://veerendra2.github.io/gitops-for-homeservers-part1/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/gitops-for-homeservers-part1/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;This is Part 1 of a 3-part series: &amp;ldquo;GitOps for Homeservers&amp;rdquo;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Part 1: My Homeservers, Ansible, and the Pain Points&lt;/strong&gt; (You are here)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2: Searching for the Right Tool — Komodo, Dockhand, and Beyond&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part3&#34;&gt;Part 3: ComposeFlux — A Lightweight GitOps Tool for Docker Compose&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I have been managing 2 homeservers and 5 virtual machines in the cloud for almost 2 years. As my enthusiasm grows to self-host software — both for fun and actual use — my docker-compose files and stacks keep growing too. Deploying and managing them became painful over time.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

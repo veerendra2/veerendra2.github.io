@@ -4,7 +4,7 @@
     <title>Hugo on Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/tags/hugo/</link>
     <description>Recent content in Hugo on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- 0.139.3</generator>
+    <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
     <lastBuildDate>Sat, 27 Aug 2022 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
@@ -13,7 +13,7 @@
       <link>https://veerendra2.github.io/moving-to-hugo/</link>
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/moving-to-hugo/</guid>
-      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work,  moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
+      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

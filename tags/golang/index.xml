@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Golang on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/tags/golang/</link>
+    <description>Recent content in Golang on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.161.1</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 02 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitOps for Homeservers (Part 3) — ComposeFlux: A Lightweight GitOps Tool for Docker Compose</title>
+      <link>https://veerendra2.github.io/gitops-for-homeservers-part3/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/gitops-for-homeservers-part3/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;This is Part 3 of a 3-part series: &amp;ldquo;GitOps for Homeservers&amp;rdquo;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1: My Homeservers, Ansible, and the Pain Points&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2: Searching for the Right Tool — Komodo, Dockhand, and Beyond&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Part 3: ComposeFlux — A Lightweight GitOps Tool for Docker Compose&lt;/strong&gt; (You are here)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -4,17 +4,59 @@
     <title>Veerendra&#39;s Blog</title>
     <link>https://veerendra2.github.io/</link>
     <description>Recent content on Veerendra&#39;s Blog</description>
-    <generator>Hugo -- 0.139.3</generator>
+    <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 02 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>How I setup my self-host Wordpress and automated backup with Kopia and Cloudflare R2 for FREE</title>
-      <link>https://veerendra2.github.io/worpress-backup-kopia/</link>
-      <pubDate>Fri, 06 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/worpress-backup-kopia/</guid>
-      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;Few months back, my wife has started blogging on worpress and I setup a Wordpress instances with docker compose on Oracle Cloud alwayfree tier VM. Every thing went smooth, and then ocurred my mind after a month, &amp;ldquo;What about backup?&amp;rdquo;, maybe in time in future, Oracle may remove the alway-free tire, the I have to migrate to new cloud provider and it is also general recomendation to setup a backup.&lt;/p&gt;</description>
+      <title>GitOps for Homeservers (Part 1) — My Homeservers, Ansible, and the Pain Points</title>
+      <link>https://veerendra2.github.io/gitops-for-homeservers-part1/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/gitops-for-homeservers-part1/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;This is Part 1 of a 3-part series: &amp;ldquo;GitOps for Homeservers&amp;rdquo;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Part 1: My Homeservers, Ansible, and the Pain Points&lt;/strong&gt; (You are here)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2: Searching for the Right Tool — Komodo, Dockhand, and Beyond&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part3&#34;&gt;Part 3: ComposeFlux — A Lightweight GitOps Tool for Docker Compose&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;I have been managing 2 homeservers and 5 virtual machines in the cloud for almost 2 years. As my enthusiasm grows to self-host software — both for fun and actual use — my docker-compose files and stacks keep growing too. Deploying and managing them became painful over time.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GitOps for Homeservers (Part 2) — Searching for the Right Tool — Komodo, Dockhand, and Beyond</title>
+      <link>https://veerendra2.github.io/gitops-for-homeservers-part2/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/gitops-for-homeservers-part2/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;This is Part 2 of a 3-part series: &amp;ldquo;GitOps for Homeservers&amp;rdquo;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1: My Homeservers, Ansible, and the Pain Points&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Part 2: Searching for the Right Tool — Komodo, Dockhand, and Beyond&lt;/strong&gt; (You are here)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part3&#34;&gt;Part 3: ComposeFlux — A Lightweight GitOps Tool for Docker Compose&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup, the Ansible-based deployment workflow, and the problems that came with it — slow deployments, no selective deployment, manual triggers, and the fact that it was never true GitOps.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GitOps for Homeservers (Part 3) — ComposeFlux: A Lightweight GitOps Tool for Docker Compose</title>
+      <link>https://veerendra2.github.io/gitops-for-homeservers-part3/</link>
+      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/gitops-for-homeservers-part3/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;This is Part 3 of a 3-part series: &amp;ldquo;GitOps for Homeservers&amp;rdquo;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1: My Homeservers, Ansible, and the Pain Points&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2: Searching for the Right Tool — Komodo, Dockhand, and Beyond&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Part 3: ComposeFlux — A Lightweight GitOps Tool for Docker Compose&lt;/strong&gt; (You are here)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Traefik HTTPS Config with DuckDNS for Local Homeserver</title>
@@ -384,7 +426,7 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <link>https://veerendra2.github.io/moving-to-hugo/</link>
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/moving-to-hugo/</guid>
-      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work,  moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
+      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
     </item>
     <item>
       <title>CI/CD for GitHub Pages with GitHub Actions</title>
@@ -445,7 +487,7 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;p&gt;How to install dependencies of .deb automatically which failed to install previously?&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Example Solution:&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ dpkg -i r-base-core_3.3.3-1trusty0_amd64.deb &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; : &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get --yes --force-yes -o Dpkg::Options::&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;--force-confdef&amp;#34;&lt;/span&gt; -o Dpkg::Options::&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;--force-confold&amp;#34;&lt;/span&gt; -f install -y &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get --yes --force-yes -o Dpkg::Options::&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;--force-confdef&amp;#34;&lt;/span&gt; -o Dpkg::Options::&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;--force-confold&amp;#34;&lt;/span&gt; -f install -y &lt;span class=&#34;se&#34;&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;How to traverse directories in shell script?&lt;/p&gt;</description>
@@ -469,9 +511,9 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;li&gt;
 &lt;p&gt;Install dependencies&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo yum install gcc make python-devel openssl-devel &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      kernel-devel graphviz kernel-debug-devel &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      autoconf automake rpm-build redhat-rpm-config &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;      libtool
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      kernel-devel graphviz kernel-debug-devel &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      autoconf automake rpm-build redhat-rpm-config &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      libtool
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Grab OpenvSwitch source from &lt;a href=&#34;http://www.openvswitch.org/download/&#34;&gt;http://www.openvswitch.org/download/&lt;/a&gt;&lt;/p&gt;</description>
@@ -490,7 +532,7 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</guid>
       <description>&lt;h3 id=&#34;1-install-packages&#34;&gt;1. Install Packages&lt;/h3&gt;
-&lt;p&gt;Check system  is  capable of running KVM by running &lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Check system is capable of running KVM by running &lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-kvmqemu-hard-disk-file&#34;&gt;Create KVM/Qemu Hard Disk File&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt;
@@ -502,16 +544,16 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/ul&gt;
 &lt;h3 id=&#34;launch-vm-with-virt-install&#34;&gt;Launch VM with &lt;code&gt;virt-install&lt;/code&gt;&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;virt-install --name spinnaker &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--ram &lt;span class=&#34;m&#34;&gt;11096&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--vcpus&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--os-type linux &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--os-variant&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ubuntutrusty &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--accelerate &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--nographics -v  &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--disk &lt;span class=&#34;nv&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/var/lib/libvirt/images/ubuntu14-HD.img,size&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--extra-args &lt;span class=&#34;s2&#34;&gt;&amp;#34;console=ttyS0&amp;#34;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--location /opt/ubuntu14.iso --force &lt;span class=&#34;se&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;--network bridge:virbr0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--ram &lt;span class=&#34;m&#34;&gt;11096&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--vcpus&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--os-type linux &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--os-variant&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ubuntutrusty &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--accelerate &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--nographics -v  &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--disk &lt;span class=&#34;nv&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/var/lib/libvirt/images/ubuntu14-HD.img,size&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;8&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--extra-args &lt;span class=&#34;s2&#34;&gt;&amp;#34;console=ttyS0&amp;#34;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--location /opt/ubuntu14.iso --force &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--network bridge:virbr0
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Explanation&lt;/p&gt;</description>
     </item>
     <item>
@@ -522,7 +564,7 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <description>&lt;p&gt;We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/https_example.jpg&#34; alt=&#34;HTTPS Example&#34;  /&gt;
 &lt;/p&gt;
-&lt;p&gt;Sure if we use HTTPS, all your (&lt;a href=&#34;https://en.wikipedia.org/wiki/POST_(HTTP)&#34;&gt;POST&lt;/a&gt; or GET) data is encrypted end-to-end which prevents eavesdropping, &lt;a href=&#34;https://en.wikipedia.org/wiki/Man-in-the-middle_attack&#34;&gt;MITM attack&lt;/a&gt; and have &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidentiality&#34;&gt;Confidentiality&lt;/a&gt;, but again what about DNS queries?&lt;/p&gt;
+&lt;p&gt;Sure if we use HTTPS, all your (&lt;a href=&#34;https://en.wikipedia.org/wiki/POST_%28HTTP%29&#34;&gt;POST&lt;/a&gt; or GET) data is encrypted end-to-end which prevents eavesdropping, &lt;a href=&#34;https://en.wikipedia.org/wiki/Man-in-the-middle_attack&#34;&gt;MITM attack&lt;/a&gt; and have &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidentiality&#34;&gt;Confidentiality&lt;/a&gt;, but again what about DNS queries?&lt;/p&gt;
 &lt;p&gt;I got this question back a while ago, so after a quick Internet search, I found &lt;a href=&#34;https://en.wikipedia.org/wiki/DNSCrypt&#34;&gt;DNSCrypt&lt;/a&gt; protocol which is cool because I can encrypt DNS queries.&lt;/p&gt;</description>
     </item>
     <item>
@@ -534,8 +576,8 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
 &lt;p&gt;-Wikipedia&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult  to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once  deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
+&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
     </item>
     <item>
       <title>GNU screen commands(Cheat Sheet)</title>
@@ -568,7 +610,7 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <link>https://veerendra2.github.io/mac-scrambling/</link>
       <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/mac-scrambling/</guid>
-      <description>&lt;p&gt;“&lt;strong&gt;MAC Address Scrambling&lt;/strong&gt;“- By the name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security.  MAC address is a 48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.&lt;/p&gt;</description>
+      <description>&lt;p&gt;“&lt;strong&gt;MAC Address Scrambling&lt;/strong&gt;“- By the name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About</title>
@@ -593,7 +635,7 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;li&gt;&lt;a href=&#34;http://goyalankit.com/blog/linux-bridge&#34;&gt;Linux Bridging&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://xeushack.com/phishing-with-a-rogue-wifi-access-point/&#34;&gt;Phishing With a Rogue Wi-Fi Access Point&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://packages.debian.org/sid/fastnetmon&#34;&gt;Fast DDoS analyzer with sflow/netflow/mirror support&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.netresec.com/?page=Blog&amp;month=2015-03&amp;post=China%27s-Man-on-the-Side-Attack-on-GitHub&#34;&gt;China&amp;rsquo;s Man-on-the-Side Attack on GitHub&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.netresec.com/?page=Blog&amp;amp;month=2015-03&amp;amp;post=China%27s-Man-on-the-Side-Attack-on-GitHub&#34;&gt;China&amp;rsquo;s Man-on-the-Side Attack on GitHub&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://sshcheck.com/&#34;&gt;SSH testing tool checks the configuration of given server accessible over internet&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://bt3gl.github.io/black-hat-python-infinite-possibilities-with-the-scapy-module.html&#34;&gt;Infinite possibilities with the Scapy Module &lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.unixwiz.net/techtips/iguide-kaminsky-dns-vuln.html&#34;&gt;An Illustrated Guide to the Kaminsky DNS Vulnerability&lt;/a&gt;&lt;/li&gt;
