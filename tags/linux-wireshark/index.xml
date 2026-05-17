@@ -13,8 +13,11 @@
       <link>https://veerendra2.github.io/wireshark-install/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/wireshark-install/</guid>
-      <description>&lt;p&gt;Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the &lt;code&gt;.cap&lt;/code&gt; file. The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc&lt;/p&gt;
-&lt;p&gt;In order to install the latest version of Wireshark on Linux, one should build and install it from the source. Sometimes, building from a source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this software.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the &lt;code&gt;.cap&lt;/code&gt; file.
+The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc&lt;/p&gt;
+&lt;p&gt;In order to install the latest version of Wireshark on Linux, one should build and install it from the source.
+Sometimes, building from a source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this
+software.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

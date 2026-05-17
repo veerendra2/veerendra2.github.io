@@ -22,7 +22,9 @@
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow
+along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and
+Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

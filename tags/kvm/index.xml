@@ -14,7 +14,8 @@
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</guid>
       <description>&lt;h3 id=&#34;1-install-packages&#34;&gt;1. Install Packages&lt;/h3&gt;
-&lt;p&gt;Check system is capable of running KVM by running &lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Check system is capable of running KVM by running
+&lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-kvmqemu-hard-disk-file&#34;&gt;Create KVM/Qemu Hard Disk File&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt;

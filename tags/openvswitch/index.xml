@@ -13,7 +13,8 @@
       <link>https://veerendra2.github.io/openvswitch-redhat/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/openvswitch-redhat/</guid>
-      <description>&lt;p&gt;Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.&lt;/p&gt;
+      <description>&lt;p&gt;Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is
+not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.&lt;/p&gt;
 &lt;p&gt;Now let&amp;rsquo;s see how to install Open vSwitch v2.6.1 in RedHat7 step by step&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;

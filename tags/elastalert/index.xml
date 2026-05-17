@@ -18,13 +18,16 @@
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;elastalert&#34;&gt;Elastalert&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2;
+&lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.&lt;/p&gt;
 &lt;p&gt;Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.&lt;/p&gt;
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x2757; Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt; for example config&lt;/p&gt;
+&lt;p&gt;&amp;#x2757; Refer
+&lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt;
+for example config&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install python3-pip
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install elastalert

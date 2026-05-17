@@ -14,8 +14,13 @@
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/pihole-dhcp-relay/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with &lt;code&gt;docker-compose&lt;/code&gt; files and ansible automation. One of the applications I was configuring is &lt;a href=&#34;https://pi-hole.net&#34;&gt;Pi-hole&lt;/a&gt;, a network-wide ad-blocker.&lt;/p&gt;
-&lt;p&gt;I decided to use Pi-hole as also DHCP server for my LAN. When I look into &lt;a href=&#34;https://docs.pi-hole.net/docker/DHCP/&#34;&gt;docs&lt;/a&gt;, it says it has to be run as &lt;code&gt;network_mode: host&lt;/code&gt;, because it allows Pi-hole to listen to DHCP broadcast packets. If the Pi-hole is deployed in bridge mode, there is a Linux bridge(Think of it as a router for a second!) which won&amp;rsquo;t allow broadcast packets.&lt;/p&gt;</description>
+&lt;p&gt;I have been working on a RaspberryPi home server project for quite some time. The project is a collection of
+applications to run on RaspberryPi and all applications are deployable with &lt;code&gt;docker-compose&lt;/code&gt; files and ansible
+automation. One of the applications I was configuring is &lt;a href=&#34;https://pi-hole.net&#34;&gt;Pi-hole&lt;/a&gt;, a network-wide ad-blocker.&lt;/p&gt;
+&lt;p&gt;I decided to use Pi-hole as also DHCP server for my LAN. When I look into &lt;a href=&#34;https://docs.pi-hole.net/docker/DHCP/&#34;&gt;docs&lt;/a&gt;,
+it says it has to be run as &lt;code&gt;network_mode: host&lt;/code&gt;, because it allows Pi-hole to listen to DHCP broadcast packets. If the
+Pi-hole is deployed in bridge mode, there is a Linux bridge(Think of it as a router for a second!) which won&amp;rsquo;t allow
+broadcast packets.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

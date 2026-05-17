@@ -31,9 +31,12 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;settings&#34;&gt;Settings&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4;
+&lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Before going to production, it is recommended go through be below elasticsearch configs. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config&#34;&gt;&lt;code&gt;sample_config&lt;/code&gt;&lt;/a&gt; directory for configuration&lt;/p&gt;
+&lt;p&gt;Before going to production, it is recommended go through be below elasticsearch configs. Refer
+&lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config&#34;&gt;&lt;code&gt;sample_config&lt;/code&gt;&lt;/a&gt;
+directory for configuration&lt;/p&gt;
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -104,7 +107,8 @@
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;install&#34;&gt;Install&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office Docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4;
+&lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office Docs&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;hardware-requirement&#34;&gt;Hardware Requirement&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -139,8 +143,8 @@
 &lt;h2 id=&#34;jdk-installation&#34;&gt;JDK Installation&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Pick JVM compatibility version with elasticsearch from &lt;a href=&#34;https://www.elastic.co/support/matrix#matrix_jvm&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Install OpenJDK from &lt;a href=&#34;https://openjdk.java.net/install/index.html&#34;&gt;here&lt;/a&gt;
-Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/java-se-ri/11&#34;&gt;here&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Install OpenJDK from &lt;a href=&#34;https://openjdk.java.net/install/index.html&#34;&gt;here&lt;/a&gt; Download and install JDK 11 (Another guide
+&lt;a href=&#34;https://jdk.java.net/java-se-ri/11&#34;&gt;here&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install openjdk-11-jdk -y
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ java -version
@@ -149,8 +153,10 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Ubuntu-1ubuntu118.04.1, mixed mode, sharing)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;elasticsearch-installation&#34;&gt;Elasticsearch Installation&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;Download latest elasticsearch from &lt;a href=&#34;https://www.elastic.co/downloads/elasticsearch&#34;&gt;here&lt;/a&gt; (As of today the latest version is &lt;code&gt;7.6.2&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Recommended to download/install package via &lt;code&gt;.dep&lt;/code&gt; or &lt;code&gt;PPA&lt;/code&gt; which postscripts creates user, groups and adds under systemd&lt;/li&gt;
+&lt;li&gt;Download latest elasticsearch from &lt;a href=&#34;https://www.elastic.co/downloads/elasticsearch&#34;&gt;here&lt;/a&gt; (As of today the latest
+version is &lt;code&gt;7.6.2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Recommended to download/install package via &lt;code&gt;.dep&lt;/code&gt; or &lt;code&gt;PPA&lt;/code&gt; which postscripts creates user, groups and adds under
+systemd&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/7.6/deb.html#deb-repo&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
@@ -165,9 +171,11 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;h1 id=&#34;rolling-upgrade-elasticsearch&#34;&gt;Rolling Upgrade Elasticsearch&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-upgrade.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&amp;#x26a0;&amp;#xfe0f; A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service&lt;/p&gt;
+&lt;p&gt;&amp;#x26a0;&amp;#xfe0f; A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not
+interrupt service&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;As of now, the current latest version of elasticsearch is &lt;code&gt;v7.7.1&lt;/code&gt;. Below procedure is for rolling upgrade from &lt;code&gt;7.6.2&lt;/code&gt;=&amp;gt;&lt;code&gt;7.7.1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;As of now, the current latest version of elasticsearch is &lt;code&gt;v7.7.1&lt;/code&gt;. Below procedure is for rolling upgrade from
+&lt;code&gt;7.6.2&lt;/code&gt;=&amp;gt;&lt;code&gt;7.7.1&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;1-divide-the-cluster-into-2-groups&#34;&gt;1. Divide the cluster into 2 groups&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Example node names &lt;code&gt;carbon-x&lt;/code&gt;&lt;/p&gt;
@@ -197,7 +205,8 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;kibana-installation&#34;&gt;Kibana Installation&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4;
+&lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&amp;#x2757; The elasticsearch should be up and running before you start kibana installation procedure&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/downloads/kibana&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
@@ -221,13 +230,16 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;elastalert&#34;&gt;Elastalert&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2;
+&lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.&lt;/p&gt;
 &lt;p&gt;Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.&lt;/p&gt;
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x2757; Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt; for example config&lt;/p&gt;
+&lt;p&gt;&amp;#x2757; Refer
+&lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt;
+for example config&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install python3-pip
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install elastalert

@@ -14,8 +14,10 @@
       <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/portainer-vs-yacht/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker containers, and for that, I need a nice and fancy container management tool I want to have on my home server.&lt;/p&gt;
-&lt;p&gt;I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known container management tool and Yacht is fairly new. In this post, I would like to give my thoughts on both tools.&lt;/p&gt;</description>
+&lt;p&gt;I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker
+containers, and for that, I need a nice and fancy container management tool I want to have on my home server.&lt;/p&gt;
+&lt;p&gt;I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known
+container management tool and Yacht is fairly new. In this post, I would like to give my thoughts on both tools.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

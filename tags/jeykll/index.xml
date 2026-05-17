@@ -13,8 +13,10 @@
       <link>https://veerendra2.github.io/jeklly-website/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/jeklly-website/</guid>
-      <description>&lt;p&gt;&amp;#x1f449; Update on 27-08-2022 &lt;a href=&#34;https://veerendra2.github.io/moving-to-hugo/&#34; title=&#34;Moving to Hugo and other updates!&#34;&gt; Moving to Hugo and other updates! &lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;I was very excited to try &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;code&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt; when I heard about it. When I try to install &lt;code&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
+      <description>&lt;p&gt;&amp;#x1f449; Update on 27-08-2022 &lt;a href=&#34;https://veerendra2.github.io/moving-to-hugo/&#34; title=&#34;Moving to Hugo
+and other updates!&#34;&gt; Moving to Hugo and other updates! &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I was very excited to try &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;code&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt; when I heard
+about it. When I try to install &lt;code&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root@veeru:/home/veeru# gem install jekyll bundler
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Fetching: public_suffix-3.0.1.gem &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;100%&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ERROR:  Error installing jekyll:
@@ -24,7 +26,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; gem installed
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing ri documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing RDoc documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I don&amp;rsquo;t even know what that means(I&amp;rsquo;m not a Ruby guy, so..). Clearly &lt;code&gt;jekyll&lt;/code&gt; needs more than Ruby version 2.1, but in Ubuntu 14.04 if you type &lt;code&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So let&amp;rsquo;s install Ruby 2.4 like below&lt;/p&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I don&amp;rsquo;t even know what that means(I&amp;rsquo;m not a Ruby guy, so..). Clearly &lt;code&gt;jekyll&lt;/code&gt; needs more than Ruby version 2.1, but in
+Ubuntu 14.04 if you type &lt;code&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So let&amp;rsquo;s install Ruby 2.4 like below&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

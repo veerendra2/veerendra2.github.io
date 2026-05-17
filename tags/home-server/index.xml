@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Home-Server on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/tags/home-server/</link>
+    <description>Recent content in Home-Server on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.161.1</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/home-server/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Hidden Cost of 24/7: Tracking Home Lab Power with Shelly</title>
+      <link>https://veerendra2.github.io/hidden-cost-home-lab-power-shelly/</link>
+      <pubDate>Sun, 17 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/hidden-cost-home-lab-power-shelly/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;As you might know, I manage two home servers for various self-hosted services. I keep everything organized in a GitOps
+way using &lt;a href=&#34;https://github.com/veerendra2/composeflux&#34;&gt;ComposeFlux&lt;/a&gt;—a tool I built to handle Docker Compose stacks when I
+got tired of manual updates. (You can read about that journey in
+&lt;a href=&#34;https://veerendra2.github.io/gitops-for-homeservers-part1/&#34;&gt;GitOps for Homeservers (Part 1)&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Recently, I was catching up with a colleague at the office. We were talking about self-hosting, and I mentioned that I
+run &lt;a href=&#34;https://immich.app/&#34;&gt;Immich&lt;/a&gt; to completely replace Google Photos. He was impressed but then asked the one question
+I couldn&amp;rsquo;t answer: &lt;em&gt;&amp;ldquo;How much are you actually paying for the electricity to run those servers 24/7?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -6,8 +6,22 @@
     <description>Recent content on Veerendra&#39;s Blog</description>
     <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 02 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 17 May 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Hidden Cost of 24/7: Tracking Home Lab Power with Shelly</title>
+      <link>https://veerendra2.github.io/hidden-cost-home-lab-power-shelly/</link>
+      <pubDate>Sun, 17 May 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/hidden-cost-home-lab-power-shelly/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;As you might know, I manage two home servers for various self-hosted services. I keep everything organized in a GitOps
+way using &lt;a href=&#34;https://github.com/veerendra2/composeflux&#34;&gt;ComposeFlux&lt;/a&gt;—a tool I built to handle Docker Compose stacks when I
+got tired of manual updates. (You can read about that journey in
+&lt;a href=&#34;https://veerendra2.github.io/gitops-for-homeservers-part1/&#34;&gt;GitOps for Homeservers (Part 1)&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Recently, I was catching up with a colleague at the office. We were talking about self-hosting, and I mentioned that I
+run &lt;a href=&#34;https://immich.app/&#34;&gt;Immich&lt;/a&gt; to completely replace Google Photos. He was impressed but then asked the one question
+I couldn&amp;rsquo;t answer: &lt;em&gt;&amp;ldquo;How much are you actually paying for the electricity to run those servers 24/7?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>GitOps for Homeservers (Part 1) — My Homeservers, Ansible, and the Pain Points</title>
       <link>https://veerendra2.github.io/gitops-for-homeservers-part1/</link>
@@ -23,7 +37,9 @@
 &lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I have been managing 2 homeservers and 5 virtual machines in the cloud for almost 2 years. As my enthusiasm grows to self-host software — both for fun and actual use — my docker-compose files and stacks keep growing too. Deploying and managing them became painful over time.&lt;/p&gt;</description>
+&lt;p&gt;I have been managing 2 homeservers and 5 virtual machines in the cloud for almost 2 years. As my enthusiasm grows to
+self-host software — both for fun and actual use — my docker-compose files and stacks keep growing too. Deploying and
+managing them became painful over time.&lt;/p&gt;</description>
     </item>
     <item>
       <title>GitOps for Homeservers (Part 2) — Searching for the Right Tool — Komodo, Dockhand, and Beyond</title>
@@ -40,7 +56,9 @@
 &lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup, the Ansible-based deployment workflow, and the problems that came with it — slow deployments, no selective deployment, manual triggers, and the fact that it was never true GitOps.&lt;/p&gt;</description>
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup, the Ansible-based deployment workflow, and
+the problems that came with it — slow deployments, no selective deployment, manual triggers, and the fact that it was
+never true GitOps.&lt;/p&gt;</description>
     </item>
     <item>
       <title>GitOps for Homeservers (Part 3) — ComposeFlux: A Lightweight GitOps Tool for Docker Compose</title>
@@ -56,19 +74,24 @@
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow
+along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and
+Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Traefik HTTPS Config with DuckDNS for Local Homeserver</title>
       <link>https://veerendra2.github.io/traefik-https/</link>
       <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/traefik-https/</guid>
-      <description>&lt;p&gt;This is a how-to guide inspired by &lt;a href=&#34;https://www.youtube.com/watch?v=qlcVx-k-02E&#34;&gt;&amp;ldquo;Quick and Easy SSL Certificates for Your Homelab!&amp;rdquo;&lt;/a&gt;&amp;quot; focus on Traefik reverse proxy server. Although this guide focuses on DuckDNS, a similar configuration can apply to any DNS provider.&lt;/p&gt;
+      <description>&lt;p&gt;This is a how-to guide inspired by
+&lt;a href=&#34;https://www.youtube.com/watch?v=qlcVx-k-02E&#34;&gt;&amp;ldquo;Quick and Easy SSL Certificates for Your Homelab!&amp;rdquo;&lt;/a&gt;&amp;quot; focus on Traefik
+reverse proxy server. Although this guide focuses on DuckDNS, a similar configuration can apply to any DNS provider.&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/blog-18-1.png&#34; alt=&#34;blog-14-1&#34;  /&gt;
 &lt;/p&gt;
 &lt;p&gt;The trick is by setting private IP for the domain name you own, in my case DuckDNS.&lt;/p&gt;
 &lt;h2 id=&#34;get-duckdns-sub-domain&#34;&gt;Get DuckDNS Sub-Domain&lt;/h2&gt;
-&lt;p&gt;Sign-up an account in &lt;a href=&#34;https://duckdns.org/&#34;&gt;duckdns.org&lt;/a&gt;, choose a sub-domain(As I choose a dummy sub-domain &lt;code&gt;lser.duckdns.org&lt;/code&gt;) and add your home server IP address(In my case &lt;code&gt;192.168.0.120&lt;/code&gt;)&lt;/p&gt;</description>
+&lt;p&gt;Sign-up an account in &lt;a href=&#34;https://duckdns.org/&#34;&gt;duckdns.org&lt;/a&gt;, choose a sub-domain(As I choose a dummy sub-domain
+&lt;code&gt;lser.duckdns.org&lt;/code&gt;) and add your home server IP address(In my case &lt;code&gt;192.168.0.120&lt;/code&gt;)&lt;/p&gt;</description>
     </item>
     <item>
       <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 1)</title>
@@ -76,14 +99,23 @@
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;One of the services I always wanted to have on my &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberry pi home server&lt;/a&gt; is VPN and BitTorrent, which basically, route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s &lt;a href=&#34;https://www.youtube.com/watch?v=SMF301vQqJo&#34;&gt;&amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo;&lt;/a&gt; on Youtube, which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the &lt;a href=&#34;https://github.com/notthebee/ansible-easy-vpn&#34;&gt;ansible playbook&lt;/a&gt; to deploy the wireguard VPN. After I tested a few months on Mobile and PC, I&amp;rsquo;m comfortable setting up server and client. So, I decided to use the Wireguard in my &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberrypi-homeserver&lt;/a&gt; project.&lt;/p&gt;</description>
+&lt;p&gt;One of the services I always wanted to have on my
+&lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberry pi home server&lt;/a&gt; is VPN and BitTorrent, which basically,
+route all BitTorrent traffic through a VPN container. Then I saw Wolfgang&amp;rsquo;s
+&lt;a href=&#34;https://www.youtube.com/watch?v=SMF301vQqJo&#34;&gt;&amp;ldquo;Set Up Your Own Wireguard VPN Server with 2FA in 5 Minutes!&amp;rdquo;&lt;/a&gt; on Youtube,
+which inspired me to set up my own VPN server. I quickly created an instance on Oracle Cloud and ran the
+&lt;a href=&#34;https://github.com/notthebee/ansible-easy-vpn&#34;&gt;ansible playbook&lt;/a&gt; to deploy the wireguard VPN. After I tested a few
+months on Mobile and PC, I&amp;rsquo;m comfortable setting up server and client. So, I decided to use the Wireguard in my
+&lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver&#34;&gt;raspberrypi-homeserver&lt;/a&gt; project.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Wireguard VPN and BitTorrent on Docker Swarm (Part 2)</title>
       <link>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</link>
       <pubDate>Sat, 01 Apr 2023 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2/</guid>
-      <description>&lt;p&gt;Previously in &lt;a href=&#34;https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/&#34; title=&#34;part 1&#34;&gt;part 1&lt;/a&gt;, we have deployed the qBittorrent with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog with the kill switch configuration&lt;/p&gt;
+      <description>&lt;p&gt;Previously in &lt;a href=&#34;https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1/&#34; title=&#34;part 1&#34;&gt;part 1&lt;/a&gt;, we have deployed the qBittorrent
+with Wireguard VPN on docker swarm. In this part, we will test the deployment, configure qBittorrent and finish the blog
+with the kill switch configuration&lt;/p&gt;
 &lt;h1 id=&#34;testing&#34;&gt;Testing&lt;/h1&gt;
 &lt;p&gt;Below are the tests to make sure qBittorrent has access to the Internet through Wireguard VPN&lt;/p&gt;
 &lt;ul&gt;
@@ -99,15 +131,20 @@
       <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/portainer-vs-yacht/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker containers, and for that, I need a nice and fancy container management tool I want to have on my home server.&lt;/p&gt;
-&lt;p&gt;I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known container management tool and Yacht is fairly new. In this post, I would like to give my thoughts on both tools.&lt;/p&gt;</description>
+&lt;p&gt;I have been working on my home server setup on Raspberry Pi 4. I&amp;rsquo;d like to deploy all of my services/tools in docker
+containers, and for that, I need a nice and fancy container management tool I want to have on my home server.&lt;/p&gt;
+&lt;p&gt;I had checked multiple sources, and finally picked two; they are Portainer and Yacht. Portainer is a well-known
+container management tool and Yacht is fairly new. In this post, I would like to give my thoughts on both tools.&lt;/p&gt;</description>
     </item>
     <item>
       <title>User Namespace Isolation in Docker</title>
       <link>https://veerendra2.github.io/docker-userns-remap/</link>
       <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/docker-userns-remap/</guid>
-      <description>&lt;p&gt;There is a cool feature in docker called &lt;code&gt;userns-remap&lt;/code&gt;, discovered while doing my RaspberryPi home server project; &lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver/issues/15#issuecomment-1296311979&#34;&gt;15#issuecomment-1296311979&lt;/a&gt;, I can just enable &lt;code&gt;userns-remap&lt;/code&gt; and docker does all remapping of &lt;code&gt;uid&lt;/code&gt; and &lt;code&gt;gid&lt;/code&gt; inside docker container to a non-root user on the host.&lt;/p&gt;
+      <description>&lt;p&gt;There is a cool feature in docker called &lt;code&gt;userns-remap&lt;/code&gt;, discovered while doing my RaspberryPi home server project;
+&lt;a href=&#34;https://github.com/veerendra2/raspberrypi-homeserver/issues/15#issuecomment-1296311979&#34;&gt;15#issuecomment-1296311979&lt;/a&gt;, I
+can just enable &lt;code&gt;userns-remap&lt;/code&gt; and docker does all remapping of &lt;code&gt;uid&lt;/code&gt; and &lt;code&gt;gid&lt;/code&gt; inside docker container to a non-root
+user on the host.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://docs.docker.com/engine/security/userns-remap/&#34;&gt;https://docs.docker.com/engine/security/userns-remap/&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -140,7 +177,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350210  0.0  0.0   6784  4284 ?        S    03:21   0:01 nginx: worker process
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;165637    350212  0.0  0.0   6784  4284 ?        S    03:21   0:01 nginx: worker process
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;veerend+  937492  0.0  0.0   6420  1844 pts/0    S+   16:22   0:00 grep --color=auto nginx
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see I have not specified any user while deploying the container, but the user inside the container is isolated i.e remapped to a non-root user(uid:&lt;code&gt;165637&lt;/code&gt;, gid:&lt;code&gt;165637&lt;/code&gt;) on the host&lt;/p&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see I have not specified any user while deploying the container, but the user inside the container is
+isolated i.e remapped to a non-root user(uid:&lt;code&gt;165637&lt;/code&gt;, gid:&lt;code&gt;165637&lt;/code&gt;) on the host&lt;/p&gt;</description>
     </item>
     <item>
       <title>Pi-hole with DHCP Relay in Docker</title>
@@ -148,8 +186,13 @@
       <pubDate>Thu, 10 Nov 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/pihole-dhcp-relay/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I have been working on a RaspberryPi home server project for quite some time. The project is a collection of applications to run on RaspberryPi and all applications are deployable with &lt;code&gt;docker-compose&lt;/code&gt; files and ansible automation. One of the applications I was configuring is &lt;a href=&#34;https://pi-hole.net&#34;&gt;Pi-hole&lt;/a&gt;, a network-wide ad-blocker.&lt;/p&gt;
-&lt;p&gt;I decided to use Pi-hole as also DHCP server for my LAN. When I look into &lt;a href=&#34;https://docs.pi-hole.net/docker/DHCP/&#34;&gt;docs&lt;/a&gt;, it says it has to be run as &lt;code&gt;network_mode: host&lt;/code&gt;, because it allows Pi-hole to listen to DHCP broadcast packets. If the Pi-hole is deployed in bridge mode, there is a Linux bridge(Think of it as a router for a second!) which won&amp;rsquo;t allow broadcast packets.&lt;/p&gt;</description>
+&lt;p&gt;I have been working on a RaspberryPi home server project for quite some time. The project is a collection of
+applications to run on RaspberryPi and all applications are deployable with &lt;code&gt;docker-compose&lt;/code&gt; files and ansible
+automation. One of the applications I was configuring is &lt;a href=&#34;https://pi-hole.net&#34;&gt;Pi-hole&lt;/a&gt;, a network-wide ad-blocker.&lt;/p&gt;
+&lt;p&gt;I decided to use Pi-hole as also DHCP server for my LAN. When I look into &lt;a href=&#34;https://docs.pi-hole.net/docker/DHCP/&#34;&gt;docs&lt;/a&gt;,
+it says it has to be run as &lt;code&gt;network_mode: host&lt;/code&gt;, because it allows Pi-hole to listen to DHCP broadcast packets. If the
+Pi-hole is deployed in bridge mode, there is a Linux bridge(Think of it as a router for a second!) which won&amp;rsquo;t allow
+broadcast packets.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Strimzi Kafka Disaster Recovery with Velero</title>
@@ -157,14 +200,17 @@
       <pubDate>Sat, 24 Sep 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/strimzi-kafka-disaster-recovery/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt; with &lt;a href=&#34;https://velero.io/&#34;&gt;Velero&lt;/a&gt;. First of all, what is Strmzi Kafka?&lt;/p&gt;
+&lt;p&gt;Hello my dear fellow humans, hope you are having a great day. Today&amp;rsquo;s guide is on how to recover from a disaster for
+&lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt; with &lt;a href=&#34;https://velero.io/&#34;&gt;Velero&lt;/a&gt;. First of all, what is Strmzi Kafka?&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://strimzi.io&#34;&gt;https://strimzi.io&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Strimzi provides a way to run an Apache Kafka cluster on Kubernetes in various deployment configurations.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/strimzi-logo.png&#34; alt=&#34;Strizi Logo&#34;  /&gt;
 &lt;/p&gt;
-&lt;p&gt;Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation, support on Github discussions and active developments.&lt;/p&gt;</description>
+&lt;p&gt;Back in a while, I worked on Strimzi Kafka deployment on Openshift, very easy to set up and manage production-level
+Kafka cluster on Kubernetes, I have to give credit to the Strimzi project team, did a great job on documentation,
+support on Github discussions and active developments.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Elasticsearch Configuration Overview</title>
@@ -189,9 +235,12 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;settings&#34;&gt;Settings&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4;
+&lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Before going to production, it is recommended go through be below elasticsearch configs. Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config&#34;&gt;&lt;code&gt;sample_config&lt;/code&gt;&lt;/a&gt; directory for configuration&lt;/p&gt;
+&lt;p&gt;Before going to production, it is recommended go through be below elasticsearch configs. Refer
+&lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elasticsearch/sample_config&#34;&gt;&lt;code&gt;sample_config&lt;/code&gt;&lt;/a&gt;
+directory for configuration&lt;/p&gt;
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -262,7 +311,8 @@
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;install&#34;&gt;Install&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office Docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4;
+&lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office Docs&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;hardware-requirement&#34;&gt;Hardware Requirement&lt;/h2&gt;
 &lt;blockquote&gt;
@@ -297,8 +347,8 @@
 &lt;h2 id=&#34;jdk-installation&#34;&gt;JDK Installation&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Pick JVM compatibility version with elasticsearch from &lt;a href=&#34;https://www.elastic.co/support/matrix#matrix_jvm&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Install OpenJDK from &lt;a href=&#34;https://openjdk.java.net/install/index.html&#34;&gt;here&lt;/a&gt;
-Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/java-se-ri/11&#34;&gt;here&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Install OpenJDK from &lt;a href=&#34;https://openjdk.java.net/install/index.html&#34;&gt;here&lt;/a&gt; Download and install JDK 11 (Another guide
+&lt;a href=&#34;https://jdk.java.net/java-se-ri/11&#34;&gt;here&lt;/a&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install openjdk-11-jdk -y
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ java -version
@@ -307,8 +357,10 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;OpenJDK 64-Bit Server VM (build 11.0.6+10-post-Ubuntu-1ubuntu118.04.1, mixed mode, sharing)
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;elasticsearch-installation&#34;&gt;Elasticsearch Installation&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;Download latest elasticsearch from &lt;a href=&#34;https://www.elastic.co/downloads/elasticsearch&#34;&gt;here&lt;/a&gt; (As of today the latest version is &lt;code&gt;7.6.2&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Recommended to download/install package via &lt;code&gt;.dep&lt;/code&gt; or &lt;code&gt;PPA&lt;/code&gt; which postscripts creates user, groups and adds under systemd&lt;/li&gt;
+&lt;li&gt;Download latest elasticsearch from &lt;a href=&#34;https://www.elastic.co/downloads/elasticsearch&#34;&gt;here&lt;/a&gt; (As of today the latest
+version is &lt;code&gt;7.6.2&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Recommended to download/install package via &lt;code&gt;.dep&lt;/code&gt; or &lt;code&gt;PPA&lt;/code&gt; which postscripts creates user, groups and adds under
+systemd&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/7.6/deb.html#deb-repo&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
@@ -323,9 +375,11 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;h1 id=&#34;rolling-upgrade-elasticsearch&#34;&gt;Rolling Upgrade Elasticsearch&lt;/h1&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-upgrade.html&#34;&gt;Official Docs&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&amp;#x26a0;&amp;#xfe0f; A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not interrupt service&lt;/p&gt;
+&lt;p&gt;&amp;#x26a0;&amp;#xfe0f; A rolling upgrade allows an Elasticsearch cluster to be upgraded one node at a time so upgrading does not
+interrupt service&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;As of now, the current latest version of elasticsearch is &lt;code&gt;v7.7.1&lt;/code&gt;. Below procedure is for rolling upgrade from &lt;code&gt;7.6.2&lt;/code&gt;=&amp;gt;&lt;code&gt;7.7.1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;As of now, the current latest version of elasticsearch is &lt;code&gt;v7.7.1&lt;/code&gt;. Below procedure is for rolling upgrade from
+&lt;code&gt;7.6.2&lt;/code&gt;=&amp;gt;&lt;code&gt;7.7.1&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;1-divide-the-cluster-into-2-groups&#34;&gt;1. Divide the cluster into 2 groups&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Example node names &lt;code&gt;carbon-x&lt;/code&gt;&lt;/p&gt;
@@ -355,7 +409,8 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;kibana-installation&#34;&gt;Kibana Installation&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4;
+&lt;a href=&#34;https://www.elastic.co/guide/en/elasticsearch/reference/current/elasticsearch-intro.html&#34;&gt;Office docs&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&amp;#x2757; The elasticsearch should be up and running before you start kibana installation procedure&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Install via &lt;code&gt;apt-get&lt;/code&gt; from &lt;a href=&#34;https://www.elastic.co/downloads/kibana&#34;&gt;here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
@@ -379,13 +434,16 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;elastalert&#34;&gt;Elastalert&lt;/h1&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;#x1f4c4; &lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official docs&lt;/a&gt; &amp;#x1f4c2;
+&lt;a href=&#34;https://github.com/Yelp/elastalert&#34;&gt;Official project Repo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Elastalert is developed by Yelp written in python, queries docs in elasticsearch and send alerts depends on the rules.&lt;/p&gt;
 &lt;p&gt;Since Elastalert is not part of Elasticsearch plugin, we can install it where ever we want to.&lt;/p&gt;
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;#x2757; Refer &lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt; for example config&lt;/p&gt;
+&lt;p&gt;&amp;#x2757; Refer
+&lt;a href=&#34;https://github.com/veerendra2/elasticsearch-deploy-notes/tree/main/elastalert&#34;&gt;elasticsearch-deploy-notes/elastalert&lt;/a&gt;
+for example config&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo apt-get install python3-pip
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ sudo pip3 install elastalert
@@ -419,22 +477,38 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <pubDate>Sat, 03 Sep 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/velero-deployment/</guid>
       <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on Kubernetes. A year back I worked on &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt;, a deployment solution for deploying production-level Kafka on Kubernetes. Strimzi Kafka uses &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/&#34;&gt;persistance volume(PV)&lt;/a&gt; as a disk which is a managed disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV backup and restore. Sure, you can configure these managed disk backups from Terraform or manually in cloud provider portals. But tools like Velero, backup PV from kubernetes side which is more visible and easy to manage which is what you will see in a moment.&lt;/p&gt;</description>
+&lt;p&gt;Hello guys, today I came up with an interesting write-up, that is how to set up backup and restore with Velero on
+Kubernetes. A year back I worked on &lt;a href=&#34;https://strimzi.io/&#34;&gt;Strimzi Kafka&lt;/a&gt;, a deployment solution for deploying
+production-level Kafka on Kubernetes. Strimzi Kafka uses
+&lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/&#34;&gt;persistance volume(PV)&lt;/a&gt; as a disk which is a managed
+disk from a cloud provider(e.g. Azure, AWS, etc), but I couldn&amp;rsquo;t find a proper backup solution in order to configure PV
+backup and restore. Sure, you can configure these managed disk backups from Terraform or manually in cloud provider
+portals. But tools like Velero, backup PV from kubernetes side which is more visible and easy to manage which is what
+you will see in a moment.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Moving to Hugo and other updates!</title>
       <link>https://veerendra2.github.io/moving-to-hugo/</link>
       <pubDate>Sat, 27 Aug 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/moving-to-hugo/</guid>
-      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
+      <description>&lt;p&gt;It has been 2 years since I wrote a new post. Due to busy work, moving to a new city, new jobs and getting married, I
+wasn’t able to keep up with writing blog posts. Finally, I’m back now, I have been thinking of changing blog themes for
+a long time. I spent some time exploring Jekyll themes and tried to modify them according to my requirements. As you can
+see &lt;a href=&#34;https://github.com/veerendra2/veerendra2.github.io/issues/6&#34;&gt;here&lt;/a&gt; GitHub issue.&lt;/p&gt;</description>
     </item>
     <item>
       <title>CI/CD for GitHub Pages with GitHub Actions</title>
       <link>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</link>
       <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/ci-cd-github-pages-with-github-actions/</guid>
-      <description>&lt;p&gt;Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you might know, GitHub recently launched &lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt; where people can automate workflows like build, test, and deploy code from GitHub.&lt;/p&gt;
-&lt;p&gt;I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab. Then I saw the workflow template for &amp;ldquo;Jekyll Site CI/CD&amp;rdquo;, which builds the Jekyll site. I got some feeling that I automate my workflow of building and deploying my blog (which currently you are reading) on &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt;. So, Let&amp;rsquo;s see how I setup CI/CD&lt;/p&gt;</description>
+      <description>&lt;p&gt;Looks like my blog posts are like Sherlock TV Show episodes, posting once in a while&amp;hellip;anyways I&amp;rsquo;m back now. As you
+might know, GitHub recently launched &lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt; where people can automate
+workflows like build, test, and deploy code from GitHub.&lt;/p&gt;
+&lt;p&gt;I have started reading docs a little bit, I have to admit, setting up workflows on GitHub Actions is not that hard. I
+can directly start creating a workflow from available workflow templates in the &amp;ldquo;Actions&amp;rdquo; tab. Then I saw the workflow
+template for &amp;ldquo;Jekyll Site CI/CD&amp;rdquo;, which builds the Jekyll site. I got some feeling that I automate my workflow of
+building and deploying my blog (which currently you are reading) on &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt;. So, Let&amp;rsquo;s
+see how I setup CI/CD&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 1)</title>
@@ -442,35 +516,56 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-1/</guid>
       <description>&lt;p&gt;Hallo alle zusammen, after a long time I&amp;rsquo;m writing this blog and I come with an interesting and long post&lt;/p&gt;
-&lt;p&gt;I know what you are thinking, I steal &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt;, but hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/setup/cri/&#34;&gt;CRI&lt;/a&gt;&amp;rsquo; and Flannel as &amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;CNI&lt;/a&gt;&amp;rsquo;.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;This blog post follows &lt;a href=&#34;https://github.com/kelseyhightower&#34;&gt;Kelsey Hightower&amp;rsquo;s&lt;/a&gt; &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kubernetes The Hard Way&lt;/a&gt;, I highly recommend go through his repo. I&amp;rsquo;m writing this blog post to keep it as a reference for me and share it with other people who want to try it. So, feel free to correct me if there are any mistakes and ping me for any queries. This series is divided into 3 parts and all configuration/scripts are available in my &lt;a href=&#34;https://github.com/veerendra2/k8s-the-hard-way-blog&#34;&gt;github repo&lt;/a&gt;. Well, that has been said, let&amp;rsquo;s start building the cluster.&lt;/p&gt;</description>
+&lt;p&gt;I know what you are thinking, I steal
+&lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt;, but
+hey!, I did some research and try to &lt;strong&gt;fit K8s cluster(Multi-Master!) in a laptop with Docker as
+&amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/setup/cri/&#34;&gt;CRI&lt;/a&gt;&amp;rsquo; and Flannel as
+&amp;lsquo;&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;CNI&lt;/a&gt;&amp;rsquo;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This blog post follows &lt;a href=&#34;https://github.com/kelseyhightower&#34;&gt;Kelsey Hightower&amp;rsquo;s&lt;/a&gt;
+&lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kubernetes The Hard Way&lt;/a&gt;, I highly recommend go through his
+repo. I&amp;rsquo;m writing this blog post to keep it as a reference for me and share it with other people who want to try it. So,
+feel free to correct me if there are any mistakes and ping me for any queries. This series is divided into 3 parts and
+all configuration/scripts are available in my &lt;a href=&#34;https://github.com/veerendra2/k8s-the-hard-way-blog&#34;&gt;github repo&lt;/a&gt;. Well,
+that has been said, let&amp;rsquo;s start building the cluster.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 2)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-2/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-2/</guid>
-      <description>&lt;p&gt;Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;previous post&#34;&gt;previous post&lt;/a&gt; we have provisioned compute resources, generated certificates and kubeconfig files. In this post, we will install and configure controller nodes&lt;/p&gt;
+      <description>&lt;p&gt;Welcome back to &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series part 2. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;previous post&#34;&gt;previous
+post&lt;/a&gt; we have provisioned compute resources, generated
+certificates and kubeconfig files. In this post, we will install and configure controller nodes&lt;/p&gt;
 &lt;h1 id=&#34;6-bootstrapping-the-etcd-cluster&#34;&gt;6. Bootstrapping the etcd Cluster&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&#34;https://coreos.com/etcd/&#34;&gt;&lt;code&gt;etcd&lt;/code&gt;&lt;/a&gt; is a consistent and highly-available key value storage DB. Kubernetes stores all cluster data in &lt;code&gt;etcd&lt;/code&gt; via api-server. In this section, we will install and configure &lt;code&gt;etcd&lt;/code&gt; on all controller nodes.&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://coreos.com/etcd/&#34;&gt;&lt;code&gt;etcd&lt;/code&gt;&lt;/a&gt; is a consistent and highly-available key value storage DB. Kubernetes stores all
+cluster data in &lt;code&gt;etcd&lt;/code&gt; via api-server. In this section, we will install and configure &lt;code&gt;etcd&lt;/code&gt; on all controller nodes.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes-The Hard Way With Docker &amp; Flannel (Part 3)</title>
       <link>https://veerendra2.github.io/kubernetes-the-hard-way-3/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/kubernetes-the-hard-way-3/</guid>
-      <description>&lt;p&gt;Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;part-1&#34;&gt;part-1&lt;/a&gt;, we discussed our cluster architecture, provisioned compute resources, generated certificates and kubeconfig. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-2/&#34; title=&#34;part-2&#34;&gt;part-2&lt;/a&gt;, we have bootstrapped controller nodes.&lt;/p&gt;
+      <description>&lt;p&gt;Welcome to the final part of &amp;ldquo;Kubernetes-The Hard Way With Docker &amp;amp; Flannel&amp;rdquo; series. In
+&lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-1/&#34; title=&#34;part-1&#34;&gt;part-1&lt;/a&gt;, we discussed our cluster architecture, provisioned compute
+resources, generated certificates and kubeconfig. In &lt;a href=&#34;https://veerendra2.github.io/kubernetes-the-hard-way-2/&#34; title=&#34;part-2&#34;&gt;part-2&lt;/a&gt;, we have
+bootstrapped controller nodes.&lt;/p&gt;
 &lt;p&gt;In this post, we will bootstrap worker nodes and at the end, perform a smoke test on the cluster&lt;/p&gt;
 &lt;h2 id=&#34;9-bootstrapping-the-kubernetes-worker-nodes&#34;&gt;9. Bootstrapping the Kubernetes Worker Nodes&lt;/h2&gt;
-&lt;p&gt;As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from &lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt; i.e. container runtime interface is &lt;code&gt;docker&lt;/code&gt; instead of &lt;code&gt;containerd&lt;/code&gt;&lt;/p&gt;</description>
+&lt;p&gt;As the title of this post &amp;ldquo;Kubernetes The Hard Way With Docker &amp;amp; Flannel&amp;rdquo;, what we are going to do now is different from
+&lt;a href=&#34;https://github.com/kelseyhightower/kubernetes-the-hard-way&#34;&gt;Kelsey Hightower&amp;rsquo;s Kubernetes The Hard Way tutorial&lt;/a&gt; i.e.
+container runtime interface is &lt;code&gt;docker&lt;/code&gt; instead of &lt;code&gt;containerd&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>SSL Configuration for Kubernetes External LoadBalancer - [AWS ELB]</title>
       <link>https://veerendra2.github.io/ssl-config-k8s-service-aws/</link>
       <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/ssl-config-k8s-service-aws/</guid>
-      <description>&lt;p&gt;As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we expose a service as &lt;code&gt;LoadBalancer&lt;/code&gt;, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.&lt;/p&gt;
-&lt;p&gt;If we look at the K8s setup that is deployed on AWS(For example &lt;a href=&#34;https://github.com/kubernetes/kops&#34;&gt;&lt;code&gt;kops&lt;/code&gt;&lt;/a&gt;), there is an actual &lt;code&gt;ELB&lt;/code&gt;(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s &lt;code&gt;ELB&lt;/code&gt; is not TLS enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the endpoint secure.&lt;/p&gt;</description>
+      <description>&lt;p&gt;As we all know, enabling HTTPS to endpoints/websites is essential now-a-days. When it comes to Kubernetes, when we
+expose a service as &lt;code&gt;LoadBalancer&lt;/code&gt;, the cloud provider doesn&amp;rsquo;t provide an HTTPS mechanism for the endpoint by default.&lt;/p&gt;
+&lt;p&gt;If we look at the K8s setup that is deployed on AWS(For example &lt;a href=&#34;https://github.com/kubernetes/kops&#34;&gt;&lt;code&gt;kops&lt;/code&gt;&lt;/a&gt;), there is
+an actual &lt;code&gt;ELB&lt;/code&gt;(Elastic Load Balancer) sits in front of K8s service and load balance the traffic. AWS&amp;rsquo;s &lt;code&gt;ELB&lt;/code&gt; is not TLS
+enabled by default. With help of aws-cli, we can deploy certificates(self-signed) on the load balancer and make the
+endpoint secure.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Linux pseudo files &amp; cheat sheet</title>
@@ -497,15 +592,19 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <link>https://veerendra2.github.io/wireshark-install/</link>
       <pubDate>Fri, 30 Mar 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/wireshark-install/</guid>
-      <description>&lt;p&gt;Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the &lt;code&gt;.cap&lt;/code&gt; file. The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc&lt;/p&gt;
-&lt;p&gt;In order to install the latest version of Wireshark on Linux, one should build and install it from the source. Sometimes, building from a source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this software.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Wireshark is a great tool for analyzing traffic, whether it could be live traffic on the interface or the &lt;code&gt;.cap&lt;/code&gt; file.
+The tool enables different types of filtering on packets like follow a stream, filter by protocol and IP, etc&lt;/p&gt;
+&lt;p&gt;In order to install the latest version of Wireshark on Linux, one should build and install it from the source.
+Sometimes, building from a source is difficult because we have to hunt down the dependencies. That&amp;rsquo;s what I did for this
+software.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Open vSwitch installation on Redhat7 OS</title>
       <link>https://veerendra2.github.io/openvswitch-redhat/</link>
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/openvswitch-redhat/</guid>
-      <description>&lt;p&gt;Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.&lt;/p&gt;
+      <description>&lt;p&gt;Long back before I worked on Openshift which is really a great container platform tool from Redhat. But installation is
+not as simple as Kubernetes(relatively). One of the prerequisites for the cluster deployment is Open vSwitch.&lt;/p&gt;
 &lt;p&gt;Now let&amp;rsquo;s see how to install Open vSwitch v2.6.1 in RedHat7 step by step&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -523,8 +622,15 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <link>https://veerendra2.github.io/windows-metrics-collection/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/windows-metrics-collection/</guid>
-      <description>&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can easily develop scripts to get system metrics by simply reading &lt;a href=&#34;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&#34;&gt;/proc&lt;/a&gt; pseudo files. In fact, there are so many open source tools to do this in Linux, like &lt;a href=&#34;https://github.com/OpenTSDB/tcollector&#34;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
-&lt;p&gt;Now, Let&amp;rsquo;s look at this &lt;a href=&#34;https://www.influxdata.com/time-series-platform/telegraf/&#34;&gt;Telegraf tool&lt;/a&gt; and what it does. I found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others which some are paid and crappy. This tool doesn&amp;rsquo;t provide any wizard installation to set up, but one has to run a command in Windows Powershell to install it as Windows service. It supports multiple TSDB backend storage like Graphite, OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Ok, getting metrics(CPU, Memory &amp;amp; Network) from Windows OS is completely different from Linux. In Linux, people can
+easily develop scripts to get system metrics by simply reading
+&lt;a href=&#34;https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html&#34;&gt;/proc&lt;/a&gt; pseudo files. In fact, there are so many
+open source tools to do this in Linux, like &lt;a href=&#34;https://github.com/OpenTSDB/tcollector&#34;&gt;tcollector&lt;/a&gt; which is my favourite.&lt;/p&gt;
+&lt;p&gt;Now, Let&amp;rsquo;s look at this &lt;a href=&#34;https://www.influxdata.com/time-series-platform/telegraf/&#34;&gt;Telegraf tool&lt;/a&gt; and what it does. I
+found Telegraf tool is a really simple, elegant way to collect Windows OS metrics and lightweight too, unlike others
+which some are paid and crappy. This tool doesn&amp;rsquo;t provide any wizard installation to set up, but one has to run a
+command in Windows Powershell to install it as Windows service. It supports multiple TSDB backend storage like Graphite,
+OpenTSDB, etc but I have tested only with OpenTSDB.&lt;/p&gt;</description>
     </item>
     <item>
       <title>KVM Hypervisor Cheat Sheets</title>
@@ -532,7 +638,8 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/kvm-hyperviour-cheatsheets/</guid>
       <description>&lt;h3 id=&#34;1-install-packages&#34;&gt;1. Install Packages&lt;/h3&gt;
-&lt;p&gt;Check system is capable of running KVM by running &lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Check system is capable of running KVM by running
+&lt;a href=&#34;http://manpages.ubuntu.com/manpages/trusty/man1/kvm-ok.1.html&#34;&gt;&lt;code&gt;kvm-ok&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ apt-get install qemu-kvm qemu-system libvirt-bin bridge-utils virt-manager -y
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-kvmqemu-hard-disk-file&#34;&gt;Create KVM/Qemu Hard Disk File&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ qemu-img create -f raw &amp;lt;name&amp;gt;.img &amp;lt;Size&amp;gt;
@@ -561,11 +668,15 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <link>https://veerendra2.github.io/dns-encrypt/</link>
       <pubDate>Mon, 22 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/dns-encrypt/</guid>
-      <description>&lt;p&gt;We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS queries that you(browser) send?&lt;/p&gt;
+      <description>&lt;p&gt;We think that connecting to a website over HTTPS is secure, which is true(not true sometimes!), but what about DNS
+queries that you(browser) send?&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/https_example.jpg&#34; alt=&#34;HTTPS Example&#34;  /&gt;
 &lt;/p&gt;
-&lt;p&gt;Sure if we use HTTPS, all your (&lt;a href=&#34;https://en.wikipedia.org/wiki/POST_%28HTTP%29&#34;&gt;POST&lt;/a&gt; or GET) data is encrypted end-to-end which prevents eavesdropping, &lt;a href=&#34;https://en.wikipedia.org/wiki/Man-in-the-middle_attack&#34;&gt;MITM attack&lt;/a&gt; and have &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidentiality&#34;&gt;Confidentiality&lt;/a&gt;, but again what about DNS queries?&lt;/p&gt;
-&lt;p&gt;I got this question back a while ago, so after a quick Internet search, I found &lt;a href=&#34;https://en.wikipedia.org/wiki/DNSCrypt&#34;&gt;DNSCrypt&lt;/a&gt; protocol which is cool because I can encrypt DNS queries.&lt;/p&gt;</description>
+&lt;p&gt;Sure if we use HTTPS, all your (&lt;a href=&#34;https://en.wikipedia.org/wiki/POST_%28HTTP%29&#34;&gt;POST&lt;/a&gt; or GET) data is encrypted end-to-end
+which prevents eavesdropping, &lt;a href=&#34;https://en.wikipedia.org/wiki/Man-in-the-middle_attack&#34;&gt;MITM attack&lt;/a&gt; and have
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Confidentiality&#34;&gt;Confidentiality&lt;/a&gt;, but again what about DNS queries?&lt;/p&gt;
+&lt;p&gt;I got this question back a while ago, so after a quick Internet search, I found
+&lt;a href=&#34;https://en.wikipedia.org/wiki/DNSCrypt&#34;&gt;DNSCrypt&lt;/a&gt; protocol which is cool because I can encrypt DNS queries.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Wifi Deauthentication Attack</title>
@@ -573,11 +684,17 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/wifi-deathentication-attack/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
+&lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a
+Wi-Fi wireless access point.&lt;/p&gt;
 &lt;p&gt;-Wikipedia&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
+&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some
+tools(like “aircrack-ng”) for this attack(You can check the commands
+&lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s
+devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once
+deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by
+valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
     </item>
     <item>
       <title>GNU screen commands(Cheat Sheet)</title>
@@ -585,15 +702,21 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
       <pubDate>Mon, 08 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/gnu-screen-commands/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles, allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for separating programs from the session of the Unix shell that started the program, particularly so a remote process continues running even when the user is disconnected. &lt;a href=&#34;https://en.wikipedia.org/wiki/GNU_Screen&#34;&gt;more&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;GNU Screen is a terminal multiplexer, a software application that can be used to multiplex several virtual consoles,
+allowing a user to access multiple separate login sessions inside a single terminal window, or detach and reattach
+sessions from a terminal. It is useful for dealing with multiple programs from a command line interface, and for
+separating programs from the session of the Unix shell that started the program, particularly so a remote process
+continues running even when the user is disconnected. &lt;a href=&#34;https://en.wikipedia.org/wiki/GNU_Screen&#34;&gt;more&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Install jekyll in Ubuntu 14.04</title>
       <link>https://veerendra2.github.io/jeklly-website/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/jeklly-website/</guid>
-      <description>&lt;p&gt;&amp;#x1f449; Update on 27-08-2022 &lt;a href=&#34;https://veerendra2.github.io/moving-to-hugo/&#34; title=&#34;Moving to Hugo and other updates!&#34;&gt; Moving to Hugo and other updates! &lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;I was very excited to try &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;code&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt; when I heard about it. When I try to install &lt;code&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
+      <description>&lt;p&gt;&amp;#x1f449; Update on 27-08-2022 &lt;a href=&#34;https://veerendra2.github.io/moving-to-hugo/&#34; title=&#34;Moving to Hugo
+and other updates!&#34;&gt; Moving to Hugo and other updates! &lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I was very excited to try &lt;a href=&#34;https://jekyllrb.com/&#34;&gt;&lt;code&gt;Jekyll&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://pages.github.com/&#34;&gt;Github Pages&lt;/a&gt; when I heard
+about it. When I try to install &lt;code&gt;jekyll&lt;/code&gt;, I got below error&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root@veeru:/home/veeru# gem install jekyll bundler
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Fetching: public_suffix-3.0.1.gem &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;100%&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ERROR:  Error installing jekyll:
@@ -603,14 +726,18 @@ Download and install JDK 11 (Another guide &lt;a href=&#34;https://jdk.java.net/
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; gem installed
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing ri documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installing RDoc documentation &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; bundler-1.16.1...
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I don&amp;rsquo;t even know what that means(I&amp;rsquo;m not a Ruby guy, so..). Clearly &lt;code&gt;jekyll&lt;/code&gt; needs more than Ruby version 2.1, but in Ubuntu 14.04 if you type &lt;code&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So let&amp;rsquo;s install Ruby 2.4 like below&lt;/p&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I don&amp;rsquo;t even know what that means(I&amp;rsquo;m not a Ruby guy, so..). Clearly &lt;code&gt;jekyll&lt;/code&gt; needs more than Ruby version 2.1, but in
+Ubuntu 14.04 if you type &lt;code&gt;apt-get install ruby -y&lt;/code&gt; you will end up having Ruby 1.9. So let&amp;rsquo;s install Ruby 2.4 like below&lt;/p&gt;</description>
     </item>
     <item>
       <title>MAC Address Scrambling in Linux</title>
       <link>https://veerendra2.github.io/mac-scrambling/</link>
       <pubDate>Sat, 06 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/mac-scrambling/</guid>
-      <description>&lt;p&gt;“&lt;strong&gt;MAC Address Scrambling&lt;/strong&gt;“- By the name itself we can understand, instead of using a burned-in address, the machine uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a 48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.&lt;/p&gt;</description>
+      <description>&lt;p&gt;“&lt;strong&gt;MAC Address Scrambling&lt;/strong&gt;“- By the name itself we can understand, instead of using a burned-in address, the machine
+uses a random MAC address. The machine/device changes MAC addresses regularly to improve security. MAC address is a
+48-bit hexadecimal digit which is burned in every electronic device that has the capability of “connectivity” such as
+mobile devices, smart TV, PC, etc. “Apple” added this feature to iPhones from iOS8 to protect users’ privacy.&lt;/p&gt;</description>
     </item>
     <item>
       <title>About</title>

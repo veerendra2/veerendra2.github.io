@@ -23,7 +23,9 @@
 &lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;I have been managing 2 homeservers and 5 virtual machines in the cloud for almost 2 years. As my enthusiasm grows to self-host software — both for fun and actual use — my docker-compose files and stacks keep growing too. Deploying and managing them became painful over time.&lt;/p&gt;</description>
+&lt;p&gt;I have been managing 2 homeservers and 5 virtual machines in the cloud for almost 2 years. As my enthusiasm grows to
+self-host software — both for fun and actual use — my docker-compose files and stacks keep growing too. Deploying and
+managing them became painful over time.&lt;/p&gt;</description>
     </item>
     <item>
       <title>GitOps for Homeservers (Part 2) — Searching for the Right Tool — Komodo, Dockhand, and Beyond</title>
@@ -40,7 +42,9 @@
 &lt;p&gt;Also read: &lt;a href=&#34;https://medium.com/p/1da41b3680a4&#34;&gt;How I Manage My Homeservers with GitOps and Docker Compose&lt;/a&gt; on Medium.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup, the Ansible-based deployment workflow, and the problems that came with it — slow deployments, no selective deployment, manual triggers, and the fact that it was never true GitOps.&lt;/p&gt;</description>
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup, the Ansible-based deployment workflow, and
+the problems that came with it — slow deployments, no selective deployment, manual triggers, and the fact that it was
+never true GitOps.&lt;/p&gt;</description>
     </item>
     <item>
       <title>GitOps for Homeservers (Part 3) — ComposeFlux: A Lightweight GitOps Tool for Docker Compose</title>
@@ -56,7 +60,9 @@
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
+&lt;p&gt;In &lt;a href=&#34;../gitops-for-homeservers-part1&#34;&gt;Part 1&lt;/a&gt;, I covered my homeserver setup and the Ansible-based deployment workflow
+along with its pain points. In &lt;a href=&#34;../gitops-for-homeservers-part2&#34;&gt;Part 2&lt;/a&gt;, I evaluated alternatives like Komodo and
+Dockhand — solid tools, but none fully fit my needs.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

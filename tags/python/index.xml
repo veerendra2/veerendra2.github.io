@@ -14,11 +14,17 @@
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/wifi-deathentication-attack/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a Wi-Fi wireless access point.&lt;/p&gt;
+&lt;p&gt;A Wi-Fi deauthentication attack is a type of denial-of-service attack that targets communication between a user and a
+Wi-Fi wireless access point.&lt;/p&gt;
 &lt;p&gt;-Wikipedia&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some tools(like “aircrack-ng”) for this attack(You can check the commands &lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
+&lt;p&gt;As you can see, this type of attack is pretty powerful and difficult to detect who is attacking. There are some
+tools(like “aircrack-ng”) for this attack(You can check the commands
+&lt;a href=&#34;https://www.aircrack-ng.org/doku.php?id=deauthentication&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;So, basically the concept is the attacker broadcasts a wifi management “Deauthentication” frame to the victim&amp;rsquo;s
+devices/PC to tell them to deauthenticate. It is like, “Hey client! Can you please deauthenticate”. Once
+deauthenticated, then the client will reconnect to AP (Access Point). These types of frames are supposed to send by
+valid “AP” to its clients, but the attacker can mimic these frames and broadcast in the network.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
