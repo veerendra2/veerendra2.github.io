@@ -6,8 +6,36 @@
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
     <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 May 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Monitoring</title>
+      <link>https://veerendra2.github.io/tags/monitoring/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/monitoring/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nugget</title>
+      <link>https://veerendra2.github.io/tags/nugget/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/nugget/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Prometheus</title>
+      <link>https://veerendra2.github.io/tags/prometheus/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/prometheus/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Promql</title>
+      <link>https://veerendra2.github.io/tags/promql/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/promql/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Cost</title>
       <link>https://veerendra2.github.io/tags/cost/</link>
@@ -202,13 +230,6 @@
       <link>https://veerendra2.github.io/tags/yacht/</link>
       <pubDate>Sat, 24 Dec 2022 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/tags/yacht/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Nugget</title>
-      <link>https://veerendra2.github.io/tags/nugget/</link>
-      <pubDate>Fri, 11 Nov 2022 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/nugget/</guid>
       <description></description>
     </item>
     <item>
