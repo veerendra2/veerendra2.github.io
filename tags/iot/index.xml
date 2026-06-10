@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Iot on Veerendra&#39;s Blog</title>
+    <link>https://veerendra2.github.io/tags/iot/</link>
+    <description>Recent content in Iot on Veerendra&#39;s Blog</description>
+    <generator>Hugo -- 0.161.1</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 10 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://veerendra2.github.io/tags/iot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Setting Up Shelly Device Without Cloud or Location Permissions</title>
+      <link>https://veerendra2.github.io/shelly-device-offline-onboarding/</link>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/shelly-device-offline-onboarding/</guid>
+      <description>&lt;p&gt;I use a &lt;a href=&#34;https://kb.shelly.cloud/knowledge-base/shelly-plug-m-gen3&#34;&gt;Shelly Plug M Gen3&lt;/a&gt; to monitor my homeserver&amp;rsquo;s power
+consumption with a &lt;a href=&#34;https://github.com/veerendra2/shelly_device_exporter&#34;&gt;custom Prometheus exporter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;After a router restart, the device disappeared from the network. I tried the official Shelly Cloud app to re-onboard it,
+but the app demanded location permissions, wanted to upload my WiFi password to Shelly&amp;rsquo;s cloud, and still failed to add
+the device. Frustrated, I figured out the offline setup process.&lt;/p&gt;
+&lt;p&gt;This works for initial setup or after a factory reset (hold the button for 10 seconds within 60 seconds of power-up).&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
