@@ -6,8 +6,26 @@
     <description>Recent content in Monitoring on Veerendra&#39;s Blog</description>
     <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Migrating to VictoriaMetrics and FluentBit (Part 2) — Results and Conclusion</title>
+      <link>https://veerendra2.github.io/migrating-to-victoriametrics-part2/</link>
+      <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/migrating-to-victoriametrics-part2/</guid>
+      <description>&lt;p&gt;In &lt;a href=&#34;https://veerendra2.github.io/migrating-to-victoriametrics-part1/&#34;&gt;Part 1&lt;/a&gt;, I walked through replacing Prometheus + node_exporter + cAdvisor with VictoriaMetrics + FluentBit on my homeserver. This is Part 2 — the actual numbers.&lt;/p&gt;
+&lt;p&gt;All measurements are mean values over a 12-hour window, collected from the containers themselves via cAdvisor (before) and FluentBit docker metrics (after). They&amp;rsquo;re approximate, but they paint a clear enough picture.&lt;/p&gt;
+&lt;h2 id=&#34;fluentbit-vs-node-exporter--cadvisor&#34;&gt;FluentBit vs Node Exporter + cAdvisor&lt;/h2&gt;
+&lt;p&gt;FluentBit replaced two containers — node_exporter and cAdvisor — with one. Here&amp;rsquo;s what that looks like in practice.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Migrating to VictoriaMetrics and FluentBit (Part 1) — Motivation and Migration</title>
+      <link>https://veerendra2.github.io/migrating-to-victoriametrics-part1/</link>
+      <pubDate>Wed, 17 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/migrating-to-victoriametrics-part1/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve been running the same Prometheus monitoring stack on my homeservers for years. It worked fine — but it was more complex than it needed to be. node_exporter and cAdvisor are two separate containers doing one job: telling me what the machine and its containers are up to. And cAdvisor, it turns out, was the heaviest thing in my entire monitoring stack. I wanted something simpler and leaner.&lt;/p&gt;
+&lt;p&gt;This is Part 1 — the motivation and the migration steps. &lt;a href=&#34;https://veerendra2.github.io/migrating-to-victoriametrics-part2/&#34;&gt;Part 2&lt;/a&gt; covers the actual before/after numbers.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>PromQL rate() vs increase()</title>
       <link>https://veerendra2.github.io/promql-rate-v-increase/</link>
