@@ -6,8 +6,50 @@
     <description>Recent content in Tags on Veerendra&#39;s Blog</description>
     <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 24 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker</title>
+      <link>https://veerendra2.github.io/tags/docker/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Monitoring</title>
+      <link>https://veerendra2.github.io/tags/monitoring/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/monitoring/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ntp</title>
+      <link>https://veerendra2.github.io/tags/ntp/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/ntp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nugget</title>
+      <link>https://veerendra2.github.io/tags/nugget/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/nugget/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Raspberry-Pi</title>
+      <link>https://veerendra2.github.io/tags/raspberry-pi/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/raspberry-pi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Victoriametrics</title>
+      <link>https://veerendra2.github.io/tags/victoriametrics/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/tags/victoriametrics/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Cadvisor</title>
       <link>https://veerendra2.github.io/tags/cadvisor/</link>
@@ -30,13 +72,6 @@
       <description></description>
     </item>
     <item>
-      <title>Monitoring</title>
-      <link>https://veerendra2.github.io/tags/monitoring/</link>
-      <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/monitoring/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Prometheus</title>
       <link>https://veerendra2.github.io/tags/prometheus/</link>
       <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
@@ -44,24 +79,10 @@
       <description></description>
     </item>
     <item>
-      <title>Victoriametrics</title>
-      <link>https://veerendra2.github.io/tags/victoriametrics/</link>
-      <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/victoriametrics/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Iot</title>
       <link>https://veerendra2.github.io/tags/iot/</link>
       <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/tags/iot/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Nugget</title>
-      <link>https://veerendra2.github.io/tags/nugget/</link>
-      <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/nugget/</guid>
       <description></description>
     </item>
     <item>
@@ -125,13 +146,6 @@
       <link>https://veerendra2.github.io/tags/devops/</link>
       <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/tags/devops/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Docker</title>
-      <link>https://veerendra2.github.io/tags/docker/</link>
-      <pubDate>Sat, 02 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://veerendra2.github.io/tags/docker/</guid>
       <description></description>
     </item>
     <item>

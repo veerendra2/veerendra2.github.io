@@ -6,8 +6,21 @@
     <description>Recent content in Nugget on Veerendra&#39;s Blog</description>
     <generator>Hugo -- 0.161.1</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 10 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Aug 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veerendra2.github.io/tags/nugget/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How a 32-Day Clock Jump Erased My VictoriaMetrics History</title>
+      <link>https://veerendra2.github.io/victoriametrics-data-loss-clock-jump/</link>
+      <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
+      <guid>https://veerendra2.github.io/victoriametrics-data-loss-clock-jump/</guid>
+      <description>&lt;p&gt;I was testing a new &lt;a href=&#34;https://github.com/veerendra2/composeflux&#34;&gt;ComposeFlux&lt;/a&gt; feature on my homeserver. As part of some
+maintenance work, I restarted the servers and opened Grafana a few minutes later to check whether everything had come
+back normally.&lt;/p&gt;
+&lt;p&gt;That was when I noticed every metric before &lt;strong&gt;19:18&lt;/strong&gt; was gone. New metrics were arriving normally, but the entire
+history ended at the same minute.&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/victoriametrics-history-after-clock-jump.png&#34; alt=&#34;Grafana showing VictoriaMetrics data starting around 19:18 after the Raspberry Pi clock correction&#34;  /&gt;
+&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Setting Up Shelly Device Without Cloud or Location Permissions</title>
       <link>https://veerendra2.github.io/shelly-device-offline-onboarding/</link>
