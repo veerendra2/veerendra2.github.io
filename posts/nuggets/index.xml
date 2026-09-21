@@ -14,12 +14,13 @@
       <pubDate>Sat, 29 Aug 2026 00:00:00 +0000</pubDate>
       <guid>https://veerendra2.github.io/victoriametrics-data-loss-clock-jump/</guid>
       <description>&lt;p&gt;I was testing a new &lt;a href=&#34;https://github.com/veerendra2/composeflux&#34;&gt;ComposeFlux&lt;/a&gt; feature on my homeserver. As part of some
-maintenance work, I restarted the servers and opened Grafana a few minutes later to check whether everything had come
-back normally.&lt;/p&gt;
-&lt;p&gt;That was when I noticed every metric before &lt;strong&gt;19:18&lt;/strong&gt; was gone. New metrics were arriving normally, but the entire
-history ended at the same minute.&lt;/p&gt;
+maintenance work, I restarted the servers, and when I opened Grafana a few minutes later to check that everything had
+come back, every metric before &lt;strong&gt;19:18&lt;/strong&gt; was gone. New data was arriving fine; the entire history just ended at that
+minute.&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://veerendra2.github.io/static_content/images/victoriametrics-history-after-clock-jump.png&#34; alt=&#34;Grafana showing VictoriaMetrics data starting around 19:18 after the Raspberry Pi clock correction&#34;  /&gt;
-&lt;/p&gt;</description>
+&lt;/p&gt;
+&lt;p&gt;Because this happened right after a ComposeFlux test and a restart, my first suspect was obvious: had ComposeFlux
+recreated the VictoriaMetrics container or pruned its Docker volume?&lt;/p&gt;</description>
     </item>
     <item>
       <title>Setting Up Shelly Device Without Cloud or Location Permissions</title>
